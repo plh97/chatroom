@@ -100,13 +100,13 @@ io.on('connect', async (ctx, next) => {
 server.listen( process.env.PORT || 3000 )
 https.createServer(app.callback()).listen(3001);
 
-const config = require('./webpack.config')
-app.use(webpackMiddleware(webpack(config), {
-    noInfo: false,
-    quiet: false,
-    headers: { "X-Custom-Header": "yes" },
-    stats: {
-        colors: true
-    }
-}));
-app.use(require("webpack-hot-middleware")(webpack(config)));
+// const config = require('./webpack.config')
+// app.use(webpackMiddleware(webpack(config), {
+//     noInfo: false,
+//     quiet: false,
+//     headers: { "X-Custom-Header": "yes" },
+//     stats: {
+//         colors: true
+//     }
+// }));
+// app.use(require("webpack-hot-middleware")(webpack(config)));
