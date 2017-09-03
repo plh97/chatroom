@@ -59,7 +59,7 @@ module.exports = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'react',
       favicon:'./favicon.ico',
