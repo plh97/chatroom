@@ -7,7 +7,7 @@ import {
 } from '../actions'
 import { Row,Form,Input,Spin } from 'antd'
 import io from 'socket.io-client';
-var socket = io('http://localhost');
+var socket = io();
 let messages = []
 class AsyncApp extends Component {
 	constructor(props){
