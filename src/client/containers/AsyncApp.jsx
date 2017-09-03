@@ -5,43 +5,27 @@ import {
   fetchPostsIfNeeded,
   inputSubreddit
 } from '../actions'
-import { Button,Icon,Row,Col,Form,Input,Spin,Textarea } from 'antd'
-import $ from 'jquery'
-var socket = io();
-let users=[]
-
-socket.on('new message', function(data){
-	console.log(data)
-	$('#messages').append($('<li>').html("<strong>"+data.user+"</strong>"+': '+data.msg.message+"("+data.msg.time+")"));
-});	
-
-socket.on('get users',function(data){
-	console.log("get users: ",data)
-	$("#users").html(
-		data.map((text,i)=> (
-			"<li>"+text+"</li>"
-		))
-	)
-})
-
-socket.on('new user', function(data){
-	console.log("new user:",data)
-});	
-
+import { Row,Form,Input,Spin } from 'antd'
+import io from 'socket.io-client';
+var socket = io('http://localhost');
+let messages = []
 class AsyncApp extends Component {
 	constructor(props){
 		super(props)
-		this.handleChange = this.handleChange.bind(this)
-		this.onChange = this.onChange.bind(this)
+		this.handleMsgChange = this.handleMsgChange.bind(this)
+		this.onMsgChange = this.onMsgChange.bind(this)
 		this.onNameChange = this.onNameChange.bind(this)
 		this.handleLogin = this.handleLogin.bind(this)
 		this.state={
 			users:[],
+			messages:props.posts,
+			socket,
 			userName:'',
 			message:'',
-			time:new Date(),
+			time:new Date().toLocaleString(),
 			display:true
 		}
+		this.ready(props.handleMember)
 	}
 
 	componentDidMount() {
@@ -49,7 +33,7 @@ class AsyncApp extends Component {
 	  dispatch(fetchPostsIfNeeded(inputSubreddit))
 	}
 
-	onChange(e){
+	onMsgChange(e){
 		this.setState({
 			message:e.target.value
 		})
@@ -62,44 +46,54 @@ class AsyncApp extends Component {
 	}
 	handleLogin(e){
 		e.preventDefault()
-		// console.log(this.state.userName)
-		socket.emit('new user',this.state.userName,function(data){
-			if(data){
-				console.log("successful Login")
-			}
-		});
+		this.state.socket.emit('login', this.state.userName);
 		this.setState({
-			users:users,
 			userName:'',
 			display:false
 		})
 	}
 
-	handleChange(e){
+	handleMsgChange(e){
 		e.preventDefault()
 	  	const { dispatch } = this.props
-		dispatch(inputSubreddit(this.state.message))
-		dispatch(fetchPostsIfNeeded(this.state.message))
-		socket.emit('send message',this.state);
+		// dispatch(inputSubreddit(this.state.message))
+		// dispatch(fetchPostsIfNeeded(this.state.message))
+		this.state.socket.emit('send message',{msg:this.state.message,time:this.state.time});
 		this.setState({
 			message:'',
 		})
-		return false;
+	}
+
+	ready(handleMember){
+		var _this = this;
+		this.state.socket.on('get users', function (users) {
+			_this.setState({
+				users
+			})
+			handleMember(users.length)
+		});
+		this.state.socket.on('send message', function (msg) {
+			messages.push(msg)
+			_this.setState({
+				messages
+			})
+		})
 	}
 
 	render() {
 		const { posts,isFetching } = this.props
-		const {display} = this.state
+		const {display,messages,userName,message} = this.state
 		return (
-			<Row gutter={48} align={'middle'} justify={'middle'} style={{opacity: isFetching ? 0.5:1}}>
+			<Row style={{opacity: isFetching ? 0.5:1}}>
 				<ul>
-					{users.map((user,i) => (
+					{this.state.users.map((user,i) => (
 						<li key={i}>{user}</li>
 					))}
 				</ul>
+				<br/>
 				<Form style={{display: display ? 'block':'none'}} onSubmit={this.handleLogin}>
 					<label>userName</label>
-					<Input placeholder="userName" id="userName" value={this.state.userName} onChange={this.onNameChange} autoComplete="off" />
+					<Input placeholder="userName" id="userName" value={userName} onChange={this.onNameChange} autoComplete="off" />
 				</Form>
 				{isFetching && posts.length === 0 && <h2>
 					<Spin/>
@@ -113,9 +107,16 @@ class AsyncApp extends Component {
 							</li>
 						))
 					}
+					{messages.length > 0 && 
+						messages.map((post, i) => (
+							<li key={i}>
+								<strong>{post.userName}</strong> {": " + post.message + "(" + post.time+")"}
+							</li>
+						))
+					}
 				</ul>
-				<Form onSubmit={this.handleChange}>
-					<Input placeholder='chat content' value={this.state.message} onChange={this.onChange} autoComplete="off" />
+				<Form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
+					<Input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
 				</Form>
 			</Row>
 		)
@@ -123,19 +124,19 @@ class AsyncApp extends Component {
 }
 
 function mapStateToProps(state) {
-  const { inputSubreddit, postsBySubreddit } = state
-  const {
-  	isFetching,
-    items: posts
-  } = postsBySubreddit[inputSubreddit] || {
-    items: [],
-    isFetching:true
-  }
-  return {
-  	inputSubreddit,
-  	isFetching,
-    posts
-  }
+	const { inputSubreddit, postsBySubreddit } = state
+	const {
+		isFetching,
+		items: posts
+	} = postsBySubreddit[inputSubreddit] || {
+		items: [],
+		isFetching:true
+	}
+	return {
+		inputSubreddit,
+		isFetching,
+		posts
+	}
 }
 
 export default connect(mapStateToProps)(AsyncApp)

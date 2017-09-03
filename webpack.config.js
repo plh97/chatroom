@@ -59,9 +59,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'],{
-      "exclude": [ "images"]
-    }),
+    // new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'react',
       favicon:'./favicon.ico',
