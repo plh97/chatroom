@@ -204,12 +204,12 @@ server.listen(3000);
 
 
 
-const config = require('./webpack.config')
-app.use(webpackMiddleware(webpack(config), {
-    noInfo: false,
-    quiet: false,
-    headers: { "X-Custom-Header": "yes" },
-    stats: {
-        colors: true
-    }
-}));
+// const config = require('./webpack.config')
+// app.use(webpackMiddleware(webpack(config), {
+//     noInfo: false,
+//     quiet: false,
+//     headers: { "X-Custom-Header": "yes" },
+//     stats: {
+//         colors: true
+//     }
+// }));
