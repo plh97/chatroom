@@ -20,10 +20,10 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
-
 router.get('/list',async ctx => {
   ctx.body = await Chat.find({})
 })
+console.log("outside")
 io.on('connection', function (socket) {
   //users.length
   //while connect
