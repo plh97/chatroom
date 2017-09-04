@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 // const Router = require('koa-router');
 const Chat = require('./src/server/routes/model/Chat.model');
 // const router = new Router();
-const db = 'mongodb://localhost/sampsite';
+const db = 'mongodb://127.0.0.1/sampsite';
 // const bodyParser = require('koa-bodyparser');
 // const staticPath = './dist'
 mongoose.connect(db, {useMongoClient: true});
