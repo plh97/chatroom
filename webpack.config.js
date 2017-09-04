@@ -21,19 +21,6 @@ module.exports = {
     chunkFilename:'[name].[chunkhash].js',
     path: path.join(__dirname, "dist"),
   },
-  // devServer: {
-  //   host: "localhost",
-  //   historyApiFallback: true,
-  //   port: 3004,
-  //   overlay: {
-  //     warnings: true,
-  //     errors: true
-  //   },
-  //   compress: true,
-  //   allowedHosts: [
-  //       'pengliheng.github.io'
-  //   ]
-  // },
   module: {
     rules:[
       {

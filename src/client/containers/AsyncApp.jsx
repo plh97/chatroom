@@ -5,7 +5,7 @@ import {
   fetchPostsIfNeeded,
   inputSubreddit
 } from '../actions'
-import { Row,Form,Input,Spin } from 'antd'
+import { Form,Input,Spin } from 'antd'
 import io from 'socket.io-client';
 var socket = io('http://127.0.0.1');
 let messages = []
@@ -84,7 +84,7 @@ class AsyncApp extends Component {
 		const { posts,isFetching } = this.props
 		const {display,messages,userName,message} = this.state
 		return (
-			<Row style={{opacity: isFetching ? 0.5:1}}>
+			<div style={{opacity: isFetching ? 0.5:1}}>
 				<ul>
 					{this.state.users.map((user,i) => (
 						<li key={i}>{user}</li>
@@ -118,7 +118,7 @@ class AsyncApp extends Component {
 				<Form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
 					<Input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
 				</Form>
-			</Row>
+			</div>
 		)
 	}
 }

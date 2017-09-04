@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "eslint": "eslint ./src --color --fix",
-    "b": "webpack --color",
-    "p": "webpack -p --color",
+    "b": "webpack --display-modules --sort-modules-by size --color",
+    "p": "webpack --display-modules --sort-modules-by size -p --color",
     "t": "webpack-dev-server --open --color",
     "koa": "node ./app",
     "s": "set DEBUG=mongodb:* & npm start"
