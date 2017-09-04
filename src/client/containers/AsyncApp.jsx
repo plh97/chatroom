@@ -7,7 +7,7 @@ import {
 } from '../actions'
 import { Spin } from 'antd'
 import io from 'socket.io-client';
-var socket = io('http://127.0.0.1/');
+var socket = io('http://112.74.63.84/');
 let messages = []
 class AsyncApp extends Component {
 	constructor(props){
