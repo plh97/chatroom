@@ -57,11 +57,10 @@ io.on('connection', function (socket) {
   });
 });
 server.listen(80);
-server.listen(3000);
-const config = require('./webpack.config')
-app.use(webpackMiddleware(webpack(config), {
-    headers: { "X-Custom-Header": "yes" },
-    stats: {
-        colors: true
-    }
-}));
+// const config = require('./webpack.config')
+// app.use(webpackMiddleware(webpack(config), {
+//     headers: { "X-Custom-Header": "yes" },
+//     stats: {
+//         colors: true
+//     }
+// }));
