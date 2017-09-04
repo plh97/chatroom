@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   fetchPostsIfNeeded,
   inputSubreddit
 } from '../actions'
-import { Form,Input,Spin } from 'antd'
+import { Spin } from 'antd'
 import io from 'socket.io-client';
 var socket = io('http://127.0.0.1');
 let messages = []
@@ -91,10 +91,10 @@ class AsyncApp extends Component {
 					))}
 				</ul>
 				<br/>
-				<Form style={{display: display ? 'block':'none'}} onSubmit={this.handleLogin}>
+				<form style={{display: display ? 'block':'none'}} onSubmit={this.handleLogin}>
 					<label>userName</label>
-					<Input placeholder="userName" id="userName" value={userName} onChange={this.onNameChange} autoComplete="off" />
-				</Form>
+					<input placeholder="userName" id="userName" value={userName} onChange={this.onNameChange} autoComplete="off" />
+				</form>
 				{isFetching && posts.length === 0 && <h2>
 					<Spin/>
 				</h2>}
@@ -115,9 +115,9 @@ class AsyncApp extends Component {
 						))
 					}
 				</ul>
-				<Form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
-					<Input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
-				</Form>
+				<form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
+					<input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
+				</form>
 			</div>
 		)
 	}

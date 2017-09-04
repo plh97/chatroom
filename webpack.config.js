@@ -14,6 +14,7 @@ module.exports = {
       'redux',
       'react-redux',
       'react-router',
+      'socket.io-client',
     ]
   },
   output: {

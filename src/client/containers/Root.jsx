@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import configureStore from '../configureStore'
 import AsyncApp from './AsyncApp.jsx'
-import {Layout} from 'antd'
+// import {Layout} from 'antd'
 
 const store = configureStore()
 
@@ -23,14 +23,10 @@ export default class Root extends Component {
 	render() {
 		return (
 			<Provider store={store}>
-				<Layout>
-					<header>
-						<h1>聊天室(共{this.state.num}人)</h1>
-					</header>
-					<Layout>
-						<AsyncApp handleMember={this.handleMember}/>
-					</Layout>
-				</Layout>
+				<div>
+					<h1>聊天室(共{this.state.num}人)</h1>
+					<AsyncApp handleMember={this.handleMember}/>
+				</div>
 			</Provider>
 		)
 	}
