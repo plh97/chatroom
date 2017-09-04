@@ -15,7 +15,6 @@ export default class Root extends Component {
 		this.handleMember = this.handleMember.bind(this)
 	}
 	handleMember(e){
-		console.log(e)
 		this.setState({
 			num:e
 		})
