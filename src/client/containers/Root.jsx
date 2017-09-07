@@ -2,31 +2,26 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import configureStore from '../configureStore'
 import AsyncApp from './AsyncApp.jsx'
-// import {Layout} from 'antd'
-
+import Login from '../components/Login.jsx'
+import Register from '../components/Register.jsx'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+import {Layout} from 'antd'
 const store = configureStore()
 
-export default class Root extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			num:0
-		}
-		this.handleMember = this.handleMember.bind(this)
-	}
-	handleMember(e){
-		this.setState({
-			num:e
-		})
-	}
-	render() {
-		return (
-			<Provider store={store}>
-				<div>
-					<h1>聊天室(共{this.state.num}人)</h1>
-					<AsyncApp handleMember={this.handleMember}/>
-				</div>
-			</Provider>
-		)
-	}
-}
+const Root = ()=>(
+	<Provider store={store}>
+		<Router>
+			<Layout id="components-form-demo-normal-login">
+				<Route exact path="/" component={Login} />
+				<Route path="/register" component={Register} />
+				<Route path="/chat" component={AsyncApp} />
+			</Layout>
+		</Router>
+	</Provider>
+)
+
+export default Root

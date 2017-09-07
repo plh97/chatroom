@@ -1,36 +1,38 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-	fetchPostsIfNeeded,
+	fetchGetsIfNeeded,
 	inputSubreddit
 } from '../actions'
-import { Spin } from 'antd'
+import { Spin,Input,Form } from 'antd'
 import io from 'socket.io-client';
-var socket = io('http://112.74.63.84/');
-let messages = []
+if (process.env.NODE_ENV === 'production') {
+	var socket = io('http://112.74.63.84/');
+  } else {
+	var socket = io('http://127.0.0.1/');
+  }
+const time = new Date()
 class AsyncApp extends Component {
 	constructor(props){
 		super(props)
 		this.handleMsgChange = this.handleMsgChange.bind(this)
 		this.onMsgChange = this.onMsgChange.bind(this)
-		this.onNameChange = this.onNameChange.bind(this)
-		this.handleLogin = this.handleLogin.bind(this)
-		this.state={
+		this.state = {
 			users:[],
-			messages:props.posts,
+			messages:[],
 			socket,
-			userName:'',
 			message:'',
-			time:new Date().toLocaleString(),
-			display:true
+			time: time.getMonth()+1+"月"+time.getDate()+1+"日" +" "+ ( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) + ":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes()),
 		}
 		this.ready(props.handleMember)
 	}
 
 	componentDidMount() {
-	  const { dispatch, inputSubreddit } = this.props
-	  dispatch(fetchPostsIfNeeded(inputSubreddit))
+		const { dispatch } = this.props
+		dispatch(inputSubreddit('/list'))
+		dispatch(fetchGetsIfNeeded('/list'))
 	}
 
 	onMsgChange(e){
@@ -39,25 +41,9 @@ class AsyncApp extends Component {
 		})
 	}
 
-	onNameChange(e){
-		this.setState({
-			userName:e.target.value
-		})
-	}
-	handleLogin(e){
-		e.preventDefault()
-		this.state.socket.emit('login', this.state.userName);
-		this.setState({
-			userName:'',
-			display:false
-		})
-	}
-
 	handleMsgChange(e){
 		e.preventDefault()
 	  	const { dispatch } = this.props
-		// dispatch(inputSubreddit(this.state.message))
-		// dispatch(fetchPostsIfNeeded(this.state.message))
 		this.state.socket.emit('send message',{msg:this.state.message,time:this.state.time});
 		this.setState({
 			message:'',
@@ -70,35 +56,32 @@ class AsyncApp extends Component {
 			_this.setState({
 				users
 			})
-			handleMember(users.length)
 		});
 		this.state.socket.on('send message', function (msg) {
-			messages.push(msg)
+			let messages = _this.state.messages
+			messages = messages.concat(msg)
 			_this.setState({
 				messages
 			})
 		})
 	}
-
+	
 	render() {
 		const { posts,isFetching } = this.props
-		const {display,messages,userName,message} = this.state
+		const {display,messages,userName,message,users} = this.state
+		posts.userName ? this.state.socket.emit('login', posts.userName) : ''
 		return (
 			<div style={{opacity: isFetching ? 0.5:1}}>
+				<h1>聊天室(共{users.length}人)</h1>
 				<ul>
-					{this.state.users.map((user,i) => (
+					<li><h1>成员：</h1></li>
+					{users.map((user,i) => (
 						<li key={i}>{user}</li>
 					))}
 				</ul>
 				<br/>
-				<form style={{display: display ? 'block':'none'}} onSubmit={this.handleLogin}>
-					<label>userName</label>
-					<input placeholder="userName" id="userName" value={userName} onChange={this.onNameChange} autoComplete="off" />
-				</form>
-				{isFetching && posts.length === 0 && <h2>
-					<Spin/>
-				</h2>}
-				{!isFetching && posts.length === 0 && <h2>Empty.</h2>}
+				{isFetching && posts.length === 0 && <h2>Loading...</h2>}
+				{!isFetching && messages.length === 0 && posts.length === 0 && <h2>Empty.</h2>}
 				<ul id="messages" >
 					{posts.length > 0 && 
 						posts.map((post, i) => (
@@ -115,9 +98,9 @@ class AsyncApp extends Component {
 						))
 					}
 				</ul>
-				<form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
-					<input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
-				</form>
+				<Form style={{display: !display ? 'block':'none'}} onSubmit={this.handleMsgChange}>
+					<Input placeholder='chat content' value={message} onChange={this.onMsgChange} autoComplete="off" />
+				</Form>
 			</div>
 		)
 	}

@@ -16,6 +16,14 @@ function receivePosts(subreddit, json){
 	return{
 		type:RECEIVE_POSTS,
 		subreddit,
+		posts:json
+	};
+}
+
+function receiveGets(subreddit, json){
+	return{
+		type:RECEIVE_POSTS,
+		subreddit,
 		posts:json.map(child => child)
 	};
 }
@@ -23,12 +31,30 @@ function receivePosts(subreddit, json){
 function fetchPosts(subreddit){
 	return dispatch => {
 		dispatch(requestPosts(subreddit));
-		return fetch("/list")
-			.then( (response) => {
+		return fetch(subreddit.url,{
+			method: "POST",
+			body: JSON.stringify(subreddit),
+			headers: {
+				"Content-Type": "application/json"
+			},
+		}).then( (response) => {
 				return response.json();
 			})
 			.then((json) => {
 				dispatch(receivePosts(subreddit, json));
+			});
+	};
+}
+
+function fetchGets(subreddit){
+	return dispatch => {
+		dispatch(requestPosts(subreddit));
+		return fetch(subreddit)
+			.then( (response) => {
+				return response.json();
+			})
+			.then((json) => {
+				dispatch(receiveGets(subreddit, json));
 			});
 	};
 }
@@ -39,6 +65,8 @@ function shouldFetchPosts(state, subreddit){
 		return true;
 	}else if(posts.isFetching){
 		return false;
+	}else {
+		return true
 	}
 }
 
@@ -60,6 +88,14 @@ export function fetchPostsIfNeeded(subreddit) {
 	return (dispatch,getState) => {
 		if(shouldFetchPosts(getState(), subreddit)){
 			return dispatch(fetchPosts(subreddit));
+		}
+	};
+}
+
+export function fetchGetsIfNeeded(subreddit) {
+	return (dispatch,getState) => {
+		if(shouldFetchPosts(getState(), subreddit)){
+			return dispatch(fetchGets(subreddit));
 		}
 	};
 }

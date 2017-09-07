@@ -39,7 +39,7 @@ function postsBySubreddit(state = {}, action) {
 	}
 }
 
-function inputSubreddit(state="java",action){
+function inputSubreddit(state="/list",action){
 	switch(action.type){
 	case INPUT_SUBREDDIT:
 		return action.subreddit;
