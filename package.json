@@ -5,12 +5,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "eslint": "eslint ./src --color --fix",
-    "b": "webpack --display-modules --sort-modules-by size --color",
-    "p": "cross-env NODE_ENV=production PLATFORM=web webpack -p --color",
+    "b": "cross-env NODE_ENV=development PLATFORM=web webpack --display-modules --sort-modules-by size --color",
+    "p": "webpack -p --color",
     "t": "webpack-dev-server --open --color",
-    "pkoa": "cross-env NODE_ENV=production PLATFORM=web node ./app",
-    "koa": "node ./app",
-    "s": "set DEBUG=mongodb:* & npm start"
+    "pkoa": "node ./app",
+    "koa": "cross-env NODE_ENV=development PLATFORM=web node ./app"
   },
   "dependencies": {
     "add": "^2.0.6",

@@ -70,7 +70,7 @@ router.post('/login',async (ctx,next) => new Promise((resolve, reject) => {
         }
 			}else{
 				//用户名错了
-        ctx.body = {info:'userName no find',message:'用户名错误',code:1}
+        ctx.body = {info:'userName no find',message:'用户名未注册',code:1}
 				resolve()
 			}
 		})
@@ -84,7 +84,7 @@ router.post('/register',async (ctx,next) => new Promise((resolve, reject) => {
 		.exec(function(err,db){
 			if(db.length==1){
 				//如果能查找到，用户名被注册了
-				ctx.body = {info:'userName has been used',message:'用户名被注册了',code:1}
+				ctx.body = {info:'userName has been used',message:'该用户名已注册了',code:1}
 				resolve()
 			}else{
 				//用户名未被注册
@@ -132,7 +132,7 @@ io.on('connection', function (socket) {
   });
 });
 server.listen(80);
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV == 'development') {
   const config = require('./webpack.config')
   app.use(webpackMiddleware(webpack(config), {
       headers: { "X-Custom-Header": "yes" },
