@@ -155,7 +155,9 @@ class AsyncApp extends Component {
 													<span className='nameContainer'>
 														{post.userName}
 													</span>
-													{post.time}
+													<span className="timeContainer">
+														{post.time}
+													</span>
 												</p>
 												<p className='messageContainer'>
 													{post.message}

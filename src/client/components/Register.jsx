@@ -77,6 +77,7 @@ class Registrat extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
+        {posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
         <h1>{ posts && posts.code==0  ? <Redirect to='/chat'/> : (posts.message=='请登陆' ? '请注册' :posts.message ) }</h1>
         <FormItem {...formItemLayout} label="用户名" hasFeedback>
             <Input onChange={this.onNameChange}/>
