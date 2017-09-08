@@ -72,17 +72,13 @@ class Login extends React.Component {
 				{posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
 				{posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
 				<h1>{posts && (posts.code==0||posts.code==2)  ? <Redirect to='/chat'/> : posts.message }</h1>
-				<FormItem
-				>
+				<FormItem>
 				    <Input onChange={this.onUserNameChange} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" />
 				</FormItem>
-				<FormItem
-				>
+				<FormItem>
 				    <Input onChange={this.onPassWordChange} prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="密码" placeholder="Password" />
 				</FormItem>
-				<FormItem
-					{...tailFormItemLayout}
-				>
+				<FormItem {...tailFormItemLayout}>
 					<Button type="primary" htmlType="submit" className="login-form-button">
 						登 陆
 					</Button>

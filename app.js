@@ -106,22 +106,12 @@ io.on('connection', function (socket) {
   //while connect
   connections.push(socket)
   console.log('connected: %s sockets connected',connections.length)
-  //while disconnect
-  socket.on('disconnect',function(data){
-    // if(!socket.userName) return;
-    users.splice(users.indexOf(socket.userName),1)
-    connections.splice(connections.indexOf(socket),1)
-    console.log('Disconnected: %s sockets connected', connections.length)
-    io.emit("get users",users);
-  })
-  io.emit("get users",users);
   //login
   socket.on('login',function(name){
-    if(users.indexOf(name)==-1){
-      users.push(name);
-    }
-    console.log(users)
+
+    users.push(name);
     io.emit("get users",users);
+    socket.userName = name
     //send message
     socket.on('send message',function(msg){
       const chatContent = new Chat({
@@ -133,6 +123,16 @@ io.on('connection', function (socket) {
       io.emit('send message',{message:msg.msg,time:msg.time,userName:name})
     })
   });
+  //while disconnect
+  socket.on('disconnect',function(data){
+    if(socket.userName) {
+      users.splice(users.indexOf(socket.userName),1)
+    }
+    connections.splice(connections.indexOf(socket),1)
+    console.log('Disconnected: %s sockets connected', connections.length)
+    io.emit("get users",users);
+  })
+  io.emit("get users",users);
 });
 server.listen(80);
 if (process.env.NODE_ENV == 'development') {
