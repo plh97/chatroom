@@ -1,30 +1,87 @@
 body{
+	#root{
+		background-color: lightyellow;
+		height:100%;
+		#components-form-demo-normal-login{
+			height:100%;
+
+			.ant-form {
+				max-width: 90%;
+				padding-left: 10px;
+
+				.ant-input{
+					padding: 20px;
+					font-size: 20px;
+				}
+			}
+			.login-form{
+				width: 350px;
+				margin: 30px auto;
+			}
+
+			.layout{
+				width: 1200px;
+				height: 100%;
+				margin: 0px auto;
+				position: relative;
+
+				.messages{
+					height: 90%;
+					overflow-y: scroll;
+					overflow-x: hidden;
+
+					.messagesList{
+						margin-bottom: 10px;
+
+						.nameContainer{
+							font-weight: bolder;
+							font-size: 14px;
+							color: #202020;
+						}
+
+						.timeContainer{
+							font-size: 12px;
+							margin-left: 5px;
+						}
+
+						.messageContainer{
+							padding: 5px 10px;
+							margin: 0;
+							box-shadow: 3px 3px 10px #aaa;
+							word-break: break-all;
+							border-radius: 10px;
+							display: inline-block;
+							background-color: #f1f1f1;
+							font-size: 16px;
+
+						}
+					}
+				}
+
+				.messageInputArea {
+					height: auto;
+					width: 83%;
+					padding: 10px;
+					position: absolute;
+					bottom: 0;
+
+					.messageInput{
+						padding: 20px;
+						font-size: 20px;
+					}
+				}
+			}
+		}
+	}	
+}
+
+*{
+	margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+h1{
 	text-align: center;
-
-	#components-form-demo-normal-login{
-		.ant-form {
-			max-width: 90%;
-			padding-left: 10px;
-
-			input{
-				padding-left: 20px;
-			}
-		}
-		.login-form{
-			width: 350px;
-			margin: 30px auto;
-		}
-	}
-
-	#messages {
-		list-style-type: none; margin: 0; padding: 0; 
-
-		li {
-			padding: 5px 10px;
-			
-			&:nth-child(odd){
-				background: #fff;
-			}
-		}	 
-	}
 }

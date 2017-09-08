@@ -19,8 +19,8 @@ class Login extends React.Component {
 
 	componentDidMount() {
 		const { dispatch } = this.props
-		dispatch(inputSubreddit({url:'/islogin',token:document.cookie.split('=')[1]}))
-		dispatch(fetchPostsIfNeeded({url:'/islogin',token:document.cookie.split('=')[1]}))
+		dispatch(inputSubreddit({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
+		dispatch(fetchPostsIfNeeded({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
 	}
 
 
@@ -70,6 +70,7 @@ class Login extends React.Component {
 		return (
 			<Form onSubmit={this.handleSubmit} className="login-form">
 				{posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
+				{posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
 				<h1>{posts && (posts.code==0||posts.code==2)  ? <Redirect to='/chat'/> : posts.message }</h1>
 				<FormItem
 				>

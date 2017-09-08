@@ -117,7 +117,10 @@ io.on('connection', function (socket) {
   io.emit("get users",users);
   //login
   socket.on('login',function(name){
-    users.push(name);
+    if(users.indexOf(name)==-1){
+      users.push(name);
+    }
+    console.log(users)
     io.emit("get users",users);
     //send message
     socket.on('send message',function(msg){

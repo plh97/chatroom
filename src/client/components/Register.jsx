@@ -21,8 +21,8 @@ class Registrat extends React.Component {
 
 	componentDidMount() {
 		const { dispatch } = this.props
-		dispatch(inputSubreddit({url:'/islogin',token:document.cookie.split('=')[1]}))
-		dispatch(fetchPostsIfNeeded({url:'/islogin',token:document.cookie.split('=')[1]}))
+        dispatch(inputSubreddit({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
+        dispatch(fetchPostsIfNeeded({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
 	}
     
     handleSubmit = (e) => {
