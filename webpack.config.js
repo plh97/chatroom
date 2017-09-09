@@ -13,13 +13,19 @@ module.exports = {
       'react',
       'redux',
       'react-redux',
-      'react-router',
+      'react-router-dom',
     ]
   },
   output: {
     filename: "[name].[hash].js",
     chunkFilename:'[name].[chunkhash].js',
     path: path.join(__dirname, "dist"),
+  },
+  "resolve": {
+    "alias": {
+      "react": "preact-compat",
+      "react-dom": "preact-compat"
+    }
   },
   module: {
     rules:[
