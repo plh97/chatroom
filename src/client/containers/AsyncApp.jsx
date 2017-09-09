@@ -6,7 +6,7 @@ import {
 	fetchGetsIfNeeded,
 	inputSubreddit
 } from '../actions'
-import { Spin,Input,Form,Avatar,Layout,Col,Row,Menu,Icon } from 'antd'
+import { Spin, Input, Form, Avatar, Layout, Col, Row, Menu, Icon, Upload } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
 if (process.env.NODE_ENV === 'production') {
@@ -121,14 +121,20 @@ class AsyncApp extends Component {
 								<h2>成员：</h2>
 							</Col>
 						</Row>
-							{users.map((user,i) => (
-								<Row gutter={16} type="flex" justify="start" align="middle" key={i}>
-									<Col xs={{ span: 5, offset: 7 }}>
-										<Avatar shape="square" style={{ backgroundColor: this.state.color[user.charCodeAt() % 8]}}>{user.split('')[0]}</Avatar>
-									</Col>
-									<Col>{user}</Col>
-								</Row>
-							))}
+						{users.map((user,i) => (
+							<Row gutter={16} type="flex" justify="start" align="middle" key={i}>
+								<Col xs={{ span: 5, offset: 7 }}>
+									<Avatar 
+										shape="square" 
+										style={{ backgroundColor: this.state.color[user.charCodeAt() % 8]}}
+									>
+										{user.split('')[0]}
+									</Avatar>
+
+								</Col>
+								<Col>{user}</Col>
+							</Row>
+						))}
 					</Sider>
 					<Content className='bodyContent' style={{opacity: isFetching ? 0.5:1}}>
 						<Layout id='messages' className='bodyContentMessages'>

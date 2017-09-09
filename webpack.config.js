@@ -45,6 +45,12 @@ module.exports = {
         }]
       },
       {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+         'file-loader'
+        ]
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /(node_module|bower_components)/,
         loader:'babel-loader'

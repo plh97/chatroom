@@ -10,12 +10,13 @@ import {
   Link
 } from 'react-router-dom'
 import {Layout} from 'antd'
+
 const store = configureStore()
 
 const Root = ()=>(
 	<Provider store={store}>
 		<Router>
-			<div id="components-form-demo-normal-login">
+			<div id="components-form-demo-normal-login" className='routerContainer' >
 				<Route exact path="/" component={Login} />
 				<Route path="/register" component={Register} />
 				<Route path="/chat" component={AsyncApp} />
