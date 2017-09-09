@@ -32,7 +32,7 @@ app
   .use(require('koa-static')(staticPath));
 
 router.get('/list',async ctx => {
-  ctx.body = await Chat.find().limit(30)
+  ctx.body = await Chat.find()
 })
 router.get('/chat',async ctx => {
   ctx.redirect('/')
