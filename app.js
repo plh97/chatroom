@@ -34,6 +34,12 @@ app
 router.get('/list',async ctx => {
   ctx.body = await Chat.find({})
 })
+router.get('/chat',async ctx => {
+  ctx.redirect('/')
+})
+router.get('/register',async ctx => {
+  ctx.redirect('/')
+})
 //Todos
 //router.of Login password
 //所有info，
