@@ -48,8 +48,6 @@ class AsyncApp extends Component {
 	// 	console.log('componentWillUpdate')
 	// }
 	componentDidUpdate(){
-		console.log('componentDidUpdate')
-		
 		var ex = document.getElementById("messages");          
 		ex.scrollTop = ex.scrollHeight;
 		time = new Date();
@@ -85,6 +83,7 @@ class AsyncApp extends Component {
 			})
 		});
 		this.state.socket.on('send message', function (msg) {
+			console.log(msg)
 			let messages = _this.state.messages
 			messages = messages.concat(msg)
 			_this.setState({
@@ -133,55 +132,59 @@ class AsyncApp extends Component {
 					</Sider>
 					<Content className='bodyContent' style={{opacity: isFetching ? 0.5:1}}>
 						<Layout id='messages' className='bodyContentMessages'>
-							{isFetching && posts.length === 0 && <h2><Spin/></h2>}
-							{posts.length > 0 && 
-								posts.map((post, i) => (
-									<div className='bodyContentMessagesList' key={i}>
-										<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top">
-											<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
-												<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
-											</Col>
-											<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
-												<p>
-													<span className='nameContainer'>
-														{post.userName}
-													</span>
-													<span className="timeContainer">
-														{post.time}
-													</span>
-												</p>
-												<p className='messageContainer'>
-													{post.message}
-												</p>
-											</Col>
-										</Row>
-									</div>
-								))
-							}
-							{messages.length > 0 && 
-								messages.map((post, i) => (
-									<div className='bodyContentMessagesList' key={i}>
-										<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top" >
-											<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
-												<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
-											</Col>
-											<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
-												<p>
-													<span className='nameContainer'>
-														{post.userName}
-													</span>
-													<span className="timeContainer">
-														{post.time}
-													</span>
-												</p>
-												<p className='messageContainer'>
-													{post.message}
-												</p>
-											</Col>
-										</Row>
-									</div>
-								))
-							}
+							<div className="messagesHistory">
+								{isFetching && posts.length === 0 && <h2><Spin/></h2>}
+								{posts.length > 0 && 
+									posts.map((post, i) => (
+										<div className='bodyContentMessagesList' key={i}>
+											<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top">
+												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
+													<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
+												</Col>
+												<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
+													<p>
+														<span className='nameContainer'>
+															{post.userName}
+														</span>
+														<span className="timeContainer">
+															{post.time}
+														</span>
+													</p>
+													<p className='messageContainer'>
+														{post.message}
+													</p>
+												</Col>
+											</Row>
+										</div>
+									))
+								}
+							</div>
+							<div className="messagesNews">
+								{messages.length > 0 && 
+									messages.map((post, i) => (
+										<div className='bodyContentMessagesList' key={i}>
+											<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top" >
+												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
+													<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
+												</Col>
+												<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
+													<p>
+														<span className='nameContainer'>
+															{post.userName}
+														</span>
+														<span className="timeContainer">
+															{post.time}
+														</span>
+													</p>
+													<p className='messageContainer'>
+														{post.message}
+													</p>
+												</Col>
+											</Row>
+										</div>
+									))
+								}
+							</div>
 						</Layout>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
 							<Input className='bodyContentMessagesInput' id='bodyContentMessagesInput' placeholder='chat content' autoComplete="off" />

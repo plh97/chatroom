@@ -120,6 +120,7 @@ io.on('connection', function (socket) {
     socket.userName = name
     //send message
     socket.on('send message',function(msg){
+      console.log(msg)
       const chatContent = new Chat({
         userName: name,
         time: msg.time,
