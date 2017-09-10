@@ -16,10 +16,13 @@ const store = configureStore()
 const Root = ()=>(
 	<Provider store={store}>
 		<Router>
-			<div id="components-form-demo-normal-login" className='routerContainer' >
+			<div className='routerContainer' >
 				<Route exact path="/" component={Login} />
 				<Route path="/register" component={Register} />
 				<Route path="/chat" component={AsyncApp} />
+				<div className="window">
+					<div className="background"></div>
+				</div>
 			</div>
 		</Router>
 	</Provider>

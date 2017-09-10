@@ -7,5 +7,5 @@ import "./less/index.less"
 // app.model(require('./models/products'));
 render(
 	<Root/>,
-	document.getElementById('root')
+	document.body
 )

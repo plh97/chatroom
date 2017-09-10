@@ -1,124 +1,146 @@
 body{
-	#root{
-		background: url('../assets/images/hua.jpg');
-		height: 100%;
-		background-repeat: no-repeat;
-		.routerContainer{
-			height:100%;
+	.routerContainer{
+		height:100%;
 
-			.login-form{
-				width: 350px;
-				margin: 0 auto;
-				max-width: 90%;
-				padding-top: 30px; 
+		.window{
+			width: 100%;
+		    bottom: 0;
+		    z-index: -1;
+			background: url('../assets/images/hua.jpg');
+			height: 100%;
+			position: fixed;
+			background-repeat: no-repeat;
 
-				.ant-input{
-					padding:0 20px;
-					font-size: 16px;
-					height: 40px;
-				}
-			}
-
-			.register-form{
-				width: 550px;
-				margin: 0 auto;
-				max-width: 90%;
-				padding-top: 30px;
-
-				.ant-input{
-					padding:0 20px;
-					font-size: 16px;
-					height: 40px;
-				}
-			}
-
-			.layout{
-				width: 1000px;
+			.background{
+				filter: blur(10px);
+				background: url('../assets/images/hua.jpg');
 				height: 100%;
-				margin: 0px auto;
-				overflow: hidden;
+				position: absolute;
+				width: 1000px;
+				left: calc((100vw - 1000px) / 2);
+				background-position: calc((1000px - 100vw) / 2) 0;
+			}
+		}
 
-				.body{
-					height: 100%;
-					overflow-y: hidden;
+		.login-form{
+			width: 350px;
+			margin: 0 auto;
+			max-width: 90%;
+			padding-top: 30px; 
 
-					.bodySlider{}
+			.ant-input{
+				padding:0 20px;
+				font-size: 16px;
+				height: 40px;
+			}
+		}
 
-					.bodyContent{
-						flex: 1;
+		.register-form{
+			width: 550px;
+			margin: 0 auto;
+			max-width: 90%;
+			padding-top: 30px;
+
+			.ant-input{
+				padding:0 20px;
+				font-size: 16px;
+				height: 40px;
+			}
+		}
+
+		.layout{
+			width: 1000px;
+			height: 100%;
+			margin: 0px auto;
+			overflow: hidden;
+			background: hsla(0,0%,95%,0);
+
+			.body{
+				height: 100%;
+				overflow-y: hidden;
+				background: hsla(0,0%,95%,.2);
+
+				.bodySlider{
+					background: hsla(0,0%,95%,.0);
+					border-right: 1px solid silver; 
+				}
+
+				.bodyContent{
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					position: relative;
+					overflow: hidden;
+					max-height: 100%;
+
+					.bodyContentMessages{
+						width: 100%;
+						padding: 0 10px;
 						display: flex;
+						flex: 1;
 						flex-direction: column;
-						position: relative;
-						overflow: hidden;
-						max-height: 100%;
+						justify-content: stretch;
+						overflow: auto;
+						height: 100px;
+						overflow-x: hidden;
+						background: hsla(0,0%,95%,0);
 
-						.bodyContentMessages{
-							width: 100%;
-							padding: 0 10px;
-							display: flex;
-							flex: 1;
-							flex-direction: column;
-							justify-content: stretch;
-							overflow: auto;
-							height: 100px;
-							overflow-x: hidden;
 
-							.bodyContentMessagesList{
-								margin-bottom: 10px;
+						.bodyContentMessagesList{
+							margin-bottom: 10px;
 
-								.nameContainer{
-									font-weight: bolder;
-									font-size: 14px;
-									color: #202020;
-								}
+							.nameContainer{
+								font-weight: bolder;
+								font-size: 14px;
+								color: #202020;
+							}
 
-								.timeContainer{
-									font-size: 12px;
-									margin-left: 5px;
-									margin-bottom: 5px;
-								}
+							.timeContainer{
+								font-size: 12px;
+								margin-left: 5px;
+								margin-bottom: 5px;
+							}
 
-								.messageContainer{
-									padding: 5px 10px;
-									margin: 0;
-									box-shadow: 3px 3px 10px #aaa;
-									word-break: break-all;
-									border-radius: 10px;
-									display: inline-block;
-									background-color: #f1f1f1;
-									font-size: 16px;
+							.messageContainer{
+								padding: 5px 10px;
+								margin: 0;
+								box-shadow: 3px 3px 10px #aaa;
+								word-break: break-all;
+								border-radius: 10px;
+								display: inline-block;
+								background-color: #f1f1f1;
+								font-size: 16px;
 
-								}
 							}
 						}
+					}
 
-						.bodyContentMessagesInputArea {
-							display: flex;
-							flex-direction: row;
-							justify-content: center;
-							align-items: center;
-							width: 100%;
-							// align-items: flex-end;
-							z-index: 1;
-							min-height: 72px;
+					.bodyContentMessagesInputArea {
+						display: flex;
+						flex-direction: row;
+						justify-content: center;
+						align-items: center;
+						width: 100%;
+						border-top: 1px solid silver;
+						z-index: 1;
+						min-height: 72px;
 
-							.bodyContentMessagesInput{
-								width: 450px;
-							    height: 32px;
-							    border-radius: 16px;
-							    border: 1px solid #727272;
-							    padding: 0 15px;
-							    margin-bottom: 5px;
-							    margin-top: 5px;
-							    font-size: 16px;
-							    transition: margin-top .3s;
-							}
+						.bodyContentMessagesInput{
+							width: 450px;
+						    height: 32px;
+						    border-radius: 16px;
+						    border: 1px solid #727272;
+						    padding: 0 15px;
+						    margin-bottom: 5px;
+						    margin-top: 5px;
+						    font-size: 16px;
+						    transition: margin-top .3s;
 						}
 					}
 				}
 			}
 		}
-	}	
+	}
 }
 
 *{
@@ -131,3 +153,13 @@ body{
 h1{
 	text-align: center;
 }
+
+
+//用来冲击原有antd css属性
+// .ant-layout{
+// 	background: hsla(0,0%,95%,.2);
+
+// 	.ant-layout-sider{
+// 		// background: rgba(255, 255, 255, 0.2);
+// 	}
+// }
