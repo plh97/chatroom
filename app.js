@@ -134,10 +134,11 @@ io.on('connection', function (socket) {
         userName: name,
         time: msg.time,
         message: msg.msg,
-        imageUrl: msg.imageUrl
+        imageUrl: msg.imageUrl,
+        size: msg.size,
       });
       chatContent.save(function(err) {});
-      io.emit('send message',{message:msg.msg,time:msg.time,userName:name,imageUrl:msg.imageUrl})
+      io.emit('send message',{message:msg.msg,time:msg.time,userName:name,imageUrl:msg.imageUrl,size:msg.size})
     })
   });
   //while disconnect

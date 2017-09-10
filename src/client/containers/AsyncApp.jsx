@@ -29,6 +29,7 @@ class AsyncApp extends Component {
 			messages:[],
 			color: colorList,
 			files:'',
+			size:0,
 			socket,
 			time: time.getMonth()+1+"月"+time.getDate()+"日" +" "+ 
 				( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) +
@@ -47,8 +48,8 @@ class AsyncApp extends Component {
 		setTimeout(()=>{
 			var ex = document.getElementById("messages");
 			ex.scrollTop = ex.scrollHeight;
-			console.log(ex.scrollTop , ex.scrollHeight)
-		},100)
+			console.log('this.state.size/100: ',this.state.size/500)
+		},this.state.size/500)
 		time = new Date();
 	}
 
@@ -65,7 +66,7 @@ class AsyncApp extends Component {
 			response => response.json()
 		).then(
 			success => {
-				this.state.socket.emit('send message',{imageUrl:success.data.url,time:this.state.time});
+				this.state.socket.emit('send message',{size:this.state.files.size,imageUrl:success.data.url,time:this.state.time});
 			}
 		).catch(
 			error => console.log(error)
@@ -91,11 +92,11 @@ class AsyncApp extends Component {
 			})
 		});
 		this.state.socket.on('send message', function (msg) {
-			console.log(msg)
 			let messages = _this.state.messages
 			messages = messages.concat(msg)
 			_this.setState({
-				messages
+				messages,
+				size:msg.size
 			})
 			if(msg.userName !== _this.state.myName){
 				Notification.requestPermission(function(perm){
