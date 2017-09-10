@@ -30,7 +30,7 @@ module.exports = {
   module: {
     rules:[
       {
-        test: /\.less$/,
+        test: /(\.less|\.css)$/,
         use: [{
           loader: "style-loader"
         }
@@ -38,10 +38,7 @@ module.exports = {
           loader: "css-loader"
         }
         , {
-          loader: "less-loader", options: {
-            strictMath: true,
-            noIeCompat: true
-          }
+          loader: "less-loader"
         }]
       },
       {

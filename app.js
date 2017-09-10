@@ -133,10 +133,11 @@ io.on('connection', function (socket) {
       const chatContent = new Chat({
         userName: name,
         time: msg.time,
-        message: msg.msg
+        message: msg.msg,
+        imageUrl: msg.imageUrl
       });
       chatContent.save(function(err) {});
-      io.emit('send message',{message:msg.msg,time:msg.time,userName:name})
+      io.emit('send message',{message:msg.msg,time:msg.time,userName:name,imageUrl:msg.imageUrl})
     })
   });
   //while disconnect

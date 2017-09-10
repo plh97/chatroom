@@ -4,9 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
 	fetchGetsIfNeeded,
+	fetchPostsIfNeeded,
 	inputSubreddit
 } from '../actions'
-import { Spin, Input, Form, Avatar, Layout, Col, Row, Menu, Icon, Upload } from 'antd'
+import { Spin, Input, Form, Avatar, Layout, Col, Row, Menu, Icon,message, Upload,Button } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
 if (process.env.NODE_ENV === 'production') {
@@ -16,18 +17,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 let time = new Date();
+
 class AsyncApp extends Component {
 	constructor(props){
 		super(props)
 		this.handleMsgChange = this.handleMsgChange.bind(this)
-		// this.onMsgChange = this.onMsgChange.bind(this)
+		this.handleImage = this.handleImage.bind(this)
 		this.state = {
 			users:[],
 			myName:document.cookie.split(';')[1].split('=')[1],
 			messages:[],
 			color: colorList,
+			files:'',
 			socket,
-			time: time.getMonth()+1+"月"+time.getDate()+"日" +" "+ ( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) + ":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes()),
+			time: time.getMonth()+1+"月"+time.getDate()+"日" +" "+ 
+				( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) +
+				 ":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes())
 		}
 		this.ready()
 	}
@@ -38,41 +43,44 @@ class AsyncApp extends Component {
 		dispatch(fetchGetsIfNeeded('/list'))
 	}
 
-	// componentWillReceiveProps(){
-	// 	console.log('componentWillReceiveProps')
-	// }
-	// // shouldComponentUpdate(){
-	// // 	console.log('shouldComponentUpdate')
-	// // }
-	// componentWillUpdate(){
-	// 	console.log('componentWillUpdate')
-	// }
 	componentDidUpdate(){
-		var ex = document.getElementById("messages");          
-		ex.scrollTop = ex.scrollHeight;
+		setTimeout(()=>{
+			var ex = document.getElementById("messages");
+			ex.scrollTop = ex.scrollHeight;
+			console.log(ex.scrollTop , ex.scrollHeight)
+		},1000)
 		time = new Date();
 	}
 
-	// componentWillUnmount(){
-	// 	console.log('componentWillUnmount')
-	// }
-	// componentWillMount(){
-	// 	console.log('componentWillMount')
-	// }
-
-	// onMsgChange(e){
-	// 	this.setState({
-	// 		message:e.target.value
-	// 	})
-	// }
+	handleImage(e){
+		var data = new FormData()
+		this.setState({
+			files:e.target.files[0]
+		})
+		data.append("smfile", this.state.files)
+		fetch('https://sm.ms/api/upload', {
+		  method: 'POST',
+		  body: data
+		}).then(
+			response => response.json()
+		).then(
+			success => {
+				this.state.socket.emit('send message',{imageUrl:success.data.url,time:this.state.time});
+			}
+		).catch(
+			error => console.log(error)
+		);
+		
+	}
 
 	handleMsgChange(e){
 		e.preventDefault()
-		const { dispatch } = this.props
-		if(!document.getElementById('bodyContentMessagesInput').value){
-			return
-		}
-		this.state.socket.emit('send message',{msg:document.getElementById('bodyContentMessagesInput').value,time:this.state.time});
+		//如果消息为空，不发送消息
+		if(!document.getElementById('bodyContentMessagesInput').value){return}
+		this.state.socket.emit(
+			'send message',
+			{msg:document.getElementById('bodyContentMessagesInput').value,time:this.state.time}
+		);
 		document.getElementById('bodyContentMessagesInput').value = ''
 	}
 	ready(){
@@ -96,19 +104,21 @@ class AsyncApp extends Component {
 							dir:'auto',
 							tag:'testTag',
 							renotify:true,
-							// icon:"https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png",
 							body:msg.message,
+							// icon:"https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png",
+							// image:msg.imageUrl,
 						})
 					}
 				})
 			}
 		})
 	}
-	
+
 	render() {
-		const { posts,isFetching } = this.props
-		const { myName,display,messages,message,users } = this.state
-		posts.userName ? this.state.socket.emit('login', posts.userName) : ''
+		const { posts,isFetching } = this.props;
+		const { myName,display,messages,message,users } = this.state;
+		posts.userName ? this.state.socket.emit('login', posts.userName) : '';
+
 		return (
 			<Layout className="layout" >
 				<Header>
@@ -143,11 +153,19 @@ class AsyncApp extends Component {
 								{posts.length > 0 && 
 									posts.map((post, i) => (
 										<div className='bodyContentMessagesList' key={i}>
-											<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top">
-												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
-													<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
+											<Row gutter={16} 
+												type="flex" 
+												justify={myName==post.userName ? "end" : 'start'} 
+												align="top">
+												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} 
+													order={myName==post.userName?2:1} xs={{ span: 2 }}>
+													<Avatar shape="square" 
+														style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} 
+														size="large">{post.userName.split("")[0]}
+													</Avatar>
 												</Col>
-												<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
+												<Col style={{textAlign: myName==post.userName ? "right" : 'left'}} 
+													order={myName==post.userName?1:2} xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -157,7 +175,7 @@ class AsyncApp extends Component {
 														</span>
 													</p>
 													<p className='messageContainer'>
-														{post.message}
+														{post.imageUrl ? <img className='imageContainer' src={post.imageUrl}/> : post.message }
 													</p>
 												</Col>
 											</Row>
@@ -169,11 +187,17 @@ class AsyncApp extends Component {
 								{messages.length > 0 && 
 									messages.map((post, i) => (
 										<div className='bodyContentMessagesList' key={i}>
-											<Row gutter={16} type="flex" justify={myName==post.userName ? "end" : 'start'} align="top" >
-												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} order={myName==post.userName?2:1} xs={{ span: 2 }}>
-													<Avatar shape="square" style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} size="large">{post.userName.split("")[0]}</Avatar>
+											<Row gutter={16} type="flex" 
+												justify={myName==post.userName ? "end" : 'start'} 
+												align="top" >
+												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} 
+													order={myName==post.userName?2:1} xs={{ span: 2 }}>
+													<Avatar shape="square" 
+														style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} 
+														size="large">{post.userName.split("")[0]}</Avatar>
 												</Col>
-												<Col  style={{textAlign: myName==post.userName ? "right" : 'left'}} order={myName==post.userName?1:2} xs={{ span: 16 }}>
+												<Col style={{textAlign: myName==post.userName ? "right" : 'left'}} 
+													order={myName==post.userName?1:2} xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -183,7 +207,7 @@ class AsyncApp extends Component {
 														</span>
 													</p>
 													<p className='messageContainer'>
-														{post.message}
+														{post.imageUrl ? <img className='imageContainer' src={post.imageUrl}/> : post.message}
 													</p>
 												</Col>
 											</Row>
@@ -192,8 +216,15 @@ class AsyncApp extends Component {
 								}
 							</div>
 						</Layout>
+						<div className="bodyContentFeature">
+							<Icon onClick={()=>document.querySelector('#imgInputFile').click()} className='picture' type="picture" style={{ fontSize: 32, color: '#fff' }} />
+							<input onChange={this.handleImage} value={this.state.file} id='imgInputFile' className='imgInputFile' type="file" />
+						</div>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
-							<Input className='bodyContentMessagesInput' id='bodyContentMessagesInput' placeholder='chat content' autoComplete="off" />
+							<Input 
+								className='bodyContentMessagesInput' 
+								id='bodyContentMessagesInput' 
+								placeholder='chat content' />
 						</Form>
 					</Content>
 				</Layout>

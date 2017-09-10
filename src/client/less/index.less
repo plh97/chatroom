@@ -1,3 +1,5 @@
+@import "../common/commonStyle";
+
 body{
 	.routerContainer{
 		height:100%;
@@ -52,12 +54,10 @@ body{
 			width: 1000px;
 			height: 100%;
 			margin: 0px auto;
-			overflow: hidden;
 			background: hsla(0,0%,95%,0);
 
 			.body{
 				height: 100%;
-				overflow-y: hidden;
 				background: hsla(0,0%,95%,.2);
 
 				.bodySlider{
@@ -70,7 +70,6 @@ body{
 					display: flex;
 					flex-direction: column;
 					position: relative;
-					overflow: hidden;
 					max-height: 100%;
 
 					.bodyContentMessages{
@@ -80,9 +79,8 @@ body{
 						flex: 1;
 						flex-direction: column;
 						justify-content: stretch;
-						overflow: auto;
 						height: 100px;
-						overflow-x: hidden;
+						overflow-y: scroll;
 						background: hsla(0,0%,95%,0);
 
 
@@ -110,8 +108,31 @@ body{
 								display: inline-block;
 								background-color: #f1f1f1;
 								font-size: 16px;
+								max-width: 100%;
 
+								.imageContainer{
+									max-width: 100%;
+								}
 							}
+						}
+					}
+
+					.bodyContentFeature{
+						display: flex;
+						flex-direction: row;
+						justify-content: center;
+						align-items: center;
+						width: 100%;
+						border-top: 1px solid silver;
+						z-index: 1;
+						min-height: 20px;
+
+						.picture{
+							cursor: pointer;
+						}
+
+						.imgInputFile{
+							display: none;
 						}
 					}
 
@@ -119,9 +140,9 @@ body{
 						display: flex;
 						flex-direction: row;
 						justify-content: center;
-						align-items: center;
+						align-items: flex-start;
 						width: 100%;
-						border-top: 1px solid silver;
+						// border-top: 1px solid silver;
 						z-index: 1;
 						min-height: 72px;
 
@@ -163,3 +184,29 @@ h1{
 // 		// background: rgba(255, 255, 255, 0.2);
 // 	}
 // }
+
+
+
+//successful
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+	width:8px;
+	&:end {
+	    display: none;
+	}
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+	background-color: rgba(0, 0, 0, 0);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 4px;
+    &:end {
+        display: none;
+    }
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background-color: rgba(0, 0, 0, 0.5);
+}
