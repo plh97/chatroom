@@ -7,7 +7,7 @@ import {
 	fetchPostsIfNeeded,
 	inputSubreddit
 } from '../actions'
-import { Spin, Input, Form, Avatar, Layout, Col, Row, Menu, Icon,message, Upload,Button } from 'antd'
+import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
 if (process.env.NODE_ENV === 'production') {
@@ -48,7 +48,7 @@ class AsyncApp extends Component {
 			var ex = document.getElementById("messages");
 			ex.scrollTop = ex.scrollHeight;
 			console.log(ex.scrollTop , ex.scrollHeight)
-		},1000)
+		},100)
 		time = new Date();
 	}
 
