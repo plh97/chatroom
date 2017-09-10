@@ -6,7 +6,6 @@ const io = require('socket.io')(server);
 const static = require('koa-static')
 const bodyParser = require('koa-bodyparser')
 const router = require('koa-router')();
-// const cookie = require('koa-cookie');
 const webpack = require('webpack')
 const webpackMiddleware = require('koa-webpack-dev-middleware')
 const staticPath = './dist'
@@ -31,9 +30,21 @@ app
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
 
-router.get('/list',async ctx => {
-  ctx.body = await Chat.find()
+router.all('/list',async (ctx,next) => new Promise((resolve, reject) => {
+  let postData = ctx.request.body
+  Chat
+    .find().sort({_id:-1}).limit(30)
+    .exec(function(err,db){
+      ctx.body = db
+      resolve()
+    })
+}))
+
+
+router.get('/list1',async ctx => {
+  ctx.body = await Chat.find({})
 })
+
 router.get('/chat',async ctx => {
   ctx.redirect('/')
 })
@@ -41,8 +52,6 @@ router.get('/register',async ctx => {
   ctx.redirect('/')
 })
 //Todos
-//router.of Login password
-//所有info，
 //0:跳转到chat,前台写入cookies
 //1:发送信息
 //2:跳转到chat，不写cookie

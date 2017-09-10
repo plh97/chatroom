@@ -24,7 +24,7 @@ function receiveGets(subreddit, json){
 	return{
 		type:RECEIVE_POSTS,
 		subreddit,
-		posts:json.map(child => child)
+		posts:json.reverse().map(child => child)
 	};
 }
 
@@ -38,11 +38,11 @@ function fetchPosts(subreddit){
 				"Content-Type": "application/json"
 			},
 		}).then( (response) => {
-				return response.json();
-			})
-			.then((json) => {
-				dispatch(receivePosts(subreddit, json));
-			});
+			return response.json();
+		})
+		.then((json) => {
+			dispatch(receivePosts(subreddit, json));
+		});
 	};
 }
 
