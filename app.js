@@ -30,18 +30,33 @@ app
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
 
-router.all('/list',async (ctx,next) => new Promise((resolve, reject) => {
-  let postData = ctx.request.body
-  Chat
-    .find().sort({_id:-1}).limit(30)
-    .exec(function(err,db){
-      ctx.body = db
-      resolve()
-    })
-}))
+// router.get('/list',async (ctx,next) => new Promise((resolve, reject) => {
+//   let postData = ctx.request.body
+//   Chat
+//     .find().sort({_id:-1}).limit(30).sort({_id:1})
+//     .exec(function(err,db){
+//       ctx.body = db
+//       resolve()
+//     })
+// }))
 
 
-router.get('/list1',async ctx => {
+//功能更多的查询系统
+// router.post('/loadmore',async (ctx,next) => new Promise((resolve, reject) => {
+
+//   let postData = ctx.request.body
+//   console.log(ctx)
+//   Chat
+//     .find().sort({_id:-1}).limit(30*postData.page)
+//     .exec(function(err,db){
+//       console.log(db)
+//       ctx.body = db
+//       resolve()
+//     })
+// }))
+
+
+router.get('/list',async ctx => {
   ctx.body = await Chat.find({})
 })
 

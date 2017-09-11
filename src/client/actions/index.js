@@ -24,7 +24,7 @@ function receiveGets(subreddit, json){
 	return{
 		type:RECEIVE_POSTS,
 		subreddit,
-		posts:json.reverse().map(child => child)
+		posts:json
 	};
 }
 

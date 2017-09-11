@@ -10,11 +10,7 @@ import {
 import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
-if (process.env.NODE_ENV === 'production') {
-	var socket = io('http://112.74.63.84/');
-} else {
-	var socket = io('http://127.0.0.1/');
-}
+const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1/');
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 let time = new Date();
 
@@ -28,6 +24,7 @@ class AsyncApp extends Component {
 			myName:document.cookie.split(';')[1].split('=')[1],
 			messages:[],
 			color: colorList,
+			page:1,
 			files:'',
 			size:0,
 			socket,
@@ -45,12 +42,27 @@ class AsyncApp extends Component {
 	}
 
 	componentDidUpdate(){
-		setTimeout(()=>{
-			var ex = document.getElementById("messages");
-			ex.scrollTop = ex.scrollHeight;
-			console.log('this.state.size/100: ',this.state.size/500)
-		},this.state.size/500)
+		this.initScrollHeight()
 		time = new Date();
+	}
+
+	scroll = (e) => {
+		let _this = this;
+		if(e.target.scrollTop == 0){
+			console.log('到顶了。。准备加载更多');
+			_this.setState({
+				page:_this.state.page+1
+			})
+		}
+	}
+
+	initScrollHeight = (e) => {
+		let ex = document.getElementById("messages");
+		if(ex.scrollHeight - ex.scrollTop<2000){
+			ex.scrollTop = ex.scrollHeight;
+		}else{
+			console.log("你可能在看历史消息",ex.scrollTop , ex.scrollHeight)
+		}
 	}
 
 	handleImage(e){
@@ -117,7 +129,7 @@ class AsyncApp extends Component {
 
 	render() {
 		const { posts,isFetching } = this.props;
-		const { myName,display,messages,message,users } = this.state;
+		const { myName,display,messages,message,users,page } = this.state;
 		posts.userName ? this.state.socket.emit('login', posts.userName) : '';
 
 		return (
@@ -148,11 +160,12 @@ class AsyncApp extends Component {
 						))}
 					</Sider>
 					<Content className='bodyContent' style={{opacity: isFetching ? 0.5:1}}>
-						<Layout id='messages' className='bodyContentMessages'>
+						<Layout id='messages' className='bodyContentMessages' onScroll={this.scroll}>
 							<div className="messagesHistory">
-								{isFetching && posts.length === 0 && <h2><Spin/></h2>}
+								<h1><Spin/></h1>
+								{isFetching && posts.length === 0 && <h1><Spin/></h1>}
 								{posts.length > 0 && 
-									posts.map((post, i) => (
+									posts.slice(posts.length-30*page,posts.length).map((post, i) => (
 										<div className='bodyContentMessagesList' key={i}>
 											<Row gutter={16} 
 												type="flex" 
@@ -208,7 +221,10 @@ class AsyncApp extends Component {
 														</span>
 													</p>
 													<p className='messageContainer'>
-														{post.imageUrl ? <img className='imageContainer' src={post.imageUrl}/> : post.message}
+														{post.imageUrl ? <img 
+															onLoad = {this.initScrollHeight} 
+															className = 'imageContainer' 
+															src = {post.imageUrl}/> : post.message}
 													</p>
 												</Col>
 											</Row>
