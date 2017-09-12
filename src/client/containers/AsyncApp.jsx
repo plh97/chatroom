@@ -186,20 +186,24 @@ class AsyncApp extends Component {
 										src={user.avatorUrl}
 										icon='picture'
 										size="large"
-										onClick={()=>document.querySelector('#avatorInputFile').click()} 
+										onClick={()=>{
+											user.userName==documentCookie.userName?document.querySelector('#avatorInputFile').click():''
+										}} 
 										style={{
-											cursor: 'pointer',
+											cursor: user.userName==documentCookie.userName?'pointer':'auto',
 											backgroundColor: this.state.color[user.userName.charCodeAt() % 8]
 										}}
 									>
 									</Avatar>
-									<input 
-										style={{display:'none'}} 
-										onChange={this.handleAvatorChange} 
-										value={this.state.file} 
-										id='avatorInputFile' 
-										className='avatorInputFile' 
-										type="file" />
+									{user.userName == documentCookie.userName?
+										<input 
+											style={{display:'none'}} 
+											onChange={this.handleAvatorChange} 
+											value={this.state.file} 
+											id='avatorInputFile' 
+											className='avatorInputFile' 
+											type="file" />:""
+									}
 								</Col>
 								<Col>
 									<strong>{user.userName}</strong>
