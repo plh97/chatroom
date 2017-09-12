@@ -23,38 +23,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 const connections = []
 let users=[]
+let usersInfo=[]
 let islogin = []
 app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
-
-// router.get('/list',async (ctx,next) => new Promise((resolve, reject) => {
-//   let postData = ctx.request.body
-//   Chat
-//     .find().sort({_id:-1}).limit(30).sort({_id:1})
-//     .exec(function(err,db){
-//       ctx.body = db
-//       resolve()
-//     })
-// }))
-
-
-//功能更多的查询系统
-// router.post('/loadmore',async (ctx,next) => new Promise((resolve, reject) => {
-
-//   let postData = ctx.request.body
-//   console.log(ctx)
-//   Chat
-//     .find().sort({_id:-1}).limit(30*postData.page)
-//     .exec(function(err,db){
-//       console.log(db)
-//       ctx.body = db
-//       resolve()
-//     })
-// }))
-
 
 router.get('/list',async ctx => {
   ctx.body = await Chat.find({})
@@ -70,14 +45,33 @@ router.get('/register',async ctx => {
 //0:跳转到chat,前台写入cookies
 //1:发送信息
 //2:跳转到chat，不写cookie
-router.post('/islogin',async ctx => {
+router.post('/islogin',async (ctx,next) => new Promise((resolve, reject) => {
   let postData = ctx.request.body
-  if(islogin.indexOf(postData.token)===-1){
+  let token = postData.token
+  if(islogin.indexOf(token)===-1){
     ctx.body = {info:'未登陆',message:'请登陆',code:1}
-  }else if(islogin.indexOf(postData.token)>=0){
-    ctx.body = {info:'已登录',message:'已经登录',code:2,userName:jwt.decode(postData.token,'jwt').userName}
+    resolve()
+  }else if(islogin.indexOf(token)>=0){
+    Login
+      .find({userName: postData.userName})
+      .exec(function(err,db){
+        if(db.length>0){
+          ctx.body = {
+            info:'已登录',
+            message:'已经登录',
+            code:2,
+            userName:postData.userName,
+            avatorUrl:db[0].avatorUrl,
+            token:token
+          }
+          resolve()
+        }else{
+          ctx.body = {info:'Unknow worse',message:'should not show'}
+          resolve()
+        }
+      })
   }
-})
+}))
 
 //login
 router.post('/login',async (ctx,next) => new Promise((resolve, reject) => {
@@ -91,16 +85,31 @@ router.post('/login',async (ctx,next) => new Promise((resolve, reject) => {
         if(db[0].passWord == postData.passWord){
           //密码对了
           islogin.push(token)
-          ctx.body = {info:'passWord right',message:'密码正确',code:0,token:token,userName:postData.userName}
+          ctx.body = {
+            info:'passWord right',
+            message:'密码正确',
+            code:0,
+            token:token,
+            avatorUrl:db[0].avatorUrl?db[0].avatorUrl:'',
+            userName:db[0].userName
+          }
 				  resolve()
         }else{
           //密码错误
-          ctx.body = {info:'passWord wrong',message:'密码错误',code:1}
+          ctx.body = {
+            info:'passWord wrong',
+            message:'密码错误',
+            code:1
+          }
 				  resolve()
         }
 			}else{
 				//用户名错了
-        ctx.body = {info:'userName no find',message:'用户名未注册',code:1}
+        ctx.body = {
+          info:'userName no find',
+          message:'用户名未注册',
+          code:1
+        }
 				resolve()
 			}
 		})
@@ -114,17 +123,29 @@ router.post('/register',async (ctx,next) => new Promise((resolve, reject) => {
 		.exec(function(err,db){
 			if(db.length==1){
 				//如果能查找到，用户名被注册了
-				ctx.body = {info:'userName has been used',message:'该用户名已注册了',code:1}
+				ctx.body = {
+          info:'userName has been used',
+          message:'该用户名已注册了',
+          code:1
+        }
 				resolve()
 			}else{
 				//用户名未被注册
 				var signUp = new Login({
 					userName: postData.userName,
-					passWord: postData.passWord
+					passWord: postData.passWord,
+          avatorUrl:''
 				});
         signUp.save(function(err) {});
         islogin.push(token)
-				ctx.body = {info:'signUp successed',message:'注册成功',token:token,code:0,userName:postData.userName}
+				ctx.body = {
+          info:'signUp successed',
+          message:'注册成功',
+          token:token,
+          code:0,
+          userName:postData.userName,
+          avatorUrl:''
+        }
 				resolve()
 			}
 		})
@@ -137,43 +158,61 @@ io.on('connection', function (socket) {
   connections.push(socket)
   console.log('connected: %s sockets connected',connections.length)
   //login
-  socket.on('login',function(name){
-
-    users.push(name);
-    io.emit("get users",users);
-    socket.userName = name
+  socket.on('login',function(userInfo){
+    users.push(userInfo.userName);
+    usersInfo.push(userInfo);
+    io.emit("get users",usersInfo);
+    socket.userName = userInfo.userName
     //send message
     socket.on('send message',function(msg){
-      console.log(msg)
       const chatContent = new Chat({
-        userName: name,
+        userName: userInfo.userName,
         time: msg.time,
         message: msg.msg,
         imageUrl: msg.imageUrl,
+        avatorUrl: msg.avatorUrl,
         size: msg.size,
       });
       chatContent.save(function(err) {});
-      io.emit('send message',{message:msg.msg,time:msg.time,userName:name,imageUrl:msg.imageUrl,size:msg.size})
+      io.emit('send message',{
+        message:msg.msg,
+        time:msg.time,
+        userName:userInfo.userName,
+        imageUrl:msg.imageUrl,
+        avatorUrl:msg.avatorUrl,
+        size:msg.size
+      })
     })
   });
+  socket.on('change avator',async e=>{
+    usersInfo.map((info,i)=>{
+      if(info.userName==e.userName){
+        info.avatorUrl = e.avatorUrl
+      }
+    })
+    await Login.update(
+      { userName: e.userName },
+      { userName: e.userName ,
+        avatorUrl: e.avatorUrl
+    })
+    io.emit("get users",usersInfo);
+  })
   //while disconnect
   socket.on('disconnect',function(data){
     if(socket.userName) {
+      usersInfo.splice(users.indexOf(socket.userName),1)
       users.splice(users.indexOf(socket.userName),1)
     }
     connections.splice(connections.indexOf(socket),1)
     console.log('Disconnected: %s sockets connected', connections.length)
-    io.emit("get users",users);
+    io.emit("get users",usersInfo);
   })
-  io.emit("get users",users);
+  io.emit("get users",usersInfo);
 });
 server.listen(80);
 if (process.env.NODE_ENV == 'development') {
   const config = require('./webpack.config')
   app.use(webpackMiddleware(webpack(config), {
-      headers: { "X-Custom-Header": "yes" },
-      stats: {
-          colors: true
-      }
+    stats: {colors: true}
   }));
 }

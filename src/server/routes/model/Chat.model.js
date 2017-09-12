@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const ChatSchema = new Schema({
 	userName:String,
 	time:String,
+	avatorUrl: String,
 	message:String,
 	imageUrl: String
 });

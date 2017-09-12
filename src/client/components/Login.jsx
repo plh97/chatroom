@@ -13,14 +13,29 @@ class Login extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
+			documentCookie:{},
 			url:'/login'
 		}
 	}
 
 	componentDidMount() {
 		const { dispatch } = this.props
-		dispatch(inputSubreddit({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
-		dispatch(fetchPostsIfNeeded({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
+		const { documentCookie } = this.state
+		document.cookie.split(';').map((index,i)=>{
+			documentCookie[index.split("=")[0].split(" ").join('')] = index.split("=")[1]
+		})
+		dispatch(inputSubreddit({ 
+			url:'/islogin',
+			token:documentCookie.token,
+			userName:documentCookie.userName,
+			avatorUrl:documentCookie.avatorUrl
+		}))
+		dispatch(fetchPostsIfNeeded({ 
+			url:'/islogin',
+			token:documentCookie.token,
+			userName:documentCookie.userName,
+			avatorUrl:documentCookie.avatorUrl
+		}))
 	}
 
 
@@ -59,11 +74,11 @@ class Login extends React.Component {
  	     	wrapperCol: {
     		    xs: {
     				span: 24,
-   					offset: 0,
+   					offset: 10,
         		},
         		sm: {
 					span: 14,
-					offset: 6,
+					offset: 11,
         		},
       		},
     	};
@@ -71,12 +86,22 @@ class Login extends React.Component {
 			<Form onSubmit={this.handleSubmit} className="login-form">
 				{posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
 				{posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
+				{posts && posts.code==0  ? document.cookie='avatorUrl='+posts.avatorUrl : '' }
 				<h1>{posts && (posts.code==0||posts.code==2)  ? <Redirect to='/chat'/> : posts.message }</h1>
-				<FormItem>
-				    <Input onChange={this.onUserNameChange} prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" />
+				<FormItem {...formItemLayout} label="用户名">
+				    <Input 
+				    	onChange={this.onUserNameChange} 
+				    	prefix={<Icon type="user" style={{ fontSize: 13 }} />} 
+				    	placeholder="用户名" 
+				    />
 				</FormItem>
-				<FormItem>
-				    <Input onChange={this.onPassWordChange} prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="密码" placeholder="Password" />
+				<FormItem {...formItemLayout} label="密码">
+				    <Input 
+				    	onChange={this.onPassWordChange} 
+				    	prefix={<Icon type="lock" style={{ fontSize: 13 }} />} 
+				    	type="密码" 
+				    	placeholder="Password" 
+				    />
 				</FormItem>
 				<FormItem {...tailFormItemLayout}>
 					<Button type="primary" htmlType="submit" className="login-form-button">

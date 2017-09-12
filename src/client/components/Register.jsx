@@ -19,12 +19,6 @@ class Registrat extends React.Component {
 		}
     }
 
-	componentDidMount() {
-		const { dispatch } = this.props
-        dispatch(inputSubreddit({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
-        dispatch(fetchPostsIfNeeded({ url:'/islogin',token:document.cookie.split(';')[0].split('=')[1] }))
-	}
-    
     handleSubmit = (e) => {
         e.preventDefault();
         if(!this.state.userName){
@@ -55,43 +49,49 @@ class Registrat extends React.Component {
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 6 },
+                sm: { span: 6 }
             },
             wrapperCol: {
                 xs: { span: 24 },
-                sm: { span: 14 },
+                sm: { span: 14 }
             },
         };
         const tailFormItemLayout = {
             wrapperCol: {
                 xs: {
                     span: 24,
-                    offset: 0,
+                    offset: 10
                 },
                 sm: {
                     span: 14,
-                    offset: 6,
-                },
-            },
-        };
-    return (
-      <Form onSubmit={this.handleSubmit}  className="register-form">
-        {posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
-        {posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
-        <h1>{ posts && posts.code==0  ? <Redirect to='/chat'/> : (posts.message=='请登陆' ? '请注册' :posts.message ) }</h1>
-        <FormItem {...formItemLayout} label="用户名" hasFeedback>
-            <Input onChange={this.onNameChange}/>
-        </FormItem>
-        <FormItem {...formItemLayout} label="密码" hasFeedback>
-            <Input onChange={this.onPassWordChange} type="password" />
-        </FormItem>
-        <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">注册</Button>
-            Or <Link to="/">登陆</Link>
-        </FormItem>
-      </Form>
-    );
-  }
+                    offset: 11
+                }
+            }
+        }
+    
+        return (
+            <Form onSubmit={this.handleSubmit}  className="register-form">
+                {posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
+                {posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
+                {posts && posts.code==0  ? document.cookie='avatorUrl='+posts.avatorUrl : '' }
+                <h1>{ posts && posts.code==0  ? <Redirect to='/chat'/> : (posts.message=='请登陆' ? '请注册' :posts.message ) }</h1>
+                <FormItem {...formItemLayout} label="用户名" hasFeedback>
+                    <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} onChange={this.onNameChange}/>
+                </FormItem>
+                <FormItem {...formItemLayout} label="密码" hasFeedback>
+                    <Input 
+                        prefix={<Icon type="lock" 
+                        style={{ fontSize: 13 }} />} 
+                        onChange={this.onPassWordChange} 
+                        type="password" />
+                </FormItem>
+                <FormItem {...tailFormItemLayout}>
+                    <Button type="primary" htmlType="submit">注册</Button>
+                    Or <Link to="/">登陆</Link>
+                </FormItem>
+            </Form>
+        );
+    }
 }
 
 

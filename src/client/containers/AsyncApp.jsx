@@ -21,7 +21,7 @@ class AsyncApp extends Component {
 		this.handleImage = this.handleImage.bind(this)
 		this.state = {
 			users:[],
-			myName:document.cookie.split(';')[1].split('=')[1],
+			documentCookie:{},
 			messages:[],
 			color: colorList,
 			page:1,
@@ -37,6 +37,10 @@ class AsyncApp extends Component {
 
 	componentDidMount() {
 		const { dispatch } = this.props
+		const { documentCookie } = this.state
+		document.cookie.split(';').map((index,i)=>{
+			documentCookie[index.split("=")[0].split(" ").join('')] = index.split("=")[1]
+		})
 		dispatch(inputSubreddit('/list'))
 		dispatch(fetchGetsIfNeeded('/list'))
 	}
@@ -58,10 +62,10 @@ class AsyncApp extends Component {
 
 	initScrollHeight = (e) => {
 		let ex = document.getElementById("messages");
-		if(ex.scrollHeight - ex.scrollTop<2000){
+		if(ex.scrollHeight - ex.scrollTop < 2000){
 			ex.scrollTop = ex.scrollHeight;
 		}else{
-			console.log("你可能在看历史消息",ex.scrollTop , ex.scrollHeight)
+			console.log("你可能在看历史消息", ex.scrollTop , ex.scrollHeight)
 		}
 	}
 
@@ -78,21 +82,52 @@ class AsyncApp extends Component {
 			response => response.json()
 		).then(
 			success => {
-				this.state.socket.emit('send message',{size:this.state.files.size,imageUrl:success.data.url,time:this.state.time});
+				this.state.socket.emit('send message',{
+					size:this.state.files.size,
+					imageUrl:success.data.url,
+					time:this.state.time
+				});
 			}
-		).catch(
-			error => console.log(error)
-		);
-		
+		)
+	}
+
+	handleAvatorChange = (e) =>{
+		var data = new FormData()
+		let {documentCookie} = this.state
+		this.setState({
+			files:e.target.files[0]
+		})
+		data.append("smfile", this.state.files)
+		fetch('https://sm.ms/api/upload', {
+		  method: 'POST',
+		  body: data
+		}).then(
+			response => response.json()
+		).then(
+			success => {
+				this.state.socket.emit('change avator',
+					{ 
+						avatorUrl : success.data.url, 
+						userName : documentCookie.userName
+					}
+				);
+				document.cookie = 'avatorUrl=' + success.data.url
+			}
+		)
 	}
 
 	handleMsgChange(e){
+		const {documentCookie} = this.state
 		e.preventDefault()
 		//如果消息为空，不发送消息
 		if(!document.getElementById('bodyContentMessagesInput').value){return}
 		this.state.socket.emit(
 			'send message',
-			{msg:document.getElementById('bodyContentMessagesInput').value,time:this.state.time}
+			{
+				msg:document.getElementById('bodyContentMessagesInput').value,
+				time:this.state.time,
+				avatorUrl:documentCookie.avatorUrl
+			}
 		);
 		document.getElementById('bodyContentMessagesInput').value = ''
 	}
@@ -110,16 +145,16 @@ class AsyncApp extends Component {
 				messages,
 				size:msg.size
 			})
-			if(msg.userName !== _this.state.myName){
+			if(msg.userName !== _this.state.documentCookie.userName){
 				Notification.requestPermission(function(perm){
 					if(perm == "granted"){
 						var notification = new Notification(msg.userName+' - 发来消息： ',{
 							dir:'auto',
 							tag:'testTag',
-							renotify:true,
+							renotify:false,
 							body:msg.message,
-							// icon:"https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png",
-							// image:msg.imageUrl,
+							icon:msg.avatorUrl,
+							image:msg.imageUrl,
 						})
 					}
 				})
@@ -129,9 +164,8 @@ class AsyncApp extends Component {
 
 	render() {
 		const { posts,isFetching } = this.props;
-		const { myName,display,messages,message,users,page } = this.state;
-		posts.userName ? this.state.socket.emit('login', posts.userName) : '';
-
+		const { documentCookie,display,messages,message,users,page } = this.state;
+		posts.userName ? this.state.socket.emit('login', posts) : '';
 		return (
 			<Layout className="layout" >
 				<Header>
@@ -149,13 +183,25 @@ class AsyncApp extends Component {
 								<Col xs={{ span: 5, offset: 7 }}>
 									<Avatar 
 										shape="square" 
-										style={{ backgroundColor: this.state.color[user.charCodeAt() % 8]}}
+										src={user.avatorUrl}
+										icon='picture'
+										onClick={()=>document.querySelector('#avatorInputFile').click()} 
+										style={{
+											cursor: 'pointer',
+											backgroundColor: this.state.color[user.userName.charCodeAt() % 8]
+										}}
 									>
-										{user.split('')[0]}
+										{user.userName.split('')[0]}
 									</Avatar>
-
+									<input 
+										style={{display:'none'}} 
+										onChange={this.handleAvatorChange} 
+										value={this.state.file} 
+										id='avatorInputFile' 
+										className='avatorInputFile' 
+										type="file" />
 								</Col>
-								<Col>{user}</Col>
+								<Col>{user.userName}</Col>
 							</Row>
 						))}
 					</Sider>
@@ -169,17 +215,24 @@ class AsyncApp extends Component {
 										<div className='bodyContentMessagesList' key={i}>
 											<Row gutter={16} 
 												type="flex" 
-												justify={myName==post.userName ? "end" : 'start'} 
+												justify={documentCookie.userName==post.userName ? "end" : 'start'} 
 												align="top">
-												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} 
-													order={myName==post.userName?2:1} xs={{ span: 2 }}>
+												<Col style={{
+													textAlign: documentCookie.userName==post.userName ? "left" : 'right'
+												}} 
+													order={documentCookie.userName==post.userName?2:1} xs={{ span: 2 }}>
 													<Avatar shape="square" 
-														style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} 
+														style={{ 
+															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
+														}}
+														src={post.avatorUrl}
 														size="large">{post.userName.split("")[0]}
 													</Avatar>
 												</Col>
-												<Col style={{textAlign: myName==post.userName ? "right" : 'left'}} 
-													order={myName==post.userName?1:2} xs={{ span: 16 }}>
+												<Col style={{
+													textAlign: documentCookie.userName==post.userName ? "right" : 'left'
+												}} 
+													order={documentCookie.userName==post.userName?1:2} xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -189,7 +242,9 @@ class AsyncApp extends Component {
 														</span>
 													</p>
 													<p className='messageContainer'>
-														{post.imageUrl ? <img className='imageContainer' src={post.imageUrl}/> : post.message }
+														{post.imageUrl ? <img 
+															className='imageContainer' 
+															src={post.imageUrl}/> : post.message }
 													</p>
 												</Col>
 											</Row>
@@ -202,16 +257,25 @@ class AsyncApp extends Component {
 									messages.map((post, i) => (
 										<div className='bodyContentMessagesList' key={i}>
 											<Row gutter={16} type="flex" 
-												justify={myName==post.userName ? "end" : 'start'} 
+												justify={documentCookie.userName==post.userName ? "end" : 'start'} 
 												align="top" >
-												<Col style={{textAlign: myName==post.userName ? "left" : 'right'}} 
-													order={myName==post.userName?2:1} xs={{ span: 2 }}>
+												<Col style={{
+													textAlign: documentCookie.userName==post.userName ? "left" : 'right'
+												}} 
+													order={documentCookie.userName==post.userName?2:1} xs={{ span: 2 }}>
 													<Avatar shape="square" 
-														style={{ backgroundColor: this.state.color[post.userName.charCodeAt() % 8] }} 
-														size="large">{post.userName.split("")[0]}</Avatar>
+														style={{ 
+															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
+														}} 
+														src={post.avatorUrl}
+														size="large">
+														{post.userName.split("")[0]}
+													</Avatar>
 												</Col>
-												<Col style={{textAlign: myName==post.userName ? "right" : 'left'}} 
-													order={myName==post.userName?1:2} xs={{ span: 16 }}>
+												<Col style={{
+													textAlign: documentCookie.userName==post.userName ? "right" : 'left'
+												}} 
+													order={documentCookie.userName==post.userName?1:2} xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -234,8 +298,17 @@ class AsyncApp extends Component {
 							</div>
 						</Layout>
 						<div className="bodyContentFeature">
-							<Icon onClick={()=>document.querySelector('#imgInputFile').click()} className='picture' type="picture" style={{ fontSize: 32, color: '#fff' }} />
-							<input onChange={this.handleImage} value={this.state.file} id='imgInputFile' className='imgInputFile' type="file" />
+							<Icon onClick={()=>document.querySelector('#imgInputFile').click()} 
+								className='picture' 
+								type="picture" 
+								style={{ fontSize: 32, color: '#fff' }} 
+							/>
+							<input onChange={this.handleImage} 
+								value={this.state.file} 
+								id='imgInputFile' 
+								className='imgInputFile' 
+								type="file" 
+							/>
 						</div>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
 							<Input 
