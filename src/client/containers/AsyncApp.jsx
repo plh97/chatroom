@@ -185,13 +185,13 @@ class AsyncApp extends Component {
 										shape="square" 
 										src={user.avatorUrl}
 										icon='picture'
+										size="large"
 										onClick={()=>document.querySelector('#avatorInputFile').click()} 
 										style={{
 											cursor: 'pointer',
 											backgroundColor: this.state.color[user.userName.charCodeAt() % 8]
 										}}
 									>
-										{user.userName.split('')[0]}
 									</Avatar>
 									<input 
 										style={{display:'none'}} 
@@ -201,7 +201,9 @@ class AsyncApp extends Component {
 										className='avatorInputFile' 
 										type="file" />
 								</Col>
-								<Col>{user.userName}</Col>
+								<Col>
+									<strong>{user.userName}</strong>
+								</Col>
 							</Row>
 						))}
 					</Sider>
