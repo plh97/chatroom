@@ -61,10 +61,12 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
+    new ManifestPlugin(),
     new HtmlWebpackPlugin({
       title: 'react',
       favicon:'./favicon.ico',
-      template: './src/client/template/index.ejs'
+      template: './src/client/template/index.ejs',
+      manifest: 'manifest.json'
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vender",
@@ -72,7 +74,6 @@ module.exports = {
         return module.context && module.context.indexOf("node_modules") !== -1;
       },
       minChunks: Infinity,
-    }),
-    new ManifestPlugin()
+    })
   ],
 }

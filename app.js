@@ -210,9 +210,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(80);
-if (process.env.NODE_ENV == 'development') {
-  const config = require('./webpack.config')
-  app.use(webpackMiddleware(webpack(config), {
-    stats: {colors: true}
-  }));
-}
+// if (process.env.NODE_ENV == 'development') {
+//   const config = require('./webpack.config')
+//   app.use(webpackMiddleware(webpack(config), {
+//     stats: {colors: true}
+//   }));
+// }
