@@ -1,5 +1,9 @@
 @import "../common/commonStyle";
 
+h1{
+	text-align: center;
+}
+
 body{
 	.routerContainer{
 		height:100%;
@@ -18,7 +22,8 @@ body{
 				background: url('../assets/images/hua.jpg');
 				height: 100%;
 				position: absolute;
-				width: 1000px;
+				max-width: 1000px;
+				width: 100%;
 				left: calc((100vw - 1000px) / 2);
 				background-position: calc((1000px - 100vw) / 2) 0;
 			}
@@ -51,10 +56,26 @@ body{
 		}
 
 		.layout{
-			width: 1000px;
+			max-width: 1000px;
+			width: 100%;
 			height: 100%;
 			margin: auto;
 			background: hsla(0,0%,95%,0);
+			position: relative;
+
+			.ant-layout-header{
+				h1{
+					text-align: center;
+				}
+
+				i{
+					font-weight: bold;
+					position: absolute;
+					font-size: 26px;
+					top: 21px;
+					left: 21px;
+				}
+			}
 
 			.body{
 				overflow: auto;
@@ -83,36 +104,39 @@ body{
 						overflow-y: scroll;
 						background: hsla(0,0%,95%,0);
 
+						.messagesHistory,.messagesNews {
+							// width: 95%;
 
-						.bodyContentMessagesList{
-							margin-bottom: 10px;
+							.bodyContentMessagesList{
+								margin-bottom: 10px;
 
-							.nameContainer{
-								font-weight: bolder;
-								font-size: 14px;
-								color: #202020;
-							}
+								.nameContainer{
+									font-weight: bolder;
+									font-size: 14px;
+									color: #202020;
+								}
 
-							.timeContainer{
-								font-size: 12px;
-								margin-left: 5px;
-								margin-bottom: 5px;
-							}
+								.timeContainer{
+									font-size: 12px;
+									margin-left: 5px;
+									margin-bottom: 5px;
+								}
 
-							.messageContainer{
-								padding: 5px 10px;
-								margin: 0;
-								box-shadow: 3px 3px 10px #aaa;
-								word-break: break-all;
-								border-radius: 10px;
-								display: inline-block;
-								background-color: #f1f1f1;
-								font-size: 16px;
-								max-width: 100%;
-
-								.imageContainer{
+								.messageContainer{
+									padding: 5px 10px;
+									margin: 0;
+									box-shadow: 3px 3px 10px #aaa;
+									word-break: break-all;
+									border-radius: 10px;
+									display: inline-block;
+									background-color: #f1f1f1;
+									font-size: 16px;
 									max-width: 100%;
-									border-radius: 2%;
+
+									.imageContainer{
+										max-width: 100%;
+										border-radius: 2%;
+									}
 								}
 							}
 						}
@@ -183,14 +207,15 @@ body{
 						.emojiClick{
 							cursor:pointer;
 							font-size: 24px;
-							color: @lightBlue7;
+							color: @grey9;
+							font-weight: bolder;
 							margin: 0 10px; 
 						}
 
 						.picture{
 							cursor: pointer;
 							font-size: 32px;
-							color: @lightBlue9;
+							color: @grey9;
 							margin: 0 10px; 
 						}
 
@@ -226,30 +251,7 @@ body{
 	}
 }
 
-*{
-	margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    box-sizing: border-box;
-}
-h1{
-	text-align: center;
-}
 
-
-//用来冲击原有antd css属性
-// .ant-layout{
-// 	background: hsla(0,0%,95%,.2);
-
-// 	.ant-layout-sider{
-// 		// background: rgba(255, 255, 255, 0.2);
-// 	}
-// }
-
-
-
-//successful
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
 	width:8px;

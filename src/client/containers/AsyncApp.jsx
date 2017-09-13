@@ -7,7 +7,7 @@ import {
 	fetchPostsIfNeeded,
 	inputSubreddit
 } from '../actions'
-import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button } from 'antd'
+import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button,Menu } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
 const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1/');
@@ -28,6 +28,8 @@ class AsyncApp extends Component {
 			color: colorList,
 			page:1,
 			files:'',
+			clientWidth:document.body.clientWidth,
+			collapsed: document.body.clientWidth < 500 ? true:false,
 			emojiClick:false,
 			size:0,
 			socket,
@@ -89,6 +91,7 @@ class AsyncApp extends Component {
 				this.state.socket.emit('send message',{
 					size:this.state.files.size,
 					imageUrl:success.data.url,
+					avatorUrl:this.state.documentCookie.avatorUrl,
 					time:this.state.time
 				});
 			}
@@ -96,7 +99,6 @@ class AsyncApp extends Component {
 	}
 
 	handleAllEventClick = (e) => {
-		// console.log("触发事件总代理，你点击的可能是： ",e.target)
 		//判断有一些事件是否触发发图片
 		switch (e.target.className){
 			case 'emoji':
@@ -105,10 +107,28 @@ class AsyncApp extends Component {
 				break;
 			case 'anticon anticon-picture picture':
 				document.querySelector('#imgInputFile').click()
+				break;
+			case 'anticon anticon-menu-unfold trigger':
+				console.log('e.target.className:   ',e.target.className)
+				this.setState({
+					collapsed: !this.state.collapsed,
+				})
+				break;
+			case 'anticon anticon-menu-fold trigger':
+				console.log('e.target.className:   ',e.target.className)
+				this.setState({
+					collapsed: !this.state.collapsed,
+				})
+				break;
+			default:
 		}
 		//判断一些是否添加emoji
 		switch (e.target.className){
-			case 'anticon anticon-smile emojiClick':
+			case 'anticon anticon-smile-o emojiClick':
+				this.setState({
+					emojiClick : true
+				})
+				break;
 			case 'emoji':
 				this.setState({
 					emojiClick : true
@@ -198,15 +218,21 @@ class AsyncApp extends Component {
 
 	render() {
 		const { posts,isFetching } = this.props;
-		const { documentCookie,display,messages,message,users,page } = this.state;
+		const { documentCookie,display,messages,message,users,page ,collapsed,clientWidth } = this.state;
 		posts.userName ? this.state.socket.emit('login', posts) : '';
 		return (
 			<Layout className="layout" onClick = {this.handleAllEventClick}>
 				<Header>
+					<Icon className="trigger" type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}/>
 					<h1>Web聊天室(共{users.length}人)</h1>
 				</Header>
 				<Layout className="body">
-					<Sider className='bodySlider'>
+					<Sider 
+						trigger={null}
+						collapsible
+						style={{display:collapsed?'none':'block'}}
+						collapsed={collapsed}
+						className='bodySlider'>	
 						<Row justify="start">
 							<Col xs={{ span: 12, offset: 4 }}>
 								<h2>成员：</h2>
@@ -222,22 +248,21 @@ class AsyncApp extends Component {
 										icon='picture'
 										size="large"
 										onClick={()=>{
-											// user.userName==documentCookie.userName?document.querySelector('#avatorInputFile').click():''
-										}} 
+											user.userName==documentCookie.userName ? document.getElementById('avatorInputFile').click():''
+										}}
 										style={{
 											cursor: user.userName==documentCookie.userName?'pointer':'auto',
 											backgroundColor: this.state.color[user.userName.charCodeAt() % 8]
 										}}
 									>
 									</Avatar>
-									{user.userName == documentCookie.userName?
-										<input 
-											style={{display:'none'}} 
-											onChange={this.handleAvatorChange} 
-											value={this.state.file} 
-											id='avatorInputFile' 
-											className='avatorInputFile' 
-											type="file" />:""
+									{user.userName == documentCookie.userName ? <input 
+										style={{display:'none'}} 
+										onChange={this.handleAvatorChange} 
+										value={this.state.file} 
+										id='avatorInputFile' 
+										className='avatorInputFile' 
+										type="file" />:""
 									}
 								</Col>
 								<Col>
@@ -261,7 +286,8 @@ class AsyncApp extends Component {
 												<Col style={{
 													textAlign: documentCookie.userName==post.userName ? "left" : 'right'
 												}} 
-													order={documentCookie.userName==post.userName?2:1} xs={{ span: 2 }}>
+													order={documentCookie.userName==post.userName?2:1} 
+													xs={{ span: clientWidth > 500 ? 2:4 }}>
 													<Avatar shape="square" 
 														style={{ 
 															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
@@ -273,7 +299,8 @@ class AsyncApp extends Component {
 												<Col style={{
 														textAlign: documentCookie.userName==post.userName ? "right" : 'left'
 													}} 
-													order={documentCookie.userName==post.userName?1:2} xs={{ span: 16 }}>
+													order={documentCookie.userName==post.userName?1:2} 
+													xs={{span: 16}}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -302,10 +329,11 @@ class AsyncApp extends Component {
 												align="top" >
 												<Col style={{
 													textAlign: documentCookie.userName==post.userName ? "left" : 'right'
-												}} 
-													order={documentCookie.userName==post.userName?2:1} xs={{ span: 2 }}>
+												}}
+													order={documentCookie.userName==post.userName?2:1} 
+													xs={{ span: clientWidth > 500 ? 2:4 }}>
 													<Avatar shape="square" 
-														style={{ 
+														style={{
 															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
 														}} 
 														src={post.avatorUrl}
@@ -316,7 +344,8 @@ class AsyncApp extends Component {
 												<Col style={{
 													textAlign: documentCookie.userName==post.userName ? "right" : 'left'
 												}} 
-													order={documentCookie.userName==post.userName?1:2} xs={{ span: 16 }}>
+													order={documentCookie.userName==post.userName?1:2} 
+													xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -339,7 +368,7 @@ class AsyncApp extends Component {
 							</div>
 						</Layout>
 						<div className="bodyContentFeature">
-							<Icon className = 'emojiClick' type = "smile"/>
+							<Icon className = 'emojiClick' type = "smile-o"/>
 							<div className={this.state.emojiClick ? 'emojiContainer display' : 'none emojiContainer'}>
 								{emoji.map((index,i)=>(
 									<span className = "emoji">{index}</span>
