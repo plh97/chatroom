@@ -25,6 +25,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.17.2",
     "chrome": "^0.1.0",
+    "chunk-manifest-webpack-plugin": "^1.1.2",
     "clean-webpack-plugin": "^0.1.16",
     "cookie-parser": "~1.4.3",
     "cookies": "^0.7.1",
@@ -108,6 +109,7 @@
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.4.0",
     "eslint-plugin-react": "^7.1.0",
+    "inline-chunk-manifest-html-webpack-plugin": "^1.1.1",
     "koa-webpack-middleware": "^1.0.7"
   }
 }
