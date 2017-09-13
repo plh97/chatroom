@@ -13,6 +13,8 @@ import io from 'socket.io-client';
 const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1/');
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 let time = new Date();
+import Emoji from '../assets/emoji/Emoji.js'
+const emoji = Emoji.split(' ')
 
 class AsyncApp extends Component {
 	constructor(props){
@@ -26,6 +28,7 @@ class AsyncApp extends Component {
 			color: colorList,
 			page:1,
 			files:'',
+			emojiClick:false,
 			size:0,
 			socket,
 			time: time.getMonth()+1+"月"+time.getDate()+"日" +" "+ 
@@ -43,6 +46,7 @@ class AsyncApp extends Component {
 		})
 		dispatch(inputSubreddit('/list'))
 		dispatch(fetchGetsIfNeeded('/list'))
+		this.nameInput.focus();
 	}
 
 	componentDidUpdate(){
@@ -91,6 +95,32 @@ class AsyncApp extends Component {
 		)
 	}
 
+	handleAllEventClick = (e) => {
+		// console.log("触发事件总代理，你点击的可能是： ",e.target)
+		//判断有一些事件是否触发发图片
+		switch (e.target.className){
+			case 'emoji':
+				document.getElementById('bodyContentMessagesInput').value += e.target.innerText
+				this.nameInput.focus();
+				break;
+			case 'anticon anticon-picture picture':
+				document.querySelector('#imgInputFile').click()
+		}
+		//判断一些是否添加emoji
+		switch (e.target.className){
+			case 'anticon anticon-smile emojiClick':
+			case 'emoji':
+				this.setState({
+					emojiClick : true
+				})
+				break;
+			default:
+				this.setState({
+					emojiClick : false
+				})
+		}
+	}
+
 	handleAvatorChange = (e) =>{
 		var data = new FormData()
 		let {documentCookie} = this.state
@@ -130,6 +160,10 @@ class AsyncApp extends Component {
 			}
 		);
 		document.getElementById('bodyContentMessagesInput').value = ''
+		this.setState({
+			emojiClick:false
+		})
+		document.getElementById('bodyContentMessagesInput').focus()
 	}
 	ready(){
 		var _this = this;
@@ -167,7 +201,7 @@ class AsyncApp extends Component {
 		const { documentCookie,display,messages,message,users,page } = this.state;
 		posts.userName ? this.state.socket.emit('login', posts) : '';
 		return (
-			<Layout className="layout" >
+			<Layout className="layout" onClick = {this.handleAllEventClick}>
 				<Header>
 					<h1>Web聊天室(共{users.length}人)</h1>
 				</Header>
@@ -184,10 +218,11 @@ class AsyncApp extends Component {
 									<Avatar 
 										shape="square" 
 										src={user.avatorUrl}
+										className="slideAvator"
 										icon='picture'
 										size="large"
 										onClick={()=>{
-											user.userName==documentCookie.userName?document.querySelector('#avatorInputFile').click():''
+											// user.userName==documentCookie.userName?document.querySelector('#avatorInputFile').click():''
 										}} 
 										style={{
 											cursor: user.userName==documentCookie.userName?'pointer':'auto',
@@ -236,8 +271,8 @@ class AsyncApp extends Component {
 													</Avatar>
 												</Col>
 												<Col style={{
-													textAlign: documentCookie.userName==post.userName ? "right" : 'left'
-												}} 
+														textAlign: documentCookie.userName==post.userName ? "right" : 'left'
+													}} 
 													order={documentCookie.userName==post.userName?1:2} xs={{ span: 16 }}>
 													<p>
 														<span className='nameContainer'>
@@ -304,22 +339,26 @@ class AsyncApp extends Component {
 							</div>
 						</Layout>
 						<div className="bodyContentFeature">
-							<Icon onClick={()=>document.querySelector('#imgInputFile').click()} 
-								className='picture' 
-								type="picture" 
-								style={{ fontSize: 32, color: '#fff' }} 
-							/>
+							<Icon className = 'emojiClick' type = "smile"/>
+							<div className={this.state.emojiClick ? 'emojiContainer display' : 'none emojiContainer'}>
+								{emoji.map((index,i)=>(
+									<span className = "emoji">{index}</span>
+								))}
+							</div>
+							<Icon className='picture' type="picture"/>
 							<input onChange={this.handleImage} 
 								value={this.state.file} 
-								id='imgInputFile' 
-								className='imgInputFile' 
-								type="file" 
-							/>
+								id='imgInputFile'
+								className='imgInputFile'
+								type="file" />
 						</div>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
 							<Input 
 								className='bodyContentMessagesInput' 
 								id='bodyContentMessagesInput' 
+								ref={ input => {
+									this.nameInput = input; 
+								}}
 								placeholder='chat content' />
 						</Form>
 					</Content>
