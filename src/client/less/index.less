@@ -74,6 +74,10 @@ body{
 					font-size: 26px;
 					top: 21px;
 					left: 21px;
+					cursor: pointer;
+					&:hover{
+						opacity: 0.5;
+					}
 				}
 			}
 
@@ -209,18 +213,36 @@ body{
 							font-size: 24px;
 							color: @grey9;
 							font-weight: bolder;
-							margin: 0 10px; 
+							margin: 0 10px;
+							&:hover{
+								opacity: 0.5;
+							}
 						}
 
 						.picture{
 							cursor: pointer;
 							font-size: 32px;
 							color: @grey9;
-							margin: 0 10px; 
+							margin: 0 10px;
+							&:hover{
+								opacity: 0.5;
+							}
 						}
 
 						.imgInputFile{
 							display: none;
+						}
+
+						.codingClick {
+							cursor:pointer;
+							font-size: 24px;
+							color: @grey9;
+							font-weight: bolder;
+							margin: 0 10px; 
+							user-select: none;
+							&:hover{
+								opacity: 0.5;
+							}
 						}
 					}
 

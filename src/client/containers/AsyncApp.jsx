@@ -368,7 +368,7 @@ class AsyncApp extends Component {
 							</div>
 						</Layout>
 						<div className="bodyContentFeature">
-							<Icon className = 'emojiClick' type = "smile-o"/>
+							<Icon className = 'emojiClick' type = 'smile-o'/>
 							<div className={this.state.emojiClick ? 'emojiContainer display' : 'none emojiContainer'}>
 								{emoji.map((index,i)=>(
 									<span className = "emoji">{index}</span>
@@ -380,6 +380,8 @@ class AsyncApp extends Component {
 								id='imgInputFile'
 								className='imgInputFile'
 								type="file" />
+							<span className = 'codingClick'>&lt;/></span>
+							
 						</div>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
 							<Input 
