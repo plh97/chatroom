@@ -2,6 +2,7 @@ const
   path = require("path"),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   webpack = require('webpack'),
+  ManifestPlugin = require('webpack-manifest-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -71,6 +72,7 @@ module.exports = {
         return module.context && module.context.indexOf("node_modules") !== -1;
       },
       minChunks: Infinity,
-    })
+    }),
+    new ManifestPlugin()
   ],
 }
