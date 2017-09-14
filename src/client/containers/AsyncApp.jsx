@@ -10,7 +10,7 @@ import {
 import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button,Menu } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1/');
+const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84:8080/' : 'http://127.0.0.1:8080/');
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 let time = new Date();
 import Emoji from '../assets/emoji/Emoji.js'
