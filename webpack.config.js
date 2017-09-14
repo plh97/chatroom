@@ -3,6 +3,7 @@ const
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   webpack = require('webpack'),
   ManifestPlugin = require('webpack-manifest-plugin'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -32,15 +33,10 @@ module.exports = {
     rules:[
       {
         test: /(\.less|\.css)$/,
-        use: [{
-          loader: "style-loader"
-        }
-        , {
-          loader: "css-loader"
-        }
-        , {
-          loader: "less-loader"
-        }]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader']
+        })
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -65,7 +61,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'react',
       favicon:'./favicon.ico',
-      template: './src/client/template/index.ejs'
+      template: './src/client/template/index.ejs',
+      inject: true, //允许插件修改哪些内容，包括head与body
+      hash: true, //为静态资源生成hash值
+      minify: { //压缩HTML文件
+        removeComments: true, //移除HTML中的注释
+        collapseWhitespace: false //删除空白符与换行符
+      }
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vender",
@@ -74,6 +76,6 @@ module.exports = {
       },
       minChunks: Infinity,
     }),
-
+    new ExtractTextPlugin('index.css')  // 最终会在public目录下生成index.css
   ],
 }
