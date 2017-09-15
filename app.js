@@ -32,12 +32,12 @@ app
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
 
-router.get('/list',async ctx => {
-  ctx.body = await Chat.find({})
-})
+// router.get('/list',async ctx => {
+//   ctx.body = await Chat.find({})
+// })
 
 
-router.get('/listimprove',async (ctx,next) => { 
+router.get('/list',async (ctx,next) => { 
   var html = await Chat.find({})
   var users = await Login.find({})
   html.map((index,i)=>{
