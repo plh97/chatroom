@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "eslint": "eslint ./src --color --fix",
     "b": "cross-env NODE_ENV=development PLATFORM=web webpack --display-modules --sort-modules-by size --color",
-    "p": "webpack -p --color",
+    "p": "cross-env NODE_ENV=production PLATFORM=web webpack -p --color",
     "t": "webpack-dev-server --open --color",
     "pkoa": "node ./app",
     "koa": "cross-env NODE_ENV=development PLATFORM=web node ./app"

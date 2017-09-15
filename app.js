@@ -14,6 +14,7 @@ const Chat = require('./src/server/routes/model/Chat.model');
 const Login = require('./src/server/routes/model/Login.model');
 const Register = require('./src/server/routes/model/Register.model');
 const jwt = require('jwt-simple');
+console.log("process.env.NODE_ENV ::",process.env.NODE_ENV )
 if (process.env.NODE_ENV === 'development') {
   const db = 'mongodb://127.0.0.1/sampsite';
   mongoose.connect(db, {useMongoClient: true});
@@ -40,6 +41,7 @@ router.get('/listimprove',async (ctx,next) => {
   var html = await Chat.find({})
   var users = await Login.find({})
   html.map((index,i)=>{
+    console.log("1231233",index.avatorUrl)
     index.avatorUrl = users.find( user =>{
       return user.userName === index.userName;
     }).avatorUrl
@@ -224,9 +226,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-if (process.env.NODE_ENV == 'development') {
-  const config = require('./webpack.config')
-  app.use(webpackMiddleware(webpack(config), {
-    stats: {colors: true}
-  }));
-}
+// if (process.env.NODE_ENV == 'development') {
+//   const config = require('./webpack.config')
+//   app.use(webpackMiddleware(webpack(config), {
+//     stats: {colors: true}
+//   }));
+// }
