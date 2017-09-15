@@ -33,10 +33,13 @@ module.exports = {
     rules:[
       {
         test: /(\.less|\.css)$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'less-loader']
-        })
+        use: [{
+            loader: "style-loader" // creates style nodes from JS strings
+        }, {
+            loader: "css-loader" // translates CSS into CommonJS
+        }, {
+            loader: "less-loader" // compiles Less to CSS
+        }]
       },
       {
         test: /\.(png|svg|jpg|gif)$/,

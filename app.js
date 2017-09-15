@@ -37,8 +37,8 @@ router.get('/list',async ctx => {
 
 
 router.get('/listimprove',async (ctx,next) => { 
-  let html = await Chat.find({})
-  let users = await Login.find({})
+  var html = await Chat.find({})
+  var users = await Login.find({})
   html.map((index,i)=>{
     index.avatorUrl = users.find( user =>{
       return user.userName === index.userName;
