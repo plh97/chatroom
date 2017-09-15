@@ -31,12 +31,12 @@ app
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
 
-// router.get('/list',async ctx => {
-//   ctx.body = await Chat.find({})
-// })
+router.get('/list',async ctx => {
+  ctx.body = await Chat.find({})
+})
 
 
-router.get('/list',async (ctx,next) => { 
+router.get('/listimprove',async (ctx,next) => { 
   let html = await Chat.find({})
   let users = await Login.find({})
   html.map((index,i)=>{
@@ -224,9 +224,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-// if (process.env.NODE_ENV == 'development') {
-//   const config = require('./webpack.config')
-//   app.use(webpackMiddleware(webpack(config), {
-//     stats: {colors: true}
-//   }));
-// }
+if (process.env.NODE_ENV == 'development') {
+  const config = require('./webpack.config')
+  app.use(webpackMiddleware(webpack(config), {
+    stats: {colors: true}
+  }));
+}
