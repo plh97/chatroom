@@ -42,9 +42,11 @@ router.get('/listimprove',async (ctx,next) => {
   var users = await Login.find({})
   html.map((index,i)=>{
     console.log("1231233",index.avatorUrl)
-    index.avatorUrl = users.find( user =>{
-      return user.userName === index.userName;
-    }).avatorUrl
+    if(index.avatorUrl){
+      index.avatorUrl = users.find( user =>{
+        return user.userName === index.userName;
+      }).avatorUrl
+    }
   })
   ctx.body = await html
 })
