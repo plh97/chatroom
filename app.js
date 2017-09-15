@@ -14,13 +14,13 @@ const Chat = require('./src/server/routes/model/Chat.model');
 const Login = require('./src/server/routes/model/Login.model');
 const Register = require('./src/server/routes/model/Register.model');
 const jwt = require('jwt-simple');
-// if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   const db = 'mongodb://127.0.0.1/sampsite';
   mongoose.connect(db, {useMongoClient: true});
-// }else{
-  // const db = 'mongodb://112.74.63.84/sampsite';
-  // mongoose.connect(db, {useMongoClient: true});
-// }
+}else{
+  const db = 'mongodb://112.74.63.84/sampsite';
+  mongoose.connect(db, {useMongoClient: true});
+}
 const connections = []
 let users=[]
 let usersInfo=[]
