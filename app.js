@@ -41,12 +41,9 @@ router.get('/listimprove',async (ctx,next) => {
   var html = await Chat.find({})
   var users = await Login.find({})
   html.map((index,i)=>{
-    if(index.avatorUrl){
-      console.log("1231233",index.avatorUrl)
-      index.avatorUrl = users.find( user =>{
-        return user.userName === index.userName;
-      }).avatorUrl
-    }
+    index.avatorUrl = users.find( user =>{
+      return user.userName === index.userName;
+    }).avatorUrl
   })
   ctx.body = await html
 })
@@ -228,9 +225,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-// if (process.env.NODE_ENV == 'development') {
-//   const config = require('./webpack.config')
-//   app.use(webpackMiddleware(webpack(config), {
-//     stats: {colors: true}
-//   }));
-// }
+if (process.env.NODE_ENV == 'development') {
+  const config = require('./webpack.config')
+  app.use(webpackMiddleware(webpack(config), {
+    stats: {colors: true}
+  }));
+}
