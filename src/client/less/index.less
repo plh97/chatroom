@@ -19,13 +19,15 @@ body{
 
 			.background{
 				filter: blur(10px);
-				background: url('../assets/images/hua.jpg');
+				margin: auto;
+				background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
 				height: 100%;
 				position: absolute;
+				background-repeat: no-repeat;
+				width: 100vw;
 				max-width: 1000px;
-				width: 100%;
-				left: calc((100vw - 1000px) / 2);
-				background-position: calc((1000px - 100vw) / 2) 0;
+				left: calc(~'(100% - 1000px) / 2');
+				background-position: calc(~'(1000px - 100vw) / 2') 0px;
 			}
 		}
 
@@ -83,7 +85,8 @@ body{
 
 			.body{
 				overflow: auto;
-				background: hsla(0,0%,95%,.2);
+				//增加透明度
+				background: hsla(0,0%,95%,0.2);
 
 				.bodySlider{
 					background: hsla(0,0%,95%,.0);

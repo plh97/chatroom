@@ -14,13 +14,13 @@ const Chat = require('./src/server/routes/model/Chat.model');
 const Login = require('./src/server/routes/model/Login.model');
 const Register = require('./src/server/routes/model/Register.model');
 const jwt = require('jwt-simple');
-if (process.env.NODE_ENV === 'development') {
+// if (process.env.NODE_ENV === 'development') {
   const db = 'mongodb://127.0.0.1/sampsite';
   mongoose.connect(db, {useMongoClient: true});
-}else{
-  const db = 'mongodb://112.74.63.84/sampsite';
-  mongoose.connect(db, {useMongoClient: true});
-}
+// }else{
+  // const db = 'mongodb://112.74.63.84/sampsite';
+  // mongoose.connect(db, {useMongoClient: true});
+// }
 const connections = []
 let users=[]
 let usersInfo=[]
@@ -31,9 +31,23 @@ app
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
 
-router.get('/list',async ctx => {
-  ctx.body = await Chat.find({})
+// router.get('/list',async ctx => {
+//   ctx.body = await Chat.find({})
+// })
+
+
+router.get('/list',async (ctx,next) => { 
+  let html = await Chat.find({})
+  let users = await Login.find({})
+  html.map((index,i)=>{
+    index.avatorUrl = users.find( user =>{
+      return user.userName === index.userName;
+    }).avatorUrl
+  })
+  ctx.body = await html
 })
+
+
 
 router.get('/chat',async ctx => {
   ctx.redirect('/')
@@ -210,9 +224,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-if (process.env.NODE_ENV == 'development') {
-  const config = require('./webpack.config')
-  app.use(webpackMiddleware(webpack(config), {
-    stats: {colors: true}
-  }));
-}
+// if (process.env.NODE_ENV == 'development') {
+//   const config = require('./webpack.config')
+//   app.use(webpackMiddleware(webpack(config), {
+//     stats: {colors: true}
+//   }));
+// }
