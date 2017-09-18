@@ -17,8 +17,9 @@ import Emoji from '../assets/emoji/Emoji.js'
 import AutoFuncArea from '../components/AutoFuncArea.jsx'
 const emoji = Emoji.split(' ')
 
-import Highlight from 'react-highlight'
-import 'highlight.js/styles/tomorrow-night-eighties.css'
+import Highlight from 'react-syntax-highlighter'
+import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
+// import 'highlight.js/styles/tomorrow-night-eighties.css'
 
 class AsyncApp extends Component {
 	constructor(props){
@@ -106,7 +107,6 @@ class AsyncApp extends Component {
 
 	handleAllEventClick = (e) => {
 		//判断有一些事件是否触发发图片
-		console.log(e.target.className)
 		switch (e.target.className){
 			case 'emoji':
 				document.getElementById('bodyContentMessagesInput').value += e.target.innerText
@@ -266,8 +266,7 @@ class AsyncApp extends Component {
 		const { posts,isFetching } = this.props;
 		const { messagesHistory, documentCookie,display,messages,message,users,page ,collapsed,clientWidth } = this.state;
 		posts.userName ? this.state.socket.emit('login', posts) : '';
-		console.log(this.state.codingClick)
-
+		console.log(messagesHistory[0])
 		return (
 			<Layout className="layout" onClick = {this.handleAllEventClick}>
 				<Header>
@@ -363,6 +362,8 @@ class AsyncApp extends Component {
 															className = 'imageContainer' 
 															src = {post.imageUrl}/> : ''}
 														{post.code ? <Highlight 
+															language='javascript'
+															style={tomorrowNightEighties}
 															className = 'JavaScript'>
 															{post.code}
 														</Highlight> : ''}
@@ -415,6 +416,8 @@ class AsyncApp extends Component {
 															className = 'imageContainer' 
 															src = {post.imageUrl}/> : ''}
 														{post.code ? <Highlight 
+															language='javascript'
+															style={tomorrowNightEighties}
 															className = 'JavaScript'>
 															{post.code}
 														</Highlight> : ''}
