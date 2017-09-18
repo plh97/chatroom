@@ -33,13 +33,10 @@ module.exports = {
     rules:[
       {
         test: /(\.less|\.css)$/,
-        use: [{
-            loader: "style-loader" // creates style nodes from JS strings
-        }, {
-            loader: "css-loader" // translates CSS into CommonJS
-        }, {
-            loader: "less-loader" // compiles Less to CSS
-        }]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader']
+        })
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -79,6 +76,8 @@ module.exports = {
       },
       minChunks: Infinity,
     }),
-    new ExtractTextPlugin('index.css')  // 最终会在public目录下生成index.css
+    new ExtractTextPlugin({
+      filename:'index.[hash].css'
+    })
   ],
 }

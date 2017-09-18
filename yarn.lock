@@ -2088,6 +2088,10 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+codemirror@5.29.0:
+  version "5.29.0"
+  resolved "http://registry.npm.taobao.org/codemirror/download/codemirror-5.29.0.tgz#e68de1350e2f0ce804a3930576d0ae318736e967"
+
 color-convert@^1.3.0, color-convert@^1.9.0:
   version "1.9.0"
   resolved "http://registry.npm.taobao.org/color-convert/download/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
@@ -3457,6 +3461,12 @@ extglob@^0.3.1:
   dependencies:
     is-extglob "^1.0.0"
 
+extract-loader@^0.1.0:
+  version "0.1.0"
+  resolved "http://registry.npm.taobao.org/extract-loader/download/extract-loader-0.1.0.tgz#a1c146915241cc486d5292263c7555d5aa19766e"
+  dependencies:
+    loader-utils "^0.2.16"
+
 extract-text-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/extract-text-webpack-plugin/download/extract-text-webpack-plugin-3.0.0.tgz#90caa7907bc449f335005e3ac7532b41b00de612"
@@ -4017,6 +4027,10 @@ hawk@~3.1.3:
 he@1.1.x:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/he/download/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
+
+highlight.js@^9.11.0, highlight.js@^9.12.0, highlight.js@~9.12.0:
+  version "9.12.0"
+  resolved "http://registry.npm.taobao.org/highlight.js/download/highlight.js-9.12.0.tgz#e6d9dbe57cbefe60751f02af336195870c90c01e"
 
 history@^4.5.1, history@^4.6.0, history@^4.6.3:
   version "4.6.3"
@@ -5205,7 +5219,7 @@ lodash@3.7.x:
   version "3.7.0"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-3.7.0.tgz#3678bd8ab995057c07ade836ed2ef087da811d45"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.5, lodash@^4.16.6, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.16.5, lodash@^4.16.6, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.4"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -5237,6 +5251,12 @@ loud-rejection@^1.0.0, loud-rejection@^1.2.0:
 lower-case@^1.1.1:
   version "1.1.4"
   resolved "http://registry.npm.taobao.org/lower-case/download/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
+
+lowlight@~1.9.1:
+  version "1.9.1"
+  resolved "http://registry.npm.taobao.org/lowlight/download/lowlight-1.9.1.tgz#ed7c3dffc36f8c1f263735c0fe0c907847c11250"
+  dependencies:
+    highlight.js "~9.12.0"
 
 lru-cache@^4.0.1:
   version "4.1.1"
@@ -5557,6 +5577,10 @@ morgan@~1.8.1:
     depd "~1.1.0"
     on-finished "~2.3.0"
     on-headers "~1.0.1"
+
+mousetrap@^1.5.2:
+  version "1.6.1"
+  resolved "http://registry.npm.taobao.org/mousetrap/download/mousetrap-1.6.1.tgz#2a085f5c751294c75e7e81f6ec2545b29cbf42d9"
 
 mpath@0.3.0:
   version "0.3.0"
@@ -7126,6 +7150,12 @@ react-clone-referenced-element@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/react-clone-referenced-element/download/react-clone-referenced-element-1.0.1.tgz#2bba8c69404c5e4a944398600bcc4c941f860682"
 
+react-codemirror2@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/react-codemirror2/download/react-codemirror2-1.0.0.tgz#b529a6c5c91219f92c751f43a17721cdaf36b05f"
+  dependencies:
+    codemirror "5.29.0"
+
 react-deep-force-update@^1.0.0:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/react-deep-force-update/download/react-deep-force-update-1.1.1.tgz#bcd31478027b64b3339f108921ab520b4313dc2c"
@@ -7141,7 +7171,7 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-dom@^15.6.1:
+react-dom@^15.5.4, react-dom@^15.6.1:
   version "15.6.1"
   resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
@@ -7156,6 +7186,14 @@ react-fetch@^0.0.9:
   dependencies:
     isomorphic-fetch "^2.1.0"
 
+react-highlight@^0.10.0:
+  version "0.10.0"
+  resolved "http://registry.npm.taobao.org/react-highlight/download/react-highlight-0.10.0.tgz#d386f9dceab867dc0dcc2364153fb1cc7645d046"
+  dependencies:
+    highlight.js "^9.11.0"
+    react "^15.5.4"
+    react-dom "^15.5.4"
+
 react-hot-loader@next:
   version "3.0.0-beta.7"
   resolved "http://registry.npm.taobao.org/react-hot-loader/download/react-hot-loader-3.0.0-beta.7.tgz#d5847b8165d731c4d5b30d86d5d4716227a0fa83"
@@ -7166,6 +7204,15 @@ react-hot-loader@next:
     react-proxy "^3.0.0-alpha.0"
     redbox-react "^1.3.6"
     source-map "^0.4.4"
+
+react-hotkeys@^0.10.0:
+  version "0.10.0"
+  resolved "http://registry.npm.taobao.org/react-hotkeys/download/react-hotkeys-0.10.0.tgz#d1e78bd63f16d6db58d550d33c8eb071f35d94fb"
+  dependencies:
+    create-react-class "^15.5.2"
+    lodash "^4.13.1"
+    mousetrap "^1.5.2"
+    prop-types "^15.5.8"
 
 react-lazy-load@^3.0.10:
   version "3.0.12"
@@ -7408,6 +7455,14 @@ react-sticky@^5.0.2:
   dependencies:
     prop-types "^15.5.8"
 
+react-syntax-highlighter@^5.7.0:
+  version "5.7.0"
+  resolved "http://registry.npm.taobao.org/react-syntax-highlighter/download/react-syntax-highlighter-5.7.0.tgz#3cbe81a53fd0f91e34f789c229e5274411054b37"
+  dependencies:
+    babel-runtime "^6.18.0"
+    highlight.js "~9.12.0"
+    lowlight "~1.9.1"
+
 react-timer-mixin@^0.13.2, react-timer-mixin@^0.13.3:
   version "0.13.3"
   resolved "http://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
@@ -7426,13 +7481,15 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react@16:
-  version "16.0.0-alpha.6"
-  resolved "http://registry.npm.taobao.org/react/download/react-16.0.0-alpha.6.tgz#2ccb1afb4425ccc12f78a123a666f2e4c141adb9"
+react@^15.5.4, react@^15.6.1:
+  version "15.6.1"
+  resolved "http://registry.npm.taobao.org/react/download/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
+    create-react-class "^15.6.0"
     fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "^15.5.10"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

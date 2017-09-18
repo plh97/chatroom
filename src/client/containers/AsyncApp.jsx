@@ -10,12 +10,15 @@ import {
 import { Spin, Input, Form, Avatar, Layout, Col, Row, Icon,Button,Menu } from 'antd'
 const { Header, Content, Footer,Sider } = Layout;
 import io from 'socket.io-client';
-console.log(process.env.NODE_ENV)
+console.log('process.env.NODE_ENV: ',process.env.NODE_ENV)
 const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84:8080/' : 'http://127.0.0.1:8080/');
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
-let time = new Date();
 import Emoji from '../assets/emoji/Emoji.js'
+import AutoFuncArea from '../components/AutoFuncArea.jsx'
 const emoji = Emoji.split(' ')
+
+import Highlight from 'react-highlight'
+import 'highlight.js/styles/tomorrow-night-eighties.css'
 
 class AsyncApp extends Component {
 	constructor(props){
@@ -32,29 +35,31 @@ class AsyncApp extends Component {
 			clientWidth:document.body.clientWidth,
 			collapsed: document.body.clientWidth < 500 ? true:false,
 			emojiClick:false,
+			codingClick:false,
+			messagesHistory:[],
 			size:0,
 			socket,
-			time: time.getMonth()+1+"月"+time.getDate()+"日" +" "+ 
-				( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) +
-				 ":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes())
 		}
 		this.ready()
 	}
 
 	componentDidMount() {
+		//only init to callback
 		const { dispatch } = this.props
-		const { documentCookie } = this.state
-		document.cookie.split(';').map((index,i)=>{
-			documentCookie[index.split("=")[0].split(" ").join('')] = index.split("=")[1]
-		})
 		dispatch(inputSubreddit('/list'))
+		this.state.socket.emit('get list')
 		dispatch(fetchGetsIfNeeded('/list'))
 		this.nameInput.focus();
 	}
 
 	componentDidUpdate(){
+		//callback while need to render
+		const { documentCookie } = this.state
+		//to new state of cookies
+		document.cookie.split(';').map((index,i)=>{
+			documentCookie[index.split("=")[0].split(" ").join('')] = index.split("=")[1]
+		})
 		this.initScrollHeight()
-		time = new Date();
 	}
 
 	scroll = (e) => {
@@ -93,7 +98,7 @@ class AsyncApp extends Component {
 					size:this.state.files.size,
 					imageUrl:success.data.url,
 					avatorUrl:this.state.documentCookie.avatorUrl,
-					time:this.state.time
+					type:'image'
 				});
 			}
 		)
@@ -101,6 +106,7 @@ class AsyncApp extends Component {
 
 	handleAllEventClick = (e) => {
 		//判断有一些事件是否触发发图片
+		console.log(e.target.className)
 		switch (e.target.className){
 			case 'emoji':
 				document.getElementById('bodyContentMessagesInput').value += e.target.innerText
@@ -110,13 +116,11 @@ class AsyncApp extends Component {
 				document.querySelector('#imgInputFile').click()
 				break;
 			case 'anticon anticon-menu-unfold trigger':
-				console.log('e.target.className:   ',e.target.className)
 				this.setState({
 					collapsed: !this.state.collapsed,
 				})
 				break;
 			case 'anticon anticon-menu-fold trigger':
-				console.log('e.target.className:   ',e.target.className)
 				this.setState({
 					collapsed: !this.state.collapsed,
 				})
@@ -124,7 +128,9 @@ class AsyncApp extends Component {
 			default:
 		}
 		//判断一些是否添加emoji
+		//完整了，不能在这里添加
 		switch (e.target.className){
+			//切换emoji是否显示
 			case 'anticon anticon-smile-o emojiClick':
 				this.setState({
 					emojiClick : true
@@ -140,11 +146,30 @@ class AsyncApp extends Component {
 					emojiClick : false
 				})
 		}
+		//判断一些是否显示coding
+		//完整了，不能在这里添加
+		switch (e.target.className){
+			//切换emoji是否显示
+			case 'codingClick':
+				this.setState({
+					codingClick : true
+				})
+				break;
+			case 'ant-input textArea':
+				this.setState({
+					codingClick : true
+				})
+				break;
+			default:
+				this.setState({
+					codingClick : false
+				})
+		}
 	}
 
 	handleAvatorChange = (e) =>{
 		var data = new FormData()
-		let {documentCookie} = this.state
+		let { documentCookie } = this.state
 		this.setState({
 			files:e.target.files[0]
 		})
@@ -163,21 +188,35 @@ class AsyncApp extends Component {
 					}
 				);
 				document.cookie = 'avatorUrl=' + success.data.url
+				this.state.socket.emit('get list')
 			}
 		)
 	}
 
 	handleMsgChange(e){
 		const {documentCookie} = this.state
-		e.preventDefault()
 		//如果消息为空，不发送消息
+		if(e.coding){
+			this.state.socket.emit(
+				'send message',
+				{
+					code:e.coding,
+					avatorUrl:documentCookie.avatorUrl,
+					type:'code'
+				}
+			);
+			this.setState({
+				codingClick:false
+			})
+			return
+		}
 		if(!document.getElementById('bodyContentMessagesInput').value){return}
 		this.state.socket.emit(
 			'send message',
 			{
 				msg:document.getElementById('bodyContentMessagesInput').value,
-				time:this.state.time,
-				avatorUrl:documentCookie.avatorUrl
+				avatorUrl:documentCookie.avatorUrl,
+				type:'content'
 			}
 		);
 		document.getElementById('bodyContentMessagesInput').value = ''
@@ -185,12 +224,18 @@ class AsyncApp extends Component {
 			emojiClick:false
 		})
 		document.getElementById('bodyContentMessagesInput').focus()
+		e.preventDefault()
 	}
 	ready(){
 		var _this = this;
 		this.state.socket.on('get users', function (users) {
 			_this.setState({
 				users
+			})
+		});
+		this.state.socket.on('get list', function (messagesHistory) {
+			_this.setState({
+				messagesHistory
 			})
 		});
 		this.state.socket.on('send message', function (msg) {
@@ -207,7 +252,7 @@ class AsyncApp extends Component {
 							dir:'auto',
 							tag:'testTag',
 							renotify:false,
-							body:msg.message,
+							body:msg.message ? msg.message : msg.code,
 							icon:msg.avatorUrl,
 							image:msg.imageUrl,
 						})
@@ -219,8 +264,10 @@ class AsyncApp extends Component {
 
 	render() {
 		const { posts,isFetching } = this.props;
-		const { documentCookie,display,messages,message,users,page ,collapsed,clientWidth } = this.state;
+		const { messagesHistory, documentCookie,display,messages,message,users,page ,collapsed,clientWidth } = this.state;
 		posts.userName ? this.state.socket.emit('login', posts) : '';
+		console.log(this.state.codingClick)
+
 		return (
 			<Layout className="layout" onClick = {this.handleAllEventClick}>
 				<Header>
@@ -243,7 +290,6 @@ class AsyncApp extends Component {
 							<Row gutter={16} type="flex" justify="start" align="middle" key={i}>
 								<Col xs={{ span: 5, offset: 7 }}>
 									<Avatar 
-										shape="square" 
 										src={user.avatorUrl}
 										className="slideAvator"
 										icon='picture'
@@ -276,9 +322,8 @@ class AsyncApp extends Component {
 						<Layout id='messages' className='bodyContentMessages' onScroll={this.scroll}>
 							<div className="messagesHistory">
 								<h1><Spin/></h1>
-								{isFetching && posts.length === 0 && <h1><Spin/></h1>}
-								{posts.length > 0 && 
-									posts.slice(posts.length-30*page,posts.length).map((post, i) => (
+								{messagesHistory.length > 0 && 
+									messagesHistory.slice(messagesHistory.length-30*page,messagesHistory.length).map((post, i) => (
 										<div className='bodyContentMessagesList' key={i}>
 											<Row gutter={16} 
 												type="flex" 
@@ -289,7 +334,7 @@ class AsyncApp extends Component {
 												}} 
 													order={documentCookie.userName==post.userName?2:1} 
 													xs={{ span: clientWidth > 500 ? 2:4 }}>
-													<Avatar shape="square" 
+													<Avatar
 														style={{ 
 															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
 														}}
@@ -310,10 +355,17 @@ class AsyncApp extends Component {
 															{post.time}
 														</span>
 													</p>
-													<p className='messageContainer'>
+													<p className = 'messageContainer'
+														style = {{background : post.code ? '#2d2d2d' : '' }}
+														>
+														{post.message}
 														{post.imageUrl ? <img 
-															className='imageContainer' 
-															src={post.imageUrl}/> : post.message }
+															className = 'imageContainer' 
+															src = {post.imageUrl}/> : ''}
+														{post.code ? <Highlight 
+															className = 'JavaScript'>
+															{post.code}
+														</Highlight> : ''}
 													</p>
 												</Col>
 											</Row>
@@ -333,7 +385,7 @@ class AsyncApp extends Component {
 												}}
 													order={documentCookie.userName==post.userName?2:1} 
 													xs={{ span: clientWidth > 500 ? 2:4 }}>
-													<Avatar shape="square" 
+													<Avatar 
 														style={{
 															backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
 														}} 
@@ -346,7 +398,7 @@ class AsyncApp extends Component {
 													textAlign: documentCookie.userName==post.userName ? "right" : 'left'
 												}} 
 													order={documentCookie.userName==post.userName?1:2} 
-													xs={{ span: 16 }}>
+													xs={{span:16}}>
 													<p>
 														<span className='nameContainer'>
 															{post.userName}
@@ -355,11 +407,17 @@ class AsyncApp extends Component {
 															{post.time}
 														</span>
 													</p>
-													<p className='messageContainer'>
+													<p className = 'messageContainer'
+														style = {{background : post.code ? '#2d2d2d' : '' }}>
+														{post.message}
 														{post.imageUrl ? <img 
 															onLoad = {this.initScrollHeight} 
 															className = 'imageContainer' 
-															src = {post.imageUrl}/> : post.message}
+															src = {post.imageUrl}/> : ''}
+														{post.code ? <Highlight 
+															className = 'JavaScript'>
+															{post.code}
+														</Highlight> : ''}
 													</p>
 												</Col>
 											</Row>
@@ -382,7 +440,9 @@ class AsyncApp extends Component {
 								className='imgInputFile'
 								type="file" />
 							<span className = 'codingClick'>&lt;/></span>
-							
+							<AutoFuncArea 
+								codeClick = {this.state.codingClick} 
+								handleMsgChange = {this.handleMsgChange}/>
 						</div>
 						<Form className='bodyContentMessagesInputArea' onSubmit={this.handleMsgChange}>
 							<Input 

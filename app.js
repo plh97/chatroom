@@ -15,13 +15,14 @@ const Login = require('./src/server/routes/model/Login.model');
 const Register = require('./src/server/routes/model/Register.model');
 const jwt = require('jwt-simple');
 console.log("process.env.NODE_ENV ::",process.env.NODE_ENV )
-if (process.env.NODE_ENV === 'development') {
-  const db = 'mongodb://127.0.0.1/sampsite';
-  mongoose.connect(db, {useMongoClient: true});
-}else{
+if (process.env.NODE_ENV === 'production') {
   const db = 'mongodb://112.74.63.84/sampsite';
   mongoose.connect(db, {useMongoClient: true});
+}else{
+  const db = 'mongodb://127.0.0.1/sampsite';
+  mongoose.connect(db, {useMongoClient: true});
 }
+
 const connections = []
 let users=[]
 let usersInfo=[]
@@ -31,11 +32,6 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath));
-
-// router.get('/list',async ctx => {
-//   ctx.body = await Chat.find({})
-// })
-
 
 router.get('/list',async (ctx,next) => { 
   var html = await Chat.find({})
@@ -179,26 +175,41 @@ io.on('connection', function (socket) {
     io.emit("get users",usersInfo);
     socket.userName = userInfo.userName
     //send message
+    let time = new Date()
+    time = time.getMonth()+1+"月"+time.getDate()+"日" +" "+ ( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) +":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes())
     socket.on('send message',function(msg){
+      console.log(msg)
       const chatContent = new Chat({
         userName: userInfo.userName,
-        time: msg.time,
+        time: time,
         message: msg.msg,
+        code:msg.code,
         imageUrl: msg.imageUrl,
-        avatorUrl: msg.avatorUrl,
-        size: msg.size,
+        type: msg.type,
       });
       chatContent.save(function(err) {});
       io.emit('send message',{
         message:msg.msg,
-        time:msg.time,
+        code:msg.code,
+        time: time,
         userName:userInfo.userName,
         imageUrl:msg.imageUrl,
         avatorUrl:msg.avatorUrl,
-        size:msg.size
+        type: msg.type,
       })
     })
   });
+
+  socket.on('get list',async e=>{
+    var html = await Chat.find({})
+    var users = await Login.find({})
+    html.map((index,i)=>{
+      index.avatorUrl = users.find( user =>{
+        return user.userName === index.userName;
+      }).avatorUrl
+    })
+    io.emit("get list", await html);
+  })
   socket.on('change avator',async e=>{
     usersInfo.map((info,i)=>{
       if(info.userName==e.userName){
@@ -225,7 +236,7 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV !== 'production') {
   const config = require('./webpack.config')
   app.use(webpackMiddleware(webpack(config), {
     stats: {colors: true}

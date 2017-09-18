@@ -138,6 +138,7 @@ body{
 									display: inline-block;
 									background-color: #f1f1f1;
 									font-size: 16px;
+									text-align: left;
 									max-width: 100%;
 
 									.imageContainer{
@@ -245,6 +246,34 @@ body{
 							user-select: none;
 							&:hover{
 								opacity: 0.5;
+							}
+						}
+
+						.textAreaContainer{
+							position: absolute;
+							bottom: 35px;
+							width: auto;
+							height: auto;
+
+							&.display {
+								display: block;
+								animation-name: slidein;
+							}
+
+							&.none {
+								display: none;
+								animation-name: slideout;
+							}
+
+							.textArea {
+								color:#fff;
+								width: 50vw;
+								border-radius: 2px;
+								box-shadow: 0 0 10px #999;
+								height: auto;
+								background-color: rgba(255, 255, 255, 0.1);
+								font-size: 18px;
+								animation-duration: 0.4s;
 							}
 						}
 					}

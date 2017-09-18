@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 const ChatSchema = new Schema({
 	userName:String,
 	time:String,
-	avatorUrl: String,
 	message:String,
-	imageUrl: String
+	imageUrl: String,
+	avatorUrl: String,
+	code: String,
+	type: String
 });
 
 module.exports = mongoose.model("Chat",ChatSchema);
