@@ -236,9 +236,9 @@ io.on('connection', function (socket) {
   io.emit("get users",usersInfo);
 });
 server.listen(8080);
-if (process.env.NODE_ENV !== 'production') {
+// if (process.env.NODE_ENV !== 'production') {
   const config = require('./webpack.config')
   app.use(webpackMiddleware(webpack(config), {
     stats: {colors: true}
   }));
-}
+// }
