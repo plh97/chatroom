@@ -1,18 +1,19 @@
 @import "../common/commonStyle";
 
-h1{
-	text-align: center;
-}
-
 body{
+	#root{
+		height:100vh;
+	}
 	.routerContainer{
-		height:100%;
+		height:100vh;
 
 		.window{
-			width: 100%;
+			width: 100vw;
 		    bottom: 0;
 		    z-index: -1;
-			background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
+			// background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
+			background: url('http://res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg') no-repeat fixed;
+			background-size: cover;
 			height: 100%;
 			position: fixed;
 			background-repeat: no-repeat;
@@ -20,8 +21,9 @@ body{
 			.background{
 				filter: blur(10px);
 				margin: auto;
-				background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
-				height: 100%;
+				// background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
+				// background: url('http://res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg');
+				height: 100vh;
 				position: absolute;
 				background-repeat: no-repeat;
 				width: 100vw;
@@ -31,52 +33,108 @@ body{
 			}
 		}
 
-		.login-form{
-			width: 550px;
-			margin: 0 auto;
-			max-width: 90%;
-			padding-top: 30px; 
+		.login-form , .register-form{
+			display: grid;
+			grid-template-columns: 1fr 550px 1fr;
+			grid-template-rows: 1fr 34px 34px 1fr;
+			grid-template-areas:
+				'. header .'
+				'. userName .'
+				'. passWord .'
+				'. button .';
+			grid-gap: 1em;
 
-			.ant-input{
-				padding:0 20px;
-				font-size: 16px;
-				height: 40px;
+			.header{
+				justify-self: center;
+				grid-area: header;
 			}
+
+			.userName{
+				grid-area: userName;
+			}
+
+			.passWord {
+				grid-area: passWord;
+			}
+
+			.userName , .passWord {
+				position: relative;
+				display: inline-block;
+				width: 100%;
+
+				.prefix {
+					left: 7px;
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					z-index: 2;
+					line-height: 0;
+					color: rgba(0, 0, 0, 1);
+					font-weight: bold;
+				}
+
+				input {
+					z-index: 1;
+					min-height: 100%;
+					padding-left: 24px;
+					position: relative;
+					display: inline-block;
+					padding: 4px 24px;
+					width: 100%;
+					height: 28px;
+					font-size: 0.85rem;
+					line-height: 1.5;
+					color: rgba(0, 0, 0, 0.85);
+					font-weight: bold;
+					background-color: #fff;
+					background-image: none;
+					border: 1px solid #d9d9d9;
+					border-radius: 4px;
+					transition: all .3s;
+				}
+			}
+
+			.button{
+				grid-area: button;
+				justify-self: center;
+			}
+
 		}
 
-		.register-form{
-			width: 550px;
-			margin: 0 auto;
-			max-width: 90%;
-			padding-top: 30px;
-
-			.ant-input{
-				padding:0 20px;
-				font-size: 16px;
-				height: 40px;
-			}
-		}
-
-		.layout{
-			max-width: 1000px;
-			width: 100%;
-			height: 100%;
-			margin: auto;
+		.container{
+			height: 100vh;
 			background: hsla(0,0%,95%,0);
-			position: relative;
+			display: grid;
+			grid-template-columns: 1fr 1000px 1fr;
+			grid-template-areas:
+				'. header .'
+				'. body .';
+			grid-template-rows: 80px  calc(~'(100% - 80px)');
 
-			.ant-layout-header{
+			.header{
+				background-color: #242424;
+				border-bottom: 1px solid #000;
+				grid-area: header;
+				display: grid;
+				grid-template-columns: 100px 1fr 100px;
+				grid-template-areas: 'i h1 .';
+
 				h1{
-					text-align: center;
+					color:#fff;
+					grid-area: h1;
+					justify-self: center;
+					align-self: center;
 				}
 
 				i{
+					grid-area: i;
+					color: #787878;
+					justify-self: center;
+					align-self: center;
 					font-weight: bold;
-					position: absolute;
 					font-size: 26px;
-					top: 21px;
-					left: 21px;
 					cursor: pointer;
+
 					&:hover{
 						opacity: 0.5;
 					}
@@ -84,66 +142,218 @@ body{
 			}
 
 			.body{
-				overflow: auto;
-				//增加透明度
+				grid-area: body;
 				background: hsla(0,0%,95%,0.2);
+				grid-template-columns: 200px 1fr;
+				grid-template-rows: 100%;
+				display: grid;
+				grid-template-areas: 'slider bodyContent';
 
-				.bodySlider{
-					background: hsla(0,0%,95%,.0);
+				.slider {
 					border-right: 1px solid silver; 
+					grid-area: slider;
+					color:#fff;
+					overflow-y: scroll;
+					background: #3a3f45;
+
+					.title{
+						height: 45px;
+						// text-align: center;
+						color: #fff;
+						font-weight: bolder;
+						display: inline-block;
+						width: 100%;
+						border-bottom: 1px solid #292c33;
+						padding: 10px;
+					}
+
+					//房间循环
+					.roomList{
+						height: 64px;
+						border-bottom: 1px solid #292c33;
+						display: grid;
+						grid-template-columns: 70px 1fr;
+						grid-template-areas: 'slideAvator nameAvator';
+						cursor: pointer;
+						padding: 10px;
+						&:hover{
+							padding-left: 5px;
+						}
+
+						.slideAvator {
+							grid-area: slideAvator;
+							justify-self: center;
+							align-self: center;
+						}
+
+						.roomName {
+							grid-area: nameAvator;
+							justify-self: start;
+							align-self: center;
+						}
+					}
+
+					.addRoom{
+						height: 45px;
+						text-align: center;
+						color: #fff;
+						font-weight: bolder;
+						display: inline-block;
+						width: 100%;
+						border-bottom: 1px solid #292c33;
+						padding: 10px;
+						cursor: pointer;
+					}
 				}
 
 				.bodyContent{
-					flex: 1;
-					display: flex;
-					flex-direction: column;
-					position: relative;
-					max-height: 100%;
+					grid-area: bodyContent;
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
+					grid-template-areas: 
+						'bodyContentMessages' 
+						'bodyContentFeature' 
+						'bodyContentMessagesInputArea';
 
 					.bodyContentMessages{
-						width: 100%;
-						padding: 0 10px;
-						display: flex;
-						flex: 1;
-						flex-direction: column;
-						justify-content: stretch;
-						height: 100px;
+						grid-area: bodyContentMessages;
+						height: 100%;
 						overflow-y: scroll;
-						background: hsla(0,0%,95%,0);
 
-						.messagesHistory,.messagesNews {
-							// width: 95%;
+						.bodyContentMessagesList{
+							padding: 15px 0;
+							display: grid;
+							grid-template-rows: calc(~'(100% - 77px)');
 
-							.bodyContentMessagesList{
-								margin-bottom: 10px;
+							&.other{
+								grid-template-columns: 60px 1fr 160px;
+								grid-template-areas: 'avator content .';
+								.content{
+									justify-self: start;
 
-								.nameContainer{
+									.text{
+										background-color: #f1f1f1;
+										position: relative;
+
+										&::before{
+											position: absolute;
+											top: 10px;
+											border: 6px solid transparent;
+											content: " ";
+											border-right-color: #f1f1f1;
+											border-right-width: 4px;
+											right: 100%;
+										}
+									}
+
+									.code{
+										background-color: #2d2d2d;
+										position: relative;
+
+										&::before{
+											position: absolute;
+											top: 10px;
+											border: 6px solid transparent;
+											content: " ";
+											border-right-color: rgb(45, 45, 45);
+											border-right-width: 4px;
+											right: 100%;
+										}
+									}
+								}
+							}
+
+							&.me{
+								grid-template-columns: 160px 1fr 60px;
+								grid-template-areas: '. content avator';
+								.content{
+									justify-self: end;
+
+									.text{
+										background-color: #b2e281;
+										position: relative;
+
+										&::after{
+											position: absolute;
+											top: 10px;
+											border: 6px solid transparent;
+											content: " ";
+											border-left-color: #b2e281;
+											border-left-width: 4px;
+											left: 100%;
+										}
+									}
+
+									.code{
+										background-color: #b2e281;
+										position: relative;
+
+										&::after{
+											position: absolute;
+											top: 10px;
+											border: 6px solid transparent;
+											content: " ";
+											border-left-color: rgb(45, 45, 45);
+											border-left-width: 4px;
+											left: 100%;
+										}
+									}
+								}
+							}
+
+							.avator{
+								grid-area:avator;
+								justify-self: center;
+								align-self: start;
+								margin-top: 15px;
+							}
+
+							.content {
+								grid-area:content;
+								max-width: 100%;
+								display: grid;
+
+								.nameContainer {
 									font-weight: bolder;
 									font-size: 14px;
 									color: #202020;
 								}
 
-								.timeContainer{
+								.timeContainer {
 									font-size: 12px;
-									margin-left: 5px;
-									margin-bottom: 5px;
 								}
 
-								.messageContainer{
-									padding: 5px 10px;
+								.messageContainer {
+									max-width: 100%;
 									margin: 0;
-									box-shadow: 3px 3px 10px #aaa;
 									word-break: break-all;
 									border-radius: 10px;
 									display: inline-block;
-									background-color: #f1f1f1;
 									font-size: 16px;
 									text-align: left;
-									max-width: 100%;
+									justify-self: inherit;
 
-									.imageContainer{
+									&.text{
+										padding: 5px 10px;
+										box-shadow: 3px 3px 10px #aaa;
+									}
+
+									&.code{
+										box-shadow: 3px 3px 10px #aaa;
+										// overflow-x: hidden;
+
+										pre{
+											border-radius: 10px;
+										}
+									}
+
+									&.image{
 										max-width: 100%;
-										border-radius: 2%;
+
+										.imageContainer{
+											border-radius: 2%;
+										}
 									}
 								}
 							}
@@ -151,6 +361,7 @@ body{
 					}
 
 					.bodyContentFeature{
+						grid-area: bodyContentFeature;
 						display: flex;
 						flex-direction: row;
 						justify-content: center;
@@ -266,7 +477,7 @@ body{
 							}
 
 							.textArea {
-								color:#fff;
+								color:#000;
 								width: 50vw;
 								border-radius: 2px;
 								box-shadow: 0 0 10px #999;
@@ -279,13 +490,13 @@ body{
 					}
 
 					.bodyContentMessagesInputArea {
+						grid-area: bodyContentMessagesInputArea;
 						display: flex;
 						flex-direction: row;
 						justify-content: center;
 						align-items: flex-start;
 						width: 100%;
 						z-index: 1;
-						min-height: 72px;
 
 						.bodyContentMessagesInput{
 							width: 450px;

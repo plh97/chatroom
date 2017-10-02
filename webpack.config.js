@@ -23,12 +23,12 @@ module.exports = {
     chunkFilename:'[name].[chunkhash].js',
     path: path.join(__dirname, "dist"),
   },
-  "resolve": {
-    "alias": {
-      "react": "preact-compat",
-      "react-dom": "preact-compat"
-    }
-  },
+  // "resolve": {
+  //   "alias": {
+  //     "react": "preact-compat",
+  //     "react-dom": "preact-compat"
+  //   }
+  // },
   module: {
     rules:[
       {
@@ -59,7 +59,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new ManifestPlugin(path.join('dist', 'manifest.json')),
     new HtmlWebpackPlugin({
-      title: 'react',
+      title: 'Chatroom',
       favicon:'./favicon.ico',
       template: './src/client/template/index.ejs',
       inject: true, //允许插件修改哪些内容，包括head与body

@@ -1,43 +1,22 @@
 import React from 'react'
 import { Link ,Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import {
-	fetchPostsIfNeeded,
-	inputSubreddit
-} from '../actions'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-const FormItem = Form.Item;
+import { Icon, Input, Button } from 'antd';
+import { inject, observer } from "mobx-react"
 
-class Login extends React.Component {
+@inject("store")
+@observer
+export default class Login extends React.Component {
 	constructor(props){
-		super(props);
+		super(props)
 		this.state = {
-			documentCookie:{},
-			url:'/login'
+			type: 'login',
+			token: localStorage.token
 		}
 	}
-
 	componentDidMount() {
-		const { dispatch } = this.props
-		const { documentCookie } = this.state
-		document.cookie.split(';').map((index,i)=>{
-			documentCookie[index.split("=")[0].split(" ").join('')] = index.split("=")[1]
-		})
-		dispatch(inputSubreddit({ 
-			url:'/islogin',
-			token:documentCookie.token,
-			userName:documentCookie.userName,
-			avatorUrl:documentCookie.avatorUrl
-		}))
-		dispatch(fetchPostsIfNeeded({ 
-			url:'/islogin',
-			token:documentCookie.token,
-			userName:documentCookie.userName,
-			avatorUrl:documentCookie.avatorUrl
-		}))
+		localStorage.token ? this.props.store.socket({url:'login',...this.state}) : ""
+		this._input.focus();
 	}
-
 
 	onUserNameChange = (e) => {
 		this.setState({
@@ -53,82 +32,50 @@ class Login extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const { dispatch } = this.props
-		dispatch(inputSubreddit(this.state))
-		dispatch(fetchPostsIfNeeded(this.state))
+        if(!this.state.userName){
+            this.props.store.tipFunc("用户名不能为空")
+        }else if(!this.state.passWord){
+            this.props.store.tipFunc("密码不能为空")
+        }else{
+			this.props.store.socket({
+				url:'login',
+				...this.state
+			})
+        }
 	}
 
 	render() {
-		const { posts,isFetching } = this.props
-		const formItemLayout = {
-			labelCol: {
-				xs: { span: 24 },
-				sm: { span: 6 },
-			},
-			wrapperCol: {
-				xs: { span: 24 },
-				sm: { span: 14 },
-			},
-		};
-    	const tailFormItemLayout = {
- 	     	wrapperCol: {
-    		    xs: {
-    				span: 14,
-   					offset: 10,
-        		},
-        		sm: {
-					span: 14,
-					offset: 11,
-        		},
-      		},
-    	};
+		const { callBack,tip } = this.props.store
+		if( callBack && ( callBack.code==0 ) ){
+			localStorage.setItem("token", callBack.token);
+		}
 		return (
-			<Form onSubmit={this.handleSubmit} className="login-form">
-				{posts && posts.code==0  ? document.cookie='token='+posts.token : '' }
-				{posts && posts.code==0  ? document.cookie='userName='+posts.userName : '' }
-				{posts && posts.code==0  ? document.cookie='avatorUrl='+posts.avatorUrl : '' }
-				<h1>{posts && (posts.code==0||posts.code==2)  ? <Redirect to='/chat'/> : posts.message }</h1>
-				<FormItem {...formItemLayout} label="用户名">
-				    <Input 
-				    	onChange={this.onUserNameChange} 
-				    	prefix={<Icon type="user" style={{ fontSize: 13 }} />} 
-				    	placeholder="用户名" 
-				    />
-				</FormItem>
-				<FormItem {...formItemLayout} label="密码">
-				    <Input 
-				    	onChange={this.onPassWordChange} 
-				    	prefix={<Icon type="lock" style={{ fontSize: 13 }} />} 
-				    	type="密码" 
-				    	placeholder="Password" 
-				    />
-				</FormItem>
-				<FormItem {...tailFormItemLayout}>
+			<form onSubmit={this.handleSubmit} className="login-form">
+				<h1 className = 'header'>
+					&nbsp;
+					{callBack && ( callBack.code==0 || callBack.code==2) ? <Redirect to='/chat'/> : tip }
+				</h1>
+				<div className="userName">
+					<Icon className="prefix" type="user" style={{ fontSize: 13 }} />
+					<input id="userName" 
+						ref={ (c)=> this._input = c }
+						onChange={this.onUserNameChange} 
+						placeholder="用户名" />
+				</div>
+				<div className="passWord">
+					<Icon className="prefix" type="lock" style={{ fontSize: 13 }} />
+					<input 
+						onChange={this.onPassWordChange} 
+						type="password"
+						placeholder="Password" />
+				</div>
+				<div className="button">
 					<Button type="primary" htmlType="submit" className="login-form-button">
 						登 陆
 					</Button>
 					Or <Link to="/register">注 册</Link>
-				</FormItem>
-			</Form>
+				</div>
+			</form>
 		)
 	}
 }
-
-
-function mapStateToProps(state) {
-	const { inputSubreddit, postsBySubreddit } = state
-	const {
-		isFetching,
-		items: posts
-	} = postsBySubreddit[inputSubreddit] || {
-		items: [],
-		isFetching:true
-	}
-	return {
-		inputSubreddit,
-		isFetching,
-		posts
-	}
-}
-
-export default connect(mapStateToProps)(Login)

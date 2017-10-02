@@ -2,22 +2,6 @@ import React from 'react'
 import { Button , Form, Input } from 'antd';
 
 const { TextArea } = Input;
-
-// const word = [
-// 	"function",
-// 	"getElementById('')",
-// 	"console.log()",
-// 	"var",
-// 	"let",
-// 	"const",
-// 	"async",
-// 	"await",
-// 	"constructor",
-// 	"export default",
-// 	"export",
-// 	"this.state",
-// 	"this.props",
-// ]
 let keyCombination = []
 
 
@@ -30,17 +14,23 @@ export default class Complete extends React.Component {
 		}
 	}
 
+	handleChange = (e) =>{
+		this.setState({
+			value:e.target.value
+		})
+	}
+
 	handleKeyDown = (e) =>{
 		var input = e.target
 		var rangeData = {text: "", start: input.selectionStart , end: input.selectionEnd };
 		keyCombination.push(e.key)
-		setTimeout(()=>{
-			keyCombination=[]
-		},1000)
 		switch(keyCombination.toString()){
 			case ['Control','Enter'].toString() :
-				console.log(e.target.value)
-				this.props.handleMsgChange({coding:e.target.value})
+				keyCombination=[]
+				e.target.value.length>0 && this.props.handleMsgSubmit({
+					code:e.target.value,
+					type:'code',
+				})
 				this.setState({
 					value:''
 				})
@@ -102,6 +92,7 @@ export default class Complete extends React.Component {
 	}
 
 	handleKeyUp = (e) =>{
+		keyCombination = []
 		var input = e.target
 		var rangeData = { start: input.selectionStart , end: input.selectionEnd };
 		switch(e.key){
@@ -120,17 +111,19 @@ export default class Complete extends React.Component {
 	}
 
 	render() {
-		const {dateBase} = this.state
+		const {value} = this.state
 		return (
 			<Form className={ this.props.codeClick ? 'textAreaContainer display' : 'none textAreaContainer' }>
 				<TextArea 
 					className = "textArea" 
 					id = "textArea" 
+					value = {value}
 					placeholder = 'Ctrl + Enter to submit'
 					autosize = {{ minRows: 4, maxRows: 16 }} 
 					onKeyDown = {this.handleKeyDown}
 					onChange = {this.handleChange}
-					onKeyUp = {this.handleKeyUp}/>
+					onKeyUp = {this.handleKeyUp}
+					/>
 			</Form>
 
 		);
