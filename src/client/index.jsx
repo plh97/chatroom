@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {render} from 'react-dom'
-// import AsyncApp from './containers/AsyncApp.jsx'
-// import Login from './components/Login.jsx'
-// import Register from './components/Register.jsx'
+import AsyncApp from './containers/AsyncApp.jsx'
+import Login from './components/Login.jsx'
+import Register from './components/Register.jsx'
 import {
 	BrowserRouter as Router,
 	Route,
@@ -14,22 +14,19 @@ import {Provider} from "mobx-react"
 
 export default class Root extends Component{
 	render(){
-		return <h1>123</h1>
+		return(
+			<Provider store={store}>
+				<Router>
+					<div className='routerContainer' >
+						<Route exact path="/" component={Login} />
+						<Route path="/register" component={Register} />
+						<Route path="/chat" component={AsyncApp} />
+						<div className="window"></div>
+					</div>
+				</Router>
+			</Provider>
+		)
 	}
-	// render(){
-	// 	return(
-	// 		<Provider store={store}>
-	// 			<Router>
-	// 				<div className='routerContainer' >
-	// 					<Route exact path="/" component={Login} />
-	// 					<Route path="/register" component={Register} />
-	// 					<Route path="/chat" component={AsyncApp} />
-	// 					<div className="window"></div>
-	// 				</div>
-	// 			</Router>
-	// 		</Provider>
-	// 	)
-	// }
 }
 
 render(

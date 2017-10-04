@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Spin, Input, Avatar, Icon,Button } from 'antd'
 import io from 'socket.io-client';
 import Emoji from '../assets/emoji/Emoji.js'
-import AutoFuncArea from '../components/AutoFuncArea.jsx'
+import SublimeText from './SublimeText.jsx'
+import RoomDetails from './RoomDetails.jsx'
 import Highlight from 'react-syntax-highlighter'
 import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
 import { inject, observer } from "mobx-react"
@@ -22,23 +23,16 @@ export default class AsyncApp extends Component {
 			codingClick:true,
 			size:0,
 			type:"text",
-			socket,
 			url:'send message',
 		}
-	}
-	//只在初始化的时候只执行一次
-	componentDidMount() {
-		//获取该房间历史消息记录
-		this._textInput.focus();
 	}
 
 	handleMsgSubmit = (e) => {
 		//如果发的内容为空,退出函数
 		//text && code && messageImage
-		console.log(e)
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
-			url:'send message',
+			url: 'send message',
 			userId: this.props.store.userId,
 			myName: this.props.store.myName,
 			nowRoom: this.props.store.nowRoom,
@@ -50,6 +44,7 @@ export default class AsyncApp extends Component {
 			type: e.type,
 		})
 		this._textInput.value = ''
+		this.props.store.showCodeEditFunc(false)
 	}
 
 	handleImage = (e) => {
@@ -72,14 +67,13 @@ export default class AsyncApp extends Component {
 
 	render() {
 		const { match } = this.props
-		const { nowRoomFunc, messagesList,doing,myName } = this.props.store;
+		const { nowRoomFunc , messagesList , doing , myName ,showEmoji , showEmojiFunc } = this.props.store;
 		return (
 			<div className='bodyContent'>
+				<RoomDetails/>
 				<div className='bodyContentMessages'>
 					{messagesList.map((post, i) => (
-						<div
-							className={`bodyContentMessagesList ${post.userName==myName ? 'me' : 'other'}`} 
-							key={i}>
+						<div className={`bodyContentMessagesList ${post.userName==myName ? 'me' : 'other'}`} key={i}>
 							<Avatar
 								className='avator'
 								style={{ 
@@ -89,9 +83,7 @@ export default class AsyncApp extends Component {
 								size="large">{post.userName.split("")[0]}
 							</Avatar>
 							<div className='content'>
-								<p style={{
-									textAlign:'right'
-								}}>
+								<p className='messageTittle'>
 									<span className='nameContainer'>
 										{post.userName}
 									</span>
@@ -119,8 +111,8 @@ export default class AsyncApp extends Component {
 					))}
 				</div>
 				<div className="bodyContentFeature">
-					<Icon className = 'emojiClick' type = 'smile-o'/>
-					<div className={this.state.emojiClick ? 'emojiContainer display' : 'none emojiContainer'}>
+					<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
+					<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
 						{emoji.map((index,i)=>(
 							<span key={i} className = "emoji">{index}</span>
 						))}
@@ -133,9 +125,7 @@ export default class AsyncApp extends Component {
 						className='imgInputFile'
 						type="file" />
 					<span className = 'codingClick'>&lt;/></span>
-					<AutoFuncArea 
-						codeClick = {this.state.codingClick} 
-						handleMsgSubmit = {this.handleMsgSubmit}/>
+					<SublimeText handleMsgSubmit={this.handleMsgSubmit}/>
 				</div>
 				<form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
 					e.preventDefault();

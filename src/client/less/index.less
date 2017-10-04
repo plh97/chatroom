@@ -11,7 +11,6 @@ body{
 			width: 100vw;
 		    bottom: 0;
 		    z-index: -1;
-			// background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
 			background: url('http://res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg') no-repeat fixed;
 			background-size: cover;
 			height: 100%;
@@ -21,8 +20,6 @@ body{
 			.background{
 				filter: blur(10px);
 				margin: auto;
-				// background: url('http://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/154/154-bigskin-1.jpg');
-				// background: url('http://res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg');
 				height: 100vh;
 				position: absolute;
 				background-repeat: no-repeat;
@@ -117,19 +114,25 @@ body{
 				grid-area: header;
 				display: grid;
 				grid-template-columns: 100px 1fr 100px;
-				grid-template-areas: 'i h1 .';
+				grid-template-areas: 'i h1 ant-avatar';
+				z-index: 2;
 
 				h1{
-					color:#fff;
+					color: #fff;
 					grid-area: h1;
 					justify-self: center;
 					align-self: center;
+
+					&.toggleDetail{
+						cursor: pointer;
+					}
 				}
 
 				i{
 					grid-area: i;
 					color: #787878;
 					justify-self: center;
+					font-weight: bolder;
 					align-self: center;
 					font-weight: bold;
 					font-size: 26px;
@@ -137,6 +140,22 @@ body{
 
 					&:hover{
 						opacity: 0.5;
+					}
+				}
+
+				.ant-avatar{
+					grid-area: ant-avatar;
+					justify-self: center;
+					align-self: center;
+					cursor: pointer;
+					width: 60px;
+					height: 60px;
+					// line-height: 40px;
+					font-size: 24px;
+					border-radius: 30px;
+
+					*{
+						line-height: 60px;
 					}
 				}
 			}
@@ -209,12 +228,89 @@ body{
 				.bodyContent{
 					grid-area: bodyContent;
 					display: grid;
+					position: relative;
 					grid-template-columns: 1fr;
 					grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
 					grid-template-areas: 
 						'bodyContentMessages' 
 						'bodyContentFeature' 
 						'bodyContentMessagesInputArea';
+
+					.bodyContentRoomDetails{
+						position: absolute;
+						cursor: context-menu;
+						width: 100%;
+						padding: 10px;
+						background-color: #eee;
+						border-bottom: 1px solid #dedede;
+						margin-top: 1px;
+						box-shadow: 1px 1px 1px #e0e0e0;
+						-moz-box-shadow: 1px 1px 1px #e0e0e0;
+						-webkit-box-shadow: 1px 1px 1px #e0e0e0;
+						display: grid;
+						grid-gap: 1em;
+						// animation-duration: 0.4s;
+						transition: 0.4s;
+						display: block;
+						z-index: 1;
+
+						&.show{
+							// animation-name: slidein;
+							opacity: 1;
+							top: 0;
+						}
+
+						&.hide{
+							opacity: 0;
+							top: -50px;
+							background-color: rgba(197, 202, 209, 0.5);
+							// animation-name: slideout;
+						}
+
+						.administrator{
+							grid-area: administrator;
+						}
+
+						.members {
+							grid-area: members;
+						}
+
+						.members, .administrator{
+					    	display: grid;
+					    	grid-template-columns: 60px 1fr;
+							grid-template-areas: 
+								'title avatorContainer';
+
+					    	.title{
+					    		grid-area: title;
+			    				justify-self: end;
+			    				align-self: center;
+					    	}
+
+					    	.avatorContainer {
+					    		grid-area: avatorContainer;
+
+					    		.avator{
+						    		display: inline-grid;
+						    		grid-template-columns: 64px;
+						    		grid-template-areas: 
+						    			'slideAvator' 'nameAvator';
+
+					    			.slideAvator {
+					    				grid-area: slideAvator;
+					    				justify-self: center;
+					    				align-self: center;
+					    			}
+
+					    			.name {
+					    				grid-area: nameAvator;
+					    				justify-self: center;
+					    				color:#888
+					    			}
+					    		}
+					    	}
+					    }
+					}
 
 					.bodyContentMessages{
 						grid-area: bodyContentMessages;
@@ -269,6 +365,10 @@ body{
 								grid-template-areas: '. content avator';
 								.content{
 									justify-self: end;
+
+									.messageTittle{
+										text-align: right;
+									}
 
 									.text{
 										background-color: #b2e281;
@@ -331,7 +431,6 @@ body{
 									border-radius: 10px;
 									display: inline-block;
 									font-size: 16px;
-									text-align: left;
 									justify-self: inherit;
 
 									&.text{
@@ -380,7 +479,7 @@ body{
 							box-shadow: 0 0 10px #999;
 							height: auto;
 							background-color: rgba(255, 255, 255, 0.1);
-							font-size: 30px;
+							font-size: 21px;
 							animation-duration: 0.4s;
 
 							&.display {
@@ -396,30 +495,6 @@ body{
 							.emoji{
 								cursor: pointer;
 								user-select: none
-							}
-						}
-
-						@keyframes slidein {
-							from {
-								transform:scale(0.4);
-								opacity: 0.4;
-							}
-
-							to {
-								opacity: 1;
-								transform:scale(1);
-							}
-						}
-
-						@keyframes slideout {
-							from {
-								transform:scale(1);
-								opacity: 1;
-							}
-
-							to {
-								transform:scale(0.4);
-								opacity: 0.4;
 							}
 						}
 
@@ -450,7 +525,7 @@ body{
 
 						.codingClick {
 							cursor:pointer;
-							font-size: 24px;
+							font-size: 20px;
 							color: @grey9;
 							font-weight: bolder;
 							margin: 0 10px; 
@@ -517,6 +592,29 @@ body{
 	}
 }
 
+@keyframes slidein {
+	from {
+		transform:scale(0.4);
+		opacity: 0.4;
+	}
+
+	to {
+		opacity: 1;
+		transform:scale(1);
+	}
+}
+
+@keyframes slideout {
+	from {
+		transform:scale(1);
+		opacity: 1;
+	}
+
+	to {
+		transform:scale(0.4);
+		opacity: 0.4;
+	}
+}
 
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {

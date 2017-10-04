@@ -16,6 +16,7 @@ module.exports = {
       'redux',
       'react-redux',
       'react-router-dom',
+      'react-syntax-highlighter'
     ]
   },
   output: {

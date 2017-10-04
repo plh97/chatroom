@@ -1,11 +1,13 @@
 import React from 'react'
 import { Button , Form, Input } from 'antd';
-
+import { inject, observer } from "mobx-react"
 const { TextArea } = Input;
 let keyCombination = []
 
 
-export default class Complete extends React.Component {
+@inject("store")
+@observer
+export default class SublimeText extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -113,7 +115,7 @@ export default class Complete extends React.Component {
 	render() {
 		const {value} = this.state
 		return (
-			<Form className={ this.props.codeClick ? 'textAreaContainer display' : 'none textAreaContainer' }>
+			<Form className={ this.props.store.showCodeEdit ? 'textAreaContainer display' : 'none textAreaContainer' }>
 				<TextArea 
 					className = "textArea" 
 					id = "textArea" 

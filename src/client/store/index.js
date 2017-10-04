@@ -27,10 +27,14 @@ class User {
 class TodoStore {
 	@observable userId = ''
 	@observable myName = ''
+	@observable showRoomDetail = false
+	@observable showEmoji = false
+	@observable showCodeEdit = false
 	@observable nowRoom = ''
+	@observable nowRoomAdministratorList = []
 	@observable myAvatorUrl = ''
 	@observable code = ''
-	@observable nowUsersId = []
+	@observable members = []
 	@observable messageImageUrl = ''
 	@observable messageType = 'text'
 	@observable messagesList = []
@@ -42,17 +46,22 @@ class TodoStore {
 	@action socket = (state) => {
 		socket.emit(state.url , state)
 	}
-	tipFunc(state) {
+	@action tipFunc = (state) => {
 		this.tip = state
 	}
-	nowRoomFunc(state) {
+	@action nowRoomFunc = (state) => {
 		this.nowRoom = state
 	}
+	@action showRoomDetailFunc = (state) => {
+		this.showRoomDetail = state
+	}
+	@action showCodeEditFunc = (state) => {
+		this.showCodeEdit = state
+	}
+	@action showEmojiFunc = (state) => {
+		this.showEmoji = state
+	}
 	constructor(){
-		socket.on('user left',(json) => {
-			this.doing = false
-			console.log('user left',json)
-		})
 		socket.on('user joined', json => {
 			this.doing = false
 			this.callBack = json
@@ -60,22 +69,23 @@ class TodoStore {
 			this.userId = json.userId
 			this.myName = json.userName
 			this.myAvatorUrl = json.avatorUrl
-			console.log('user joined',json)
+			// console.log('user joined',json)
 		})
 		socket.on('get users', json => {
-			console.log('this.users',json)
+			// console.log('this.users',json)
 			this.users = json
 		})
 		socket.on('get roomsList', json => {
-			console.log('this.roomList',json)
+			// console.log('this.roomList',json)
 			this.roomsList = json
 		})
 
 		socket.on('get messagesList', json => {
 			console.log('get messagesList',json)
 			this.messagesList = json.messagesList
-			this.nowUsersId = json.members
+			this.members = json.members
 			this.nowRoom = json.nowRoom
+			this.nowRoomAdministratorList = json.administratorList
 		})
 
 		socket.on('send message', json => {
@@ -89,10 +99,6 @@ class TodoStore {
 			}else{
 				this.roomsList.push(json)
 			}
-		})
-
-		socket.on('/chat', json => {
-				console.log(json)
 		})
 	}
 }
