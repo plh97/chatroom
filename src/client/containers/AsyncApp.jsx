@@ -5,12 +5,10 @@ import {
 	Link
 } from 'react-router-dom'
 import { Avatar, Icon,Button } from 'antd'
-import io from 'socket.io-client';
 import BodyContent from '../components/BodyContent.jsx'
 import { inject, observer } from "mobx-react"
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 console.log('process.env.NODE_ENV: ',process.env.NODE_ENV)
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1:8080/');
 
 
 //TodoList
@@ -27,7 +25,6 @@ export default class AsyncApp extends Component {
 		this.state = {
 			color: colorList,
 			files:'',
-			socket,
 		}
 	}
 

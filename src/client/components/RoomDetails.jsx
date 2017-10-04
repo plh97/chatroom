@@ -1,10 +1,6 @@
 import React from 'react'
 import { Button ,Avatar, Icon } from 'antd';
-import {  } from 'antd'
-
-import io from 'socket.io-client';
 import { inject, observer } from "mobx-react"
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1:8080/');
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 
 @inject("store")
@@ -32,14 +28,14 @@ export default class RoomDetails extends React.Component {
 			response => response.json()
 		).then(
 			success => {
-				this.props.store.socket.emit('change avator',
-					{ 
-						avatorUrl : success.data.url, 
-						userId : userId
-					}
-				);
-				document.cookie = 'avatorUrl=' + success.data.url
-				this.state.socket.emit('get list')
+				// this.props.store.socket.emit('change avator',
+				// 	{ 
+				// 		avatorUrl : success.data.url, 
+				// 		userId : userId
+				// 	}
+				// );
+				// document.cookie = 'avatorUrl=' + success.data.url
+				// this.state.socket.emit('get list')
 			}
 		)
 	}

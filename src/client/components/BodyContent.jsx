@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Spin, Input, Avatar, Icon,Button } from 'antd'
-import io from 'socket.io-client';
 import Emoji from '../assets/emoji/Emoji.js'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
@@ -9,7 +8,6 @@ import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
 import { inject, observer } from "mobx-react"
 const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
 const emoji = Emoji.split(' ')
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : 'http://127.0.0.1:8080/');
 
 @inject("store")
 @observer
