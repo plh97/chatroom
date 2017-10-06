@@ -18,7 +18,7 @@ const Room = require('./src/server/routes/model/Room.model');
 const jwt = require('jwt-simple');
 console.log("process.env.NODE_ENV :",process.env.NODE_ENV )
 if (process.env.NODE_ENV === 'production') {
-  const db = 'mongodb://97.64.81.222/sampsite';
+  const db = 'mongodb://112.74.63.84/sampsite';
   mongoose.connect(db, {useMongoClient: true});
 }else{
   const db = 'mongodb://127.0.0.1/sampsite';

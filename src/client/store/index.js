@@ -1,6 +1,6 @@
 import { action,useStrict,computed , observable } from "mobx";
 import io from 'socket.io-client';
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://97.64.81.222/' : '');
+const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : '');
 
 class List {
 	@observable message
