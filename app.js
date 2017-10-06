@@ -18,7 +18,7 @@ const Room = require('./src/server/routes/model/Room.model');
 const jwt = require('jwt-simple');
 console.log("process.env.NODE_ENV :",process.env.NODE_ENV )
 if (process.env.NODE_ENV === 'production') {
-  const db = 'mongodb://112.74.63.84/sampsite';
+  const db = 'mongodb://97.64.81.222/sampsite';
   mongoose.connect(db, {useMongoClient: true});
 }else{
   const db = 'mongodb://127.0.0.1/sampsite';
@@ -128,11 +128,22 @@ let token;
 let signUp;
 let userId;
 let List;
-let roomsList;
+let roomList;
 let usersForFound;
 // let ListContainer;
 io.on('connection', function (socket) {
   socket.defaultRoom = "Moonlight"
+  socket.userInfo={
+    name:'',
+    id:'',
+    avatorUrl:'',
+    token:'',
+  }
+  socket.currentRoomInfo={
+    name:'',
+    id:'',
+    avatorUrl:''
+  }
   socket.on('login', async json => {
     if(!json.userName && json.token){
       if(tokenList.indexOf(json.token) === -1){
@@ -142,30 +153,30 @@ io.on('connection', function (socket) {
           code:1
         });
       }else if(tokenList.indexOf(json.token) >= 0){
-        socket.token = json.token
-        tokenList.splice(tokenList.indexOf(socket.token),1)
-        tokeningList.push(socket.token)
+        socket.userInfo.token = json.token
+        tokenList.splice(tokenList.indexOf(socket.userInfo.token),1)
+        tokeningList.push(socket.userInfo.token)
         Login
           .find({userName: jwt.decode(json.token,'jwt').userName})
           .exec( async (err,db) => {
             if(db.length>0){
               //如果该token解码的用户名可以在数据库找到
-              socket.userName = db[0].userName;
+              socket.userInfo.name = db[0].userName;
               users.push(db[0].userName)
               // usersForFound = await Login.find({})
               //我需要将该用户所在所有的房间名字列表发送到前台
               //房间列表
               List = await Room.find({})
-              roomsList = List.filter( index =>{
-                return index.members.indexOf(db[0].userId)>-1
+              roomList = List.filter( index =>{
+                return index.memberList.indexOf(db[0].userId)>-1
               })
-              roomsList = roomsList.map( index => {
+              roomList = roomList.map( index => {
                 return {
-                  roomName: index.roomName,
-                  roomAvatorUrl: index.roomAvatorUrl
+                  name: index.name,
+                  avatorUrl: index.avatorUrl
                 }
               })
-              socket.emit('get roomsList', roomsList);
+              socket.emit('get roomList', roomList);
               io.emit('get users', users);
               socket.emit('user joined', {
                 info:'已登录',
@@ -191,24 +202,24 @@ io.on('connection', function (socket) {
         Login
           .find({userName: json.userName})
           .exec( async (err,db) => {
-            socket.token = jwt.encode({ userName: json.userName } , 'jwt');
-            if(tokeningList.indexOf(socket.token) == -1 && db.length == 1){
+            socket.userInfo.token = jwt.encode({ userName: json.userName } , 'jwt');
+            if(tokeningList.indexOf(socket.userInfo.token) == -1 && db.length == 1){
               //if password right,can login
               if(db[0].passWord == json.passWord){
-                socket.userName = json.userName;
+                socket.userInfo.name = json.userName;
                 users.push(db[0].userName)
                 usersForFound = await Login.find({})
                 List = await Room.find({})
-                roomsList = List.filter( index =>{
-                  return index.members.indexOf(db[0].userId)>-1
+                roomList = List.filter( index =>{
+                  return index.memberList.indexOf(db[0].userId)>-1
                 })
-                roomsList = roomsList.map( index => {
+                roomList = roomList.map( index => {
                   return {
-                    roomName: index.roomName,
-                    roomAvatorUrl: index.roomAvatorUrl
+                    name: index.name,
+                    avatorUrl: index.avatorUrl
                   }
                 })
-                socket.emit('get roomsList', roomsList);
+                socket.emit('get roomList', roomList);
                 io.emit('get users', users);
                 // tokenList.push(token)
                 socket.emit('user joined', {
@@ -217,7 +228,7 @@ io.on('connection', function (socket) {
                   numUsers: users.length,
                   code:0,
                   userId: db[0].userId,
-                  token:socket.token,
+                  token:socket.userInfo.token,
                   avatorUrl:db[0].avatorUrl?db[0].avatorUrl:'',
                   userName:db[0].userName
                 });
@@ -228,7 +239,7 @@ io.on('connection', function (socket) {
                   code:1
                 });
               }
-            }else if(tokeningList.indexOf(socket.token) != -1){
+            }else if(tokeningList.indexOf(socket.userInfo.token) != -1){
               socket.emit('user joined', {
                 info:'userName not allow to login repeat',
                 message:'用户不可被重复登录',
@@ -255,14 +266,14 @@ io.on('connection', function (socket) {
               });
             }else{
               //用户名未被注册
-              socket.userName = json.userName;
-              socket.userId = jwt.encode({ userName: json.userName,random:Math.random() } , 'jwt' )
-              socket.token = jwt.encode({ userName: json.userName } , 'jwt');
+              socket.userInfo.name = json.userName;
+              socket.userInfo.id = jwt.encode({ userName: json.userName,random:Math.random() } , 'jwt' )
+              socket.userInfo.token = jwt.encode({ userName: json.userName } , 'jwt');
               users.push(json.userName)
               io.emit('get users', users);
               //注册用户名密码
               signUp = new Login({
-                userId: socket.userId,
+                userId: socket.userInfo.id,
                 userName: json.userName,
                 passWord: json.passWord,
                 avatorUrl: ''
@@ -270,54 +281,49 @@ io.on('connection', function (socket) {
               signUp.save(function(err) {});
               //更新room里面的users数组，将新用户添加进去
               Room
-                .find({roomName : socket.defaultRoom})
+                .find({name : socket.defaultRoom})
                 .exec( async (err,db) => {
                   if(db.length==0){
                     //如果找不到，新建一个房间
                     RoomList = new Room({
-                      roomName : socket.defaultRoom,
-                      creator: socket.userId,
-                      administrator : [socket.userId]
+                      name : socket.defaultRoom,
+                      creator: socket.userInfo.id,
+                      administratorList : [socket.userInfo.id],
+                      memberList : [socket.userInfo.id]
                     });
-                    RoomList.save( async(err) => {
-                      //无论有无默认房间，无则先创建了新房间，加入默认房间，有则加入默认房间
-                      await Room.update(
-                        { roomName : socket.defaultRoom },
-                        { $push :{members: socket.userId} }
-                      )
-                    });
+                    RoomList.save(function(err) {});
                   }else if(db.length>0){
-                    //无论有无默认房间，无则先创建了新房间，加入默认房间，有则加入默认房间
+                    //加入默认房间
                     await Room.update(
-                      { roomName : socket.defaultRoom },
-                      { $push :{members: socket.userId} }
+                      { name : socket.defaultRoom },
+                      { $push :{memberList: socket.userInfo.id} }
                     )
                   }
                 })
-              
               usersForFound = await Login.find({})
-              List = await Room.find({roomName:socket.defaultRoom})
+              List = await Room.find({name:socket.defaultRoom})
               //首先将该用户id所在的房间筛选出来
-              roomsList = List.filter( index =>{
-                return index.members.indexOf(socket.userId)>-1
+              roomList = List.filter( index =>{
+                return index.memberList.indexOf(socket.userInfo.id)>-1
               })
-              roomsList = roomsList.map( index => {
+              roomList = roomList.map( index => {
                 return {
-                  roomName: index.roomName,
-                  roomAvatorUrl: index.roomAvatorUrl
+                  name: index.name,
+                  avatorUrl: index.avatorUrl
                 }
               })
-              socket.emit('get roomsList', roomsList);
+              socket.emit('get roomList', roomList);
               io.emit('get users', users);
               // tokenList.push(token)
+              console.log('socket.userInfo',socket.userInfo)
               socket.emit('user joined', {
                 info:'signUp successed',
                 message:'注册成功',
-                token:socket.token,
-                userId: socket.userId,
+                token:socket.userInfo.token,
+                userId: socket.userInfo.id,
                 numUsers: users.length,
                 code:0,
-                userName:json.userName,
+                userName:socket.userInfo.name,
                 avatorUrl:''
               });
             }
@@ -326,14 +332,14 @@ io.on('connection', function (socket) {
     }
   });
 
-  //get messagesList
+  //get currentRoomInfo
   //can get one room's message , such as room Moonlight
-  socket.on('get messagesList',async index =>{
-    socket.leave(socket.nowRoom)
-    let messagesList = await Room.find({roomName:index.roomName})
+  socket.on("get currentRoomInfo",async index =>{
+    socket.leave(socket.currentRoomInfo.name)
+    let roomList = await Room.find({name:index.name})
     let users = await Login.find({})
     //1.把用户信息列表发过去，
-    let members = messagesList[0].members.map( member =>  {
+    let memberList = roomList[0].memberList.map( member =>  {
       let userInfo = users.find(user => {
         return user.userId === member;
       })
@@ -345,7 +351,7 @@ io.on('connection', function (socket) {
     })
     //2.把历史消息列表发出去
     //administrator
-    let administratorList = messagesList[0].administrator.map((userId,i)=>{
+    let administratorList = roomList[0].administratorList.map((userId,i)=>{
       let userInfo = users.find(user => {
         return user.userId === userId;
       })
@@ -356,7 +362,7 @@ io.on('connection', function (socket) {
       }
     })
     //3.把历史消息列表发出去
-    messagesList = messagesList[0].messagesList.map( message => {
+    messageList = roomList[0].messageList.map( message => {
       let userInfo = users.find(user => {
         return user.userId === message.userId;
       })
@@ -366,13 +372,14 @@ io.on('connection', function (socket) {
         userId : null
       })
     })
-    socket.nowRoom = index.roomName;
-    socket.join(socket.nowRoom)
-    socket.emit("get messagesList",await {
-      messagesList: messagesList,
-      members: members,
+    socket.currentRoomInfo = index;
+    socket.join(socket.currentRoomInfo.name)
+    socket.emit("get currentRoomInfo",await {
+      messageList: messageList,
+      memberList: memberList,
       administratorList: administratorList,
-      nowRoom: index.roomName,
+      name: socket.currentRoomInfo.name,
+      avatorUrl:socket.currentRoomInfo.avatorUrl
     });
   })
 
@@ -386,10 +393,10 @@ io.on('connection', function (socket) {
       type: msg.type,
     });
     await Room.update(
-      { roomName : msg.nowRoom },
-      { $push :{messagesList: chatContent} }
+      { name : msg.nowRoom },
+      { $push :{messageList: chatContent} }
     )
-    io.in(socket.nowRoom).emit("send message" ,{
+    io.in(socket.currentRoomInfo.name).emit("send message" ,{
       text: msg.text,
       code:msg.code,
       image: msg.image,
@@ -405,16 +412,16 @@ io.on('connection', function (socket) {
   //add room
   socket.on('add room',async room =>{
     Room
-      .find({roomName : room.roomName})
+      .find({name : room.name})
       .exec( async (err,db) => {
         if(db.length==0){
           //如果找不到，新建一个房间
           RoomList = new Room({
-            roomName : room.roomName,
+            name : room.name,
             creator : room.userId,
-            administrator : [room.userId],
-            members : [room.userId],
-            messagesList: []
+            administratorList : [room.userId],
+            memberList : [room.userId],
+            messageList: []
           });
           RoomList.save( (err) => {
             socket.emit('add room',RoomList)
@@ -432,19 +439,19 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
     console.log('Disconnected: %s sockets connected', users.length)
-    if(socket.userName) {
-      socket.token && tokenList.push(socket.token)
-      tokeningList.splice(tokenList.indexOf(socket.token),1)
-      users.splice(users.indexOf(socket.userName),1)
+    if(socket.userInfo.name) {
+      socket.userInfo.token && tokenList.push(socket.userInfo.token)
+      tokeningList.splice(tokenList.indexOf(socket.userInfo.token),1)
+      users.splice(users.indexOf(socket.userInfo.name),1)
     }
     io.emit('get users', users);
   });
 });
 
 server.listen(8080);
-// if (process.env.NODE_ENV !== 'production') {
-//   const config = require('./webpack.config')
-//   app.use(webpackMiddleware(webpack(config), {
-//     stats: {colors: true}
-//   }));
-// }
+if (process.env.NODE_ENV !== 'production') {
+  const config = require('./webpack.config')
+  app.use(webpackMiddleware(webpack(config), {
+    stats: {colors: true}
+  }));
+}

@@ -19,22 +19,25 @@ export default class AsyncApp extends Component {
 			files:'',
 			emojiClick:false,
 			codingClick:true,
-			size:0,
 			type:"text",
 			url:'send message',
 		}
 	}
 
 	handleMsgSubmit = (e) => {
+		const { 
+			myInfo , 
+			currentRoomInfo
+		} = this.props.store
 		//如果发的内容为空,退出函数
 		//text && code && messageImage
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
-			userId: this.props.store.userId,
-			myName: this.props.store.myName,
-			nowRoom: this.props.store.nowRoom,
-			myAvatorUrl: this.props.store.myAvatorUrl,
+			userId: myInfo.id,
+			myName: myInfo.name,
+			nowRoom: currentRoomInfo.name,
+			myAvatorUrl: currentRoomInfo.avatorUrl,
 			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,
@@ -65,14 +68,15 @@ export default class AsyncApp extends Component {
 
 	render() {
 		const { match } = this.props
-		const { nowRoomFunc , messagesList , doing , myName ,showEmoji , showEmojiFunc } = this.props.store;
+		const { currentRoomInfo , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
 		return (
 			<div className='bodyContent'>
 				<RoomDetails/>
 				<div className='bodyContentMessages'>
-					{messagesList.map((post, i) => (
-						<div className={`bodyContentMessagesList ${post.userName==myName ? 'me' : 'other'}`} key={i}>
+					{currentRoomInfo.messageList.map((post, i) => (
+						<div className={`bodyContentMessagesList ${post.userName == myInfo.name ? 'me' : 'other'}`} key={i}>
 							<Avatar
+								id="showMoreUserInfo"
 								className='avator'
 								style={{ 
 									backgroundColor: this.state.color[post.userName.charCodeAt() % 8] 
@@ -98,12 +102,15 @@ export default class AsyncApp extends Component {
 										width : post.image.width
 									}}
 									src = {post.image.url}/> : ''}
-								{post.code ? <div className={`${post.type} messageContainer`}><Highlight 
-									language='javascript'
-									style={tomorrowNightEighties}
-									className ="JavaScript">
-									{post.code}
-								</Highlight></div> : ''}
+								{post.code ? <div 
+									className={`${post.type} messageContainer`}>
+										<Highlight 
+											language='javascript'
+											style={tomorrowNightEighties}
+											className ="JavaScript">
+											{post.code}
+										</Highlight>
+									</div> : ''}
 							</div>
 						</div>
 					))}

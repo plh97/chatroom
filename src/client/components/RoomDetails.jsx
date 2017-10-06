@@ -41,79 +41,54 @@ export default class RoomDetails extends React.Component {
 	}
 
 	render() {
-		const { members , myName , nowRoomAdministratorList , showRoomDetail , nowRoom } = this.props.store;
+		const { currentRoomInfo , myInfo , showRoomDetail , onlineUsers } = this.props.store;
+		const showRoomDetailListText = [
+			{
+				title: '群头像',
+				onlineUsers: [{userName:currentRoomInfo.name}],
+				offlineUsers: []
+			},{
+				title: '管理员',
+				onlineUsers: [...currentRoomInfo.administratorList.filter( e => onlineUsers.indexOf(e.userName) >= 0)],
+				offlineUsers: [...currentRoomInfo.administratorList.filter( e => onlineUsers.indexOf(e.userName) == -1)],
+			},{
+				title: '成员',
+				onlineUsers: [...currentRoomInfo.memberList.filter( e => onlineUsers.indexOf(e.userName) >= 0)],
+				offlineUsers: [...currentRoomInfo.memberList.filter( e => onlineUsers.indexOf(e.userName) == -1 )]
+			}
+		]
 		return (
 			<div id='bodyContentRoomDetails' className={`bodyContentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
-				<div className="administrator">
-					<span className="title">群头像:</span>
-					<span className="avatorContainer">
-						<span className="avator">
-							<Avatar 
-								src={nowRoom}
-								className="slideAvator"
-								size="large"
-								style={{backgroundColor: this.state.color[nowRoom.charCodeAt() % 8]}}>
-								{nowRoom.split('')[0]}
-							</Avatar>
-							<input 
-								style={{display:'none'}} 
-								onChange={this.handleAvatorChange} 
-								value={this.state.file} 
-								id='avatorInputFile' 
-								className='avatorInputFile' 
-								type="file" />
-							<span className="name">{nowRoom}</span>
+				{showRoomDetailListText.map((avators,i) => (
+					<div className="showRoomDetailList" key={i}>
+						<span className="title">{avators.title}:</span>
+						<span className="avatorContainer">
+							{[...avators.onlineUsers , ...avators.offlineUsers].map((avator,j)=>(
+								<span className="avator" key={j}>
+									<Avatar 
+										src={avator.avatorUrl}
+										className="slideAvator"
+										id="showMoreUserInfo"
+										size="large"
+										style={{
+											backgroundColor: j >= avators.onlineUsers.length ? '#aaa' : this.state.color[avator.userName.charCodeAt() % 8],
+											// cursor : avator.userName==myInfo.name ? 'pointer':''
+										}}>
+										{avator.userName.split('')[0]}
+									</Avatar>
+									{avator.userName == myInfo.name ? <input 
+										style={{display:'none'}} 
+										onChange={this.handleAvatorChange} 
+										value={this.state.file} 
+										id='avatorInputFile' 
+										className='avatorInputFile' 
+										type="file" /> : ""}
+									<span className="name">{avator.userName}</span>
+								</span>
+							))}
 						</span>
-					</span>
-				</div>
-				<div className="administrator">
-					<span className="title">管理员:</span>
-					<span className="avatorContainer">
-						{nowRoomAdministratorList.map((nowRoomAdministrator,i)=>(
-							<span className="avator" key={i}>
-								<Avatar 
-									src={nowRoomAdministrator.avatorUrl}
-									className="slideAvator"
-									size="large"
-									style={{backgroundColor: this.state.color[nowRoomAdministrator.userName.charCodeAt() % 8]}}>
-									{nowRoomAdministrator.userName.split('')[0]}
-								</Avatar>
-								{nowRoomAdministrator.userName == myName ? <input 
-									style={{display:'none'}} 
-									onChange={this.handleAvatorChange} 
-									value={this.state.file} 
-									id='avatorInputFile' 
-									className='avatorInputFile' 
-									type="file" /> : ""}
-								<span className="name">{nowRoomAdministrator.userName}</span>
-							</span>
-						))}
-					</span>
-				</div>
-				<div className="members">
-					<span className="title">成员:</span>
-					<span className="avatorContainer">
-						{members.map( ( member,i ) => (
-							<span className="avator" key={i}>
-								<Avatar 
-									src={member.avatorUrl}
-									className="slideAvator"
-									size="large"
-									style={{backgroundColor: this.state.color[member.userName.charCodeAt() % 8]}}>
-									{member.userName.split('')[0]}
-								</Avatar>
-								{member.userName == myName ? <input 
-									style={{display:'none'}} 
-									onChange={this.handleAvatorChange} 
-									value={this.state.file} 
-									id='avatorInputFile' 
-									className='avatorInputFile' 
-									type="file" /> : ""}
-								<span className="name">{member.userName}</span>
-							</span>
-						))}
-					</span>
-				</div>
+					</div>
+				))}
 			</div>
 		);
 	}

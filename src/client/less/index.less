@@ -107,6 +107,7 @@ body{
 				'. header .'
 				'. body .';
 			grid-template-rows: 80px  calc(~'(100% - 80px)');
+			position: relative;
 
 			.header{
 				background-color: #242424;
@@ -252,30 +253,23 @@ body{
 						// animation-duration: 0.4s;
 						transition: 0.4s;
 						display: block;
-						z-index: 1;
 
 						&.show{
 							// animation-name: slidein;
+							z-index: 1;
 							opacity: 1;
 							top: 0;
 						}
 
 						&.hide{
+							z-index: -1;
 							opacity: 0;
 							top: -50px;
 							background-color: rgba(197, 202, 209, 0.5);
 							// animation-name: slideout;
 						}
 
-						.administrator{
-							grid-area: administrator;
-						}
-
-						.members {
-							grid-area: members;
-						}
-
-						.members, .administrator{
+						.showRoomDetailList {
 					    	display: grid;
 					    	grid-template-columns: 60px 1fr;
 							grid-template-areas: 
@@ -298,6 +292,7 @@ body{
 
 					    			.slideAvator {
 					    				grid-area: slideAvator;
+					    				cursor: pointer;
 					    				justify-self: center;
 					    				align-self: center;
 					    			}
@@ -407,6 +402,7 @@ body{
 								justify-self: center;
 								align-self: start;
 								margin-top: 15px;
+								cursor: pointer;
 							}
 
 							.content {
@@ -584,6 +580,91 @@ body{
 						    margin-top: 5px;
 						    font-size: 16px;
 						    transition: margin-top .3s;
+						}
+					}
+				}
+			}
+
+			.showMoreUserInfo {
+				position: absolute;
+				width:220px;
+				height: 335px;
+				background-color: #fff;
+				z-index: 3;
+				box-shadow: 0 5px 10px rgba(0,0,0,.1);
+				-moz-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+				-webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+
+				.avator{
+					width:220px;
+					height:220px;
+					line-height: 220px;
+					font-size: 50px;
+
+					span{
+						line-height: 220px;
+					}
+				}
+
+				.info{
+					padding: 20px;
+					min-height: 74px;
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-template-rows: 30px 40px;
+					grid-template-areas: 
+						'nameArea'
+						'nikeNameArea';
+
+					.nameArea{
+						grid-area: nameArea;
+						font-size: 20px;
+						font-weight: bold;
+						display: grid;
+						padding: 0 8px;
+						grid-template-columns: 1fr 1fr;
+						grid-template-areas: 
+							'nameContainer icon';
+						grid-row-gap: 0.2em;
+
+						.nameContainer{
+							grid-area: nameContainer;
+							justify-self: start;
+						}
+
+						i{
+							grid-area: icon;
+							justify-self: end;
+							align-self: center;
+							cursor: pointer;
+						}
+					}
+
+					.nikeNameArea{
+						grid-area: nikeNameArea;
+						display: grid;
+						grid-template-columns: 60px 1fr;
+						grid-template-rows: 20px 20px;
+						grid-template-areas: 
+							'nikeNameLabel nikeName'
+							'placeLabel place';
+
+						.nikeNameLabel{
+							grid-area: nikeNameLabel;
+							justify-self: center;
+						}
+
+						.nikeName{
+							grid-area: nikeName;
+						}
+
+						.placeLabel{
+							grid-area: placeLabel;
+							justify-self: center;
+						}
+
+						.place{
+							grid-area: place;
 						}
 					}
 				}

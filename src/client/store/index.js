@@ -1,6 +1,6 @@
 import { action,useStrict,computed , observable } from "mobx";
 import io from 'socket.io-client';
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://112.74.63.84/' : '');
+const socket = io(process.env.NODE_ENV === 'production' ? 'http://97.64.81.222/' : '');
 
 class List {
 	@observable message
@@ -25,32 +25,60 @@ class User {
 }
 // useStrict(true)
 class TodoStore {
-	@observable userId = ''
-	@observable myName = ''
+	//我的用户信息
+	@observable myInfo = {
+		name:'',
+		id:'',
+		avatorUrl:''
+	}
+	//当前房间信息
+	@observable currentRoomInfo = {
+		id:'',
+		name:'',
+		avatorUrl:'',
+		creator:'',
+		//管理员信息
+		administratorList : [],
+		//成员信息
+		memberList : [],
+		messageList : []
+	}
+	//是否显示用户详细信息
 	@observable showRoomDetail = false
+	//是否显示表情容器
 	@observable showEmoji = false
+	//是否显示代码编辑器
 	@observable showCodeEdit = false
-	@observable nowRoom = ''
-	@observable nowRoomAdministratorList = []
-	@observable myAvatorUrl = ''
+	//是否显示用户信息详情
+	@observable showMoreUserInfo = {
+		isShow : false,
+		x:0,
+		y:0,
+		name:'',
+		avatorUrl:'',
+	}
 	@observable code = ''
-	@observable members = []
-	@observable messageImageUrl = ''
 	@observable messageType = 'text'
-	@observable messagesList = []
-	@observable roomsList = []
-	@observable users = []
+	@observable roomList = []
+	//当前在线用户
+	@observable onlineUsers = []
 	@observable doing = false
+	//登陆/注册用户返回信息提示
 	@observable tip = '请登录'
+	//登陆/注册用户返回总体json
 	@observable callBack = {}
+	//用户详情信息
+	@observable callBack = {}
+	//封装好的socket.emit
 	@action socket = (state) => {
+		console.log(state)
 		socket.emit(state.url , state)
 	}
 	@action tipFunc = (state) => {
 		this.tip = state
 	}
-	@action nowRoomFunc = (state) => {
-		this.nowRoom = state
+	@action currentRoomInfoFunc = (state) => {
+		this.currentRoomInfo.roomName = state
 	}
 	@action showRoomDetailFunc = (state) => {
 		this.showRoomDetail = state
@@ -61,43 +89,50 @@ class TodoStore {
 	@action showEmojiFunc = (state) => {
 		this.showEmoji = state
 	}
+	@action showMoreUserInfoFunc = (state) => {
+		this.showMoreUserInfo = state
+	}
 	constructor(){
 		socket.on('user joined', json => {
+			console.log('user joined',json)
 			this.doing = false
 			this.callBack = json
 			this.tip = json.message
-			this.userId = json.userId
-			this.myName = json.userName
-			this.myAvatorUrl = json.avatorUrl
-			// console.log('user joined',json)
+			if(json.code==0 || json.code==2){
+				this.myInfo = {
+					id:json.userId,
+					name:json.userName,
+					avatorUrl:json.avatorUrl
+				}
+			}
 		})
 		socket.on('get users', json => {
-			// console.log('this.users',json)
-			this.users = json
+			console.log('this.users',json)
+			this.onlineUsers = json
 		})
-		socket.on('get roomsList', json => {
-			// console.log('this.roomList',json)
-			this.roomsList = json
+		socket.on('get roomList', json => {
+			console.log('this.roomList',json)
+			this.roomList = json
 		})
-
-		socket.on('get messagesList', json => {
-			console.log('get messagesList',json)
-			this.messagesList = json.messagesList
-			this.members = json.members
-			this.nowRoom = json.nowRoom
-			this.nowRoomAdministratorList = json.administratorList
+		socket.on('get currentRoomInfo', json => {
+			console.log('get currentRoomInfo',json)
+			this.currentRoomInfo.messageList = json.messageList
+			this.currentRoomInfo.memberList = json.memberList
+			this.currentRoomInfo.name = json.name
+			this.currentRoomInfo.avatorUrl = json.avatorUrl
+			this.currentRoomInfo.administratorList = json.administratorList
 		})
 
 		socket.on('send message', json => {
 			console.log('send message',json)
-			this.messagesList.push(json)
+			this.currentRoomInfo.messageList.push(json)
 		})
 
 		socket.on('add room', json => {
 			if(json.code==0){
 				console.log(json.message)
 			}else{
-				this.roomsList.push(json)
+				this.roomList.push(json)
 			}
 		})
 	}
