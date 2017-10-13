@@ -15,6 +15,7 @@ export default class Login extends React.Component {
 	}
 	componentDidMount() {
 		localStorage.token ? this.props.store.socket({url:'login',...this.state}) : ""
+		this.props.store.tipFunc("请登录")
 		this._input.focus();
 	}
 
@@ -53,19 +54,19 @@ export default class Login extends React.Component {
 			<form onSubmit={this.handleSubmit} className="login-form">
 				<h1 className = 'header'>
 					&nbsp;
-					{callBack && ( callBack.code==0 || callBack.code==2) ? <Redirect to='/chat'/> : tip }
+					{ tip }
 				</h1>
 				<div className="userName">
 					<Icon className="prefix" type="user" style={{ fontSize: 13 }} />
-					<input id="userName" 
+					<input id="userName"
 						ref={ (c)=> this._input = c }
-						onChange={this.onUserNameChange} 
+						onChange={this.onUserNameChange}
 						placeholder="用户名" />
 				</div>
 				<div className="passWord">
 					<Icon className="prefix" type="lock" style={{ fontSize: 13 }} />
-					<input 
-						onChange={this.onPassWordChange} 
+					<input
+						onChange={this.onPassWordChange}
 						type="password"
 						placeholder="Password" />
 				</div>

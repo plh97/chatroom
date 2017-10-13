@@ -6,12 +6,12 @@ import { inject, observer } from "mobx-react"
 @inject("store")
 @observer
 class Registrat extends React.Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			url:'login',
-            type: 'register',
-		}
+		constructor(props){
+			super(props);
+			this.state = {
+				url:'login',
+        type: 'register',
+			}
     }
     componentDidMount(e) {
         this.props.store.tipFunc("请注册")
@@ -46,19 +46,19 @@ class Registrat extends React.Component {
             <form onSubmit={this.handleSubmit}  className="register-form">
                 <h1 className = 'header'>
                     &nbsp;
-                    {callBack && callBack.code==0 ? <Redirect to='/chat'/> : tip }
+                    {tip }
                 </h1>
                 <div className="userName">
                     <Icon className="prefix" type="user" style={{ fontSize: 13 }} />
-                    <input id="userName" 
+                    <input id="userName"
                         ref={ (c)=> this._input = c }
-                        onChange={this.onUserNameChange} 
+                        onChange={this.onUserNameChange}
                         placeholder="用户名" />
                 </div>
                 <div className="passWord">
                     <Icon className="prefix" type="lock" style={{ fontSize: 13 }} />
-                    <input 
-                        onChange={this.onPassWordChange} 
+                    <input
+                        onChange={this.onPassWordChange}
                         type="password"
                         placeholder="Password" />
                 </div>

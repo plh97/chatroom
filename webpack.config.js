@@ -1,4 +1,4 @@
-const 
+const
   path = require("path"),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
   webpack = require('webpack'),
@@ -13,8 +13,8 @@ module.exports = {
     ],
     vender:[
       'react',
-      'redux',
-      'react-redux',
+      'mobx',
+      'mobx-react',
       'react-router-dom',
       'react-syntax-highlighter'
     ]
