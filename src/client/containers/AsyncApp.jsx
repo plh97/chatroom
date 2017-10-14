@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { 
+import {
 	BrowserRouter as Router,
 	Route,
 	Link
@@ -40,29 +40,27 @@ export default class AsyncApp extends Component {
 	//事件总代理模型
 	//all event only Perform their own duties
 	handleAllEventClick = (e) => {
-		const { 
+		const {
 			showRoomDetail ,
-			showRoomDetailFunc , 
-			showCodeEditFunc , 
-			showCodeEdit , 
-			showEmoji , 
+			showRoomDetailFunc ,
+			showCodeEditFunc ,
+			showCodeEdit ,
+			showEmoji ,
 			showEmojiFunc ,
 			showMoreUserInfo,
 			showMoreUserInfoFunc
 		} = this.props.store
 		//avator click
 		//whether show avator details
-		if(
-			//如果点中的元素包含showMoreUserInfo,则显示
-			e.nativeEvent.path.filter((index)=> {
-				e.preventDefault()
-				return index.id=='showMoreUserInfo'
+		//如果点中的元素包含showMoreUserInfo,则显示
+		let filterDOM = (dom) => {
+			return e.nativeEvent.path.filter((index)=> {
+				// e.preventDefault()
+				return index.id==dom
 			}).length > 0
-		){
-			console.log(e.nativeEvent.path.filter((index)=> {
-				e.preventDefault()
-				return index.id=='showMoreUserInfo'
-			})[0].innerText)
+		}
+		//如果所点击的元素包括 => id = showMoreUserInfo
+		if(filterDOM('showMoreUserInfo')){
 			//当你点击的仅仅只是头像的时候
 			showMoreUserInfoFunc({
 				isShow:true,
@@ -74,20 +72,15 @@ export default class AsyncApp extends Component {
 				})[0].innerText,
 				avatorUrl:'e.nativeEvent',
 			})
-		}else if(
-			e.nativeEvent.path.filter((index)=> {
-				e.preventDefault()
-				return index.id=='showMoreUserInfoContainer'
-			}).length > 0
-		){
+		}else if(filterDOM('showMoreUserInfo')){
 			// showEmojiFunc(true)
 		}else{
 			showMoreUserInfoFunc({
 				isShow:false,
-				x: 0,
-				y: 0,
+				// x: 0,
+				// y: 0,
 				name:'',
-				avatorUrl:'',
+				avatorUrl:''
 			})
 		}
 		//是否显示房间细节
@@ -144,7 +137,7 @@ export default class AsyncApp extends Component {
 
 	render() {
 		const { match } = this.props
-		const { 
+		const {
 			doing,
 			//当前房间信息包括所有消息列表，房间用户总人数，管理员
 			currentRoomInfo,
@@ -160,7 +153,7 @@ export default class AsyncApp extends Component {
 			<div className="container" onClick={this.handleAllEventClick}>
 				<div className="header">
 					<Icon type="left-circle" />
-					{currentRoomInfo.name == '' ? <h1>Web聊天室2.0</h1> : <h1 className='toggleDetail'>
+					{currentRoomInfo.name == '' ? <h1>聊天室</h1> : <h1 className='toggleDetail'>
 						{currentRoomInfo.name}
 						房间(
 						{currentRoomInfo.memberList.filter(e=>onlineUsers.indexOf(e.userName)>=0).length}
@@ -170,8 +163,8 @@ export default class AsyncApp extends Component {
 						{showRoomDetail ? <Icon type="up" />:<Icon type="down" />}
 					</h1>}
 					<Avatar
-						style={{ 
-							backgroundColor: this.state.color[myInfo.name.charCodeAt() % 8] 
+						style={{
+							backgroundColor: this.state.color[myInfo.name.charCodeAt() % 8]
 						}}
 						src={myInfo.avatorUrl}
 						size="large">{myInfo.name.split("")[0]}
@@ -181,12 +174,12 @@ export default class AsyncApp extends Component {
 					<div className="slider">
 						<h3 className="title">房间列表：</h3>
 						{roomList.map((room,i)=>(
-							<Link 
-								className="roomList" 
+							<Link
+								className="roomList"
 								id={room.name}
-								key={i} 
+								key={i}
 								to={`${match.url}/room/${room.name}`}>
-								<Avatar 
+								<Avatar
 									src={room.avatorUrl}
 									className="slideAvator"
 									size="large"
@@ -204,15 +197,14 @@ export default class AsyncApp extends Component {
 					</div>
 					<Route path={`${match.url}/room/:id`} component={BodyContent}/>
 				</div>
-				<div 
+				<div
 					id='showMoreUserInfoContainer'
 					style={{
-						left: showMoreUserInfo.x , 
-						top: showMoreUserInfo.y , 
-						display: showMoreUserInfo.isShow ? 'block' : 'none'
+						left: showMoreUserInfo.x ,
+						top: showMoreUserInfo.y
 					}}
-					className="showMoreUserInfo">
-					<Avatar 
+					className={`showMoreUserInfo ${showMoreUserInfo.isShow ? 'show' : 'hide'}`}>
+					<Avatar
 						// src={showMoreUserInfo.avatorUrl}
 						className="avator"
 						shape='square'
@@ -239,6 +231,4 @@ export default class AsyncApp extends Component {
 			</div>
 		)
 	}
-}
-
-
+};

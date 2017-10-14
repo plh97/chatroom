@@ -7,7 +7,7 @@ class List {
 	@observable time
 	@observable userName
 	@observable avatorUrl
-	
+
 	constructor(e){
 		this.message = e.message
 		this.time = e.time
@@ -71,7 +71,7 @@ class TodoStore {
 	@observable callBack = {}
 	//封装好的socket.emit
 	@action socket = (state) => {
-		console.log(state)
+		// console.log(state)
 		socket.emit(state.url , state)
 	}
 	@action tipFunc = (state) => {
@@ -94,7 +94,7 @@ class TodoStore {
 	}
 	constructor(){
 		socket.on('user joined', json => {
-			console.log('user joined',json)
+			// console.log('user joined',json)
 			this.doing = false
 			this.callBack = json
 			this.tip = json.message
@@ -107,15 +107,15 @@ class TodoStore {
 			}
 		})
 		socket.on('get users', json => {
-			console.log('this.users',json)
+			// console.log('this.users',json)
 			this.onlineUsers = json
 		})
 		socket.on('get roomList', json => {
-			console.log('this.roomList',json)
+			// console.log('this.roomList',json)
 			this.roomList = json
 		})
 		socket.on('get currentRoomInfo', json => {
-			console.log('get currentRoomInfo',json)
+			// console.log('get currentRoomInfo',json)
 			this.currentRoomInfo.messageList = json.messageList
 			this.currentRoomInfo.memberList = json.memberList
 			this.currentRoomInfo.name = json.name
@@ -124,7 +124,7 @@ class TodoStore {
 		})
 
 		socket.on('send message', json => {
-			console.log('send message',json)
+			// console.log('send message',json)
 			this.currentRoomInfo.messageList.push(json)
 		})
 

@@ -170,7 +170,7 @@ body{
 				grid-template-areas: 'slider bodyContent';
 
 				.slider {
-					border-right: 1px solid silver; 
+					border-right: 1px solid silver;
 					grid-area: slider;
 					color:#fff;
 					overflow-y: scroll;
@@ -196,6 +196,7 @@ body{
 						grid-template-areas: 'slideAvator nameAvator';
 						cursor: pointer;
 						padding: 10px;
+						transition: all 0.05s ease-out;
 						&:hover{
 							padding-left: 5px;
 						}
@@ -232,9 +233,9 @@ body{
 					position: relative;
 					grid-template-columns: 1fr;
 					grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
-					grid-template-areas: 
-						'bodyContentMessages' 
-						'bodyContentFeature' 
+					grid-template-areas:
+						'bodyContentMessages'
+						'bodyContentFeature'
 						'bodyContentMessagesInputArea';
 
 					.bodyContentRoomDetails{
@@ -250,30 +251,28 @@ body{
 						-webkit-box-shadow: 1px 1px 1px #e0e0e0;
 						display: grid;
 						grid-gap: 1em;
-						// animation-duration: 0.4s;
-						transition: 0.4s;
 						display: block;
+						transition: all .1s ease-out;
 
 						&.show{
-							// animation-name: slidein;
 							z-index: 1;
 							opacity: 1;
 							top: 0;
+							visibility: visible;
 						}
 
 						&.hide{
-							z-index: -1;
 							opacity: 0;
 							top: -50px;
 							background-color: rgba(197, 202, 209, 0.5);
-							// animation-name: slideout;
+							visibility: hidden;
 						}
 
 						.showRoomDetailList {
 					    	display: grid;
 					    	grid-template-columns: 60px 1fr;
-							grid-template-areas: 
-								'title avatorContainer';
+								grid-template-areas:
+									'title avatorContainer';
 
 					    	.title{
 					    		grid-area: title;
@@ -287,7 +286,7 @@ body{
 					    		.avator{
 						    		display: inline-grid;
 						    		grid-template-columns: 64px;
-						    		grid-template-areas: 
+						    		grid-template-areas:
 						    			'slideAvator' 'nameAvator';
 
 					    			.slideAvator {
@@ -476,16 +475,18 @@ body{
 							height: auto;
 							background-color: rgba(255, 255, 255, 0.1);
 							font-size: 21px;
-							animation-duration: 0.4s;
+							// animation-duration: 0.4s;
+							transition: all .1s ease-out;
 
 							&.display {
 								display: block;
-								animation-name: slidein;
+								opacity: 1;
+								visibility: visible;
 							}
 
 							&.none {
-								display: none;
-								animation-name: slideout;
+								visibility: hidden;
+								opacity: 0.01;
 							}
 
 							.emoji{
@@ -524,7 +525,7 @@ body{
 							font-size: 20px;
 							color: @grey9;
 							font-weight: bolder;
-							margin: 0 10px; 
+							margin: 0 10px;
 							user-select: none;
 							&:hover{
 								opacity: 0.5;
@@ -536,15 +537,19 @@ body{
 							bottom: 35px;
 							width: auto;
 							height: auto;
+							transition: all .1s ease-out;
 
 							&.display {
 								display: block;
-								animation-name: slidein;
+								// animation-name: slidein;
+								opacity: 1;
+								visibility: visible;
 							}
 
 							&.none {
-								display: none;
-								animation-name: slideout;
+								// animation-name: slideout;
+								opacity: 0.01;
+								visibility: hidden;
 							}
 
 							.textArea {
@@ -594,6 +599,20 @@ body{
 				box-shadow: 0 5px 10px rgba(0,0,0,.1);
 				-moz-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
 				-webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+				transition: all .1s ease-out;
+
+
+				&.show{
+					visibility: visible;
+					opacity: 1;
+					transform: scale(1);
+				}
+
+				&.hide{
+					visibility: hidden;
+					opacity: 0.01;
+					transform: scale(0.4);
+				}
 
 				.avator{
 					width:220px;
@@ -612,7 +631,7 @@ body{
 					display: grid;
 					grid-template-columns: 1fr;
 					grid-template-rows: 30px 40px;
-					grid-template-areas: 
+					grid-template-areas:
 						'nameArea'
 						'nikeNameArea';
 
@@ -623,7 +642,7 @@ body{
 						display: grid;
 						padding: 0 8px;
 						grid-template-columns: 1fr 1fr;
-						grid-template-areas: 
+						grid-template-areas:
 							'nameContainer icon';
 						grid-row-gap: 0.2em;
 
@@ -645,7 +664,7 @@ body{
 						display: grid;
 						grid-template-columns: 60px 1fr;
 						grid-template-rows: 20px 20px;
-						grid-template-areas: 
+						grid-template-areas:
 							'nikeNameLabel nikeName'
 							'placeLabel place';
 
@@ -710,7 +729,7 @@ body{
 }
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     &:end {
         display: none;

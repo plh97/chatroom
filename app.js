@@ -1,9 +1,7 @@
 const http = require('http')
-// const https = require('https')
 const App = require('koa');
 const app = new App()
 const server = http.createServer(app.callback());
-// const servers = https.createServer(app.callback());
 const io = require('socket.io')(server);
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
@@ -25,10 +23,7 @@ if (process.env.NODE_ENV === 'production') {
   mongoose.connect(db, {useMongoClient: true});
 }
 
-const connections = []
 let users=[]
-let usersInfo=[]
-let islogin = []
 let tokenList = []
 let tokeningList = []
 app
@@ -51,78 +46,6 @@ router.get('/register',async ctx => {
 })
 
 
-// io.on('connection', async socket => {
-//   connections.push(socket)
-//   console.log('connected: %s sockets connected',connections.length)
-//   let html = await Chat.find({})
-//   let users = await Login.find({})
-//   html.map((index,i)=>{
-//     index.avatorUrl = users.find( user =>{
-//       return user.userName === index.userName;
-//     }).avatorUrl
-//   })
-//   io.emit("get list", await html);
-//   //login
-//   socket.on('login',function(userInfo){
-//     users.push(userInfo.userName);
-//     console.log('userInfo',users)
-//     usersInfo.push(userInfo);
-//     io.emit("get users",usersInfo);
-//     socket.userName = userInfo.userName
-//     //send message
-//     let time = new Date()
-//     time = time.getMonth()+1+"月"+time.getDate()+"日" +" "+ ( time.getHours() < 10 ? '0'+time.getHours() : time.getHours() ) +":" + (time.getMinutes() < 10 ? '0'+time.getMinutes() : time.getMinutes())
-//     socket.on('send message',function(msg){
-//       const chatContent = new Chat({
-//         userName: userInfo.userName,
-//         time: time,
-//         message: msg.msg,
-//         code:msg.code,
-//         imageUrl: msg.imageUrl,
-//         type: msg.type,
-//       });
-//       chatContent.save(function(err) {});
-//       io.emit('send message',{
-//         message:msg.msg,
-//         code:msg.code,
-//         time: time,
-//         userName:userInfo.userName,
-//         imageUrl:msg.imageUrl,
-//         avatorUrl:msg.avatorUrl,
-//         type: msg.type,
-//       })
-//     })
-//   });
-//   socket.on('change avator',async e=>{
-//     usersInfo.map((info,i)=>{
-//       if(info.userName==e.userName){
-//         info.avatorUrl = e.avatorUrl
-//       }
-//     })
-//     await Login.update(
-//       { userName: e.userName },
-//       { userName: e.userName ,
-//         avatorUrl: e.avatorUrl
-//     })
-//     io.emit("get users",usersInfo);
-//   })
-//   //while disconnect
-//   socket.on('disconnect',function(data){
-//     console.log('socket.userName',socket.userName)
-//     console.log('users',users.indexOf(socket.userName))
-//     if(socket.userName) {
-//       usersInfo.splice(users.indexOf(socket.userName),1)
-//       users.splice(users.indexOf(socket.userName),1)
-//     }
-//     connections.splice(connections.indexOf(socket),1)
-//     console.log('Disconnected: %s sockets connected', connections.length)
-//     io.emit("get users",usersInfo);
-//   })
-//   io.emit("get users",usersInfo);
-// });
-
-
-
 let userName;
 let token;
 let signUp;
@@ -130,7 +53,6 @@ let userId;
 let List;
 let roomList;
 let usersForFound;
-// let ListContainer;
 io.on('connection', function (socket) {
   socket.defaultRoom = "Moonlight"
   socket.userInfo={
@@ -163,7 +85,6 @@ io.on('connection', function (socket) {
               //如果该token解码的用户名可以在数据库找到
               socket.userInfo.name = db[0].userName;
               users.push(db[0].userName)
-              // usersForFound = await Login.find({})
               //我需要将该用户所在所有的房间名字列表发送到前台
               //房间列表
               List = await Room.find({})

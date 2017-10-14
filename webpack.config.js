@@ -24,12 +24,12 @@ module.exports = {
     chunkFilename:'[name].[chunkhash].js',
     path: path.join(__dirname, "dist"),
   },
-  "resolve": {
-    "alias": {
-      "react": "preact-compat",
-      "react-dom": "preact-compat"
-    }
-  },
+  // "resolve": {
+  //   "alias": {
+  //     "react": "preact-compat",
+  //     "react-dom": "preact-compat"
+  //   }
+  // },
   module: {
     rules:[
       {
