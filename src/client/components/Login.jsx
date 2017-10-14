@@ -33,23 +33,20 @@ export default class Login extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-        if(!this.state.userName){
-            this.props.store.tipFunc("用户名不能为空")
-        }else if(!this.state.passWord){
-            this.props.store.tipFunc("密码不能为空")
-        }else{
+    if(!this.state.userName){
+        this.props.store.tipFunc("用户名不能为空")
+    }else if(!this.state.passWord){
+        this.props.store.tipFunc("密码不能为空")
+    }else{
 			this.props.store.socket({
 				url:'login',
 				...this.state
 			})
-        }
+		}
 	}
 
 	render() {
-		const { callBack,tip } = this.props.store
-		if( callBack && ( callBack.code==0 ) ){
-			localStorage.setItem("token", callBack.token);
-		}
+		const { tip } = this.props.store
 		return (
 			<form onSubmit={this.handleSubmit} className="login-form">
 				<h1 className = 'header'>

@@ -38,10 +38,7 @@ class Registrat extends React.Component {
         })
     }
     render() {
-        const { callBack,tip } = this.props.store
-        if( callBack && ( callBack.code==0 ) ){
-            localStorage.setItem("token", callBack.token);
-        }
+        const { tip } = this.props.store
         return (
             <form onSubmit={this.handleSubmit}  className="register-form">
                 <h1 className = 'header'>

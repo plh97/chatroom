@@ -15,7 +15,10 @@ import {Provider,observer} from "mobx-react"
 @observer
 export default class Root extends Component{
 	render(){
-	const { callBack } = store;
+		const { callBack } = store;
+		if( callBack.code==0 || callBack.code==2 ){
+			localStorage.setItem("token", callBack.token);
+		}
 		return(
 			<Provider store={store}>
 				<Router>

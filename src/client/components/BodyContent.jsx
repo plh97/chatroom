@@ -26,13 +26,8 @@ export default class AsyncApp extends Component {
 	}
 
 	componentDidMount() {
-		console.log('初始化')
 	  this.scrollToBottom('auto');
 	}
-	// //
-	// componentDidUpdate() {
-	//   this.scrollToBottom();
-	// }
 
 	handleMsgSubmit = (e) => {
 		const {
@@ -56,7 +51,7 @@ export default class AsyncApp extends Component {
 		})
 		this._textInput.value = ''
 		this.props.store.showCodeEditFunc(false)
-		this.scrollToBottom('smooth');
+		this.scrollToBottom('auto');
 	}
 
 	handleImage = (e) => {
@@ -82,12 +77,10 @@ export default class AsyncApp extends Component {
 			this.messagesEnd.scrollIntoView({
 				behavior: behave
 			})
-		},0)
-
+		},1)
 	}
 
 	render() {
-		console.log('render')
 		const { match } = this.props
 		const { currentRoomInfo , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
 		return (
@@ -118,7 +111,7 @@ export default class AsyncApp extends Component {
 									{post.text}
 								</p>}
 								{post.image ? <img
-									onLoad={this.scrollToBottom.bind(this,'smooth')}
+									onLoad={this.scrollToBottom.bind(this,'auto')}
 									className = {`messageContainer ${post.type}`}
 									style={{
 										width : post.image.width
