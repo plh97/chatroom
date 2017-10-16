@@ -57,7 +57,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist'],{
+      exclude: [ '.well-known' ]
+    }),
     new ManifestPlugin(path.join('dist', 'manifest.json')),
     new HtmlWebpackPlugin({
       title: 'Chatroom',
