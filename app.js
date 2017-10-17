@@ -13,7 +13,7 @@ const app = new App()
 // start the server
 const server = http.createServer(app.callback());
 const servers = https.createServer(app.callback());
-const io = require('socket.io')(servers);
+const io = require('socket.io')(server);
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
@@ -385,9 +385,9 @@ io.on('connection', function (socket) {
 
 servers.listen(443);
 server.listen(8080);
-// if (process.env.NODE_ENV !== 'production') {
-//   const config = require('./webpack.config')
-//   app.use(webpackMiddleware(webpack(config), {
-//     stats: {colors: true}
-//   }));
-// }
+if (process.env.NODE_ENV !== 'production') {
+  const config = require('./webpack.config')
+  app.use(webpackMiddleware(webpack(config), {
+    stats: {colors: true}
+  }));
+}
