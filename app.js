@@ -1,6 +1,6 @@
 const http = require('http')
 const https = require('https')
-// const enforceHttps = require('koa-sslify');
+const enforceHttps = require('koa-sslify');
 const App = require('koa');
 const app = new App()
 // SSL options
@@ -42,9 +42,9 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
   .use(require('koa-static')(staticPath))
-  // .use(enforceHttps({
-  //   trustAzureHeader: true
-  // }))
+  .use(enforceHttps({
+    trustAzureHeader: true
+  }))
 
 
 router.get('/chat',async ctx => {
