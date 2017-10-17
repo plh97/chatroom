@@ -1,7 +1,18 @@
-const https = require('https')
+const http = require('http')
+// const https = require('https')
+// const enforceHttps = require('koa-sslify');
 const App = require('koa');
 const app = new App()
-const server = https.createServer(app.callback());
+// SSL options
+// const fs = require('fs');
+// const options = {
+//     key: fs.readFileSync('./peng.pipk.top.key'),  //ssl文件路径
+//     cert: fs.readFileSync('./peng.pipk.top.crt')  //ssl文件路径
+// };
+
+// start the server
+const server = http.createServer(app.callback());
+// const servers = https.createServer(app.callback());
 const io = require('socket.io')(server);
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
@@ -30,7 +41,10 @@ app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(require('koa-static')(staticPath));
+  .use(require('koa-static')(staticPath))
+  // .use(enforceHttps({
+  //   trustAzureHeader: true
+  // }))
 
 
 router.get('/chat',async ctx => {
@@ -369,7 +383,7 @@ io.on('connection', function (socket) {
   });
 });
 
-server.listen(8080);
+server.listen(80);
 // if (process.env.NODE_ENV !== 'production') {
 //   const config = require('./webpack.config')
 //   app.use(webpackMiddleware(webpack(config), {

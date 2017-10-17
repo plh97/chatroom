@@ -38,28 +38,23 @@ module.exports = {
           fallback: 'style-loader',
           use: ['css-loader', 'less-loader']
         })
-      },
-      {
+      },{
         test: /\.(png|svg|jpg|gif)$/,
         use: [
          'file-loader'
         ]
-      },
-      {
+      },{
         test: /\.(js|jsx)$/,
         exclude: /(node_module|bower_components)/,
         loader:'babel-loader'
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
+      // },{
+      //   test: /\.json$/,
+      //   loader: 'json-loader'
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'],{
-      exclude: [ '.well-known' ]
-    }),
+    new CleanWebpackPlugin(['dist']),
     new ManifestPlugin(path.join('dist', 'manifest.json')),
     new HtmlWebpackPlugin({
       title: 'Chatroom',
