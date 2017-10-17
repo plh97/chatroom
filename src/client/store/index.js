@@ -1,6 +1,6 @@
 import { action,useStrict,computed , observable } from "mobx";
 import io from 'socket.io-client';
-const socket = io(process.env.NODE_ENV === 'production' ? 'http://peng.pipk.top/' : '');
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://peng.pipk.top/' : '');
 // const socket = io(process.env.NODE_ENV === 'production' ? 'http://peng.pipk.top/' : '');
 
 class List {
