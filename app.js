@@ -383,7 +383,7 @@ io.on('connection', function (socket) {
   });
 });
 
-server.listen(80);
+server.listen(8080);
 // if (process.env.NODE_ENV !== 'production') {
 //   const config = require('./webpack.config')
 //   app.use(webpackMiddleware(webpack(config), {
