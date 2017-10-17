@@ -11,7 +11,7 @@ const app = new App()
 // };
 
 // start the server
-// const server = http.createServer(app.callback());
+const server = http.createServer(app.callback());
 const servers = https.createServer(app.callback());
 const io = require('socket.io')(servers);
 const static = require('koa-static');
@@ -383,7 +383,8 @@ io.on('connection', function (socket) {
   });
 });
 
-servers.listen(8080);
+servers.listen(443);
+server.listen(8080);
 // if (process.env.NODE_ENV !== 'production') {
 //   const config = require('./webpack.config')
 //   app.use(webpackMiddleware(webpack(config), {
