@@ -1,14 +1,14 @@
 const http = require('http')
 const https = require('https')
-const enforceHttps = require('koa-sslify');
+// const enforceHttps = require('koa-sslify');
 const App = require('koa');
 const app = new App()
 // SSL options
-const fs = require('fs');
-const options = {
-    key: fs.readFileSync('./peng.pipk.top.key'),  //ssl文件路径
-    cert: fs.readFileSync('./peng.pipk.top.crt')  //ssl文件路径
-};
+// const fs = require('fs');
+// const options = {
+//     key: fs.readFileSync('./peng.pipk.top.key'),  //ssl文件路径
+//     cert: fs.readFileSync('./peng.pipk.top.crt')  //ssl文件路径
+// };
 
 // start the server
 // const server = http.createServer(app.callback());
