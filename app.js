@@ -1,7 +1,7 @@
-const http = require('http')
+const https = require('https')
 const App = require('koa');
 const app = new App()
-const server = http.createServer(app.callback());
+const server = https.createServer(app.callback());
 const io = require('socket.io')(server);
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
