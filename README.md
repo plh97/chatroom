@@ -1,6 +1,6 @@
 # chatroom
 
-[![Build Status](https://img.shields.io/badge/build-pass-green.svg)](https://peng.pipk.top)
+[![Build Status](https://img.shields.io/badge/build-passing-lightgreen.svg)](https://peng.pipk.top)
 [![author](https://img.shields.io/badge/author-peng-blue.svg)](http://pengliheng.github.io/dist)
 [![Node.js Version](https://img.shields.io/badge/node.js-8.7.0-blue.svg)](http://nodejs.org/download)
 
