@@ -1,6 +1,18 @@
 import { action,useStrict,computed , observable } from "mobx";
 import io from 'socket.io-client';
-const socket = io();
+import config from '../../../config/project.js'
+let platformSocketParam = { };
+
+if (process.env.NODE_ENV === 'production') {
+  platformSocketParam = { secure: true };
+}
+serverUrl = process.env.NODE_ENV === 'production' ?
+		// peng.pipk.top
+    `//${config.server}/` :
+		//localhost   8080
+    `http://${config.devServer}:${config.devPort}/`;
+
+const socket = io(serverUrl, platformSocketParam);
 // const socket = io(process.env.NODE_ENV === 'production' ? 'https://peng.pipk.top/' : '');
 // const socket = io(process.env.NODE_ENV === 'production' ? 'http://peng.pipk.top/' : '');
 
