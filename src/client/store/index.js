@@ -6,7 +6,7 @@ let platformSocketParam = { };
 if (process.env.NODE_ENV === 'production') {
   platformSocketParam = { secure: true };
 }
-serverUrl = process.env.NODE_ENV === 'production' ?
+const serverUrl = process.env.NODE_ENV === 'production' ?
 		// peng.pipk.top
     `//${config.server}/` :
 		//localhost   8080
