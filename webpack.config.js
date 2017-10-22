@@ -7,6 +7,7 @@ const
   HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
     'app': [
       './src/client/index.jsx'
@@ -76,6 +77,11 @@ module.exports = {
     }),
     new ExtractTextPlugin({
       filename:'index.[hash].css'
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
     })
   ],
 }

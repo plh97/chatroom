@@ -193,7 +193,6 @@ export default class AsyncApp extends Component {
 							<Icon type="usergroup-add" />
 							开房？
 						</span>
-
 					</div>
 					<Route path={`${match.url}/room/:id`} component={BodyContent}/>
 				</div>
