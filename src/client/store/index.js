@@ -12,9 +12,9 @@ const serverUrl = process.env.NODE_ENV === 'production' ?
 		//localhost   8080
     `http://${config.devServer}:${config.devPort}/`;
 
-const socket = io(serverUrl, platformSocketParam);
+// const socket = io(serverUrl, platformSocketParam);
 // const socket = io(process.env.NODE_ENV === 'production' ? 'https://peng.pipk.top/' : '');
-// const socket = io(process.env.NODE_ENV === 'production' ? 'http://peng.pipk.top/' : '');
+const socket = io(process.env.NODE_ENV === 'production' ? '' : '');
 
 class List {
 	@observable message
