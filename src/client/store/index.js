@@ -4,7 +4,7 @@ import config from '../../../config/project.js'
 let platformSocketParam = { };
 
 if (process.env.NODE_ENV === 'production') {
-  platformSocketParam = { secure: true };
+  platformSocketParam = { secure: true, transports: ['websocket', 'polling', 'flashsocket'] };
 }
 const serverUrl = process.env.NODE_ENV === 'production' ?
 		// peng.pipk.top
