@@ -8,4 +8,7 @@
 
 ### socket.io(nameSpace to divide all chaenel into room) +react16+webpack
 
-![](https://i.loli.net/2017/10/04/59d488c469479.png)
+### 公共房间
+![](https://i.loli.net/2017/10/24/59eedca5afa23.png)
+### 个人新建房间
+![](https://i.loli.net/2017/10/24/59eedc9541a5c.png)
