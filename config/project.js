@@ -1,22 +1,8 @@
 module.exports = {
     // release config.
     // you can use domain name, ip address or localhost.
-    server: 'peng.pipk.top',
+    server: 'chat.pipk.top',
     port: 443,
-
-    // local dev config
-    devServer: 'localhost',
-    devPort: 8080,
-
-    // redux dev tool server
-    reduxDevPort: 8080,
-
-    // database url and name
-    database: 'database_name',
-    testDatabase: 'test_database_name',
-
-    // jwt encryption secret
-    jwtSecret: 'jwt',
 
     // qiniu CDN config.
     // this is not necessary. if you not modify this config. image will save to local disk.

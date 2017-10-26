@@ -1,20 +1,11 @@
 const http = require('http')
-const https = require('https')
-const enforceHttps = require('koa-sslify');
 const App = require('koa');
 const app = new App()
-// SSL options
-// const fs = require('fs');
-// const options = {
-//     key: fs.readFileSync('./peng.pipk.top.key'),  //ssl文件路径
-//     cert: fs.readFileSync('./peng.pipk.top.crt')  //ssl文件路径
-// };
-
-// start the server
 const server = http.createServer(app.callback());
-const servers = https.createServer(app.callback());
 const io = require('socket.io')(server);
 const static = require('koa-static');
+// const xtpl = require('koa-xtpl');
+const path = require('path');
 const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const webpack = require('webpack');
@@ -25,13 +16,14 @@ const Chat = require('./src/server/routes/model/Chat.model');
 const Login = require('./src/server/routes/model/Login.model');
 const Room = require('./src/server/routes/model/Room.model');
 const jwt = require('jwt-simple');
-console.log("process.env.NODE_ENV :",process.env.NODE_ENV )
+const configProject = require('./config/project.js')
+const configServer = require('./config/server.js')
+const port = configServer.port;
+
 if (process.env.NODE_ENV === 'production') {
-  const db = 'mongodb://112.74.63.84/sampsite';
-  mongoose.connect(db, {useMongoClient: true});
+  mongoose.connect(configServer.proDatabase, {useMongoClient: true});
 }else{
-  const db = 'mongodb://127.0.0.1/sampsite';
-  mongoose.connect(db, {useMongoClient: true});
+  mongoose.connect(configServer.devDatabase, {useMongoClient: true});
 }
 
 let users=[]
@@ -41,11 +33,18 @@ app
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(require('koa-static')(staticPath))
-  .use(enforceHttps({
-    trustAzureHeader: true
+  .use(static(path.join(__dirname, staticPath), {
+    maxAge: 356 * 24 * 60 * 60
   }))
+  // .use(xtpl({
+  //   root: path.resolve(__dirname, './dist'),
+  //   extname: 'html',
+  //   commands: {}
+  // }))
 
+// app.use(async(ctx, next) => {
+//   await ctx.render('index', {});
+// });
 
 router.get('/chat',async ctx => {
   ctx.redirect('/')
@@ -68,7 +67,7 @@ let List;
 let roomList;
 let usersForFound;
 io.on('connection', function (socket) {
-  socket.defaultRoom = "Moonlight"
+  socket.defaultRoom = configServer.defaultRoom
   socket.userInfo={
     name:'',
     id:'',
@@ -93,7 +92,7 @@ io.on('connection', function (socket) {
         tokenList.splice(tokenList.indexOf(socket.userInfo.token),1)
         tokeningList.push(socket.userInfo.token)
         Login
-          .find({userName: jwt.decode(json.token,'jwt').userName})
+          .find({userName: jwt.decode(json.token,configServer.jwtSecret).userName})
           .exec( async (err,db) => {
             if(db.length>0){
               //如果该token解码的用户名可以在数据库找到
@@ -137,7 +136,7 @@ io.on('connection', function (socket) {
         Login
           .find({userName: json.userName})
           .exec( async (err,db) => {
-            socket.userInfo.token = jwt.encode({ userName: json.userName } , 'jwt');
+            socket.userInfo.token = jwt.encode({ userName: json.userName } , configServer.jwtSecret);
             if(tokeningList.indexOf(socket.userInfo.token) == -1 && db.length == 1){
               //if password right,can login
               if(db[0].passWord == json.passWord){
@@ -202,8 +201,8 @@ io.on('connection', function (socket) {
             }else{
               //用户名未被注册
               socket.userInfo.name = json.userName;
-              socket.userInfo.id = jwt.encode({ userName: json.userName,random:Math.random() } , 'jwt' )
-              socket.userInfo.token = jwt.encode({ userName: json.userName } , 'jwt');
+              socket.userInfo.id = jwt.encode({ userName: json.userName,random:Math.random() } , configServer.jwtSecret )
+              socket.userInfo.token = jwt.encode({ userName: json.userName } , configServer.jwtSecret);
               users.push(json.userName)
               io.emit('get users', users);
               //注册用户名密码
@@ -383,11 +382,9 @@ io.on('connection', function (socket) {
   });
 });
 
-// servers.listen(443);
-server.listen(8080);
-// if (process.env.NODE_ENV !== 'production') {
-//   const config = require('./webpack.config')
-//   app.use(webpackMiddleware(webpack(config), {
-//     stats: {colors: true}
-//   }));
-// }
+server.listen(port);
+if (process.env.NODE_ENV !== 'production') {
+  app.use(webpackMiddleware(webpack(require('./webpack.config')), {
+    stats: {colors: true}
+  }));
+}

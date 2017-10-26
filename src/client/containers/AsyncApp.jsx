@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
-import {
-	BrowserRouter as Router,
-	Route,
-	Link
-} from 'react-router-dom'
-import { Avatar, Icon,Button } from 'antd'
-import BodyContent from '../components/BodyContent.jsx'
 import { inject, observer } from "mobx-react"
-const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
-console.log('process.env.NODE_ENV: ',process.env.NODE_ENV)
-
+import Header from "../features/Header.jsx"
+import Chat from "../features/Chat.jsx"
+import UserDetails from "../features/UserDetails.jsx"
 
 //TodoList
-//1.show memberList feature.....
+//1.show memberList feature.....  √ I Get It
 //2.change avatorImage feature
 //3.change roomAvatorImage feature
 //4.to debug the login/tokenLogin/register
@@ -20,23 +13,6 @@ console.log('process.env.NODE_ENV: ',process.env.NODE_ENV)
 @inject("store")
 @observer
 export default class AsyncApp extends Component {
-	constructor(props){
-		super(props)
-		this.state = {
-			color: colorList,
-			files:'',
-		}
-	}
-
-	addRoom = (e) =>{
-		const { myInfo } = this.props.store;
-		this.props.store.socket({
-			url:'add room',
-			userId: myInfo.id,
-			name: myInfo.name
-		})
-	}
-
 	//事件总代理模型
 	//all event only Perform their own duties
 	handleAllEventClick = (e) => {
@@ -151,82 +127,9 @@ export default class AsyncApp extends Component {
 		} = this.props.store;
 		return (
 			<div className="container" onClick={this.handleAllEventClick}>
-				<div className="header">
-					<Icon type="left-circle" />
-					{currentRoomInfo.name == '' ? <h1>聊天室</h1> : <h1 className='toggleDetail'>
-						{currentRoomInfo.name}
-						房间(
-						{currentRoomInfo.memberList.filter(e=>onlineUsers.indexOf(e.userName)>=0).length}
-						/
-						{currentRoomInfo.memberList.length}
-						)人
-						{showRoomDetail ? <Icon type="up" />:<Icon type="down" />}
-					</h1>}
-					<Avatar
-						style={{
-							backgroundColor: this.state.color[myInfo.name.charCodeAt() % 8]
-						}}
-						src={myInfo.avatorUrl}
-						size="large">{myInfo.name.split("")[0]}
-					</Avatar>
-				</div>
-				<div className="body">
-					<div className="slider">
-						<h3 className="title">房间列表：</h3>
-						{roomList.map((room,i)=>(
-							<Link
-								className="roomList"
-								id={room.name}
-								key={i}
-								to={`${match.url}/room/${room.name}`}>
-								<Avatar
-									src={room.avatorUrl}
-									className="slideAvator"
-									size="large"
-									style={{backgroundColor: this.state.color[room.name.charCodeAt() % 8]}}>
-									{room.name.split('')[0]}
-								</Avatar>
-								<span className="roomName">{room.name}</span>
-							</Link>
-						))}
-						<span onClick={this.addRoom} className="addRoom">
-							<Icon type="usergroup-add" />
-							开房？
-						</span>
-					</div>
-					<Route path={`${match.url}/room/:id`} component={BodyContent}/>
-				</div>
-				<div
-					id='showMoreUserInfoContainer'
-					style={{
-						left: showMoreUserInfo.x ,
-						top: showMoreUserInfo.y
-					}}
-					className={`showMoreUserInfo ${showMoreUserInfo.isShow ? 'show' : 'hide'}`}>
-					<Avatar
-						// src={showMoreUserInfo.avatorUrl}
-						className="avator"
-						shape='square'
-						size="large"
-						style={{
-							backgroundColor: this.state.color[showMoreUserInfo.name.charCodeAt() % 8],
-							cursor : showMoreUserInfo.name==myInfo.name ? 'pointer':''
-						}}>
-						{showMoreUserInfo.name.split('')[0]}
-					</Avatar>
-					<span className="info">
-						<span className="nameArea">
-							<span className="nameContainer">{showMoreUserInfo.name}</span>
-							<Icon type="message" />
-						</span>
-						<span className="nikeNameArea">
-							<span className="nikeNameLabel">备注：</span>
-							<span className="nikeName">easy to call!</span>
-							<span className="placeLabel">地区：</span>
-							<span className="place">中国</span>
-						</span>
-					</span>
-				</div>
+				<Header/>
+				<Chat match={match}/>
+				<UserDetails/>
 			</div>
 		)
 	}

@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { Spin, Input, Avatar, Icon,Button } from 'antd'
-import Emoji from '../assets/emoji/Emoji.js'
+import { Avatar, Icon } from 'antd'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
 import Highlight from 'react-syntax-highlighter'
 import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
 import { inject, observer } from "mobx-react"
 import ReactDOM from "react-dom"
-const colorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae','#712704','#04477c','#1291a9','#000','#036803'];
-const emoji = Emoji.split(' ')
+import {colorList,emoji} from '../../../config/client.js'
 
 @inject("store")
 @observer
@@ -16,7 +14,6 @@ export default class AsyncApp extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			color: colorList,
 			files:'',
 			emojiClick:false,
 			codingClick:true,
@@ -93,7 +90,7 @@ export default class AsyncApp extends Component {
 								id="showMoreUserInfo"
 								className='avator'
 								style={{
-									backgroundColor: this.state.color[post.userName.charCodeAt() % 8]
+									backgroundColor: colorList[post.userName.charCodeAt() % 8]
 								}}
 								src={post.avatorUrl}
 								size="large">{post.userName.split("")[0]}
@@ -136,7 +133,7 @@ export default class AsyncApp extends Component {
 				<div className="bodyContentFeature">
 					<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
 					<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
-						{emoji.map((index,i)=>(
+						{emoji.split(' ').map((index,i)=>(
 							<span key={i} className = "emoji">{index}</span>
 						))}
 					</div>

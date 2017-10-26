@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button , Form, Input } from 'antd';
+import {  Form, Input } from 'antd';
 import { inject, observer } from "mobx-react"
 const { TextArea } = Input;
 let keyCombination = []
-
 
 @inject("store")
 @observer
@@ -100,7 +99,7 @@ export default class SublimeText extends React.Component {
 		switch(e.key){
 			case 'Enter':
 				if(
-					input.value.substring(rangeData.start-2,rangeData.start+1)==`{\n}` || 
+					input.value.substring(rangeData.start-2,rangeData.start+1)==`{\n}` ||
 					input.value.substring(rangeData.start-2,rangeData.start+1)==`(\n)`
 				){
 					input.value = input.value.substring(0,rangeData.start-1)+ '\n\t\n' + input.value.substring(rangeData.end)
@@ -116,12 +115,12 @@ export default class SublimeText extends React.Component {
 		const {value} = this.state
 		return (
 			<Form className={ this.props.store.showCodeEdit ? 'textAreaContainer display' : 'none textAreaContainer' }>
-				<TextArea 
-					className = "textArea" 
-					id = "textArea" 
+				<TextArea
+					className = "textArea"
+					id = "textArea"
 					value = {value}
 					placeholder = 'Ctrl + Enter to submit'
-					autosize = {{ minRows: 4, maxRows: 16 }} 
+					autosize = {{ minRows: 4, maxRows: 16 }}
 					onKeyDown = {this.handleKeyDown}
 					onChange = {this.handleChange}
 					onKeyUp = {this.handleKeyUp}
@@ -131,4 +130,3 @@ export default class SublimeText extends React.Component {
 		);
 	}
 }
-

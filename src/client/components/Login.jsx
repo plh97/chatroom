@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link ,Redirect } from 'react-router-dom'
-import { Icon, Input, Button } from 'antd';
+import { Link } from 'react-router-dom'
+import { Icon, Button } from 'antd';
 import { inject, observer } from "mobx-react"
+import '../less/registerLogin.less'
 
 @inject("store")
 @observer
