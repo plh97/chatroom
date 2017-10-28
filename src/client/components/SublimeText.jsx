@@ -10,8 +10,7 @@ export default class SublimeText extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			value:'',
-			dateBase:''
+			value:''
 		}
 	}
 

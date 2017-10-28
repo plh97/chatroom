@@ -1,13 +1,14 @@
 const
   path = require("path"),
-  CleanWebpackPlugin = require('clean-webpack-plugin'),
+  merge = require('webpack-merge'),
   webpack = require('webpack'),
   ManifestPlugin = require('webpack-manifest-plugin'),
+  devWebpackConfig = require('./build/webpack.dev.config'),
+  prodWebpackConfig = require('./build/webpack.prod.config'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin');
+  CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports = {
-  devtool: 'source-map',
+const webpackConfig = merge( process.env.NODE_ENV == 'development' ?  devWebpackConfig : prodWebpackConfig, {
   entry: {
     'app': [
       './src/client/index.jsx'
@@ -16,21 +17,15 @@ module.exports = {
       'react',
       'mobx',
       'mobx-react',
-      'react-router-dom',
-      'react-syntax-highlighter'
+      'react-router',
+      'react-router-dom'
     ]
   },
   output: {
     filename: "[name].[hash].js",
     chunkFilename:'[name].[chunkhash].js',
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "dist")
   },
-  // "resolve": {
-  //   "alias": {
-  //     "react": "preact-compat",
-  //     "react-dom": "preact-compat"
-  //   }
-  // },
   module: {
     rules:[
       {
@@ -55,19 +50,8 @@ module.exports = {
     ]
   },
   plugins: [
+    // new ManifestPlugin(path.join('dist', 'manifest.json')),
     new CleanWebpackPlugin(['dist']),
-    new ManifestPlugin(path.join('dist', 'manifest.json')),
-    new HtmlWebpackPlugin({
-      title: 'Chatroom',
-      favicon:'./favicon.ico',
-      template: './src/client/template/index.ejs',
-      inject: true, //允许插件修改哪些内容，包括head与body
-      hash: true, //为静态资源生成hash值
-      minify: { //压缩HTML文件
-        removeComments: true, //移除HTML中的注释
-        collapseWhitespace: false //删除空白符与换行符
-      }
-    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vender",
       minChunks: function(module){
@@ -77,11 +61,9 @@ module.exports = {
     }),
     new ExtractTextPlugin({
       filename:'index.[hash].css'
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
     })
   ],
-}
+})
+
+
+module.exports = webpackConfig;

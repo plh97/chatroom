@@ -384,7 +384,7 @@ io.on('connection', function (socket) {
 
 server.listen(port);
 if (process.env.NODE_ENV !== 'production') {
-  app.use(webpackMiddleware(webpack(require('./webpack.config')), {
-    stats: {colors: true}
-  }));
+  // app.use(webpackMiddleware(webpack(require('./webpack.config')), {
+  //   stats: {colors: true}
+  // }));
 }
