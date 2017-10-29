@@ -1,10 +1,7 @@
 import {action, useStrict, computed, observable} from "mobx";
 import io from 'socket.io-client';
 import config from '../../../config/project.js'
-// let platformSocketParam = { };
-// if (process.env.NODE_ENV === 'production') {
-//   platformSocketParam = { secure: true, transports: ['websocket', 'polling', 'flashsocket'] };
-// }
+
 const socket = io();
 class List {
   @observable message

@@ -5,7 +5,6 @@ import Chat from "../features/Chat.jsx"
 import UserDetails from "../features/UserDetails.jsx"
 
 //TodoList
-//1.show memberList feature.....  √ I Get It
 //2.change avatorImage feature
 //3.change roomAvatorImage feature
 //4.to debug the login/tokenLogin/register

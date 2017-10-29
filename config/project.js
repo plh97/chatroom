@@ -1,7 +1,7 @@
 module.exports = {
     // release config.
     // you can use domain name, ip address or localhost.
-    server: 'chat.pipk.top',
+    server: 'chat.penlh.com',
     port: 443,
 
     // qiniu CDN config.

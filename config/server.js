@@ -3,7 +3,7 @@ module.exports = {
     port: 8002,
 
     // mongodb config
-    proDatabase: 'mongodb://112.74.63.84/sampsite',
+    proDatabase: 'mongodb://43.239.158.182/sampsite',
     devDatabase: 'mongodb://127.0.0.1/sampsite',
 
     // jwt encryption secret
