@@ -1,7 +1,7 @@
 @import "../common/commonStyle";
 
 body{
-	font-size: 1vw;
+	font-size: 1.5vw;
 	#root{
 		height:100vh;
 	}
@@ -263,6 +263,7 @@ body{
 
 										&::before{
 											position: absolute;
+											height: 0px;
 											top: 10px;
 											border: 6px solid transparent;
 											content: " ";
@@ -273,11 +274,11 @@ body{
 									}
 
 									.code{
-										background-color: #2d2d2d;
 										position: relative;
 
 										&::before{
 											position: absolute;
+											height: 0px;
 											top: 10px;
 											border: 6px solid transparent;
 											content: " ";
@@ -306,6 +307,7 @@ body{
 										&::after{
 											position: absolute;
 											top: 10px;
+											height: 0px;
 											border: 6px solid transparent;
 											content: " ";
 											border-left-color: #b2e281;
@@ -315,12 +317,12 @@ body{
 									}
 
 									.code{
-										background-color: #b2e281;
 										position: relative;
 
 										&::after{
 											position: absolute;
 											top: 10px;
+											height: 0px;
 											border: 6px solid transparent;
 											content: " ";
 											border-left-color: rgb(45, 45, 45);
@@ -368,14 +370,14 @@ body{
 										box-shadow: 3px 3px 10px #aaa;
 									}
 
-									&.code{
-										box-shadow: 3px 3px 10px #aaa;
+									// &.code{
+										// box-shadow: 3px 3px 10px #aaa;
 										// overflow-x: hidden;
 
-										pre{
-											border-radius: 10px;
-										}
-									}
+										// pre{
+											// border-radius: 10px;
+										// }
+									// }
 
 									&.image{
 										max-width: 100%;

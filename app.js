@@ -19,7 +19,7 @@ const jwt = require('jwt-simple');
 const configProject = require('./config/project.js')
 const configServer = require('./config/server.js')
 const port = configServer.port;
-
+console.log(process.env.TEST)
 if (process.env.NODE_ENV === 'production') {
   mongoose.connect(configServer.proDatabase, {useMongoClient: true});
 }else{
@@ -384,7 +384,7 @@ io.on('connection', function (socket) {
 
 server.listen(port);
 if (process.env.NODE_ENV !== 'production') {
-  // app.use(webpackMiddleware(webpack(require('./webpack.config')), {
-  //   stats: {colors: true}
-  // }));
+  app.use(webpackMiddleware(webpack(require('./webpack.config')), {
+    stats: {colors: true}
+  }));
 }

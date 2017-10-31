@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import { Avatar, Icon } from 'antd'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
-import Highlight from 'react-syntax-highlighter'
-import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
+// import Highlight from 'highlight.js'
+// import $ from 'jquery'
+// import "highlight.js/styles/tomorrow-night-eighties.css"
+// import { tomorrowNightEighties } from 'react-syntax-highlighter/dist/styles';
+import Prismjs from "prismjs"
+import "prismjs/themes/prism-okaidia.css"
 import { inject, observer } from "mobx-react"
 import ReactDOM from "react-dom"
 import {colorList,emoji} from '../../../config/client.js'
@@ -24,6 +28,10 @@ export default class AsyncApp extends Component {
 
 	componentDidMount() {
 	  this.scrollToBottom('auto');
+	}
+
+	componentDidUpdate(){
+		Prism.highlightAll()
 	}
 
 	handleMsgSubmit = (e) => {
@@ -114,15 +122,13 @@ export default class AsyncApp extends Component {
 										width : post.image.width
 									}}
 									src = {post.image.url}/> : ''}
-								{post.code ? <div
+								{post.code ? <pre
+									style={{overflow:"visible"}}
 									className={`${post.type} messageContainer`}>
-										<Highlight
-											language='javascript'
-											style={tomorrowNightEighties}
-											className ="JavaScript">
+										<code className="language-javascript">
 											{post.code}
-										</Highlight>
-									</div> : ''}
+										</code>
+									</pre> : ''}
 							</div>
 						</div>
 					))}
