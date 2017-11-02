@@ -1,42 +1,49 @@
 @import "../common/commonStyle";
 
-.bodyContent{
+.bodyContent {
   grid-area: bodyContent;
   display: grid;
   position: relative;
   grid-template-columns: 1fr;
   grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
-  grid-template-areas:
-    'bodyContentMessages'
-    'bodyContentFeature'
-    'bodyContentMessagesInputArea';
-
+  grid-template-areas: 'bodyContentMessages' 'bodyContentFeature' 'bodyContentMessagesInputArea';
   @import "./roomDetails.less";
 
-  .bodyContentMessages{
+  .bodyContentMessages {
     grid-area: bodyContentMessages;
     height: 100%;
     overflow-y: scroll;
 
-    .bodyContentMessagesList{
+
+    .bodyContentMessagesList {
+      .timeContainer{
+        display: none;
+      }
+
+      &:hover {
+        .timeContainer{
+          display: inline-block;
+        }
+      }
       font-family: 'Reem Kufi','Roboto',sans-serif;
       padding: 15px 0;
       display: grid;
       grid-template-rows: calc(~'(100% - 77px)');
 
-      &.other{
+      &.other {
         grid-template-columns: 60px 1fr 160px;
         grid-template-areas: 'avator content .';
-        .content{
+
+        .content {
           justify-self: start;
 
-          .text{
+          .text {
             background-color: #f1f1f1;
             position: relative;
 
-            &::before{
+            &::before {
               position: absolute;
-              height: 0px;
+              height: 0;
               top: 10px;
               border: 6px solid transparent;
               content: " ";
@@ -46,12 +53,12 @@
             }
           }
 
-          .code{
+          .code {
             position: relative;
 
-            &::before{
+            &::before {
               position: absolute;
-              height: 0px;
+              height: 0;
               top: 10px;
               border: 6px solid transparent;
               content: " ";
@@ -63,24 +70,25 @@
         }
       }
 
-      &.me{
+      &.me {
         grid-template-columns: 160px 1fr 60px;
         grid-template-areas: '. content avator';
-        .content{
+
+        .content {
           justify-self: end;
 
-          .messageTittle{
+          .messageTittle {
             text-align: right;
           }
 
-          .text{
+          .text {
             background-color: #b2e281;
             position: relative;
 
-            &::after{
+            &::after {
               position: absolute;
               top: 10px;
-              height: 0px;
+              height: 0;
               border: 6px solid transparent;
               content: " ";
               border-left-color: #b2e281;
@@ -89,13 +97,13 @@
             }
           }
 
-          .code{
+          .code {
             position: relative;
 
-            &::after{
+            &::after {
               position: absolute;
               top: 10px;
-              height: 0px;
+              height: 0;
               border: 6px solid transparent;
               content: " ";
               border-left-color: rgb(45, 45, 45);
@@ -106,8 +114,8 @@
         }
       }
 
-      .avator{
-        grid-area:avator;
+      .avator {
+        grid-area: avator;
         justify-self: center;
         align-self: start;
         margin-top: 15px;
@@ -115,18 +123,19 @@
       }
 
       .content {
-        grid-area:content;
+        grid-area: content;
         max-width: 100%;
         display: grid;
 
         .nameContainer {
           font-weight: bolder;
-          font-size: 14px;
+          font-size: 1.2rem;
           color: #202020;
         }
 
         .timeContainer {
-          font-size: 12px;
+          font-size: 0.8rem;
+          padding-left: 10px;
         }
 
         .messageContainer {
@@ -137,16 +146,16 @@
           display: inline-block;
           justify-self: inherit;
 
-          &.text{
+          &.text {
             padding: 5px 10px;
             box-shadow: 3px 3px 10px #aaa;
             font-size: 1rem;
           }
 
-          &.image{
+          &.image {
             max-width: 100%;
 
-            .imageContainer{
+            .imageContainer {
               border-radius: 2%;
             }
           }
@@ -155,7 +164,7 @@
     }
   }
 
-  .bodyContentFeature{
+  .bodyContentFeature {
     grid-area: bodyContentFeature;
     display: flex;
     flex-direction: row;
@@ -167,7 +176,7 @@
     min-height: 20px;
     position: relative;
 
-    .emojiContainer{
+    .emojiContainer {
       position: absolute;
       bottom: 35px;
       width: 412px;
@@ -176,7 +185,7 @@
       height: auto;
       background-color: rgba(255, 255, 255, 0.1);
       font-size: 1.7rem;
-      transition: all .1s ease-out;
+      transition: all 0.1s ease-out;
 
       &.display {
         display: block;
@@ -189,55 +198,60 @@
         opacity: 0.01;
       }
 
-      .emoji{
+      .emoji {
         cursor: pointer;
-        user-select: none
+        user-select: none;
       }
     }
 
-    .emojiClick{
-      cursor:pointer;
+    .emojiClick {
+      cursor: pointer;
       font-size: 1.7rem;
       color: @grey9;
       font-weight: bolder;
       margin: 0 10px;
-      &:hover{
+
+      &:hover {
         opacity: 0.5;
       }
     }
 
-    .picture{
+    .picture {
+      display: inline-grid;
       cursor: pointer;
-      font-size: 1.7rem;
+      font-size: 2rem;
       color: @grey9;
       margin: 0 10px;
-      &:hover{
+
+      &:hover {
         opacity: 0.5;
       }
     }
 
-    .imgInputFile{
+    .imgInputFile {
       display: none;
     }
 
     .codingClick {
-      cursor:pointer;
+      cursor: pointer;
       font-size: 1.7rem;
       color: @grey9;
       font-weight: bolder;
-      margin: 0 10px;
+      margin: 0 0px;
       user-select: none;
-      &:hover{
+      margin: 0 0 6px 8px;
+
+      &:hover {
         opacity: 0.5;
       }
     }
 
-    .textAreaContainer{
+    .textAreaContainer {
       position: absolute;
       bottom: 35px;
       width: auto;
       height: auto;
-      transition: all .1s ease-out;
+      transition: all 0.1s ease-out;
 
       &.display {
         display: block;
@@ -251,7 +265,7 @@
       }
 
       .textArea {
-        color:#000;
+        color: #000;
         width: 50vw;
         border-radius: 2px;
         box-shadow: 0 0 10px #999;
@@ -272,17 +286,17 @@
     width: 100%;
     z-index: 1;
 
-    .bodyContentMessagesInput{
+    .bodyContentMessagesInput {
       width: 450px;
       max-width: 90%;
-        height: 32px;
-        border-radius: 16px;
-        border: 1px solid #727272;
-        padding: 0 15px;
-        margin-bottom: 5px;
-        margin-top: 5px;
-        font-size: 16px;
-        transition: margin-top .3s;
+      height: 32px;
+      border-radius: 16px;
+      border: 1px solid #727272;
+      padding: 0 15px;
+      margin-bottom: 5px;
+      margin-top: 5px;
+      font-size: 16px;
+      transition: margin-top 0.3s;
     }
   }
 }

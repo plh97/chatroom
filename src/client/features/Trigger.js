@@ -3,10 +3,69 @@ import { inject, observer } from "mobx-react"
 
 @inject("store")
 @observer
-class Trigger  extends Component {
+class Trigger extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.isMount = false;
+  //   this.listeners = [];
+  //   // this.onPopup = this._onPopup.bind(this);
+  // }
+  // isContains(root, node) {
+  //   while(node) {
+  //     if(root === node) {
+  //       return true;
+  //     }
+  //     node = node.parentNode;
+  //   }
+  //   return false;
+  // }
+  // isFunction(func) {
+  //   return typeof func === 'function';
+  // }
+  // onDocumentClick(event, callback) {
+  //   const root = this.container;
+  //   const target = event.target
+  //   if(
+  //     this.isMount &&
+  //     this.isFunction(callback) &&
+  //     !this.isContains(root, target)
+  //   ) {
+  //     callback(event);
+  //   }
+  // }
+  // addEventListener(target, event, callback) {
+  //   const cb = (e) => this.onDocumentClick(e, callback);
+  //   if(target && target.addEventListener) {
+  //     target.addEventListener(event, cb, false);
+  //     return () => {target.removeEventListener(event, cb, false)};
+  //   }
+  // }
+  //
+  //
+  // _onPopup(e, cb) {
+  //   this.listeners.push(
+  //     this.addEventListener(
+  //       document,
+  //       e,
+  //       (event) => {
+  //         this.isFunction(cb) && cb();
+  //       }
+  //     )
+  //   )
+  // }
+
   //事件总代理模型
 	//all event only Perform their own duties
 	handleAllEventClick = (e) => {
+		// console.log(this.container);
+
+    // this.listeners.map((func) => {
+    //   this.isFunction(func) && func();
+    // })
+		// this._onPopup(
+    //     'click',
+    //     () => {console.log(123)}
+    // )
 		const {
 			showRoomDetail ,
 			showRoomDetailFunc ,
@@ -105,7 +164,12 @@ class Trigger  extends Component {
   render() {
     const {children} = this.props
     return (
-      <div className={this.props.className} onClick={this.handleAllEventClick}>
+      <div
+				className={this.props.className}
+        {...this.props}
+        onPopup = {this.onPopup}
+				ref = {(ref) => this.container = ref}
+				onClick={this.handleAllEventClick}>
         {children}
       </div>
     );
