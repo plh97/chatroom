@@ -7,6 +7,7 @@ import { Avatar, Icon } from 'antd'
 import BodyContent from '../components/BodyContent.jsx'
 import { inject, observer } from "mobx-react"
 import {colorList} from '../../../config/client.js'
+// import '../less/chat.less'
 
 @inject("store")
 @observer

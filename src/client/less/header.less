@@ -1,0 +1,42 @@
+.header{
+  background-color: #242424;
+  border-bottom: 1px solid #000;
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 120px 1fr 100px;
+  grid-template-areas: 'iframe h1 ant-avatar';
+  z-index: 2;
+
+  h1{
+    color: #fff;
+    grid-area: h1;
+    justify-self: center;
+    align-self: center;
+
+    &.toggleDetail{
+      cursor: pointer;
+    }
+  }
+
+  iframe{
+    grid-area: iframe;
+    justify-self: end;
+    align-self: center;
+  }
+
+  .ant-avatar{
+    grid-area: ant-avatar;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    // line-height: 40px;
+    font-size: 24px;
+    border-radius: 30px;
+
+    *{
+      line-height: 60px;
+    }
+  }
+}

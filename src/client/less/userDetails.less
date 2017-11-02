@@ -1,0 +1,92 @@
+.showMoreUserInfo {
+  position: absolute;
+  width: 220px;
+  height: 335px;
+  background-color: #fff;
+  z-index: 3;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  -moz-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+  -webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
+  transition: all 0.1s ease-out;
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.hide {
+    visibility: hidden;
+    opacity: 0.01;
+    transform: scale(0.4);
+  }
+
+  .avator {
+    width: 220px;
+    height: 220px;
+    line-height: 220px;
+    font-size: 50px;
+
+    span {
+      line-height: 220px;
+    }
+  }
+
+  .info {
+    padding: 20px;
+    min-height: 74px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 30px 40px;
+    grid-template-areas: 'nameArea' 'nikeNameArea';
+
+    .nameArea {
+      grid-area: nameArea;
+      font-size: 20px;
+      font-weight: bold;
+      display: grid;
+      padding: 0 8px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: 'nameContainer icon';
+      grid-row-gap: 0.2em;
+
+      .nameContainer {
+        grid-area: nameContainer;
+        justify-self: start;
+      }
+
+      i {
+        grid-area: icon;
+        justify-self: end;
+        align-self: center;
+        cursor: pointer;
+      }
+    }
+
+    .nikeNameArea {
+      grid-area: nikeNameArea;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      grid-template-rows: 20px 20px;
+      grid-template-areas: 'nikeNameLabel nikeName' 'placeLabel place';
+
+      .nikeNameLabel {
+        grid-area: nikeNameLabel;
+        justify-self: center;
+      }
+
+      .nikeName {
+        grid-area: nikeName;
+      }
+
+      .placeLabel {
+        grid-area: placeLabel;
+        justify-self: center;
+      }
+
+      .place {
+        grid-area: place;
+      }
+    }
+  }
+}

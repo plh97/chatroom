@@ -11,9 +11,14 @@ import {
 import "./less/index.less"
 import store from "./store/"
 import {Provider,observer} from "mobx-react"
+// import "../../assets/font/peng.woff"
+// import "../../assets/font/base.woff"
 
 @observer
 export default class Root extends Component{
+	componentDidUpdate(){
+		Prism.highlightAll()
+	}
 	render(){
 		const { callBack } = store;
 		if( callBack.code==0 || callBack.code==2 ){

@@ -2,6 +2,9 @@ import React from 'react'
 import {Avatar} from 'antd';
 import {inject, observer} from "mobx-react"
 import { colorList } from '../../../config/client.js'
+// import '../less/roomDetails.less'
+
+
 @inject("store")
 @observer
 export default class RoomDetails extends React.Component {

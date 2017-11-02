@@ -1,0 +1,288 @@
+@import "../common/commonStyle";
+
+.bodyContent{
+  grid-area: bodyContent;
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr;
+  grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
+  grid-template-areas:
+    'bodyContentMessages'
+    'bodyContentFeature'
+    'bodyContentMessagesInputArea';
+
+  @import "./roomDetails.less";
+
+  .bodyContentMessages{
+    grid-area: bodyContentMessages;
+    height: 100%;
+    overflow-y: scroll;
+
+    .bodyContentMessagesList{
+      font-family: 'Reem Kufi','Roboto',sans-serif;
+      padding: 15px 0;
+      display: grid;
+      grid-template-rows: calc(~'(100% - 77px)');
+
+      &.other{
+        grid-template-columns: 60px 1fr 160px;
+        grid-template-areas: 'avator content .';
+        .content{
+          justify-self: start;
+
+          .text{
+            background-color: #f1f1f1;
+            position: relative;
+
+            &::before{
+              position: absolute;
+              height: 0px;
+              top: 10px;
+              border: 6px solid transparent;
+              content: " ";
+              border-right-color: #f1f1f1;
+              border-right-width: 4px;
+              right: 100%;
+            }
+          }
+
+          .code{
+            position: relative;
+
+            &::before{
+              position: absolute;
+              height: 0px;
+              top: 10px;
+              border: 6px solid transparent;
+              content: " ";
+              border-right-color: rgb(45, 45, 45);
+              border-right-width: 4px;
+              right: 100%;
+            }
+          }
+        }
+      }
+
+      &.me{
+        grid-template-columns: 160px 1fr 60px;
+        grid-template-areas: '. content avator';
+        .content{
+          justify-self: end;
+
+          .messageTittle{
+            text-align: right;
+          }
+
+          .text{
+            background-color: #b2e281;
+            position: relative;
+
+            &::after{
+              position: absolute;
+              top: 10px;
+              height: 0px;
+              border: 6px solid transparent;
+              content: " ";
+              border-left-color: #b2e281;
+              border-left-width: 4px;
+              left: 100%;
+            }
+          }
+
+          .code{
+            position: relative;
+
+            &::after{
+              position: absolute;
+              top: 10px;
+              height: 0px;
+              border: 6px solid transparent;
+              content: " ";
+              border-left-color: rgb(45, 45, 45);
+              border-left-width: 4px;
+              left: 100%;
+            }
+          }
+        }
+      }
+
+      .avator{
+        grid-area:avator;
+        justify-self: center;
+        align-self: start;
+        margin-top: 15px;
+        cursor: pointer;
+      }
+
+      .content {
+        grid-area:content;
+        max-width: 100%;
+        display: grid;
+
+        .nameContainer {
+          font-weight: bolder;
+          font-size: 14px;
+          color: #202020;
+        }
+
+        .timeContainer {
+          font-size: 12px;
+        }
+
+        .messageContainer {
+          max-width: 100%;
+          margin: 0;
+          word-break: break-word;
+          border-radius: 10px;
+          display: inline-block;
+          justify-self: inherit;
+
+          &.text{
+            padding: 5px 10px;
+            box-shadow: 3px 3px 10px #aaa;
+            font-size: 1rem;
+          }
+
+          &.image{
+            max-width: 100%;
+
+            .imageContainer{
+              border-radius: 2%;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .bodyContentFeature{
+    grid-area: bodyContentFeature;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid silver;
+    z-index: 1;
+    min-height: 20px;
+    position: relative;
+
+    .emojiContainer{
+      position: absolute;
+      bottom: 35px;
+      width: 412px;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #999;
+      height: auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      font-size: 1.7rem;
+      transition: all .1s ease-out;
+
+      &.display {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      &.none {
+        visibility: hidden;
+        opacity: 0.01;
+      }
+
+      .emoji{
+        cursor: pointer;
+        user-select: none
+      }
+    }
+
+    .emojiClick{
+      cursor:pointer;
+      font-size: 1.7rem;
+      color: @grey9;
+      font-weight: bolder;
+      margin: 0 10px;
+      &:hover{
+        opacity: 0.5;
+      }
+    }
+
+    .picture{
+      cursor: pointer;
+      font-size: 1.7rem;
+      color: @grey9;
+      margin: 0 10px;
+      &:hover{
+        opacity: 0.5;
+      }
+    }
+
+    .imgInputFile{
+      display: none;
+    }
+
+    .codingClick {
+      cursor:pointer;
+      font-size: 1.7rem;
+      color: @grey9;
+      font-weight: bolder;
+      margin: 0 10px;
+      user-select: none;
+      &:hover{
+        opacity: 0.5;
+      }
+    }
+
+    .textAreaContainer{
+      position: absolute;
+      bottom: 35px;
+      width: auto;
+      height: auto;
+      transition: all .1s ease-out;
+
+      &.display {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      &.none {
+        opacity: 0.01;
+        visibility: hidden;
+      }
+
+      .textArea {
+        color:#000;
+        width: 50vw;
+        border-radius: 2px;
+        box-shadow: 0 0 10px #999;
+        height: auto;
+        background-color: rgba(255, 255, 255, 0.1);
+        font-size: 18px;
+        animation-duration: 0.4s;
+      }
+    }
+  }
+
+  .bodyContentMessagesInputArea {
+    grid-area: bodyContentMessagesInputArea;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    z-index: 1;
+
+    .bodyContentMessagesInput{
+      width: 450px;
+      max-width: 90%;
+        height: 32px;
+        border-radius: 16px;
+        border: 1px solid #727272;
+        padding: 0 15px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        font-size: 16px;
+        transition: margin-top .3s;
+    }
+  }
+}

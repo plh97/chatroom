@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Avatar, Icon } from 'antd'
+import { Avatar,Spin, Icon } from 'antd'
 import { inject, observer } from "mobx-react"
 import {colorList} from '../../../config/client.js'
+// import '../less/header.less'
 
 @inject("store")
 @observer
@@ -19,6 +20,11 @@ export default class Header extends Component {
 		} = this.props.store;
 		return (
       <div className="header">
+        <iframe
+    	    style={{marginLeft: "2px", marginBottom:"-5px"}}
+    	    frameBorder="0" scrolling="0" width="91px" height="20px"
+    	    src="https://ghbtns.com/github-btn.html?user=pengliheng&repo=chatroom&type=star&count=true" >
+    		</iframe>
 				{currentRoomInfo.name == '' ? <h1>聊天室</h1> : <h1 className='toggleDetail'>
 					{currentRoomInfo.name}
 					房间(

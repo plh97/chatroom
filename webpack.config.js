@@ -46,6 +46,11 @@ const webpackConfig = merge( process.env.NODE_ENV == 'development' ?  devWebpack
       // },{
       //   test: /\.json$/,
       //   loader: 'json-loader'
+    },{
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader'
+        ]
       }
     ]
   },
