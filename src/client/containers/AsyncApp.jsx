@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Header from "../Components/Header.jsx"
-import Chat from "../Components/Chat.jsx"
-import UserDetails from "../Components/UserDetails.jsx"
+import Header from "../components/Header.jsx"
+import Chat from "../components/Chat.jsx"
+import UserDetails from "../components/UserDetails.jsx"
 import Trigger from "../features/Trigger.js"
 
 // TODO:
