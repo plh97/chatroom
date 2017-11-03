@@ -4,12 +4,13 @@ const app = new App()
 const server = http.createServer(app.callback());
 const io = require('socket.io')(server);
 const static = require('koa-static');
-// const xtpl = require('koa-xtpl');
+const xtpl = require('koa-xtpl');
 const path = require('path');
 const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const webpack = require('webpack');
 const webpackMiddleware = require('koa-webpack-dev-middleware');
+// const compress = require('koa-compress')
 const staticPath = './dist';
 const mongoose = require('mongoose');
 const Chat = require('./src/server/routes/model/Chat.model');
@@ -32,27 +33,34 @@ app
   .use(static(path.join(__dirname, staticPath), {
     maxAge: 356 * 24 * 60 * 60
   }))
-  // .use(xtpl({
-  //   root: path.resolve(__dirname, './dist'),
-  //   extname: 'html',
-  //   commands: {}
+  .use(xtpl({
+    root: path.resolve(__dirname, './dist'),
+    extname: 'html',
+    commands: {}
+  }))
+  // app.use(compress({
+  //   filter: function (content_type) {
+  //   	return /text/i.test(content_type)
+  //   },
+  //   threshold: 2048,
+  //   flush: require('zlib').Z_SYNC_FLUSH
   // }))
 
-// app.use(async(ctx, next) => {
-//   await ctx.render('index', {});
-// });
+app.use(async(ctx, next) => {
+  await ctx.render('index', {});
+});
 
-router.get('/chat',async ctx => {
-  ctx.redirect('/')
-})
-
-router.get('/chat/room/:id',async ctx => {
-  ctx.redirect('/')
-})
-
-router.get('/register',async ctx => {
-  ctx.redirect('/')
-})
+// router.get('/chat',async ctx => {
+//   ctx.redirect('/')
+// })
+//
+// router.get('/chat/room/:id',async ctx => {
+//   ctx.redirect('/')
+// })
+//
+// router.get('/register',async ctx => {
+//   ctx.redirect('/')
+// })
 
 
 let userName;

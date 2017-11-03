@@ -3,6 +3,7 @@ import { Avatar, Icon } from 'antd'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
 import Prismjs from "prismjs"
+import "prismjs/components/prism-jsx.js"
 import "prismjs/themes/prism-okaidia.css"
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
