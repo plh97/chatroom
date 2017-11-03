@@ -24,7 +24,8 @@ const webpackConfig = merge( process.env.NODE_ENV == 'development' ?  devWebpack
   output: {
     filename: "[name].[hash].js",
     chunkFilename:'[name].[chunkhash].js',
-    path: path.join(__dirname, "dist")
+    path: path.join(__dirname, "dist"),
+    publicPath:"/",
   },
   module: {
     rules:[
