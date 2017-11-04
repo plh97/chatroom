@@ -12,6 +12,19 @@ import "./less/index.less"
 import store from "./store/"
 import {Provider,observer} from "mobx-react"
 
+//login page
+// TODO:
+
+//chat page
+// TODO:
+// the default page
+// if not has no token --> login page
+// post token to backend , check it whether right or worry
+// but how about nodejs to found the session?
+// if token  incorrect / send callBack info to front-end
+// 后台在进入的时候直接验证session是否正确。。
+
+
 @observer
 export default class Root extends Component{
 	componentDidUpdate(){
@@ -26,9 +39,9 @@ export default class Root extends Component{
 			<Provider store={store}>
 				<Router>
 					<div className='routerContainer' >
-						<Route exact path='/' render={() => ( callBack.code==0 || callBack.code==2) ? <Redirect to="/chat"/> : <Login/>} />
+						<Route path='/login' render={() => ( callBack.code==0 || callBack.code==2) ? <Redirect to="/"/> : <Login/>} />
 						<Route path='/register' render={() => callBack.code==0 ? <Redirect to="/chat"/> : <Register/>} />
-						<Route path="/chat" component={AsyncApp} />
+						<Route exact path="/"  render={() => callBack.code==0 ? <Redirect to="/login"/> : <AsyncApp/>} />
 						<div className="window"></div>
 					</div>
 				</Router>

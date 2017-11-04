@@ -21,11 +21,27 @@ const configProject = require('./config/project.js')
 const configServer = require('./config/server.js')
 const port = configServer.port;
 
+
+//直接连线上服务器，在没有本地服务器了。
 mongoose.connect(configServer.proDatabase, {useMongoClient: true});
 
 let users=[]
 let tokenList = []
 let tokeningList = []
+
+const session = require('koa-session-minimal')
+// 存放sessionId的cookie配置
+let cookie = {
+  maxAge: '', // cookie有效时长
+  expires: '',  // cookie失效时间
+  path: '', // 写cookie所在的路径
+  domain: '', // 写cookie所在的域名
+  httpOnly: false, // 是否只用于http请求中获取
+  overwrite: '',  // 是否允许重写
+  secure: '',
+  sameSite: '',
+  signed: ''
+}
 app
   .use(bodyParser())
   .use(router.routes())
@@ -33,34 +49,33 @@ app
   .use(static(path.join(__dirname, staticPath), {
     maxAge: 356 * 24 * 60 * 60
   }))
-  .use(xtpl({
-    root: path.resolve(__dirname, './dist'),
-    extname: 'html',
-    commands: {}
+  .use(session({
+    key: 'SESSION_ID',
+    cookie: cookie
   }))
-  // app.use(compress({
-  //   filter: function (content_type) {
-  //   	return /text/i.test(content_type)
-  //   },
-  //   threshold: 2048,
-  //   flush: require('zlib').Z_SYNC_FLUSH
-  // }))
-
-app.use(async(ctx, next) => {
-  await ctx.render('index', {});
-});
-
-// router.get('/chat',async ctx => {
-//   ctx.redirect('/')
-// })
+//   .use(xtpl({
+//     root: path.resolve(__dirname, './dist'),
+//     extname: 'html',
+//     commands: {}
+//   }))
 //
-// router.get('/chat/room/:id',async ctx => {
-//   ctx.redirect('/')
-// })
-//
-// router.get('/register',async ctx => {
-//   ctx.redirect('/')
-// })
+// app.use(async(ctx, next) => {
+//   await ctx.render('index', {});
+// });
+  .use(async(ctx) => {
+    // 设置session
+    if (ctx.url === '/set') {
+      ctx.session = {
+        user_id: Math.random().toString(36).substr(2),
+        count: 0
+      }
+      ctx.body = ctx.session
+    } else if (ctx.url === '/') {
+      // 读取session信息
+      ctx.session.count = ctx.session.count + 1
+      ctx.body = ctx.session
+    }
+  })
 
 
 let userName;
@@ -70,6 +85,11 @@ let userId;
 let List;
 let roomList;
 let usersForFound;
+io.use((socket, next) => {
+  if (socket.request.headers.cookie) {
+    console.log('socket.request.headers.cookie',socket.request.headers.cookie);
+  };
+});
 io.on('connection', function (socket) {
   socket.defaultRoom = configServer.defaultRoom
   socket.userInfo={
@@ -388,7 +408,7 @@ io.on('connection', function (socket) {
 
 server.listen(port);
 if (process.env.NODE_ENV !== 'production') {
-  app.use(webpackMiddleware(webpack(require('./webpack.config')), {
-    stats: {colors: true}
-  }));
+  // app.use(webpackMiddleware(webpack(require('./webpack.config')), {
+  //   stats: {colors: true}
+  // }));
 }
