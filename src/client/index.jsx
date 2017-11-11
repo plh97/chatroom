@@ -4,6 +4,7 @@ import AsyncApp from './containers/AsyncApp.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import { Route, Redirect } from 'react-router'
+import createHistory from 'history/createBrowserHistory'
 import {
 	BrowserRouter as Router,
 	Link
@@ -12,6 +13,7 @@ import "./less/index.less"
 import store from "./store/"
 import {Provider,observer} from "mobx-react"
 
+const history = createHistory()
 //login page
 // TODO:
 
@@ -39,9 +41,10 @@ export default class Root extends Component{
 			<Provider store={store}>
 				<Router>
 					<div className='routerContainer' >
-						<Route path='/login' render={() => ( callBack.code==0 || callBack.code==2) ? <Redirect to="/"/> : <Login/>} />
-						<Route path='/register' render={() => callBack.code==0 ? <Redirect to="/chat"/> : <Register/>} />
-						<Route exact path="/"  render={() => callBack.code==0 ? <Redirect to="/login"/> : <AsyncApp/>} />
+						<a href='/mygithub'>github</a>
+						<Route exact path="/login" component={Login} />
+						<Route path="/register" component={Register} />
+						<Route path="/" component={AsyncApp} />
 						<div className="window"></div>
 					</div>
 				</Router>

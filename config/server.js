@@ -1,13 +1,13 @@
 module.exports = {
     // service port
-    port: 8002,
+    port: 80,
 
     // mongodb config
     proDatabase: 'mongodb://43.239.158.182/sampsite',
     devDatabase: 'mongodb://127.0.0.1/sampsite',
 
     // jwt encryption secret
-    jwtSecret: 'jwt',
+    secret: 'jwt',
 
     // default Room
     defaultRoom: 'MoonLight',
@@ -39,4 +39,12 @@ module.exports = {
     // Default user avatar url. If use random avatar, you do not need this configuration
     // 默认用户头像链接, 如果使用随机头像则不需要该项配置
     defaultUserAvatar: '/static/default_user_avatar.png',
+
+
+    //github OAuth
+    // 0 users
+    // Client ID
+    githubClientID:"beb866b2260c1881c515",
+    // Client Secret
+    githubClientSecret:"1a0a83d40a110f3db587e134d585fe04bdf07736"
 };
