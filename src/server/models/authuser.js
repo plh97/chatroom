@@ -1,4 +1,5 @@
-const mongoose = require('./db.js');
+// const mongoose = require('./db.js');
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
@@ -10,28 +11,4 @@ const authUserSchema = new Schema({
 
 const authUserModel = mongoose.model('authuser', authUserSchema);
 
-function authUserDAO() {};
-
-authUserDAO.prototype.save = function(data) {
-    return new authUserModel(data).save();
-};
-
-authUserDAO.prototype.update = function(data) {
-    let condition = {
-        login: data.login
-    };
-    return authUserModel.update(condition, data).exec();
-};
-
-
-authUserDAO.prototype.findByLogin = function(condition) {
-    return authUserModel.findOne(condition).exec();
-};
-
-
-authUserDAO.prototype.find = function(condition) {
-    return authUserModel.find(condition).exec();
-};
-
-
-module.exports = new authUserDAO();
+module.exports = authUserModel;

@@ -29,14 +29,13 @@ const app = new Koa();
 const io = new IO()
 
 app.keys = [config.secret];
-// app.use(session({
-//     key: 'token',
-//     maxAge: 100000,
-//     overwrite: true,
-//     httpOnly: true,
-//     signed: true,
-//     rolling: false,
-// }, app));
+app.use(session({
+    key: 'token',
+    maxAge: 100000,
+    overwrite: true,
+    signed: true,
+    rolling: false,
+}, app));
 
 
 app.use(koaStatic( path.resolve('./dist'), {
@@ -75,43 +74,6 @@ app.use(koaStatic( path.resolve('./dist'), {
 
 
 const router = require('./routes')
-
-router.get("/mygithub", async(ctx) => {
-    // let option = {
-        // uri: `https://github.com/login/oauth/access_token?client_id=${config.githubClientID}&client_secret=${config.githubClientSecret}&code=`,
-    //     json: true
-    // } 
-    // let path = `https://github.com/login/oauth/authorize?client_id=${config.githubClientID}&client_secret=${config.githubClientSecret}&code=`
-    // let tokenResp = await rp(option);
-    // console.log(path);
-    // ctx.redirect(path);
-
-
-    let code = ctx.request.query["code"];
-    let option = {
-        uri: `https://github.com/login/oauth/authorize`,
-        qs: {
-            client_id:  config.githubClientID,
-            client_secret:  config.githubClientSecret
-        },
-        headers: {
-            'User-Agent': 'Request-Promise'
-        },
-        json: true
-    } 
-    console.log(option);
-    let tokenResp = await rp(option);
-    console.log(tokenResp);
-    // option = {
-    //     uri: "https://api.github.com/user?access_token=" + tokenResp.access_token,
-    //     headers: {
-    //         'User-Agent': 'Request-Promise'
-    //     },
-    //     json: true
-    // }
-    // let userInfo = await rp(option);
-    // console.log(userInfo);
-})
 
 app
     .use(router.routes())

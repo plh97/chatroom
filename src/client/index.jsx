@@ -12,7 +12,7 @@ import {
 import "./less/index.less"
 import store from "./store/"
 import {Provider,observer} from "mobx-react"
-
+import config from "../../config/server.js";
 const history = createHistory()
 //login page
 // TODO:
@@ -41,7 +41,7 @@ export default class Root extends Component{
 			<Provider store={store}>
 				<Router>
 					<div className='routerContainer' >
-						<a href='/mygithub'>github</a>
+						<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}&redirect_uri=https://localhost:443/auth`}>auth</a>
 						<Route exact path="/login" component={Login} />
 						<Route path="/register" component={Register} />
 						<Route path="/" component={AsyncApp} />

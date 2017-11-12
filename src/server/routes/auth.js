@@ -1,13 +1,7 @@
 const Tool = require('../utils/tool.js')
 const rp = require('request-promise')
-const mAuthUser = require('../models/authuser.js')
 const config = require('../../../config/server');
-
-/**
- * Github App 约定的 clientSecret 和 clientId
- */
-const clientSecret = '';
-const clientId = '';
+const mAuthUser = require('../models/authuser')
 
 /**
  * 获取授权：
@@ -24,56 +18,41 @@ const clientId = '';
 exports.getCode = async (ctx, next) => {
     let code = ctx.request.query["code"];
     let option = {
-        // uri: 'https://github.com/login/oauth/access_token?client_id=' + config.githubClientID + '&client_secret=' + config.githubClientSecret + '&code=',
-        // json: true
-
-        uri: `https://github.com/login/oauth/authorize`,
-        // uri: `https://www.penlh.com`,
-        qs: {
-            client_id:  config.githubClientID,
-            // client_secret:  config.githubClientSecret
-        },
+        uri: `https://github.com/login/oauth/access_token?client_id=${config.githubClientID}&client_secret=${config.githubClientSecret}&code=${code}`,
+        json: true
+    } 
+    let tokenResp = await rp(option);
+    option = {
+        uri: `https://api.github.com/user?access_token=${tokenResp.access_token}`,
         headers: {
             'User-Agent': 'Request-Promise'
         },
         json: true
-    } 
-    let tokenResp = await rp(option);
-    console.log(tokenResp);
-    // option = {
-    //     uri: "https://api.github.com/user?access_token=" + tokenResp.access_token,
-    //     headers: {
-    //         'User-Agent': 'Request-Promise'
-    //     },
-    //     json: true
-    // }
-    // let userInfo = await rp(option);
-    // ctx.cookies.set('access_token', tokenResp.access_token, {
-    //     'httpOnly': false
-    // })
-
-    // ctx.redirect('/comments')
-    // let isExist = await mAuthUser.findByLogin({login: userInfo.login});
-    // console.log(isExist)
-    // if(isExist) {
-    //     console.log("update")
-    //     let newAuther = {
-    //         login: userInfo.login,
-    //         name: (userInfo.name ? userInfo.name : userInfo.login),
-    //         avatar_url: userInfo.avatar_url
-    //     };
-    //     let updateAuthUser = await mAuthUser.update(newAuther);
-    //     console.log(updateAuthUser)
-    // } else {
-    //     console.log("save")
-    //     let newAuther = {
-    //             login: userInfo.login,
-    //             name: (userInfo.name ? userInfo.name : userInfo.login),
-    //             avatar_url: userInfo.avatar_url
-    //         };
-    //     let saveAuthUser = await mAuthUser.save(newAuther);
-    //     console.log(saveAuthUser)
-    // }
+    }
+    let userInfo = await rp(option);
+    ctx.cookies.set('access_token', tokenResp.access_token, {
+        'httpOnly': false
+    })
+    ctx.redirect('/')
+    let isExist = await mAuthUser.find({login: userInfo.login});
+    console.log(isExist);
+    if(isExist.length) {
+        console.log('update');
+        let newAuther = {
+            login: userInfo.login,
+            name: (userInfo.name ? userInfo.name : userInfo.login),
+            avatar_url: userInfo.avatar_url
+        };
+        let updateAuthUser = await mAuthUser.update(newAuther);
+    } else {
+        console.log('save');
+        let newAuther = {
+                login: userInfo.login,
+                name: (userInfo.name ? userInfo.name : userInfo.login),
+                avatar_url: userInfo.avatar_url
+            };
+        let saveAuthUser = await mAuthUser.save(newAuther);
+    }
 }
 
 /**
