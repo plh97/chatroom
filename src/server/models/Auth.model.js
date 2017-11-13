@@ -19,10 +19,6 @@ class authUser {
         }, data).exec();
     }
 
-    // findByLogin(condition) {
-    //     return authUserModel.findOne(condition).exec();
-    // }
-
     find(condition) {
         return authUserModel.find(condition).exec();
     }
