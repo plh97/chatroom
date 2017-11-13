@@ -2,7 +2,9 @@ import {action, useStrict, computed, observable} from "mobx";
 import io from 'socket.io-client';
 import config from '../../../config/project.js'
 
-const socket = io();
+const socket = io.connect( {secure: true});
+// const socket = io();
+
 class List {
   @observable message
   @observable time
