@@ -41,7 +41,7 @@ export default class Root extends Component{
 			<Provider store={store}>
 				<Router>
 					<div className='routerContainer' >
-						<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}&redirect_uri=https://localhost:443/auth`}>auth</a>
+						<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}&redirect_uri=${process.env.NODE_ENV=="production" ? "https://chat.penlh.com/auth" : "https://localhost:443/auth"}`}>auth</a>
 						<Route exact path="/login" component={Login} />
 						<Route path="/register" component={Register} />
 						<Route path="/" component={AsyncApp} />

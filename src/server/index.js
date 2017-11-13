@@ -16,8 +16,12 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.proDatabase,{useMongoClient:true})
   .then(
     ()=>{
-      http.createServer(app.callback()).listen(port);
-      https.createServer(options,app.callback()).listen(443);
+      if(process.env.NODE_ENV=="production"){
+        http.createServer(app.callback()).listen(port);
+      }else{
+        http.createServer(app.callback()).listen(80);
+        https.createServer(options , app.callback()).listen(443);
+      }
     },
     err => console.log(err)
   )
