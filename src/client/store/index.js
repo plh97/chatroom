@@ -61,7 +61,10 @@ class TodoStore {
   }
   @observable code = ''
   @observable messageType = 'text'
-  @observable roomList = []
+  @observable roomList = [{
+    name:'Moonlight',
+    avatorUrl:''
+  }]
   //当前在线用户
   @observable onlineUsers = []
   @observable doing = false
@@ -113,7 +116,8 @@ class TodoStore {
     socket.on('get roomList', json => {
       this.roomList = json
     })
-    socket.on('get currentRoomInfo', json => {
+    socket.on('init room', json => {
+      console.log('init room',json);
       this.currentRoomInfo.messageList = json.messageList
       this.currentRoomInfo.memberList = json.memberList
       this.currentRoomInfo.name = json.name

@@ -10,7 +10,7 @@ import {colorList,emoji} from '../../../config/client.js'
 
 @inject("store")
 @observer
-export default class AsyncApp extends Component {
+export default class BodyContent extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
@@ -23,7 +23,12 @@ export default class AsyncApp extends Component {
 	}
 
 	componentDidMount() {
-	  this.scrollToBottom('auto');
+		console.log('init room')
+		this.props.store.socket({
+			url: 'init room',
+			nowRoom: this.props.match.params.roomId
+		})
+		this.scrollToBottom('auto');
 	}
 
 	componentDidUpdate(){

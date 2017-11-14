@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 const config = require('../../../config/server');
-const mAuthUser = require('../models/Auth.model');
+const User = require('../models/User.model');
 
 /**
  * 获取github code的方法
@@ -35,27 +35,16 @@ exports.getCode = async (ctx, next) => {
         'httpOnly': false
     })
     ctx.redirect('/')
-    let isExist = await mAuthUser.find({ login: userInfo.login });
-    console.log(isExist);
+    let isExist = await User.find({ _id: userInfo.id });
+    let newUser = {
+        _id: userInfo.id,
+        github:userInfo
+    };
     if (isExist.length) {
-        console.log('update');
-        let newAuther = {
-            login: userInfo.login,
-            name: (userInfo.name ? userInfo.name : userInfo.login),
-            avatar_url: userInfo.avatar_url
-        };
-        let updateAuthUser = await mAuthUser.update({
-            login: newAuther.login
-        }, newAuther);
-        console.log(updateAuthUser);
+        await User.update({
+            _id: userInfo.id
+        }, newUser);
     } else {
-        console.log('save');
-        let newAuther = {
-            login: userInfo.login,
-            name: (userInfo.name ? userInfo.name : userInfo.login),
-            avatar_url: userInfo.avatar_url
-        };
-        let saveAuthUser = await mAuthUser(newAuther).save();
-        console.log(saveAuthUser);
+        await User.save(newUser);
     }
 }

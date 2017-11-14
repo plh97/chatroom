@@ -10,4 +10,15 @@ const RoomSchema = new Schema({
 	messageList: { type: Array, default: [] }
 });
 
-module.exports = mongoose.model("room",RoomSchema);
+const roomModel = mongoose.model('rooms', RoomSchema);
+
+class room {
+    find(condition) {
+        return roomModel.find(condition);
+    }
+    findOne(condition) {
+        return roomModel.findOne(condition);
+    }
+}
+
+module.exports = new room();

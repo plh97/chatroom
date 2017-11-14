@@ -7,7 +7,6 @@ import { Avatar, Icon } from 'antd'
 import BodyContent from '../components/BodyContent.jsx'
 import { inject, observer } from "mobx-react"
 import {colorList} from '../../../config/client.js'
-// import '../less/chat.less'
 
 @inject("store")
 @observer
@@ -19,6 +18,10 @@ export default class Chat extends Component {
 			userId: myInfo.id,
 			name: myInfo.name
 		})
+	}
+	//只执行一次
+	componentWillMount(){
+		console.log('componentWillMount');
 	}
 
 	render() {
@@ -42,7 +45,7 @@ export default class Chat extends Component {
 							className="roomList"
 							id={room.name}
 							key={i}
-							to={`${match.url}/room/${room.name}`}>
+							to={`${match.url}/${room.name}`}>
 							<Avatar
 								src={room.avatorUrl}
 								className="slideAvator"
@@ -58,7 +61,10 @@ export default class Chat extends Component {
 						开房？
 					</span>
 				</div>
-				<Route path={`${match.url}/room/:id`} component={BodyContent}/>
+				<Route exact path={match.url} render={() => (
+					<h3>Please select a room.</h3>
+				)}/>
+				<Route path={`${match.url}/:roomId`} component={BodyContent}/>
 			</div>
 		)
 	}
