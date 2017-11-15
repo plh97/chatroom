@@ -97,8 +97,8 @@ class TodoStore {
     this.showMoreUserInfo = state
   }
   constructor() {
-    socket.on('user joined', json => {
-      // console.log('user joined',json)
+    socket.on('get myInfo', json => {
+      console.log('user joined',json)
       this.doing = false
       this.callBack = json
       this.tip = json.message

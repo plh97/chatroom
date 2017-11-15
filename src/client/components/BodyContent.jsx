@@ -47,8 +47,8 @@ export default class BodyContent extends Component {
 			url: 'send message',
 			userId: myInfo.id,
 			myName: myInfo.name,
-			nowRoom: currentRoomInfo.name,
 			myAvatorUrl: currentRoomInfo.avatorUrl,
+			nowRoom: currentRoomInfo.name,
 			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,

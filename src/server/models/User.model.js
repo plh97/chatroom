@@ -10,18 +10,26 @@ const userSchema = new Schema({
 const userModel = mongoose.model('users', userSchema);
 
 class User {
-    save(data) {
+    async save(data) {
+        let isExist = await userModel.findOne({
+            _id: data._id
+        })
+        if (isExist) {
+            return userModel.update({
+                login: data._id
+            }, data).exec();
+        } else {
+            return new userModel(data).save();
+        }
         return new userModel(data).save();
-    }
-
-    update(data) {
-        return userModel.update({
-            login: data.login
-        }, data).exec();
     }
 
     find(condition) {
         return userModel.find(condition).exec();
+    }
+
+    findOne(condition) {
+        return userModel.findOne(condition).exec();
     }
 }
 

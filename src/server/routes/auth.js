@@ -1,6 +1,7 @@
 const rp = require('request-promise');
-const config = require('../../../config/server');
 const User = require('../models/User.model');
+const Token = require('../models/Token.model');
+const config = require('../../../config/server');
 
 /**
  * 获取github code的方法
@@ -35,16 +36,14 @@ exports.getCode = async (ctx, next) => {
         'httpOnly': false
     })
     ctx.redirect('/')
-    let isExist = await User.find({ _id: userInfo.id });
-    let newUser = {
+    //将user信息写入数据库,重写方法，有就更新，没有就保存
+    await User.save({
         _id: userInfo.id,
         github:userInfo
-    };
-    if (isExist.length) {
-        await User.update({
-            _id: userInfo.id
-        }, newUser);
-    } else {
-        await User.save(newUser);
-    }
+    });
+    //将token写入数据库,重写方法，有就更新，没有就保存
+    await Token.save({
+        access_token: tokenResp.access_token,
+        _id: userInfo.id
+    })
 }

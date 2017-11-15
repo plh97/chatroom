@@ -13,11 +13,12 @@ const RoomSchema = new Schema({
 const roomModel = mongoose.model('rooms', RoomSchema);
 
 class room {
-    find(condition) {
-        return roomModel.find(condition);
-    }
     findOne(condition) {
         return roomModel.findOne(condition);
+    }
+    sendMessage(condition){
+        let currentRoom = roomModel.findOne(condition);
+        
     }
 }
 
