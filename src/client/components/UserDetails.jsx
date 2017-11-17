@@ -6,7 +6,7 @@ import {colorList} from '../../../config/client.js'
 
 @inject("store")
 @observer
-export default class AsyncApp extends Component {
+export default class UserDetails extends Component {
   render() {
     const {match} = this.props
     const {
@@ -22,13 +22,13 @@ export default class AsyncApp extends Component {
         ? 'show'
         : 'hide'}`}>
         <Avatar
-        // src={showMoreUserInfo.avatorUrl}
-        className="avator" shape='square' size="large" style={{
-          backgroundColor: colorList[showMoreUserInfo.name.charCodeAt() % 8],
-          cursor: showMoreUserInfo.name == myInfo.name
-            ? 'pointer'
-            : ''
-        }}>
+          src={showMoreUserInfo.avatar_url}
+          className="avatar" shape='square' size="large" style={{
+            backgroundColor: colorList[showMoreUserInfo.name.charCodeAt() % 8],
+            cursor: showMoreUserInfo.name == myInfo.name
+              ? 'pointer'
+              : ''
+          }}>
           {showMoreUserInfo.name.split('')[0]}
         </Avatar>
         <span className="info">

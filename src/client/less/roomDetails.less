@@ -32,7 +32,7 @@
       display: grid;
       grid-template-columns: 60px 1fr;
       grid-template-areas:
-        'title avatorContainer';
+        'title avatarContainer';
 
       .title{
         grid-area: title;
@@ -40,24 +40,24 @@
         align-self: center;
       }
 
-      .avatorContainer {
-        grid-area: avatorContainer;
+      .avatarContainer {
+        grid-area: avatarContainer;
 
-        .avator{
+        .avatar{
           display: inline-grid;
           grid-template-columns: 64px;
           grid-template-areas:
-            'slideAvator' 'nameAvator';
+            'slideAvatar' 'nameAvatar';
 
-          .slideAvator {
-            grid-area: slideAvator;
+          .slideAvatar {
+            grid-area: slideAvatar;
             cursor: pointer;
             justify-self: center;
             align-self: center;
           }
 
           .name {
-            grid-area: nameAvator;
+            grid-area: nameAvatar;
             justify-self: center;
             color:#888
           }

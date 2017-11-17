@@ -20,13 +20,9 @@ export default class Chat extends Component {
 		})
 	}
 	//只执行一次
-	componentWillMount(){
-		console.log('componentWillMount');
-		this.props.store.socket({
-			url:'get myInfo',
-			id:document.cookie
-		})
-	}
+	// componentWillMount(){
+	// 	// console.log('componentWillMount');
+	// }
 
 	render() {
 		const { match } = this.props

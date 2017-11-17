@@ -37,7 +37,7 @@ export default class Header extends Component {
 			<Avatar style={{
 					backgroundColor: colorList[myInfo.name.charCodeAt() % 8]
 				}}
-				src={myInfo.avatorUrl}
+				src={myInfo.avatar_url}
 				size="large">{myInfo.name.split("")[0]}
 			</Avatar>
 			</div>

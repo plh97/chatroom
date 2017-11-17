@@ -7,6 +7,8 @@ import "prismjs/components/prism-jsx.js"
 import "prismjs/themes/prism-okaidia.css"
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
+import { userInfo } from 'os';
+import config from "../../../config/server.js";
 
 @inject("store")
 @observer
@@ -23,10 +25,13 @@ export default class BodyContent extends Component {
 	}
 
 	componentDidMount() {
-		console.log('init room')
-		this.props.store.socket({
-			url: 'init room',
-			nowRoom: this.props.match.params.roomId
+		const{ socket,myInfo } = this.props.store
+		const {match} = this.props
+		document.cookie = `redirect_uri=${match.url};Path=/auth`;
+		socket({
+			url: 'init group',
+			groupName: match.params.roomId,
+			id:myInfo.id
 		})
 		this.scrollToBottom('auto');
 	}
@@ -45,10 +50,10 @@ export default class BodyContent extends Component {
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
-			userId: myInfo.id,
-			myName: myInfo.name,
-			myAvatorUrl: currentRoomInfo.avatorUrl,
-			nowRoom: currentRoomInfo.name,
+			id: myInfo.id,
+			name: myInfo.name,
+			avatar_url: myInfo.avatar_url,
+			group: currentRoomInfo.name,
 			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,
@@ -101,7 +106,7 @@ export default class BodyContent extends Component {
 								style={{
 									backgroundColor: colorList[post.userName.charCodeAt() % 8]
 								}}
-								src={post.avatorUrl}
+								src={post.avatar_url}
 								size="large">{post.userName.split("")[0]}
 							</Avatar>
 							<div className='content'>
@@ -133,40 +138,52 @@ export default class BodyContent extends Component {
 							</div>
 						</div>
 					))}
-	        <div style={{ float:"left", clear: "both" }}
-	             ref={(el) => { this.messagesEnd = el; }}>
-	        </div>
-				</div>
-				<div className="bodyContentFeature">
-					<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
-					<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
-						{emoji.split(' ').map((index,i)=>(
-							<span key={i} className = "emoji">{index}</span>
-						))}
+					<div style={{ float:"left", clear: "both" }}
+						ref={(el) => { this.messagesEnd = el; }}>
 					</div>
-					<Icon className='picture' type="picture" onClick={()=>this._imageInput.click()}/>
-					<input onChange={this.handleImage}
-						value={this.state.file}
-						ref={(c) => this._imageInput = c}
-						id='imgInputFile'
-						className='imgInputFile'
-						type="file" />
-					<span className = 'codingClick'>&lt;/></span>
-					<SublimeText handleMsgSubmit={this.handleMsgSubmit}/>
 				</div>
-				<form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
-					e.preventDefault();
-					this.handleMsgSubmit({
-						type:'text',
-						text:this._textInput.value
-					})
-				}}>
-					<input
-						ref={(c) => this._textInput = c}
-						className='bodyContentMessagesInput'
-						id='bodyContentMessagesInput'
-						placeholder='chat content' />
-				</form>
+				{
+					myInfo.name && <div className="bodyContentFeature">
+						<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
+						<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
+							{emoji.split(' ').map((index,i)=>(
+								<span key={i} className = "emoji">{index}</span>
+							))}
+						</div>
+						<Icon className='picture' type="picture" onClick={()=>this._imageInput.click()}/>
+						<input onChange={this.handleImage}
+							value={this.state.file}
+							ref={(c) => this._imageInput = c}
+							id='imgInputFile'
+							className='imgInputFile'
+							type="file" />
+						<span className = 'codingClick'>&lt;/></span>
+						<SublimeText handleMsgSubmit={this.handleMsgSubmit}/>
+					</div>
+				}
+				{
+					myInfo.name && <form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
+						e.preventDefault();
+						this.handleMsgSubmit({
+							type:'text',
+							text:this._textInput.value
+						})
+					}}>
+						<input
+							ref={(c) => this._textInput = c}
+							className='bodyContentMessagesInput'
+							id='bodyContentMessagesInput'
+							placeholder='chat content' />
+					</form> 
+				}
+				{
+					!myInfo.name && <div className='bodyContentMessagesInputArea'>
+						<h2>
+							请登录
+							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>auth</a>
+						</h2>
+					</div>
+				}
 			</div>
 		)
 	}

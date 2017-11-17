@@ -13,7 +13,6 @@ import {
 import {Provider,observer} from "mobx-react"
 import "./less/index.less"
 import store from "./store/"
-import config from "../../config/server.js";
 const history = createHistory()
 //login page
 // TODO:
@@ -30,6 +29,9 @@ const history = createHistory()
 
 @observer
 export default class Root extends Component{
+	componentWillMount(){
+		document.ondragstart= () => false
+	}
 	componentDidUpdate(){
 		Prism.highlightAll()
 	}
@@ -55,19 +57,18 @@ export default class Root extends Component{
 			<Provider store={store}>
 				<Router>
 					<div className='routerContainer' >
-						<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>auth</a>
 						<Route exact path="/" render={
 							()=>(
 								<div>
 									<h3>额貌似由于react-router（前台路由）匹配的特性，我无法做到用‘/’来匹配所有房间，所以‘/’我只能用来堆放广告，介绍，android，。</h3>
 									<p>
 										reference:<a target="_blank" href='https://discordapp.com'>Discord</a>
-										<Link to='/room'>open github chat</Link>
+										<Link to='/group'>open github chat</Link>
 									</p>
 								</div>
 							)
 						} />
-						<Route path="/room" component={AsyncApp} />
+						<Route path="/group" component={AsyncApp} />
 						<Route path="/login" component={Login} />
 						<Route path="/register" component={Register} />
 						<div className="window"></div>

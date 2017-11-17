@@ -1,28 +1,28 @@
-import {action, useStrict, computed, observable} from "mobx";
+import { action, useStrict, computed, observable } from "mobx";
 import io from 'socket.io-client';
 import config from '../../../config/project.js'
 
-const socket = io.connect( {secure: true});
+const socket = io.connect({ secure: true });
 // const socket = io();
 
 class List {
   @observable message
   @observable time
   @observable userName
-  @observable avatorUrl
+  @observable avatar_url
   constructor(e) {
     this.message = e.message
     this.time = e.time
     this.userName = e.userName
-    this.avatorUrl = e.avatorUrl
+    this.avatar_url = e.avatar_url
   }
 }
 class User {
   @observable userName
-  @observable avatorUrl
+  @observable avatar_url
   constructor(e) {
     this.userName = e.userName
-    this.avatorUrl = e.avatorUrl
+    this.avatar_url = e.avatar_url
   }
 }
 // useStrict(true)
@@ -31,13 +31,13 @@ class TodoStore {
   @observable myInfo = {
     name: '',
     id: '',
-    avatorUrl: ''
+    avatar_url: ''
   }
   //当前房间信息
   @observable currentRoomInfo = {
     id: '',
     name: '',
-    avatorUrl: '',
+    avatar_url: '',
     creator: '',
     //管理员信息
     administratorList: [],
@@ -57,13 +57,13 @@ class TodoStore {
     x: 0,
     y: 0,
     name: '',
-    avatorUrl: ''
+    avatar_url: ''
   }
   @observable code = ''
   @observable messageType = 'text'
   @observable roomList = [{
-    name:'Moonlight',
-    avatorUrl:''
+    name: 'Moonlight',
+    avatar_url: ''
   }]
   //当前在线用户
   @observable onlineUsers = []
@@ -96,32 +96,40 @@ class TodoStore {
   @action showMoreUserInfoFunc = (state) => {
     this.showMoreUserInfo = state
   }
+  @action allHold = (left, right) => {
+    if (left.split('.').length == 1) {
+      this[left] = right
+    } else if (left.split('.').length == 2) {
+      this[
+        left.split('.')[0]
+      ][
+        left.split('.')[1]
+      ] = right
+    } else if (left.split('.').length == 3) {
+      this[left.split('.')[0]][
+        left.split('.')[1]
+      ][
+        left.split('.')[2]
+      ] = right
+    }
+  }
   constructor() {
     socket.on('get myInfo', json => {
-      console.log('user joined',json)
-      this.doing = false
-      this.callBack = json
-      this.tip = json.message
-      if (json.code == 0 || json.code == 2) {
-        this.myInfo = {
-          id: json.userId,
-          name: json.userName,
-          avatorUrl: json.avatorUrl
-        }
+      this.myInfo = {
+        id: json.github.id,
+        name: json.github.name,
+        avatar_url: json.github.avatar_url
       }
+      this.roomList = json.groups
     })
     socket.on('get users', json => {
       this.onlineUsers = json
     })
-    socket.on('get roomList', json => {
-      this.roomList = json
-    })
     socket.on('init room', json => {
-      console.log('init room',json);
       this.currentRoomInfo.messageList = json.messageList
       this.currentRoomInfo.memberList = json.memberList
       this.currentRoomInfo.name = json.name
-      this.currentRoomInfo.avatorUrl = json.avatorUrl
+      this.currentRoomInfo.avatar_url = json.avatar_url
       this.currentRoomInfo.administratorList = json.administratorList
     })
 
@@ -135,6 +143,12 @@ class TodoStore {
       } else {
         this.roomList.push(json)
       }
+    })
+
+    socket.on('user detail', json => {
+      console.log(json);
+      this.showMoreUserInfo.name = json.github.name
+      this.showMoreUserInfo.avatar_url = json.github.avatar_url
     })
   }
 }

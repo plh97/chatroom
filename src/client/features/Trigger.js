@@ -67,6 +67,8 @@ class Trigger extends Component {
 		//     () => {console.log(123)}
 		// )
 		const {
+			allHold,
+			socket,
 			showRoomDetail,
 			showRoomDetailFunc,
 			showCodeEditFunc,
@@ -88,26 +90,26 @@ class Trigger extends Component {
 		//如果所点击的元素包括 => id = showMoreUserInfo
 		if (filterDOM('showMoreUserInfo')) {
 			//当你点击的仅仅只是头像的时候
+			allHold('showMoreUserInfo.isShow',false)
 			showMoreUserInfoFunc({
 				isShow: true,
 				x: e.nativeEvent.view.innerWidth - e.nativeEvent.x - 220 > 0 ? e.nativeEvent.x : e.nativeEvent.x - 220,
 				y: e.nativeEvent.view.innerHeight - e.nativeEvent.y - 335 > 0 ? e.nativeEvent.y : e.nativeEvent.y - 335,
-				name: e.nativeEvent.path.filter((index) => {
+				name:'',
+				avatar_url:''
+			})
+			//还是向后台查询，根据id查询用户详细信息。
+			socket({
+				url:'user detail',
+				id: e.nativeEvent.path.filter((index) => {
 					e.preventDefault()
 					return index.id == 'showMoreUserInfo'
-				})[0].innerText,
-				avatorUrl: 'e.nativeEvent',
+				})[0].getAttribute('data-id'),
 			})
-		} else if (filterDOM('showMoreUserInfo')) {
+		} else if (filterDOM('showMoreUserInfoContainer')) {
 			// showEmojiFunc(true)
 		} else {
-			showMoreUserInfoFunc({
-				isShow: false,
-				// x: 0,
-				// y: 0,
-				name: '',
-				avatorUrl: ''
-			})
+			allHold('showMoreUserInfo.isShow',false)
 		}
 		//是否显示房间细节
 		if (e.nativeEvent.path.filter((index) => {

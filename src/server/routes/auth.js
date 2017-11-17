@@ -1,6 +1,8 @@
 const rp = require('request-promise');
+const cookie = require('cookie');
 const User = require('../models/User.model');
 const Token = require('../models/Token.model');
+const Group = require('../models/Group.model');
 const config = require('../../../config/server');
 
 /**
@@ -10,6 +12,7 @@ const config = require('../../../config/server');
  */
 
 exports.getCode = async (ctx, next) => {
+    let redirect_uri = ctx.cookies.get('redirect_uri')
     let code = ctx.request.query["code"];
     let option = {
         uri: `https://github.com/login/oauth/access_token`,
@@ -33,15 +36,12 @@ exports.getCode = async (ctx, next) => {
     }
     let userInfo = await rp(option);
     ctx.cookies.set('access_token', tokenResp.access_token, {
-        'httpOnly': false
+        'httpOnly': true
     })
-    ctx.redirect('/')
-    //将user信息写入数据库,重写方法，有就更新，没有就保存
+    ctx.redirect(redirect_uri)
     await User.save({
-        _id: userInfo.id,
         github:userInfo
     });
-    //将token写入数据库,重写方法，有就更新，没有就保存
     await Token.save({
         access_token: tokenResp.access_token,
         _id: userInfo.id
