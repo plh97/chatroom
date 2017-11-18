@@ -29,7 +29,7 @@ app
     .use(bodyparser())
     .use(json())
     .use(logger())
-    .use(static(path.resolve( './dist'),{
+    .use(static(path.resolve('./dist'), {
         // maxAge: 1000 * 60 * 60 * 24 * 7,
         gzip: true,
     }))
@@ -64,41 +64,68 @@ io.attach(app);
 *       1.如果通过那么他是用户，发my info给他。
 *       2.如果不通过后台验证，那么他是游客，
 */
-app.io.on('connection', async (ctx,json) => {
+app.io.on('connection', async (ctx, json) => {
     console.log('connection');
     let access_token = getCookie(ctx).access_token
-    if(access_token){
+    if (access_token) {
         //如果有cookie,进行下一步，验证token，通过就发送my info给前台
-        let myInfo = await Token.verify(access_token) 
-        myInfo && ctx.socket.emit('get myInfo',myInfo)
+        let myInfo = await Token.verify(access_token)
+        myInfo && ctx.socket.emit('get myInfo', myInfo)
     }
 });
 
-app.io.on('init group',async(ctx,json)=>{
-    console.log('init group',json);
-    let groupInfo = await Group.findOne({name:json.groupName})
-    groupInfo.administratorList =await Promise.all(groupInfo.administratorList.map(async _id=>{
-        let user = await User.findOne({_id:_id})
-        return{
-            name:user.github.name,
-            avatar_url:user.github.avatar_url,
+app.io.on('init group', async (ctx, json) => {
+    let groupInfo = await Group.findOne({ name: json.groupName })
+    groupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async _id => {
+        let user = await User.findOne({ _id: _id })
+        return {
+            name: user.github.name,
+            avatar_url: user.github.avatar_url,
             _id
         }
     }))
-    groupInfo.memberList =await Promise.all(groupInfo.memberList.map(async _id=>{
-        let user = await User.findOne({_id:_id})
-        return{
-            name:user.github.name,
-            avatar_url:user.github.avatar_url,
+    groupInfo.memberList = await Promise.all(groupInfo.memberList.map(async _id => {
+        let user = await User.findOne({ _id: _id })
+        return {
+            name: user.github.name,
+            avatar_url: user.github.avatar_url,
             _id
         }
     }))
-    ctx.socket.emit('init group',groupInfo)
+    groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async msg=>{
+        let user = await User.findOne({_id:msg.id})
+        //so ugly , i'll improve it
+        return msg = {
+            _id: msg._id,
+            avatar_url: user.github.avatar_url,
+            name: user.github.name,
+            update_time: msg.update_time,
+            create_time: msg.create_time,
+            image: msg.image,
+            code: msg.code,
+            text: msg.text,
+            type: msg.type,
+            id: msg.id
+        }
+    }))
+    ctx.socket.emit('init group', groupInfo)
 })
 
-app.io.on('user detail',async (ctx,json)=>{
-    let user = await User.findOne({_id:json._id})
-    ctx.socket.emit('user detail',user)
+app.io.on('user detail', async (ctx, json) => {
+    console.log('user detail', json);
+    let user = await User.findOne({ _id: json._id })
+    ctx.socket.emit('user detail', user)
+})
+
+app.io.on('send message', async (ctx, json) => {
+    console.log('send message',json);
+    let message = await Group.sendMsg(json)
+    let user = await User.findOne({_id:json.id})
+    message = Object.assign({},message,{
+        name:user.github.name,
+        avatar_url:user.github.avatar_url
+    })
+    ctx.socket.emit('send message', message)
 })
 
 app.io.on('disconnect', async (ctx) => {

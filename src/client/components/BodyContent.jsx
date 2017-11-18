@@ -52,10 +52,11 @@ export default class BodyContent extends Component {
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
+			group: group.name,
+			group_id:group._id,
 			id: myInfo._id,
 			name: myInfo.github.name,
 			avatar_url: myInfo.github.avatar_url,
-			group: group.name,
 			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,
@@ -101,20 +102,17 @@ export default class BodyContent extends Component {
 				<RoomDetails/>
 				<div className='bodyContentMessages'>
 					{group.messageList.map((post, i) => (
-						<div className={`bodyContentMessagesList ${post.userName == myInfo.github.name ? 'me' : 'other'}`} key={i}>
+						<div className={`bodyContentMessagesList ${post.name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
 							<Avatar
 								id="showMoreUserInfo"
-								className='avator'
-								style={{
-									backgroundColor: colorList[post.userName.charCodeAt() % 8]
-								}}
+								className='avatar'
 								src={post.avatar_url}
-								size="large">{post.userName.split("")[0]}
+								size="large">{post.name.split("")[0]}
 							</Avatar>
 							<div className='content'>
 								<p className='messageTittle'>
 									<span className='nameContainer'>
-										{post.userName}
+										{post.name}
 									</span>
 									<span className="timeContainer">
 										{post.createTime}

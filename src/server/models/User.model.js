@@ -47,7 +47,7 @@ class User {
             // not exist , save,create
             await this.create({
                 _id: data.github.id,
-                github: data,
+                github: data.github,
                 groups: [defaultGroup._id.toString()]
             });
         }

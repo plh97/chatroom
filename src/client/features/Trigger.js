@@ -95,8 +95,10 @@ class Trigger extends Component {
 				isShow: true,
 				x: e.nativeEvent.view.innerWidth - e.nativeEvent.x - 220 > 0 ? e.nativeEvent.x : e.nativeEvent.x - 220,
 				y: e.nativeEvent.view.innerHeight - e.nativeEvent.y - 335 > 0 ? e.nativeEvent.y : e.nativeEvent.y - 335,
-				name:'',
-				avatar_url:''
+				github:{
+					name:'',
+					avatar_url:''
+				}
 			})
 			//还是向后台查询，根据id查询用户详细信息。
 			socket({
