@@ -9,7 +9,7 @@ import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
 import { userInfo } from 'os';
 import config from "../../../config/server.js";
-import codemirror from "codemirror";
+import moment from "moment";
 
 @inject("store")
 @observer
@@ -103,11 +103,8 @@ export default class BodyContent extends Component {
 				<div className='bodyContentMessages'>
 					{group.messageList.map((post, i) => (
 						<div className={`bodyContentMessagesList ${post.name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
-							<Avatar
-								id="showMoreUserInfo"
-								className='avatar'
-								src={post.avatar_url}
-								size="large">{post.name.split("")[0]}
+							<Avatar id="showMoreUserInfo" data-id={post.id} className='avatar' src={post.avatar_url} size="large">
+								{post.name.split("")[0]}
 							</Avatar>
 							<div className='content'>
 								<p className='messageTittle'>
@@ -115,7 +112,7 @@ export default class BodyContent extends Component {
 										{post.name}
 									</span>
 									<span className="timeContainer">
-										{post.createTime}
+										{post.create_time}
 									</span>
 								</p>
 								{post.text && <p className = {`messageContainer ${post.type}`}>

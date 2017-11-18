@@ -15,8 +15,8 @@ const GroupSchema = new Schema({
 		code: { type: String, default: '' },
 		image: { type: Object, default: {} },
 		//不用填
-		create_time: { type: Date, default: Date.now, index: true },
-		update_time: { type: Date, default: Date.now, index: true },
+		create_time: { type: String, default: Date.now  },
+		update_time: { type: Date, default: new Date , index: true },
 		_id: { type: Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
 		//改成空
 		name: { type: String, default: '' },

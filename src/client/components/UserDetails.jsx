@@ -30,19 +30,42 @@ export default class UserDetails extends Component {
           }}>
           {showMoreUserInfo.github.name.split('')[0]}
         </Avatar>
-        <span className="info">
-          <span className="nameArea">
+        <div className="info">
+          <div className="nameArea">
             <span className="nameContainer">{showMoreUserInfo.github.name}</span>
             <Icon type="message"/>
-          </span>
-          <span className="nikeNameArea">
-            <span className="nikeNameLabel">备注：</span>
-            <span className="nikeName">easy to call!</span>
-            <span className="placeLabel">地区：</span>
-            <span className="place">中国</span>
-          </span>
-        </span>
+          </div>
+          <div className="followRepot">
+            <span className="followers">
+              {showMoreUserInfo.github.followers} followers
+            </span>
+            <span className="repos">
+              {showMoreUserInfo.github.public_repos}&nbsp;repots
+            </span>
+            <span className="following">
+              {showMoreUserInfo.github.following} following
+            </span>
+          </div>
+          {showMoreUserInfo.github.bio && showMoreUserInfo.github.bio.length && <div className="infoList">
+            <span className="label">🙆</span>
+            <span className="content">{showMoreUserInfo.github.bio}</span>
+          </div>}
+          {showMoreUserInfo.github.location && showMoreUserInfo.github.location.length && <div className="infoList">
+            <span className="label">📌</span>
+            <span className="content">{showMoreUserInfo.github.location}</span>
+          </div>}
+          {showMoreUserInfo.github.email && showMoreUserInfo.github.email.length && <div className="infoList">
+            <span className="label">📧</span>
+            <a className="content" href={`mailto:${showMoreUserInfo.github.email}`}>{showMoreUserInfo.github.email}</a>
+          </div>}
+          {showMoreUserInfo.github.blog && showMoreUserInfo.github.blog.length && <div className="infoList">
+            <span className="label">🔗</span>
+            <a className="content" target="_blank" href={showMoreUserInfo.github.blog}>{showMoreUserInfo.github.blog}</a>
+          </div>}
+        </div>
       </div>
     )
   }
 };
+
+

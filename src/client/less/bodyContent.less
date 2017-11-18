@@ -29,8 +29,10 @@
       padding: 15px 0;
       display: grid;
       grid-template-rows: calc(~'(100% - 77px)');
+      color:#000;
 
       &.other {
+        cursor: pointer;
         grid-template-columns: 60px 1fr 160px;
         grid-template-areas: 'avatar content .';
 
@@ -71,6 +73,7 @@
       }
 
       &.me {
+        cursor: pointer;
         grid-template-columns: 160px 1fr 60px;
         grid-template-areas: '. content avatar';
 
@@ -186,6 +189,7 @@
       background-color: rgba(255, 255, 255, 0.1);
       font-size: 1.7rem;
       transition: all 0.1s ease-out;
+      color:#000;
 
       &.display {
         display: block;
@@ -285,7 +289,8 @@
     align-items: flex-start;
     width: 100%;
     z-index: 1;
-
+    color:#000;
+    
     .bodyContentMessagesInput {
       width: 450px;
       max-width: 90%;

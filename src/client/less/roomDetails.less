@@ -10,8 +10,7 @@
   -moz-box-shadow: 1px 1px 1px #e0e0e0;
   -webkit-box-shadow: 1px 1px 1px #e0e0e0;
   display: grid;
-  grid-gap: 1em;
-  display: block;
+  grid-gap: 0.5em;
   transition: all .1s ease-out;
 
   &.show{
@@ -30,6 +29,7 @@
 
   .showRoomDetailList {
       display: grid;
+      grid-gap: 1em;
       grid-template-columns: 60px 1fr;
       grid-template-areas:
         'title avatarContainer';
@@ -37,7 +37,8 @@
       .title{
         grid-area: title;
         justify-self: end;
-        align-self: center;
+        align-self: start;
+        margin-top: 0.5em;
       }
 
       .avatarContainer {

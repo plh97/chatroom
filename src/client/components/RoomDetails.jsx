@@ -11,7 +11,10 @@ export default class RoomDetails extends React.Component {
     const showRoomDetailListText = [
       {
         title: '群头像',
-        onlineUsers: [{ name: group.name }],
+        onlineUsers: [{ 
+          name: group.name,
+          avatar_url: group.avatar_url,
+        }],
         offlineUsers: []
       }, {
         title: '管理员',
@@ -24,9 +27,7 @@ export default class RoomDetails extends React.Component {
       }
     ]
     return (
-      <div id='bodyContentRoomDetails' className={`bodyContentRoomDetails ${showRoomDetail
-        ? 'show'
-        : 'hide'}`}>
+      <div id='bodyContentRoomDetails' className={`bodyContentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
         {showRoomDetailListText.map((avatars, i) => (
           <div className="showRoomDetailList" key={i}>
             <span className="title">{avatars.title}:</span>
@@ -35,16 +36,8 @@ export default class RoomDetails extends React.Component {
                 ...avatars.onlineUsers,
                 ...avatars.offlineUsers
               ].map((avatar, j) => (
-                <span
-                  className="avatar" 
-                  key={j}>
-                  <Avatar
-                    id="showMoreUserInfo"
-                    data-id={avatar._id}
-                    className="slideAvatar"
-                    size="large"
-                    src={avatar.avatar_url}
-                    style={{ backgroundColor: colorList[avatar.name.charCodeAt() % 8] }}>
+                <span className="avatar" key={j}>
+                  <Avatar id="showMoreUserInfo" data-id={avatar._id} className="slideAvatar" size="large" src={avatar.avatar_url} >
                     {avatar.name.split('')[0]}
                   </Avatar>
                   <span className="name">{avatar.name}</span>

@@ -4,6 +4,7 @@ const path = require('path');
 const IO = require('koa-socket');
 const json = require('koa-json');
 const cookie = require('cookie');
+const moment = require('moment');
 const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const static = require('koa-static');
@@ -96,16 +97,18 @@ app.io.on('init group', async (ctx, json) => {
         let user = await User.findOne({_id:msg.id})
         //so ugly , i'll improve it
         return msg = {
+            id: msg.id,
             _id: msg._id,
             avatar_url: user.github.avatar_url,
             name: user.github.name,
             update_time: msg.update_time,
-            create_time: msg.create_time,
+            // create_time: moment(msg.create_time).day(),
+            create_time: moment(msg.create_time).format(`MMM Do , h:mm:ss`),
+            // create_time: moment(msg.create_time).hour()+":"+moment(msg.create_time).minute(),
             image: msg.image,
             code: msg.code,
             text: msg.text,
             type: msg.type,
-            id: msg.id
         }
     }))
     ctx.socket.emit('init group', groupInfo)
@@ -121,9 +124,11 @@ app.io.on('send message', async (ctx, json) => {
     console.log('send message',json);
     let message = await Group.sendMsg(json)
     let user = await User.findOne({_id:json.id})
+    console.log(json.u);
     message = Object.assign({},message,{
         name:user.github.name,
-        avatar_url:user.github.avatar_url
+        avatar_url:user.github.avatar_url,
+        update_time: "just now",
     })
     ctx.socket.emit('send message', message)
 })

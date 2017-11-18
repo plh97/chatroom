@@ -1,13 +1,15 @@
 .showMoreUserInfo {
   position: absolute;
   width: 220px;
-  height: 335px;
+  min-height: 335px;
   background-color: #fff;
   z-index: 3;
   box-shadow: 0 5px 10px rgba(0,0,0,.1);
   -moz-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
   -webkit-box-shadow: rgba(0,0,0,.1) 0 5px 10px;
   transition: all 0.1s ease-out;
+  border-radius: 0.3rem;
+  overflow: hidden;
 
   &.show {
     visibility: visible;
@@ -26,6 +28,7 @@
     height: 220px;
     line-height: 220px;
     font-size: 50px;
+    border-radius: 0;
 
     span {
       line-height: 220px;
@@ -33,60 +36,68 @@
   }
 
   .info {
-    padding: 20px;
+    padding: 0px 10px 10px 10px;
     min-height: 74px;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 30px 40px;
-    grid-template-areas: 'nameArea' 'nikeNameArea';
+    grid-template-columns: repeat(1fr);
 
     .nameArea {
-      grid-area: nameArea;
-      font-size: 20px;
+      font-size: 1.2rem;
       font-weight: bold;
-      display: grid;
-      padding: 0 8px;
+      display: inline-grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-areas: 'nameContainer icon';
-      grid-row-gap: 0.2em;
 
       .nameContainer {
-        grid-area: nameContainer;
-        justify-self: start;
+        display: inline-grid;
+        justify-content: start;
+        align-content: center;
       }
 
       i {
-        grid-area: icon;
-        justify-self: end;
-        align-self: center;
+        display: inline-grid;
+        justify-content: end;
+        align-content: center;
         cursor: pointer;
       }
     }
 
-    .nikeNameArea {
-      grid-area: nikeNameArea;
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      grid-template-rows: 20px 20px;
-      grid-template-areas: 'nikeNameLabel nikeName' 'placeLabel place';
+    .followRepot {
+      border-top: 1.5px solid #c0c0c047;
+      border-bottom: 1.5px solid #c0c0c047;
+      padding: 3px 0;
+      font-size: 0.8rem;
+      display: inline-grid;
+      grid-template-columns: 1fr 1fr 1fr;
 
-      .nikeNameLabel {
-        grid-area: nikeNameLabel;
-        justify-self: center;
+      .followers{
+        display: inline-grid;
       }
+      
+      .repos{
+        justify-content: center;
+        display: inline-grid;
+      }
+      
+      .following{
+        justify-content: end;
+        display: inline-grid;
+      }
+    }
 
-      .nikeName {
-        grid-area: nikeName;
+    .infoList {
+      font-size: 0.8rem;
+      display: inline-grid;
+      grid-template-columns: 30px 1fr;
+      
+      .label{
+        display: inline-grid;
+        justify-content: center;
+        color:#000;
       }
-
-      .placeLabel {
-        grid-area: placeLabel;
-        justify-self: center;
-      }
-
-      .place {
-        grid-area: place;
-      }
+      // .content{
+      //   display: inline-grid;
+      //   justify-content: center;
+      // }
     }
   }
 }
