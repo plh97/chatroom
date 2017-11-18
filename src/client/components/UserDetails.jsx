@@ -31,7 +31,10 @@ export default class UserDetails extends Component {
         </Avatar>
         <div className="info">
           <div className="nameArea">
-            <span className="nameContainer">{showMoreUserInfo.github.name}</span>
+            <span className="message" className="nameContainer">{showMoreUserInfo.github.name}</span>
+            <a className="github" target="_blank" href={showMoreUserInfo.github.html_url}>
+              <Icon type="github"/>
+            </a>
             <Icon type="message"/>
           </div>
           <div className="followRepot">

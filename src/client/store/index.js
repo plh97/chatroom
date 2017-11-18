@@ -57,12 +57,13 @@ class TodoStore {
   //是否显示用户信息详情
   @observable showMoreUserInfo = {
     isShow: false,
-    x: 0,
-    y: 0,
+    x: "50vw",
+    y: "50vh",
     github:{
       name: '',
       avatar_url: ''
-    }
+    },
+    star_count:0
   }
   @observable code = ''
   @observable messageType = 'text'
@@ -139,11 +140,24 @@ class TodoStore {
 
     socket.on('user detail', json => {
       console.log("user detail",json);
+      // console.log(this.showMoreUserInfo.star_count);
       //只能一个一个获取，不然会改变 showmoreuserinfo 的框框xy坐标位置。
       this.showMoreUserInfo.github = json.github
       this.showMoreUserInfo.groups = json.groups
       this.showMoreUserInfo.friends = json.friends
       this.showMoreUserInfo._id = json._id
+      //同时查询该用户star总数，
+      let _this = this
+      fetch(`${json.github.repos_url}`)
+        .then(response => response.json())
+        .then(json => {
+          json.map((repos,i)=>{
+            _this.showMoreUserInfo.star_count = _this.showMoreUserInfo.star_count + repos.stargazers_count
+          })
+        })
+        .then(()=>{
+          // console.log('count',_this.showMoreUserInfo.star_count);
+        })
     })
   }
 }

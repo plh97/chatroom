@@ -34,7 +34,10 @@ export default class Header extends Component {
 				)人
 				{showRoomDetail ? <Icon type="up" />:<Icon type="down" />}
 			</h1>}
-			<Avatar style={{
+			<Avatar 
+				id="showMoreUserInfo"
+				data-id={myInfo.github.id}
+				style={{
 					backgroundColor: colorList[myInfo.github.name.charCodeAt() % 8]
 				}}
 				src={myInfo.github.avatar_url}

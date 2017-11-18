@@ -124,7 +124,6 @@ app.io.on('send message', async (ctx, json) => {
     console.log('send message',json);
     let message = await Group.sendMsg(json)
     let user = await User.findOne({_id:json.id})
-    console.log(json.u);
     message = Object.assign({},message,{
         name:user.github.name,
         avatar_url:user.github.avatar_url,

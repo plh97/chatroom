@@ -37,27 +37,27 @@ export default class Chat extends Component {
 					<h3 className="title">房间列表：</h3>
 					{myInfo.groups.map((group,i)=>(
 						<Link
-							className="roomList"
+							className="groupList"
 							id={group.name}
 							key={i}
 							to={`${match.url}/${group.name}`}>
 							<Avatar
 								src={group.avatar_url}
-								className="slideAvator"
+								className="slideAvatar"
 								size="large"
 								style={{backgroundColor: colorList[group.name.charCodeAt() % 8]}}>
 								{group.name.split('')[0]}
 							</Avatar>
-							<span className="roomName">{group.name}</span>
+							<span className="groupName">{group.name}</span>
 						</Link>
 					))}
-					<span onClick={this.addRoom} className="addRoom">
+					<span onClick={this.addGroup} className="addgroup">
 						<Icon type="usergroup-add" />
 						开房？
 					</span>
 				</div>
 				<Route exact path={match.url} render={() => (
-					<h3>Please select a room.</h3>
+					<h3>Please select a group.</h3>
 				)}/>
 				<Route path={`${match.url}/:groupName`} component={BodyContent}/>
 			</div>

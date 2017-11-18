@@ -42,31 +42,58 @@
           .text {
             background-color: #f1f1f1;
             position: relative;
-
+            border: 1px solid #aaa;
+            
             &::before {
+              content: "";
+              -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
               position: absolute;
-              height: 0;
-              top: 10px;
-              border: 6px solid transparent;
-              content: " ";
-              border-right-color: #f1f1f1;
-              border-right-width: 4px;
-              right: 100%;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              left: -9px;
+              border-right: 10px solid #aaa;
+              top: 5px;
+            }
+            &::after {
+              content: "";
+              -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
+              position: absolute;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              left: -7px;
+              border-right: 10px solid #f1f1f1;
+              top: 6px;
             }
           }
 
           .code {
             position: relative;
+            border: 1px solid #aaa;
 
             &::before {
+              content: "";
+              -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
               position: absolute;
-              height: 0;
-              top: 10px;
-              border: 6px solid transparent;
-              content: " ";
-              border-right-color: rgb(45, 45, 45);
-              border-right-width: 4px;
-              right: 100%;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              left: -9px;
+              border-right: 10px solid #aaa;
+              top: 5px;
+            }
+            
+            &::after {
+              content: "";
+              -webkit-transform: rotate(20deg);
+              transform: rotate(20deg);
+              position: absolute;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              left: -7px;
+              border-right: 10px solid #272822;
+              top: 6px;
             }
           }
         }
@@ -87,31 +114,58 @@
           .text {
             background-color: #b2e281;
             position: relative;
+            border: 1px solid #aaa;
+
+            &::before {
+              content: "";
+              -webkit-transform: rotate(-20deg);
+              transform: rotate(-20deg);
+              position: absolute;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              right: -9px;
+              border-left: 10px solid #aaa;
+              top: 5px;
+            }
 
             &::after {
+              content: "";
+              -webkit-transform: rotate(-20deg);
+              transform: rotate(-20deg);
               position: absolute;
-              top: 10px;
-              height: 0;
-              border: 6px solid transparent;
-              content: " ";
-              border-left-color: #b2e281;
-              border-left-width: 4px;
-              left: 100%;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              right: -7px;
+              border-left: 10px solid #b2e281;
+              top: 6px;
             }
           }
 
           .code {
             position: relative;
-
-            &::after {
+            border: 1px solid #aaa;
+            
+            &::before {
+              content: "";
+              -webkit-transform: rotate(-20deg);
+              transform: rotate(-20deg);
               position: absolute;
-              top: 10px;
-              height: 0;
-              border: 6px solid transparent;
-              content: " ";
-              border-left-color: rgb(45, 45, 45);
-              border-left-width: 4px;
-              left: 100%;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              right: -9px;
+              border-left: 10px solid #aaa;
+              top: 5px;
+            }
+            &::after {
+              content: "";
+              -webkit-transform: rotate(-20deg);
+              transform: rotate(-20deg);
+              position: absolute;
+              border-top: 2px solid transparent;
+              border-bottom: 7px solid transparent;
+              right: -7px;
+              border-left: 10px solid #272822;
+              top: 6px;
             }
           }
         }

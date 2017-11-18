@@ -90,7 +90,7 @@ class Trigger extends Component {
 		//如果所点击的元素包括 => id = showMoreUserInfo
 		if (filterDOM('showMoreUserInfo')) {
 			//当你点击的仅仅只是头像的时候
-			allHold('showMoreUserInfo.isShow',false)
+			// allHold('showMoreUserInfo.isShow',false)
 			showMoreUserInfoFunc({
 				isShow: true,
 				x: e.nativeEvent.view.innerWidth - e.nativeEvent.x - 220 > 0 ? e.nativeEvent.x : e.nativeEvent.x - 220,
