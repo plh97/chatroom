@@ -10,7 +10,6 @@ export default class UserDetails extends Component {
   render() {
     const {match} = this.props
     const {
-      //登陆用户的个人信息
       myInfo,
       showMoreUserInfo
     } = this.props.store;
@@ -22,18 +21,18 @@ export default class UserDetails extends Component {
         ? 'show'
         : 'hide'}`}>
         <Avatar
-          src={showMoreUserInfo.avatar_url}
+          src={showMoreUserInfo.github.avatar_url}
           className="avatar" shape='square' size="large" style={{
-            backgroundColor: colorList[showMoreUserInfo.name.charCodeAt() % 8],
-            cursor: showMoreUserInfo.name == myInfo.name
+            backgroundColor: colorList[showMoreUserInfo.github.name.charCodeAt() % 8],
+            cursor: showMoreUserInfo.github.name == myInfo.github.name
               ? 'pointer'
               : ''
           }}>
-          {showMoreUserInfo.name.split('')[0]}
+          {showMoreUserInfo.github.name.split('')[0]}
         </Avatar>
         <span className="info">
           <span className="nameArea">
-            <span className="nameContainer">{showMoreUserInfo.name}</span>
+            <span className="nameContainer">{showMoreUserInfo.github.name}</span>
             <Icon type="message"/>
           </span>
           <span className="nikeNameArea">

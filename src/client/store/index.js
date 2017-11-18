@@ -29,12 +29,15 @@ class User {
 class TodoStore {
   //我的用户信息
   @observable myInfo = {
-    name: '',
-    id: '',
-    avatar_url: ''
+    _id: '',
+    github:{
+      name:'',
+      avatar_url:''
+    },
+    groups: []
   }
   //当前房间信息
-  @observable currentRoomInfo = {
+  @observable group = {
     id: '',
     name: '',
     avatar_url: '',
@@ -56,23 +59,19 @@ class TodoStore {
     isShow: false,
     x: 0,
     y: 0,
-    name: '',
-    avatar_url: ''
+    github:{
+      name: '',
+      avatar_url: ''
+    }
   }
   @observable code = ''
   @observable messageType = 'text'
-  @observable roomList = [{
-    name: 'Moonlight',
-    avatar_url: ''
-  }]
   //当前在线用户
   @observable onlineUsers = []
   @observable doing = false
   //登陆/注册用户返回信息提示
   @observable tip = '请登录'
   //登陆/注册用户返回总体json
-  @observable callBack = {}
-  //用户详情信息
   @observable callBack = {}
   //封装好的socket.emit
   @action socket = (state) => {
@@ -81,8 +80,8 @@ class TodoStore {
   @action tipFunc = (state) => {
     this.tip = state
   }
-  @action currentRoomInfoFunc = (state) => {
-    this.currentRoomInfo.roomName = state
+  @action groupFunc = (state) => {
+    this.group.name = state
   }
   @action showRoomDetailFunc = (state) => {
     this.showRoomDetail = state
@@ -96,6 +95,7 @@ class TodoStore {
   @action showMoreUserInfoFunc = (state) => {
     this.showMoreUserInfo = state
   }
+  //写了一个通用mobx函数。。。希望能用。。。。。
   @action allHold = (left, right) => {
     if (left.split('.').length == 1) {
       this[left] = right
@@ -115,40 +115,35 @@ class TodoStore {
   }
   constructor() {
     socket.on('get myInfo', json => {
-      this.myInfo = {
-        id: json.github.id,
-        name: json.github.name,
-        avatar_url: json.github.avatar_url
-      }
-      this.roomList = json.groups
+      console.log('这个时候，我获得了我的个人信息，看看谁比我快，我必须要第一快',json);
+      this.myInfo = json
     })
     socket.on('get users', json => {
       this.onlineUsers = json
     })
-    socket.on('init room', json => {
-      this.currentRoomInfo.messageList = json.messageList
-      this.currentRoomInfo.memberList = json.memberList
-      this.currentRoomInfo.name = json.name
-      this.currentRoomInfo.avatar_url = json.avatar_url
-      this.currentRoomInfo.administratorList = json.administratorList
+    socket.on('init group', json => {
+      this.group = json
     })
 
     socket.on('send message', json => {
-      this.currentRoomInfo.messageList.push(json)
+      this.group.messageList.push(json)
     })
 
     socket.on('add room', json => {
-      if (json.code == 0) {
-        console.log(json.message)
-      } else {
-        this.roomList.push(json)
-      }
+      // if (json.code == 0) {
+      //   console.log(json.message)
+      // } else {
+      //   this.roomList.push(json)
+      // }
     })
 
     socket.on('user detail', json => {
-      console.log(json);
-      this.showMoreUserInfo.name = json.github.name
-      this.showMoreUserInfo.avatar_url = json.github.avatar_url
+      console.log("user detail",json);
+      //只能一个一个获取，不然会改变 showmoreuserinfo 的框框xy坐标位置。
+      this.showMoreUserInfo.github = json.github
+      this.showMoreUserInfo.groups = json.groups
+      this.showMoreUserInfo.friends = json.friends
+      this.showMoreUserInfo._id = json._id
     })
   }
 }

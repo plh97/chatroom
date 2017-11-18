@@ -9,6 +9,7 @@ import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
 import { userInfo } from 'os';
 import config from "../../../config/server.js";
+import codemirror from "codemirror";
 
 @inject("store")
 @observer
@@ -28,10 +29,11 @@ export default class BodyContent extends Component {
 		const{ socket,myInfo } = this.props.store
 		const {match} = this.props
 		document.cookie = `redirect_uri=${match.url};Path=/auth`;
+		console.log('这个时候我开始给后台发送初始化群的请求。。后台什么时候才能返回给我？？？？');
+
 		socket({
 			url: 'init group',
-			groupName: match.params.roomId,
-			id:myInfo.id
+			groupName: match.params.groupName
 		})
 		this.scrollToBottom('auto');
 	}
@@ -43,17 +45,17 @@ export default class BodyContent extends Component {
 	handleMsgSubmit = (e) => {
 		const {
 			myInfo ,
-			currentRoomInfo
+			group
 		} = this.props.store
 		//如果发的内容为空,退出函数
 		//text && code && messageImage
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
-			id: myInfo.id,
-			name: myInfo.name,
-			avatar_url: myInfo.avatar_url,
-			group: currentRoomInfo.name,
+			id: myInfo._id,
+			name: myInfo.github.name,
+			avatar_url: myInfo.github.avatar_url,
+			group: group.name,
 			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,
@@ -93,13 +95,13 @@ export default class BodyContent extends Component {
 
 	render() {
 		const { match } = this.props
-		const { currentRoomInfo , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
+		const { group , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
 		return (
 			<div className='bodyContent'>
 				<RoomDetails/>
 				<div className='bodyContentMessages'>
-					{currentRoomInfo.messageList.map((post, i) => (
-						<div className={`bodyContentMessagesList ${post.userName == myInfo.name ? 'me' : 'other'}`} key={i}>
+					{group.messageList.map((post, i) => (
+						<div className={`bodyContentMessagesList ${post.userName == myInfo.github.name ? 'me' : 'other'}`} key={i}>
 							<Avatar
 								id="showMoreUserInfo"
 								className='avator'
@@ -143,7 +145,7 @@ export default class BodyContent extends Component {
 					</div>
 				</div>
 				{
-					myInfo.name && <div className="bodyContentFeature">
+					myInfo.github.name && <div className="bodyContentFeature">
 						<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
 						<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
 							{emoji.split(' ').map((index,i)=>(
@@ -162,7 +164,7 @@ export default class BodyContent extends Component {
 					</div>
 				}
 				{
-					myInfo.name && <form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
+					myInfo.github.name && <form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
 						e.preventDefault();
 						this.handleMsgSubmit({
 							type:'text',
@@ -177,7 +179,7 @@ export default class BodyContent extends Component {
 					</form> 
 				}
 				{
-					!myInfo.name && <div className='bodyContentMessagesInputArea'>
+					!myInfo.github.name && <div className='bodyContentFeature'>
 						<h2>
 							请登录
 							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>auth</a>

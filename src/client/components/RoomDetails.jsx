@@ -7,20 +7,20 @@ import { colorList } from '../../../config/client.js'
 @observer
 export default class RoomDetails extends React.Component {
   render() {
-    const { currentRoomInfo, myInfo, showRoomDetail, onlineUsers } = this.props.store;
+    const { group, showRoomDetail, onlineUsers } = this.props.store;
     const showRoomDetailListText = [
       {
         title: '群头像',
-        onlineUsers: [{ name: currentRoomInfo.name }],
+        onlineUsers: [{ name: group.name }],
         offlineUsers: []
       }, {
         title: '管理员',
-        onlineUsers: [...currentRoomInfo.administratorList.filter(e => onlineUsers.indexOf(e.name) >= 0)],
-        offlineUsers: [...currentRoomInfo.administratorList.filter(e => onlineUsers.indexOf(e.name) == -1)]
+        onlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.name) >= 0)],
+        offlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.name) == -1)]
       }, {
         title: '成员',
-        onlineUsers: [...currentRoomInfo.memberList.filter(e => onlineUsers.indexOf(e.name) >= 0)],
-        offlineUsers: [...currentRoomInfo.memberList.filter(e => onlineUsers.indexOf(e.name) == -1)]
+        onlineUsers: [...group.memberList.filter(e => onlineUsers.indexOf(e.name) >= 0)],
+        offlineUsers: [...group.memberList.filter(e => onlineUsers.indexOf(e.name) == -1)]
       }
     ]
     return (

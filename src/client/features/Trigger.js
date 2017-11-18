@@ -101,7 +101,7 @@ class Trigger extends Component {
 			//还是向后台查询，根据id查询用户详细信息。
 			socket({
 				url:'user detail',
-				id: e.nativeEvent.path.filter((index) => {
+				_id: e.nativeEvent.path.filter((index) => {
 					e.preventDefault()
 					return index.id == 'showMoreUserInfo'
 				})[0].getAttribute('data-id'),

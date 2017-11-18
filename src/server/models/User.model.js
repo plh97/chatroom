@@ -14,7 +14,7 @@ class User {
     find(data){
         return userModel.find(data)
     }
-    findOne(data){
+    async findOne(data){
         return userModel.findOne(data)
     }
     update(before,after){

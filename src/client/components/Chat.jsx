@@ -15,8 +15,8 @@ export default class Chat extends Component {
 		const { myInfo } = this.props.store;
 		this.props.store.socket({
 			url:'add room',
-			userId: myInfo.id,
-			name: myInfo.name
+			userId: myInfo._id,
+			name: myInfo.github.name
 		})
 	}
 	//只执行一次
@@ -28,32 +28,27 @@ export default class Chat extends Component {
 		const { match } = this.props
 		const {
 			doing,
-			//当前房间信息包括所有消息列表，房间用户总人数，管理员
-			currentRoomInfo,
-			//当前在线用户总
 			onlineUsers,
-			//登陆用户的个人信息
-			myInfo,
-			roomList,
+			myInfo
 		} = this.props.store;
 		return (
 			<div className="body">
 				<div className="slider">
 					<h3 className="title">房间列表：</h3>
-					{roomList.map((room,i)=>(
+					{myInfo.groups.map((group,i)=>(
 						<Link
 							className="roomList"
-							id={room.name}
+							id={group.name}
 							key={i}
-							to={`${match.url}/${room.name}`}>
+							to={`${match.url}/${group.name}`}>
 							<Avatar
-								src={room.avatorUrl}
+								src={group.avatar_url}
 								className="slideAvator"
 								size="large"
-								style={{backgroundColor: colorList[room.name.charCodeAt() % 8]}}>
-								{room.name.split('')[0]}
+								style={{backgroundColor: colorList[group.name.charCodeAt() % 8]}}>
+								{group.name.split('')[0]}
 							</Avatar>
-							<span className="roomName">{room.name}</span>
+							<span className="roomName">{group.name}</span>
 						</Link>
 					))}
 					<span onClick={this.addRoom} className="addRoom">
@@ -64,7 +59,7 @@ export default class Chat extends Component {
 				<Route exact path={match.url} render={() => (
 					<h3>Please select a room.</h3>
 				)}/>
-				<Route path={`${match.url}/:roomId`} component={BodyContent}/>
+				<Route path={`${match.url}/:groupName`} component={BodyContent}/>
 			</div>
 		)
 	}

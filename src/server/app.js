@@ -74,6 +74,33 @@ app.io.on('connection', async (ctx,json) => {
     }
 });
 
+app.io.on('init group',async(ctx,json)=>{
+    console.log('init group',json);
+    let groupInfo = await Group.findOne({name:json.groupName})
+    groupInfo.administratorList =await Promise.all(groupInfo.administratorList.map(async _id=>{
+        let user = await User.findOne({_id:_id})
+        return{
+            name:user.github.name,
+            avatar_url:user.github.avatar_url,
+            _id
+        }
+    }))
+    groupInfo.memberList =await Promise.all(groupInfo.memberList.map(async _id=>{
+        let user = await User.findOne({_id:_id})
+        return{
+            name:user.github.name,
+            avatar_url:user.github.avatar_url,
+            _id
+        }
+    }))
+    ctx.socket.emit('init group',groupInfo)
+})
+
+app.io.on('user detail',async (ctx,json)=>{
+    let user = await User.findOne({_id:json._id})
+    ctx.socket.emit('user detail',user)
+})
+
 app.io.on('disconnect', async (ctx) => {
     console.log('disconnect');
 });
