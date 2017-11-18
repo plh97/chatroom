@@ -9,7 +9,6 @@ import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
 import { userInfo } from 'os';
 import config from "../../../config/server.js";
-import moment from "moment";
 
 @inject("store")
 @observer
