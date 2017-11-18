@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Avatar, Icon} from 'antd'
 import {inject, observer} from "mobx-react"
 import {colorList} from '../../../config/client.js'
-// import '../less/userDetails.less'
 
 @inject("store")
 @observer
