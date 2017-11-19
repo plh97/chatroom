@@ -56,6 +56,7 @@ const webpackConfig = merge( process.env.NODE_ENV == 'development' ?  devWebpack
     ]
   },
   plugins: [
+    // new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|zh-tw)$/),
     // new ManifestPlugin(path.join('dist', 'manifest.json')),
     new CleanWebpackPlugin(['dist']),
     new webpack.optimize.CommonsChunkPlugin({

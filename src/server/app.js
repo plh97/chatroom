@@ -93,22 +93,19 @@ app.io.on('init group', async (ctx, json) => {
             _id
         }
     }))
-    groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async msg=>{
-        let user = await User.findOne({_id:msg.id})
-        //so ugly , i'll improve it
-        return msg = {
-            id: msg.id,
-            _id: msg._id,
+    groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
+        let user = await User.findOne({_id:message.id})
+        return message = {
+            id: message.id,
+            _id: message._id,
             avatar_url: user.github.avatar_url,
             name: user.github.name,
-            update_time: msg.update_time,
-            // create_time: moment(msg.create_time).day(),
-            create_time: moment(msg.create_time).format(`MMM Do , h:mm:ss`),
-            // create_time: moment(msg.create_time).hour()+":"+moment(msg.create_time).minute(),
-            image: msg.image,
-            code: msg.code,
-            text: msg.text,
-            type: msg.type,
+            update_time: message.update_time,
+            create_time: message.create_time,
+            image: message.image,
+            code: message.code,
+            text: message.text,
+            type: message.type,
         }
     }))
     ctx.socket.emit('init group', groupInfo)
@@ -127,7 +124,8 @@ app.io.on('send message', async (ctx, json) => {
     message = Object.assign({},message,{
         name:user.github.name,
         avatar_url:user.github.avatar_url,
-        update_time: "just now",
+        update_time: message.update_time,
+        create_time: message.create_time,
     })
     ctx.socket.emit('send message', message)
 })

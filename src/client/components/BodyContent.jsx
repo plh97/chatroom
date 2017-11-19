@@ -9,6 +9,9 @@ import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
 import { userInfo } from 'os';
 import config from "../../../config/server.js";
+// import moment from 'moment/min/moment.min';
+// import moment from 'moment-timezone/builds/moment-timezone-with-data.min';
+import moment from 'moment-timezone/builds/moment-timezone.min';
 
 @inject("store")
 @observer
@@ -111,7 +114,9 @@ export default class BodyContent extends Component {
 										{post.name}
 									</span>
 									<span className="timeContainer">
-										{post.create_time}
+										{
+											moment(post.create_time).format(`MMM Do , HH:mm:ss`)
+										}
 									</span>
 								</p>
 								{post.text && <p className = {`messageContainer ${post.type}`}>
