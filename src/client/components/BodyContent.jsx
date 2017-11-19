@@ -28,11 +28,18 @@ export default class BodyContent extends Component {
 	}
 
 	componentDidMount() {
-		const{ socket,myInfo } = this.props.store
+		const{ socket,myInfo,allHold } = this.props.store
 		const {match} = this.props
 		document.cookie = `redirect_uri=${match.url};Path=/auth`;
 		console.log('这个时候我开始给后台发送初始化群的请求。。后台什么时候才能返回给我？？？？');
-
+		if(!myInfo.github.name){
+			//根据url匹配规则匹配该默认群
+			allHold("myInfo.groups",[{
+				name:match.params.groupName,
+				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
+			}])
+		}
+		//不论游客有咩有登录，都要向后台发送初始化群消息的信息
 		socket({
 			url: 'init group',
 			groupName: match.params.groupName
@@ -181,7 +188,7 @@ export default class BodyContent extends Component {
 					!myInfo.github.name && <div className='bodyContentFeature'>
 						<h2>
 							请登录
-							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>auth</a>
+							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>github</a>
 						</h2>
 					</div>
 				}

@@ -39,14 +39,24 @@ export default class UserDetails extends Component {
           </div>
           <div className="followRepot">
             <span className="followers">
-              {showMoreUserInfo.github.followers} followers
+              <span className="count">
+                {showMoreUserInfo.github.followers} 
+              </span>
+              followers
             </span>
             <span className="repos">
-              {showMoreUserInfo.github.public_repos}&nbsp;repots
+              <span className="count">
+                {showMoreUserInfo.github.public_repos}
+              </span>
+              repots
             </span>
             <span className="following">
-              {showMoreUserInfo.github.following} following
+            <span className="count">
+              {showMoreUserInfo.star_count}
             </span>
+            stars
+            </span>
+            <span className='githubReport'>查看Github分析报告</span>
           </div>
           {showMoreUserInfo.github.bio && showMoreUserInfo.github.bio.length && <div className="infoList">
             <span className="label">🙆</span>

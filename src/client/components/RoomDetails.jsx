@@ -28,7 +28,7 @@ export default class RoomDetails extends React.Component {
     ]
     return (
       <div id='bodyContentRoomDetails' className={`bodyContentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
-        {showRoomDetailListText.map((avatars, i) => (
+        {group.name && showRoomDetailListText.map((avatars, i) => (
           <div className="showRoomDetailList" key={i}>
             <span className="title">{avatars.title}:</span>
             <span className="avatarContainer">

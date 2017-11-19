@@ -98,7 +98,8 @@ class Trigger extends Component {
 				github:{
 					name:'',
 					avatar_url:''
-				}
+				},
+				star_count:0
 			})
 			//还是向后台查询，根据id查询用户详细信息。
 			socket({

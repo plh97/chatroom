@@ -3,14 +3,14 @@ const Koa = require('koa');
 const path = require('path');
 const IO = require('koa-socket');
 const json = require('koa-json');
-const cookie = require('cookie');
-const moment = require('moment');
+// const cookie = require('cookie');
+// const moment = require('moment');
 const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const static = require('koa-static');
-const rp = require('request-promise');
-const convert = require('koa-convert');
-const koaStatic = require('koa-static');
+// const rp = require('request-promise');
+// const convert = require('koa-convert');
+// const koaStatic = require('koa-static');
 const bodyparser = require('koa-bodyparser');
 
 //local
@@ -59,7 +59,6 @@ io.attach(app);
 /*
 *   @param {cookie} string
 *   @return {myinfo} 
-*
 *   连接上以后，
 *   1)验证cookie的token，
 *       1.如果通过那么他是用户，发my info给他。
@@ -77,37 +76,39 @@ app.io.on('connection', async (ctx, json) => {
 
 app.io.on('init group', async (ctx, json) => {
     let groupInfo = await Group.findOne({ name: json.groupName })
-    groupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async _id => {
-        let user = await User.findOne({ _id: _id })
-        return {
-            name: user.github.name,
-            avatar_url: user.github.avatar_url,
-            _id
-        }
-    }))
-    groupInfo.memberList = await Promise.all(groupInfo.memberList.map(async _id => {
-        let user = await User.findOne({ _id: _id })
-        return {
-            name: user.github.name,
-            avatar_url: user.github.avatar_url,
-            _id
-        }
-    }))
-    groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
-        let user = await User.findOne({_id:message.id})
-        return message = {
-            id: message.id,
-            _id: message._id,
-            avatar_url: user.github.avatar_url,
-            name: user.github.name,
-            update_time: message.update_time,
-            create_time: message.create_time,
-            image: message.image,
-            code: message.code,
-            text: message.text,
-            type: message.type,
-        }
-    }))
+    if(groupInfo){
+        groupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async _id => {
+            let user = await User.findOne({ _id: _id })
+            return {
+                name: user.github.name,
+                avatar_url: user.github.avatar_url,
+                _id
+            }
+        }))
+        groupInfo.memberList = await Promise.all(groupInfo.memberList.map(async _id => {
+            let user = await User.findOne({ _id: _id })
+            return {
+                name: user.github.name,
+                avatar_url: user.github.avatar_url,
+                _id
+            }
+        }))
+        groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
+            let user = await User.findOne({_id:message.id})
+            return message = {
+                id: message.id,
+                _id: message._id,
+                avatar_url: user.github.avatar_url,
+                name: user.github.name,
+                update_time: message.update_time,
+                create_time: message.create_time,
+                image: message.image,
+                code: message.code,
+                text: message.text,
+                type: message.type,
+            }
+        }))
+    } 
     ctx.socket.emit('init group', groupInfo)
 })
 

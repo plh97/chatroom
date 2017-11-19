@@ -30,11 +30,14 @@ class TodoStore {
   //我的用户信息
   @observable myInfo = {
     _id: '',
-    github:{
-      name:'',
-      avatar_url:''
+    github: {
+      name: '',
+      avatar_url: ''
     },
-    groups: []
+    groups: [{
+      name: "Moonlight",
+      avatar_url: "https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
+    }]
   }
   //当前房间信息
   @observable group = {
@@ -42,9 +45,7 @@ class TodoStore {
     name: '',
     avatar_url: '',
     creator: '',
-    //管理员信息
     administratorList: [],
-    //成员信息
     memberList: [],
     messageList: []
   }
@@ -59,11 +60,11 @@ class TodoStore {
     isShow: false,
     x: "50vw",
     y: "50vh",
-    github:{
-      name: '',
+    github: {
+      name: 'Moonlight',
       avatar_url: ''
     },
-    star_count:0
+    star_count: 0
   }
   @observable code = ''
   @observable messageType = 'text'
@@ -78,12 +79,12 @@ class TodoStore {
   @action socket = (state) => {
     socket.emit(state.url, state)
   }
-  @action tipFunc = (state) => {
-    this.tip = state
-  }
-  @action groupFunc = (state) => {
-    this.group.name = state
-  }
+  // @action tipFunc = (state) => {
+  //   this.tip = state
+  // }
+  // @action groupFunc = (state) => {
+  //   this.group.name = state
+  // }
   @action showRoomDetailFunc = (state) => {
     this.showRoomDetail = state
   }
@@ -116,13 +117,17 @@ class TodoStore {
   }
   constructor() {
     socket.on('get myInfo', json => {
-      console.log('这个时候，我获得了我的个人信息，看看谁比我快，我必须要第一快',json);
+      console.log('这个时候，我获得了我的个人信息，看看谁比我快，我必须要第一快', json);
       this.myInfo = json
     })
     socket.on('get users', json => {
       this.onlineUsers = json
     })
     socket.on('init group', json => {
+      if (!json) {
+        this.group.name = null
+        return
+      }
       this.group = json
     })
 
@@ -139,28 +144,26 @@ class TodoStore {
     })
 
     socket.on('user detail', json => {
-      console.log("user detail",json);
-      // console.log(this.showMoreUserInfo.star_count);
+      console.log("user detail", json);
+      //同时查询该用户star总数，
+      fetch(`${json.github.repos_url}`)
+        .then(response => response.json())
+        .then(json => {
+          json.map((repos, i) => {
+            this.showMoreUserInfo.star_count += repos.stargazers_count
+          })
+        })
+        .then(() => {
+          console.log('count' , this.showMoreUserInfo.star_count);
+        })
       //只能一个一个获取，不然会改变 showmoreuserinfo 的框框xy坐标位置。
       this.showMoreUserInfo.github = json.github
       this.showMoreUserInfo.groups = json.groups
       this.showMoreUserInfo.friends = json.friends
       this.showMoreUserInfo._id = json._id
-      //同时查询该用户star总数，
-      let _this = this
-      fetch(`${json.github.repos_url}`)
-        .then(response => response.json())
-        .then(json => {
-          json.map((repos,i)=>{
-            _this.showMoreUserInfo.star_count = _this.showMoreUserInfo.star_count + repos.stargazers_count
-          })
-        })
-        .then(()=>{
-          // console.log('count',_this.showMoreUserInfo.star_count);
-        })
     })
   }
 }
 window.store = new TodoStore
-var store = window.store
+const store = window.store
 export default store
