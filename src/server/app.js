@@ -131,6 +131,14 @@ app.io.on('send message', async (ctx, json) => {
     ctx.socket.emit('send message', message)
 })
 
+app.io.on('create group', async (ctx, json) => {
+    console.log('create group',json);
+    //流程
+    //将群 创建者id发给 model, 返回group 信息 将信息中的
+    let message = await Group.sendMsg(json)
+    ctx.socket.emit('send message', message)
+})
+
 app.io.on('disconnect', async (ctx) => {
     console.log('disconnect');
 });

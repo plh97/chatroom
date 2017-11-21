@@ -94,7 +94,7 @@ class Trigger extends Component {
 			showMoreUserInfoFunc({
 				isShow: true,
 				x: e.nativeEvent.view.innerWidth - e.nativeEvent.x - 220 > 0 ? e.nativeEvent.x : e.nativeEvent.x - 220,
-				y: e.nativeEvent.view.innerHeight - e.nativeEvent.y - 335 > 0 ? e.nativeEvent.y : e.nativeEvent.y - 335,
+				y: e.nativeEvent.view.innerHeight - e.nativeEvent.y - 373 > 0 ? e.nativeEvent.y : e.nativeEvent.y - 373,
 				github:{
 					name:'',
 					avatar_url:''

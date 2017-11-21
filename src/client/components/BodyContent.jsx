@@ -27,6 +27,7 @@ export default class BodyContent extends Component {
 		}
 	}
 
+
 	componentDidMount() {
 		const{ socket,myInfo,allHold } = this.props.store
 		const {match} = this.props
@@ -137,9 +138,9 @@ export default class BodyContent extends Component {
 									}}
 									src = {post.image.url}/> : ''}
 								{post.code ? <pre
-									style={{overflow:"visible"}}
+									style={{overflow:"auto"}}
 									className={`${post.type} messageContainer`}>
-										<code className="language-js">
+										<code className="language-jsx">
 											{post.code}
 										</code>
 									</pre> : ''}

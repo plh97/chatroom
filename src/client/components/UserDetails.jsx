@@ -6,6 +6,16 @@ import {colorList} from '../../../config/client.js'
 @inject("store")
 @observer
 export default class UserDetails extends Component {
+  mouseEnter = () =>{
+    this.githubReport.scrollIntoView({
+      behavior: 'smooth'
+    })
+  }
+  mouseLeave = () =>{
+    this.followers.scrollIntoView({
+      behavior: "smooth"
+    })
+  }
   render() {
     const {match} = this.props
     const {
@@ -13,20 +23,17 @@ export default class UserDetails extends Component {
       showMoreUserInfo
     } = this.props.store;
     return (
-      <div id='showMoreUserInfoContainer' style={{
-        left: showMoreUserInfo.x,
-        top: showMoreUserInfo.y
-      }} className={`showMoreUserInfo ${showMoreUserInfo.isShow
-        ? 'show'
-        : 'hide'}`}>
+      <div 
+        id='showMoreUserInfoContainer' 
+        style={{
+          left: showMoreUserInfo.x,
+          top: showMoreUserInfo.y
+        }} className={`showMoreUserInfo ${showMoreUserInfo.isShow
+          ? 'show'
+          : 'hide'}`}>
         <Avatar
           src={showMoreUserInfo.github.avatar_url}
-          className="avatar" shape='square' size="large" style={{
-            backgroundColor: colorList[showMoreUserInfo.github.name.charCodeAt() % 8],
-            cursor: showMoreUserInfo.github.name == myInfo.github.name
-              ? 'pointer'
-              : ''
-          }}>
+          className="avatar" shape='square' size="large">
           {showMoreUserInfo.github.name.split('')[0]}
         </Avatar>
         <div className="info">
@@ -37,10 +44,15 @@ export default class UserDetails extends Component {
             </a>
             <Icon type="message"/>
           </div>
-          <div className="followRepot">
-            <span className="followers">
+          <div
+            onMouseLeave={this.mouseLeave} 
+            onMouseEnter={this.mouseEnter} 
+            className="followRepot">
+            <span 
+              ref={(el) => { this.followers = el; }}
+              className="followers">
               <span className="count">
-                {showMoreUserInfo.github.followers} 
+                  {showMoreUserInfo.github.followers} 
               </span>
               followers
             </span>
@@ -56,7 +68,9 @@ export default class UserDetails extends Component {
             </span>
             stars
             </span>
-            <span className='githubReport'>查看Github分析报告</span>
+            <span 
+              ref={(el) => { this.githubReport = el; }}
+              className='githubReport'>看看这货的Github分析报告</span>
           </div>
           {showMoreUserInfo.github.bio && showMoreUserInfo.github.bio.length && <div className="infoList">
             <span className="label">🙆</span>

@@ -14,7 +14,7 @@ export default class Chat extends Component {
 	addRoom = (e) =>{
 		const { myInfo } = this.props.store;
 		this.props.store.socket({
-			url:'add room',
+			url:'create group',
 			userId: myInfo._id,
 			name: myInfo.github.name
 		})
@@ -34,7 +34,6 @@ export default class Chat extends Component {
 		return (
 			<div className="body">
 				<div className="slider">
-					<h3 className="title">房间列表：</h3>
 					{myInfo.groups.map((group,i)=>(
 						<Link
 							className="groupList"
@@ -53,7 +52,7 @@ export default class Chat extends Component {
 					))}
 					<span onClick={this.addGroup} className="addgroup">
 						<Icon type="usergroup-add" />
-						开房？
+						创建群
 					</span>
 				</div>
 				<Route exact path={match.url} render={() => (

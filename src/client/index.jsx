@@ -3,6 +3,8 @@ import {render} from 'react-dom'
 import AsyncApp from './containers/AsyncApp.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
+import GithubReport from './components/GithubReport.jsx'
+import Canvas from './components/Canvas.jsx'
 import { Route, Redirect,  } from 'react-router'
 import createHistory from 'history/createBrowserHistory'
 import {
@@ -14,18 +16,6 @@ import {Provider,observer} from "mobx-react"
 import "./less/index.less"
 import store from "./store/"
 const history = createHistory()
-//login page
-// TODO:
-
-//chat page
-// TODO:
-// the default page
-// if not has no token --> login page
-// post token to backend , check it whether right or worry
-// but how about nodejs to found the session?
-// if token  incorrect / send callBack info to front-end
-// 后台在进入的时候直接验证session是否正确。。
-
 
 @observer
 export default class Root extends Component{
@@ -60,7 +50,7 @@ export default class Root extends Component{
 						<Route exact path="/" render={
 							()=>(
 								<div>
-									<h3>额貌似由于react-router（前台路由）匹配的特性，我无法做到用‘/’来匹配所有房间，所以‘/’我只能用来堆放广告，介绍，android，。</h3>
+									<h1>说点什么好呢？</h1>
 									<p>
 										reference:<a target="_blank" href='https://discordapp.com'>Discord</a>
 										<Link to='/group'>open github chat</Link>
@@ -69,9 +59,10 @@ export default class Root extends Component{
 							)
 						} />
 						<Route path="/group" component={AsyncApp} />
+						<Route path="/githubReport" component={GithubReport} />
 						<Route path="/login" component={Login} />
 						<Route path="/register" component={Register} />
-						<div className="window"></div>
+						<div className='window'></div>
 					</div>
 				</Router>
 			</Provider>
