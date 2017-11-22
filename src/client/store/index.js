@@ -29,20 +29,21 @@ class User {
 class TodoStore {
   //我的用户信息
   @observable myInfo = {
-    _id: '',
+    user_id: '',
     github: {
       name: '',
       avatar_url: ''
     },
     groups: [{
-      name: "Moonlight",
+      group_id: "",
+      group_name: "Moonlight",
       avatar_url: "https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
     }]
   }
   //当前房间信息
   @observable group = {
-    id: '',
-    name: '',
+    _id: '',
+    group_name: '',
     avatar_url: '',
     creator: '',
     administratorList: [],
@@ -51,6 +52,8 @@ class TodoStore {
   }
   //是否显示用户详细信息
   @observable showRoomDetail = false
+  //是否显示用户创建群iput
+  @observable is_show_create_group_input = false
   //是否显示表情容器
   @observable showEmoji = false
   //是否显示代码编辑器
@@ -85,6 +88,9 @@ class TodoStore {
   // @action groupFunc = (state) => {
   //   this.group.name = state
   // }
+  @action is_show_create_group_input_func = (state) => {
+    this.is_show_create_group_input = state
+  }
   @action showRoomDetailFunc = (state) => {
     this.showRoomDetail = state
   }

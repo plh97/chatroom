@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Group = require('./Group.model')
 const userSchema = new Schema({
-    _id: { type: String, default: '' },
+    user_id: { type: String, default: '' },
     github: { type: Object, default: {} },
-    groups: { type: Array, default: [] },
-    friends: { type: Array, default: [] },
+    groups: [
+        { type: String, default: '' }
+    ],
+    friends: [
+        { type: String, default: '' }
+    ]
 });
 
 const userModel = mongoose.model('users', userSchema);
@@ -18,39 +22,49 @@ class User {
         return userModel.findOne(data)
     }
     update(before,after){
-        return userModel.update(before,after).exec();
-    }
-    create(data){
-        return userModel(data).save();
+        return userModel.update(before,after);
     }
     async save(data) {
         //没有group，需要创建group，
         let isGroupExist = await Group.find({})
+        console.log('isGroupExist',isGroupExist);
         !isGroupExist.length && await Group.create({
+            group_name:'Moonlight',
             administratorList: [data.github.id],
-            memberList: [data.github.id],
+            memberList: [],
             creator: [data.github.id],
         })
+        //找到默认群Id
         let defaultGroup = await Group.findFirst()
         //查询user，有就更新，没有user就要创建
-        //创建usr,加入默认group   用户，首次登录，
-        let isUserExist = await this.find({})
-        if(isUserExist.length){
-            //is exist,update
+        let isUserExist = await userModel.findOne({user_id:data.github.id})
+        if(isUserExist){
+            //如果用户存在
             await this.update({
-                _id: data.github.id,
+                user_id: data.github.id,
             },{
-                _id: data.github.id,
+                user_id: data.github.id,
                 github:data.github,
             })
         }else{
-            // not exist , save,create
-            await this.create({
-                _id: data.github.id,
+            console.log('not exist');
+            //如果用户不存在，创建用户
+            console.log('create user');
+            await userModel.create({
+                user_id: data.github.id.toString(),
                 github: data.github,
                 groups: [defaultGroup._id.toString()]
             });
+            //加入default group
+            console.log('join default group');
+            await Group.join_member({
+                group_id: defaultGroup._id.toString(),
+                user_id: data.github.id.toString()
+            })
         }
+    }
+    create(data){
+        return userModel.insert(data);
     }
 }
 

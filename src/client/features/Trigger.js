@@ -76,7 +76,8 @@ class Trigger extends Component {
 			showEmoji,
 			showEmojiFunc,
 			showMoreUserInfo,
-			showMoreUserInfoFunc
+			showMoreUserInfoFunc,
+			is_show_create_group_input_func
 		} = this.props.store
 		//avator click
 		//whether show avator details
@@ -104,7 +105,7 @@ class Trigger extends Component {
 			//还是向后台查询，根据id查询用户详细信息。
 			socket({
 				url:'user detail',
-				_id: e.nativeEvent.path.filter((index) => {
+				user_id: e.nativeEvent.path.filter((index) => {
 					e.preventDefault()
 					return index.id == 'showMoreUserInfo'
 				})[0].getAttribute('data-id'),
@@ -152,6 +153,14 @@ class Trigger extends Component {
 			}
 		} else {
 			showEmojiFunc(false)
+		}
+		//是否显示创建群input
+		if (e.nativeEvent.path.filter((index) => {
+			return index.id == 'addgroup'
+		}).length > 0) {
+			is_show_create_group_input_func(true)
+		} else {
+			is_show_create_group_input_func(false)
 		}
 		//Switch Channel
 		if (e.nativeEvent.path.filter((index) => {

@@ -11,9 +11,10 @@ export default class RoomDetails extends React.Component {
     const showRoomDetailListText = [
       {
         title: '群头像',
-        onlineUsers: [{ 
-          name: group.name,
-          avatar_url: group.avatar_url,
+        onlineUsers: [{
+          //为了配合循环，故意叫做user_name   ,他的真名叫做group_name
+          user_name: group.group_name,
+          avatar_url: group.avatar_url
         }],
         offlineUsers: []
       }, {
@@ -28,7 +29,7 @@ export default class RoomDetails extends React.Component {
     ]
     return (
       <div id='bodyContentRoomDetails' className={`bodyContentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
-        {group.name && showRoomDetailListText.map((avatars, i) => (
+        {group.group_name && showRoomDetailListText.map((avatars, i) => (
           <div className="showRoomDetailList" key={i}>
             <span className="title">{avatars.title}:</span>
             <span className="avatarContainer">
@@ -37,10 +38,16 @@ export default class RoomDetails extends React.Component {
                 ...avatars.offlineUsers
               ].map((avatar, j) => (
                 <span className="avatar" key={j}>
-                  <Avatar id="showMoreUserInfo" data-id={avatar._id} className="slideAvatar" size="large" src={avatar.avatar_url} >
-                    {avatar.name.split('')[0]}
-                  </Avatar>
-                  <span className="name">{avatar.name}</span>
+                  <Avatar
+                    data-id={avatar.user_id}
+                    src={avatar.avatar_url}
+                    className="slideAvatar"
+                    id="showMoreUserInfo"
+                    size="large"
+                  />
+                  <span className="name">
+                    {avatar.user_name}
+                  </span>
                 </span>
               ))}
             </span>

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const tokenSchema = new Schema({
     access_token: { type: String, default: '' },
-    _id: { type: String, default: '' }
+    user_id: { type: String, default: '' }
 });
 const tokenModel = mongoose.model('tokens', tokenSchema);
 
@@ -18,12 +18,12 @@ class Token {
     async save(data){
         //根据id查找数据库,如果存在update，不存在save 
         let isExist = await tokenModel.find({
-            _id:data._id
+            user_id:data.user_id
         });
         if(isExist.length){
             await tokenModel.update({
-                _id:data._id
-            }, data).exec();
+                user_id:data.user_id
+            }, data);
         }else{
             await tokenModel(data).save();
         }
@@ -47,18 +47,24 @@ class Token {
         //如果能找到我的token，说明我的token验证通过
         if(me){
             let myInfo = await User.findOne({
-                _id:me._id
+                user_id:me.user_id
             })
-            myInfo.groups = await Promise.all(myInfo.groups.map( async id =>{
-                let groupInfo = await Group.findOne({
-                    _id:id
-                })
+            //因为User.group里面的类型被写死了，所以只能重新命名newmyinfo
+            let newMyInfo = {
+                user_id:myInfo.user_id,
+                groups:myInfo.groups,
+                friends:myInfo.friends,
+                github:myInfo.github
+            };
+            newMyInfo.groups = await Promise.all(myInfo.groups.map( async _id =>{
+                let groupInfo = await Group.findOne({_id})
                 return {
-                    name:groupInfo.name,
+                    group_name:groupInfo.group_name,
+                    group_id:groupInfo._id,
                     avatar_url:groupInfo.avatar_url
-                }
+                } 
             }))
-            return await myInfo
+            return newMyInfo
         }
     }
 }

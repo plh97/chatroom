@@ -36,7 +36,8 @@ export default class BodyContent extends Component {
 		if(!myInfo.github.name){
 			//根据url匹配规则匹配该默认群
 			allHold("myInfo.groups",[{
-				name:match.params.groupName,
+				group_id:'',
+				group_name:match.params.groupName,
 				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
 			}])
 		}
@@ -62,9 +63,9 @@ export default class BodyContent extends Component {
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
-			group: group.name,
+			group: group.group_name,
 			group_id:group._id,
-			id: myInfo._id,
+			user_id: myInfo.user_id,
 			name: myInfo.github.name,
 			avatar_url: myInfo.github.avatar_url,
 			//3种信息类型，文字，代码，图片
@@ -112,14 +113,14 @@ export default class BodyContent extends Component {
 				<RoomDetails/>
 				<div className='bodyContentMessages'>
 					{group.messageList.map((post, i) => (
-						<div className={`bodyContentMessagesList ${post.name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
-							<Avatar id="showMoreUserInfo" data-id={post.id} className='avatar' src={post.avatar_url} size="large">
-								{post.name.split("")[0]}
+						<div className={`bodyContentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
+							<Avatar id="showMoreUserInfo" data-id={post.user_id} className='avatar' src={post.avatar_url} size="large">
+								{post.user_name.split("")[0]}
 							</Avatar>
 							<div className='content'>
 								<p className='messageTittle'>
 									<span className='nameContainer'>
-										{post.name}
+										{post.user_name}
 									</span>
 									<span className="timeContainer">
 										{

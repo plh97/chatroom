@@ -11,14 +11,20 @@ import {colorList} from '../../../config/client.js'
 @inject("store")
 @observer
 export default class Chat extends Component {
-	addRoom = (e) =>{
-		const { myInfo } = this.props.store;
+	add_group = (e) =>{
+		const {
+			myInfo,
+			is_show_create_group_input_func
+		} = this.props.store
+		e.preventDefault()
+		is_show_create_group_input_func(false)
 		this.props.store.socket({
 			url:'create group',
-			userId: myInfo._id,
-			name: myInfo.github.name
+			user_id: myInfo.user_id,
+			group_name: this.creat_group_input.value
 		})
 	}
+
 	//只执行一次
 	// componentWillMount(){
 	// 	// console.log('componentWillMount');
@@ -29,7 +35,8 @@ export default class Chat extends Component {
 		const {
 			doing,
 			onlineUsers,
-			myInfo
+			myInfo,
+			is_show_create_group_input
 		} = this.props.store;
 		return (
 			<div className="body">
@@ -37,26 +44,28 @@ export default class Chat extends Component {
 					{myInfo.groups.map((group,i)=>(
 						<Link
 							className="groupList"
-							id={group.name}
+							id={group.group_name}
 							key={i}
-							to={`${match.url}/${group.name}`}>
+							to={`${match.url}/${group.group_name}`}>
 							<Avatar
 								src={group.avatar_url}
 								className="slideAvatar"
-								size="large"
-								style={{backgroundColor: colorList[group.name.charCodeAt() % 8]}}>
-								{group.name.split('')[0]}
+								size="large">
 							</Avatar>
-							<span className="groupName">{group.name}</span>
+							<span className="groupName">{group.group_name}</span>
 						</Link>
 					))}
-					<span onClick={this.addGroup} className="addgroup">
+					<span onClick={this.toggle} className="addgroup" id='addgroup'>
 						<Icon type="usergroup-add" />
-						创建群
+						{is_show_create_group_input ? <form className="form" onSubmit={this.add_group}>
+								<input 
+									ref={(c) => this.creat_group_input = c}
+									placeholder='enter' className="input" id='input' type='text'/>
+							</form> : 'create group'}
 					</span>
 				</div>
 				<Route exact path={match.url} render={() => (
-					<h3>Please select a group.</h3>
+					<h1>Please select a group.</h1>
 				)}/>
 				<Route path={`${match.url}/:groupName`} component={BodyContent}/>
 			</div>
