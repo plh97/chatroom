@@ -7,15 +7,12 @@ import "prismjs/components/prism-jsx.js"
 import "prismjs/themes/prism-okaidia.css"
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
-import { userInfo } from 'os';
 import config from "../../../config/server.js";
-// import moment from 'moment/min/moment.min';
-// import moment from 'moment-timezone/builds/moment-timezone-with-data.min';
 import moment from 'moment-timezone/builds/moment-timezone.min';
 
 @inject("store")
 @observer
-export default class BodyContent extends Component {
+export default class Content extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
@@ -26,13 +23,10 @@ export default class BodyContent extends Component {
 			url:'send message',
 		}
 	}
-
-
 	componentDidMount() {
 		const{ socket,myInfo,allHold } = this.props.store
 		const {match} = this.props
 		document.cookie = `redirect_uri=${match.url};Path=/auth`;
-		console.log('这个时候我开始给后台发送初始化群的请求。。后台什么时候才能返回给我？？？？');
 		if(!myInfo.github.name){
 			//根据url匹配规则匹配该默认群
 			allHold("myInfo.groups",[{
@@ -44,7 +38,16 @@ export default class BodyContent extends Component {
 		//不论游客有咩有登录，都要向后台发送初始化群消息的信息
 		socket({
 			url: 'init group',
-			group_name: match.params.group_name
+			group_name: decodeURIComponent(match.params.group_name)
+		})
+		this.scrollToBottom('auto');
+	}
+	componentWillReceiveProps(nextProps){
+		//每次触发url改变都会在这里触发函数。。。
+		const{ socket,myInfo,allHold } = this.props.store
+		socket({
+			url: 'init group',
+			group_name: nextProps.match.params.group_name
 		})
 		this.scrollToBottom('auto');
 	}
@@ -109,15 +112,15 @@ export default class BodyContent extends Component {
 		const { match } = this.props
 		const { group , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
 		return (
-			<div className='bodyContent'>
+			<div className='content' key={match.params.group_name}>
 				<RoomDetails/>
-				<div className='bodyContentMessages'>
+				<div className='contentMessages'>
 					{group.messageList.map((post, i) => (
-						<div className={`bodyContentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
+						<div className={`contentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
 							<Avatar id="showMoreUserInfo" data-id={post.user_id} className='avatar' src={post.avatar_url} size="large">
 								{post.user_name.split("")[0]}
 							</Avatar>
-							<div className='content'>
+							<div className='containerContent'>
 								<p className='messageTittle'>
 									<span className='nameContainer'>
 										{post.user_name}
@@ -153,7 +156,7 @@ export default class BodyContent extends Component {
 					</div>
 				</div>
 				{
-					myInfo.github.name && <div className="bodyContentFeature">
+					myInfo.github.name && <div className="contentFeature">
 						<Icon className = 'emojiClick' id='emojiClick' type = 'smile-o'/>
 						<div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
 							{emoji.split(' ').map((index,i)=>(
@@ -172,7 +175,7 @@ export default class BodyContent extends Component {
 					</div>
 				}
 				{
-					myInfo.github.name && <form className='bodyContentMessagesInputArea' onSubmit={(e)=>{
+					myInfo.github.name && <form className='contentMessagesInputArea' onSubmit={(e)=>{
 						e.preventDefault();
 						this.handleMsgSubmit({
 							type:'text',
@@ -181,13 +184,13 @@ export default class BodyContent extends Component {
 					}}>
 						<input
 							ref={(c) => this._textInput = c}
-							className='bodyContentMessagesInput'
-							id='bodyContentMessagesInput'
+							className='contentMessagesInput'
+							id='contentMessagesInput'
 							placeholder='chat content' />
 					</form> 
 				}
 				{
-					!myInfo.github.name && <div className='bodyContentFeature'>
+					!myInfo.github.name && <div className='contentFeature'>
 						<h2>
 							请登录
 							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>github</a>

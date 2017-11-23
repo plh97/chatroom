@@ -120,7 +120,7 @@ class Trigger extends Component {
 			return index.className == 'toggleDetail'
 		}).length > 0) {
 			showRoomDetailFunc(!showRoomDetail)
-		} else if (e.nativeEvent.path.filter((e) => e.id == 'bodyContentRoomDetails' || e.id == 'showMoreUserInfoContainer').length > 0) {
+		} else if (e.nativeEvent.path.filter((e) => e.id == 'contentRoomDetails' || e.id == 'showMoreUserInfoContainer').length > 0) {
 			//
 		} else {
 			showRoomDetailFunc(false)
@@ -148,8 +148,8 @@ class Trigger extends Component {
 			}).length > 0
 		) {
 			if (e.nativeEvent.path[0].innerText.length == 2) {
-				document.getElementById('bodyContentMessagesInput').value += e.nativeEvent.path[0].innerText
-				document.getElementById('bodyContentMessagesInput').focus()
+				document.getElementById('contentMessagesInput').value += e.nativeEvent.path[0].innerText
+				document.getElementById('contentMessagesInput').focus()
 			}
 		} else {
 			showEmojiFunc(false)

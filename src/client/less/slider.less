@@ -1,0 +1,79 @@
+@import "../common/commonStyle";
+.slider {
+    // border-right: 1px solid silver;
+    grid-area: slider;
+    color: #fff;
+    overflow-y: auto;
+    background: #2e3238;
+    .myInfo{
+        display: grid;
+        padding: 12px;
+        grid-template-columns: 70px 1fr;
+        grid-template-areas: 'myAvatar myName';
+        border-bottom: 1px solid #24272c;
+        
+        .myAvatar{
+            grid-area: myAvatar;
+            cursor: pointer;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            justify-self: start;
+            align-self: center;
+        }
+        .myName{
+            font-size: 1.6rem;
+            grid-area: myName;
+            justify-self: start;
+            align-self: center;
+        }
+    }
+    .groupList {
+        height: 64px;
+        // color:#fff;
+        border-bottom: 1px solid #292c33;
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        grid-template-areas: 'slideAvatar groupName';
+        cursor: pointer;
+        padding: 10px;
+        transition: all 0.1s ease-out;
+        text-decoration: none;
+        &:hover {
+            padding-left: 5px;
+        }
+        &.active {
+            background-color: #3a3f45;
+        }
+        .slideAvatar {
+            grid-area: slideAvatar;
+            justify-self: center;
+            align-self: center;
+        }
+        .groupName {
+            grid-area: groupName;
+            justify-self: start;
+            align-self: center;
+        }
+    }
+    .addgroup {
+        height: 45px;
+        text-align: center;
+        color: #fff;
+        display: inline-block;
+        width: 100%;
+        border-bottom: 1px solid #292c33;
+        padding: 10px;
+        cursor: text;
+        .form {
+            display: inline;
+            .input {
+                background-color: inherit;
+                width: 56%;
+                margin-left: 5px;
+                padding-left: 5px;
+                border: 1px solid rgba(21, 137, 231, 0.863);
+            }
+        }
+    }
+}

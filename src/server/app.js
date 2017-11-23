@@ -60,7 +60,8 @@ io.attach(app);
 *       2.如果不通过后台验证，那么他是游客，
 */
 app.io.on('connection', async (ctx, json) => {
-    console.log('connection',json);
+    console.log('connection');
+
     let access_token = getCookie(ctx).access_token
     if (access_token) {
         let myInfo = await Token.verify({access_token:access_token})

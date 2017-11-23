@@ -3,11 +3,6 @@
 body {
 	font-size: calc(~'0.89em + 0.2vw');
 
-	#root {
-		height: 100vh;
-	}
-	@import "./registerLogin.less";
-
 	.routerContainer {
 		height: 100vh;
 
@@ -16,7 +11,7 @@ body {
 			height: 100vh;
 			bottom: 0;
 			z-index: -1;
-			background: url('//res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg') no-repeat fixed;
+			// background: url('//res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg') no-repeat fixed;
 			background-size: cover;
 			position: fixed;
 			background-repeat: no-repeat;
@@ -36,15 +31,13 @@ body {
 
 		.container {
 			height: 100vh;
-			// background: hsla(0,0%,95%,0);
 			display: grid;
-			grid-template-columns: 1fr 1000px 1fr;
-			grid-template-areas: '. header .' '. body .';
-			grid-template-rows: 80px calc(~'(100% - 80px)');
+			grid-template-columns: 280px 1fr;
+			grid-template-areas: 'slider body';
 			position: relative;
-
-			@import "./header.less";
-			@import "./chat.less";
+			
+			@import "./slider.less";
+			@import "./body.less";
 			@import "./userDetails.less";
 		}
 	}

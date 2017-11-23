@@ -1,21 +1,21 @@
 @import "../common/commonStyle";
 
-.bodyContent {
-  grid-area: bodyContent;
+.content {
+  grid-area: content;
   display: grid;
   position: relative;
   grid-template-columns: 1fr;
   grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
-  grid-template-areas: 'bodyContentMessages' 'bodyContentFeature' 'bodyContentMessagesInputArea';
+  grid-template-areas: 'contentMessages' 'contentFeature' 'contentMessagesInputArea';
   @import "./roomDetails.less";
 
-  .bodyContentMessages {
-    grid-area: bodyContentMessages;
+  .contentMessages {
+    grid-area: contentMessages;
     height: 100%;
     overflow-y: scroll;
 
 
-    .bodyContentMessagesList {
+    .contentMessagesList {
       .timeContainer{
         display: none;
       }
@@ -36,7 +36,7 @@
         grid-template-columns: 60px 1fr 160px;
         grid-template-areas: 'avatar content .';
 
-        .content {
+        .containerContent {
           justify-self: start;
 
           .text {
@@ -103,7 +103,7 @@
         grid-template-columns: 160px 1fr 60px;
         grid-template-areas: '. content avatar';
 
-        .content {
+        .containerContent {
           justify-self: end;
 
           .messageTittle {
@@ -178,7 +178,7 @@
         cursor: pointer;
       }
 
-      .content {
+      .containerContent {
         grid-area: content;
         max-width: 100%;
         display: grid;
@@ -201,6 +201,7 @@
           border-radius: 10px;
           display: inline-block;
           justify-self: inherit;
+          box-shadow: 3px 3px 10px #aaa;
 
           &.text {
             padding: 5px 10px;
@@ -220,8 +221,8 @@
     }
   }
 
-  .bodyContentFeature {
-    grid-area: bodyContentFeature;
+  .contentFeature {
+    grid-area: contentFeature;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -334,8 +335,8 @@
     }
   }
 
-  .bodyContentMessagesInputArea {
-    grid-area: bodyContentMessagesInputArea;
+  .contentMessagesInputArea {
+    grid-area: contentMessagesInputArea;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -344,7 +345,7 @@
     z-index: 1;
     color:#000;
     
-    .bodyContentMessagesInput {
+    .contentMessagesInput {
       width: 450px;
       max-width: 90%;
       height: 32px;
