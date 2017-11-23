@@ -55,14 +55,16 @@ export default class Chat extends Component {
 							<span className="groupName">{group.group_name}</span>
 						</Link>
 					))}
-					<span onClick={this.toggle} className="addgroup" id='addgroup'>
-						<Icon type="usergroup-add" />
-						{is_show_create_group_input ? <form className="form" onSubmit={this.add_group}>
-								<input 
-									ref={(c) => this.creat_group_input = c}
-									placeholder='enter' className="input" id='input' type='text'/>
-							</form> : 'create group'}
-					</span>
+					{
+						myInfo.user_id && <span onClick={this.toggle} className="addgroup" id='addgroup'>
+							<Icon type="usergroup-add" />
+							{is_show_create_group_input ? <form className="form" onSubmit={this.add_group}>
+									<input 
+										ref={(c) => this.creat_group_input = c}
+										placeholder='enter' className="input" id='input' type='text'/>
+								</form> : 'create group'}
+						</span>
+					}
 				</div>
 				<Route exact path={match.url} render={() => (
 					<h1>Please select a group.</h1>

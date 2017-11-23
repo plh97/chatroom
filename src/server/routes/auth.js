@@ -52,7 +52,7 @@ exports.getCode = async (ctx, next) => {
     // });
     //token储存/更新
     console.log('token save');
-    await Token.save({
+    await Token.register({
         access_token: tokenResp.access_token,
         user_id: userInfo.id
     })

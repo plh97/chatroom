@@ -43,8 +43,7 @@ export default class RoomDetails extends React.Component {
                     src={avatar.avatar_url}
                     className="slideAvatar"
                     id="showMoreUserInfo"
-                    size="large"
-                  />
+                    size="large" />
                   <span className="name">
                     {avatar.user_name}
                   </span>

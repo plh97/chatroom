@@ -63,8 +63,7 @@ app.io.on('connection', async (ctx, json) => {
     console.log('connection',json);
     let access_token = getCookie(ctx).access_token
     if (access_token) {
-        //如果有cookie,进行下一步，验证token，通过就发送my info给前台
-        let myInfo = await Token.verify(access_token)
+        let myInfo = await Token.verify({access_token:access_token})
         if(myInfo){
             ctx.socket.emit('get myInfo', myInfo)
         }
@@ -73,53 +72,8 @@ app.io.on('connection', async (ctx, json) => {
 
 app.io.on('init group', async (ctx, json) => {
     console.log('init group',json);
-    let groupInfo = await Group.findOne({ group_name: json.groupName })
-    //因为group里面administratorList,memberList,messageList类型都被写死了，不能更改，所以只能写个新变量
-    let newGroupInfo = await {
-        administratorList:groupInfo.administratorList,
-        memberList:groupInfo.memberList,
-        messageList:groupInfo.messageList,
-        update_time:groupInfo.update_time,
-        create_time:groupInfo.create_time,
-        _id:groupInfo._id,
-        creator:groupInfo.creator,
-        avatar_url:groupInfo.avatar_url,
-        group_name:groupInfo.group_name
-    }
-    if(groupInfo){
-        newGroupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async user_id => {
-            let user = await User.findOne({ user_id: user_id })
-            return {
-                user_name: user.github.name,
-                avatar_url: user.github.avatar_url,
-                user_id:user_id
-            }
-        }))
-        newGroupInfo.memberList = await Promise.all(groupInfo.memberList.map(async user_id => {
-            let user = await User.findOne({ user_id: user_id })
-            return {
-                user_name: user.github.name,
-                avatar_url: user.github.avatar_url,
-                user_id:user_id
-            }
-        }))
-        newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
-            let user = await User.findOne({user_id:message.user_id})
-            return {
-                user_id: message.user_id,
-                _id: message._id,
-                avatar_url: user.github.avatar_url,
-                user_name: user.github.name,
-                update_time: message.update_time,
-                create_time: message.create_time,
-                image: message.image,
-                code: message.code,
-                text: message.text,
-                type: message.type,
-            }
-        }))
-    } 
-    ctx.socket.emit('init group', newGroupInfo)
+    let groupInfo = await Group.findOnePretty({ group_name: json.groupName })
+    ctx.socket.emit('init group', groupInfo)
 })
 
 app.io.on('user detail', async (ctx, json) => {
@@ -143,10 +97,17 @@ app.io.on('send message', async (ctx, json) => {
 
 app.io.on('create group', async (ctx, json) => {
     console.log('create group',json);
-    //流程
-    //将群 创建者id发给 model, 返回group 信息 将信息中的
-    let group = await Group.create(json)
-    ctx.socket.emit('create group', group)
+    let group = await Group.create({
+        group_name:json.group_name,
+        administratorList: [json.user_id],
+        memberList: [json.user_id],
+        creator: [json.user_id],
+    })
+    let myInfo = await User.join_group({
+        group_id:group._id.toString(),
+        user_id:json.user_id
+    })
+    ctx.socket.emit('get myInfo', myInfo)
 })
 
 app.io.on('disconnect', async (ctx) => {

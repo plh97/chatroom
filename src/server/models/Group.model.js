@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-const GroupSchema = new Schema({
+const {Model,Schema} = mongoose;
+const groupSchema = new Schema({
 	group_name: { type: String, default: 'Moonlight' },
 	avatar_url: { type: String, default: 'https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40' },
 	creator: { type: String, default: '' },
@@ -30,35 +30,24 @@ const GroupSchema = new Schema({
 	update_time: { type: Date, default: Date.now, index: true },
 });
 
-const groupModel = mongoose.model('groups', GroupSchema);
-const User = require('./User.model')
 
-class Group {
-	//基础创建，可拓展。
+class GroupClass extends Model {
+	//基础创建，可拓展,如果该群名字重复了，那么退出
 	async create(data) {
-		let is_exist = await this.findOne({name:data.group_name})
+		let is_exist = await this.findOne({group_name:data.group_name})
 		if(is_exist){
 			return
 		} 
-		await groupModel(data).save()
+		await this.insert(data)
+		return await this.findOne({group_name:data.group_name})
 	}
-	find(data) {
-		return groupModel.find(data)
-	}
-	findOne(data) {
-		return groupModel.findOne(data)
-	}
-	async findFirst() {
-		let firstGroup = (await groupModel.find({}))[0]
-		return firstGroup
-	}
-	async sendMsg(data) {
+	static async sendMsg(data) {
 		let msg = Object.assign({}, data, {
 			name: '',
 			avatar_url: ''
 		})
 		//更新 group.messageList
-		await groupModel.findByIdAndUpdate(
+		await this.findByIdAndUpdate(
 			msg.group_id,
 			{
 				$push: {
@@ -68,9 +57,8 @@ class Group {
 		);
 		return msg
 	}
-	async join_member(data){
-		console.log('join_member',data);
-		await groupModel.update(
+	static async join_member(data){
+		await this.update(
 			{_id:data.group_id},
 			{
 				$push: {
@@ -78,17 +66,49 @@ class Group {
 				}
 			}
 		);
-		console.log('join_member',data);
 	}
-	// async create(data){
-	// 	console.log(data,is_exist);
-	// 	// await this.create({
-    //     //     administratorList: [data.user_id],
-    //     //     memberList: [data.user_id],
-	// 	// 	creator: [data.user_id],
-	// 	// 	name:data.group_name
-	// 	// })
-	// }
+	static async findOnePretty(data){
+		let User = require('./User.model')
+		let groupInfo = await this.findOne(data)
+		if(!groupInfo){
+			return
+		}
+		groupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async user_id => {
+			let user = await User.findOne({ user_id: user_id })
+			return {
+				user_name: user.github.name,
+				avatar_url: user.github.avatar_url,
+				user_id:user_id
+			}
+		}))
+		groupInfo.memberList = await Promise.all(groupInfo.memberList.map(async user_id => {
+			let user = await User.findOne({ user_id: user_id })
+			return {
+				user_name: user.github.name,
+				avatar_url: user.github.avatar_url,
+				user_id:user_id
+			}
+		}))
+		groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
+			let user = await User.findOne({user_id:message.user_id})
+			return {
+				user_id: message.user_id,
+				_id: message._id,
+				avatar_url: user.github.avatar_url,
+				user_name: user.github.name,
+				update_time: message.update_time,
+				create_time: message.create_time,
+				image: message.image,
+				code: message.code,
+				text: message.text,
+				type: message.type,
+			}
+		}))
+		return groupInfo
+	}
 }
 
-module.exports = new Group();
+groupSchema.loadClass(GroupClass)
+const Group = mongoose.model('groups', groupSchema);
+
+module.exports = Group;
