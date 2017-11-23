@@ -113,7 +113,6 @@ class GroupClass extends Model {
 				type: message.type,
 			}
 		}))
-		console.log('groupInfo',newGroupInfo);
 		return newGroupInfo
 	}
 }
