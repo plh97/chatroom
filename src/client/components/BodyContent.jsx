@@ -37,14 +37,14 @@ export default class BodyContent extends Component {
 			//根据url匹配规则匹配该默认群
 			allHold("myInfo.groups",[{
 				group_id:'',
-				group_name:match.params.groupName,
+				group_name:match.params.group_name,
 				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
 			}])
 		}
 		//不论游客有咩有登录，都要向后台发送初始化群消息的信息
 		socket({
 			url: 'init group',
-			groupName: match.params.groupName
+			group_name: match.params.group_name
 		})
 		this.scrollToBottom('auto');
 	}

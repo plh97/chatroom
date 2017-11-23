@@ -70,10 +70,19 @@ class GroupClass extends Model {
 	static async findOnePretty(data){
 		let User = require('./User.model')
 		let groupInfo = await this.findOne(data)
-		if(!groupInfo){
-			return
+		if(!groupInfo) return
+		let newGroupInfo = {
+			administratorList:groupInfo.administratorList,
+			memberList:groupInfo.memberList,
+			messageList:groupInfo.messageList,
+			update_time:groupInfo.update_time,
+			create_time:groupInfo.create_time,
+			_id:groupInfo._id,
+			creator:groupInfo.creator,
+			avatar_url:groupInfo.avatar_url,
+			group_name:groupInfo.group_name
 		}
-		groupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async user_id => {
+		newGroupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async user_id => {
 			let user = await User.findOne({ user_id: user_id })
 			return {
 				user_name: user.github.name,
@@ -81,7 +90,7 @@ class GroupClass extends Model {
 				user_id:user_id
 			}
 		}))
-		groupInfo.memberList = await Promise.all(groupInfo.memberList.map(async user_id => {
+		newGroupInfo.memberList = await Promise.all(groupInfo.memberList.map(async user_id => {
 			let user = await User.findOne({ user_id: user_id })
 			return {
 				user_name: user.github.name,
@@ -89,7 +98,7 @@ class GroupClass extends Model {
 				user_id:user_id
 			}
 		}))
-		groupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
+		newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
 			let user = await User.findOne({user_id:message.user_id})
 			return {
 				user_id: message.user_id,
@@ -104,7 +113,8 @@ class GroupClass extends Model {
 				type: message.type,
 			}
 		}))
-		return groupInfo
+		console.log('groupInfo',newGroupInfo);
+		return newGroupInfo
 	}
 }
 

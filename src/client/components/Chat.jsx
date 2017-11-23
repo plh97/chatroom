@@ -69,7 +69,7 @@ export default class Chat extends Component {
 				<Route exact path={match.url} render={() => (
 					<h1>Please select a group.</h1>
 				)}/>
-				<Route path={`${match.url}/:groupName`} component={BodyContent}/>
+				<Route path={`${match.url}/:group_name`} component={BodyContent}/>
 			</div>
 		)
 	}

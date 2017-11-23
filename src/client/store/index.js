@@ -80,14 +80,9 @@ class TodoStore {
   @observable callBack = {}
   //封装好的socket.emit
   @action socket = (state) => {
+    console.log(state);
     socket.emit(state.url, state)
   }
-  // @action tipFunc = (state) => {
-  //   this.tip = state
-  // }
-  // @action groupFunc = (state) => {
-  //   this.group.name = state
-  // }
   @action is_show_create_group_input_func = (state) => {
     this.is_show_create_group_input = state
   }

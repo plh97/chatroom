@@ -72,7 +72,7 @@ app.io.on('connection', async (ctx, json) => {
 
 app.io.on('init group', async (ctx, json) => {
     console.log('init group',json);
-    let groupInfo = await Group.findOnePretty({ group_name: json.groupName })
+    let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
     ctx.socket.emit('init group', groupInfo)
 })
 
