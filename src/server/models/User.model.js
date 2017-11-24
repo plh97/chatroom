@@ -11,7 +11,8 @@ const userSchema = new Schema({
     ],
     friends: [
         { type: String, default: '' }
-    ]
+    ],
+    status: { type: String, default: 'offline' },
 });
 class UserClass extends Model {
     static async save(data) {
@@ -50,7 +51,8 @@ class UserClass extends Model {
             user_id: myInfo.user_id,
             groups: myInfo.groups,
             friends: myInfo.friends,
-            github: myInfo.github
+            github: myInfo.github,
+            status: myInfo.status
         };
         newMyInfo.groups = await Promise.all(myInfo.groups.map(async _id => {
             let groupInfo = await Group.findOne({ _id })

@@ -35,11 +35,6 @@ export default class Content extends Component {
 				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
 			}])
 		}
-		//不论游客有咩有登录，都要向后台发送初始化群消息的信息
-		socket({
-			url: 'init group',
-			group_name: decodeURIComponent(match.params.group_name)
-		})
 		this.scrollToBottom('auto');
 	}
 	componentWillReceiveProps(nextProps){
@@ -66,7 +61,7 @@ export default class Content extends Component {
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
-			group: group.group_name,
+			group_name: group.group_name,
 			group_id:group._id,
 			user_id: myInfo.user_id,
 			name: myInfo.github.name,

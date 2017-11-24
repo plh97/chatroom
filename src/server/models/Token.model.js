@@ -32,6 +32,13 @@ class TokenClass extends Model {
         let User = require('./User.model');
         let token = await this.findOne(data)
         if(token){
+            //更新状态 --> 在线
+            await User.update({
+                user_id: token.user_id
+            }, {
+                status: 'online'
+            })
+            //然后再将用户信息发给前台
             let user = await User.findOnePretty({user_id:token.user_id})
             return user
         }else{
