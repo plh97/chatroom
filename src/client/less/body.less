@@ -1,13 +1,11 @@
 @import "../common/commonStyle";
-
-.body{
-  grid-area: body;
-  background: hsla(0,0%,95%,0.2);
-  grid-template-columns: 1fr;
-  grid-template-rows: 80px calc(~'(100vh - 80px)');
-  display: grid;
-  grid-template-areas: 'header' 'content';
-
-  @import "./header";
-  @import "./content";
+.body {
+    grid-area: body;
+    background: hsla(0, 0%, 95%, 0.2);
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px calc(~'(100vh - 80px)');
+    display: grid;
+    grid-template-areas: 'header' 'content';
+    @import "./header";
+    @import "./content";
 }
