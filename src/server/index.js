@@ -13,7 +13,10 @@ const config = require('../../config/server');
 const allRouter = require('./routes/index.js');
 
 //utils
-const { getCookie, getUrl } = require('./utils/get')
+const { 
+	getCookie ,
+	getUrl ,
+} = require('./utils/get')
 
 //app
 const port = process.env.PORT || config.port;
@@ -36,7 +39,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			//检测用户当前url
 			//根据urlpathname，将相关group信息发给用户，不用等到用户再传要求groupinfo的信号了
 			let urlArray = getUrl(socket).pathname.split('/')
-			if (urlArray[1] == 'group' && urlArray[2]) {
+			if(urlArray[1] == 'group' && urlArray[2]){
 				let group_name = urlArray[2]
 				//先将之前左右的room全部退出，然后加入当前房间
 				for (let prop in socket.rooms) {
@@ -46,6 +49,15 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				socket.join(groupInfo._id.toString())
 				socket.emit('init group', groupInfo)
 			}
+
+			socket.on('init group', async (json) => {
+				for (let prop in socket.rooms) {
+					socket.leave(socket.rooms[prop])
+				}
+				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
+				socket.join(groupInfo._id.toString())
+				socket.emit('init group', groupInfo)
+			})
 
 			socket.on('send message', async (json) => {
 				console.log('send message', json);
@@ -86,8 +98,8 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				await User.update({
 					user_id: myInfo.user_id
 				}, {
-						status: 'offline'
-					})
+					status: 'offline'
+				})
 			});
 		});
 
