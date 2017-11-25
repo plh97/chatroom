@@ -31,7 +31,7 @@ export default class Chat extends Component {
 		return (
 			<div className="slider">
 				<div className='myInfo'>
-					<Badge dot className='online'>
+					<Badge dot className={myInfo.status}>
 						<Avatar
 							src={myInfo.github.avatar_url}
 							id="showMoreUserInfo"
