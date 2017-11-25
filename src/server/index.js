@@ -33,7 +33,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			if (access_token) {
 				var myInfo = await Token.verify({ access_token: access_token })
 				if (myInfo) {
-					io.emit('get myInfo', myInfo)
+					socket.emit('get myInfo', myInfo)
 				}
 			}
 			//检测用户当前url
