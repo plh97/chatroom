@@ -101,9 +101,10 @@ class TodoStore {
 		socket.on('get myInfo', json => {
 			this.myInfo = json
 		})
-		// socket.on('get users', json => {
-		// 	this.onlineUsers = json
-		// })
+		socket.on('online user', json => {
+			console.log('online user',json);
+			this.onlineUsers = json
+		})
 		socket.on('init group', json => {
 			if (!json) {
 				this.group.name = null

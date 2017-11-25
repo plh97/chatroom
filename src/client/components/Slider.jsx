@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
 	Link
 } from 'react-router-dom'
-import { Avatar, Icon } from 'antd'
+import { Avatar, Icon,Badge  } from 'antd'
 import { inject, observer } from "mobx-react"
 
 @inject("store")
@@ -32,13 +32,14 @@ export default class Chat extends Component {
 		return (
             <div className="slider">
 				<div className='myInfo'>
-					<Avatar
-						src={myInfo.github.avatar_url}
-						className="myAvatar"
-						id="showMoreUserInfo"
-						shape="square"
-						size="large">
-					</Avatar>
+					<Badge dot className='online'>
+						<Avatar
+							src={myInfo.github.avatar_url}
+							className="myAvatar"
+							id="showMoreUserInfo"
+							shape="square"
+							size="large"/>
+					</Badge>
 					<span className="myName">{myInfo.github.name}</span>
 				</div>
                 {myInfo.groups.map((group,i)=>(
@@ -47,11 +48,11 @@ export default class Chat extends Component {
                         id={group.group_name}
                         key={i}
                         to={`${match.url}/${group.group_name}`}>
-                        <Avatar
-                            src={group.avatar_url}
-                            className="slideAvatar"
-                            size="large">
-                        </Avatar>
+						<Avatar 
+							src={group.avatar_url}
+							size="large"
+							className="slideAvatar"
+							shape="square"/>
                         <span className="groupName">{group.group_name}</span>
                     </Link>
                 ))}

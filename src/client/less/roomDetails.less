@@ -1,52 +1,81 @@
 .contentRoomDetails {
-    position: absolute;
-    cursor: context-menu;
     width: 100%;
     padding: 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #dedede;
+    display: grid;
+    grid-gap: 0.5em;
     margin-top: 1px;
+    position: absolute;
+    cursor: context-menu;
+    background-color: #eee;
+    transition: all .1s ease-out;
+    border-bottom: 1px solid #dedede;
     box-shadow: 1px 1px 1px #e0e0e0;
     -moz-box-shadow: 1px 1px 1px #e0e0e0;
     -webkit-box-shadow: 1px 1px 1px #e0e0e0;
-    display: grid;
-    grid-gap: 0.5em;
-    transition: all .1s ease-out;
+
     &.show {
         z-index: 1;
         opacity: 1;
         top: 0;
         visibility: visible;
     }
+
     &.hide {
         opacity: 0;
         top: -50px;
         background-color: rgba(197, 202, 209, 0.5);
         visibility: hidden;
     }
+
     .showRoomDetailList {
         display: grid;
         grid-gap: 1em;
         grid-template-columns: 60px 1fr;
         grid-template-areas: 'title avatarContainer';
+
         .title {
             grid-area: title;
             justify-self: end;
             align-self: start;
             margin-top: 0.5em;
         }
+
         .avatarContainer {
             grid-area: avatarContainer;
+
             .avatar {
                 display: inline-grid;
                 grid-template-columns: 64px;
                 grid-template-areas: 'slideAvatar' 'nameAvatar';
+
+                .ant-badge-dot{
+                    top: unset;
+                    bottom: -0.2em;
+                    box-shadow: 0 0 0 2px #2f3136;
+                }
+                .online{
+                    .ant-badge-dot{
+                        background-color: #43b581;
+                    }
+                }
+                .busy{
+                    .ant-badge-dot{
+                        background-color: #faa61a;
+                    }
+                }
+                .offline{
+                    .ant-badge-dot{
+                        background-color: #747f8d;
+                    }
+                }
+
                 .slideAvatar {
                     grid-area: slideAvatar;
                     cursor: pointer;
                     justify-self: center;
                     align-self: center;
                 }
+
                 .name {
                     grid-area: nameAvatar;
                     justify-self: center;

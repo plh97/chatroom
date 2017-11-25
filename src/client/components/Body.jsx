@@ -12,12 +12,6 @@ import { colorList } from '../../../config/client.js'
 @inject("store")
 @observer
 export default class Body extends Component {
-
-	//只执行一次
-	// componentWillMount(){
-	// 	// console.log('componentWillMount');
-	// }
-
 	render() {
 		const { match } = this.props
 		return (

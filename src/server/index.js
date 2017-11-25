@@ -48,6 +48,12 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				let groupInfo = await Group.findOnePretty({ group_name: group_name })
 				socket.join(groupInfo._id.toString())
 				socket.emit('init group', groupInfo)
+				//online user
+				let onlineUser = await User.find({status:'online'})
+				let newOnlineUser = onlineUser.map(e=>{
+					return e.user_id
+				})
+				socket.emit('online user', newOnlineUser)
 			}
 
 			socket.on('init group', async (json) => {
@@ -100,6 +106,9 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				}, {
 					status: 'offline'
 				})
+				//当有用户下线，更新online User Array
+				let onlineUser = await User.find({status:'online'})
+				socket.emit('online user', onlineUser)
 			});
 		});
 
