@@ -33,7 +33,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			if (access_token) {
 				var myInfo = await Token.verify({ access_token: access_token })
 				if (myInfo) {
-					socket.emit('get myInfo', myInfo)
+					io.emit('get myInfo', myInfo)
 				}
 			}
 			//检测用户当前url
@@ -108,7 +108,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				})
 				//当有用户下线，更新online User Array
 				let onlineUser = await User.find({status:'online'})
-				socket.emit('online user', onlineUser)
+				io.emit('online user', onlineUser)
 			});
 		});
 
