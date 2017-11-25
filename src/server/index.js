@@ -108,7 +108,10 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				})
 				//当有用户下线，更新online User Array
 				let onlineUser = await User.find({status:'online'})
-				io.emit('online user', onlineUser)
+				let newOnlineUser = onlineUser.map(e=>{
+					return e.user_id
+				})
+				socket.emit('online user', newOnlineUser)
 			});
 		});
 
