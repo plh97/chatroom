@@ -98,7 +98,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 
 			socket.on('disconnect', async (json) => {
 				console.log('disconnect');
-				await User.update({
+				socket.myInfo && await User.update({
 					user_id: socket.myInfo.user_id
 				}, {
 					status: 'offline'

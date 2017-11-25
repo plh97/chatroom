@@ -22,12 +22,7 @@ export default class Header extends Component {
 			<div className="header">
 				{group.group_name==null && <h1>这个房间我找不到。。。。。</h1>}
 				{group.group_name && (group.group_name == '' ? <h1>github chat</h1> : <h1 className='toggleDetail'>
-					{group.group_name}
-					(
-					{group.memberList.filter(e=>onlineUsers.indexOf(e.user_id)>=0).length}
-					/
-					{group.memberList.length}
-					)人
+					{`${group.group_name}(${group.memberList.filter(e=>onlineUsers.indexOf(e.user_id)>=0).length}/${group.memberList.length})人`}
 					{showRoomDetail ? <Icon type="up" />:<Icon type="down" />}
 				</h1>)}
 				<iframe
