@@ -53,7 +53,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				let newOnlineUser = onlineUser.map(e=>{
 					return e.user_id
 				})
-				socket.emit('online user', newOnlineUser)
+				io.emit('online user', newOnlineUser)
 			}
 
 			socket.on('init group', async (json) => {
@@ -111,7 +111,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				let newOnlineUser = onlineUser.map(e=>{
 					return e.user_id
 				})
-				socket.emit('online user', newOnlineUser)
+				io.emit('online user', newOnlineUser)
 			});
 		});
 
