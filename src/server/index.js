@@ -30,25 +30,19 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 		io.on('connection', async (socket) => {
 			console.log('connection');
 			let access_token = getCookie(socket).access_token
-			if (access_token) {
-				var myInfo = await Token.verify({ access_token: access_token })
-				if (myInfo) {
-					socket.emit('get myInfo', myInfo)
-				}
-			}
-			//检测用户当前url
-			//根据urlpathname，将相关group信息发给用户，不用等到用户再传要求groupinfo的信号了
 			let urlArray = getUrl(socket).pathname.split('/')
 			if(urlArray[1] == 'group' && urlArray[2]){
-				let group_name = urlArray[2]
-				//先将之前左右的room全部退出，然后加入当前房间
-				for (let prop in socket.rooms) {
-					socket.leave(socket.rooms[prop])
+				if (access_token) {
+					socket.myInfo = await Token.verify({ access_token: access_token })
+					if (socket.myInfo) {
+						socket.emit('get myInfo', socket.myInfo)
+					}
 				}
+				let group_name = urlArray[2]
 				let groupInfo = await Group.findOnePretty({ group_name: group_name })
 				socket.join(groupInfo._id.toString())
+				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
-				//online user
 				let onlineUser = await User.find({status:'online'})
 				let newOnlineUser = onlineUser.map(e=>{
 					return e.user_id
@@ -57,11 +51,12 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			}
 
 			socket.on('init group', async (json) => {
-				for (let prop in socket.rooms) {
-					socket.leave(socket.rooms[prop])
-				}
+				console.log(socket.myInfo.github.name,'leave group id ',socket.currentRoomId);
+				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
+				console.log(socket.myInfo.github.name,'joind group id ',groupInfo._id.toString());
 				socket.join(groupInfo._id.toString())
+				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
 			})
 
@@ -75,7 +70,8 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 					update_time: message.update_time,
 					create_time: message.create_time,
 				})
-				io.to(json.group_id).emit('send message', message)
+				// console.log(socket.myInfo.github.name,'send message to ',socket.currentRoomId);
+				io.to(socket.currentRoomId).emit('send message', message)
 			})
 
 			socket.on('user detail', async (json) => {
@@ -92,6 +88,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 					memberList: [json.user_id],
 					creator: [json.user_id],
 				})
+				//需要更新myInfo
 				let myInfo = await User.join_group({
 					group_id: group._id.toString(),
 					user_id: json.user_id
@@ -102,16 +99,14 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			socket.on('disconnect', async (json) => {
 				console.log('disconnect');
 				await User.update({
-					user_id: myInfo.user_id
+					user_id: socket.myInfo.user_id
 				}, {
 					status: 'offline'
 				})
 				//当有用户下线，更新online User Array
 				let onlineUser = await User.find({status:'online'})
-				let newOnlineUser = onlineUser.map(e=>{
-					return e.user_id
-				})
-				io.emit('online user', newOnlineUser)
+				onlineUser = onlineUser.map(e=> e.user_id)
+				io.emit('online user', onlineUser)
 			});
 		});
 
