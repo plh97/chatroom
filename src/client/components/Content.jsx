@@ -112,9 +112,13 @@ export default class Content extends Component {
 				<div className='contentMessages'>
 					{group.messageList.map((post, i) => (
 						<div className={`contentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
-							<Avatar id="showMoreUserInfo" data-id={post.user_id} className='avatar' src={post.avatar_url} size="large">
-								{post.user_name.split("")[0]}
-							</Avatar>
+							<Avatar 
+								data-id={post.user_id} 
+								src={post.avatar_url} 
+								id="showMoreUserInfo" 
+								className='avatar' 
+								shape="square"
+								size="large"/>
 							<div className='containerContent'>
 								<p className='messageTittle'>
 									<span className='nameContainer'>
