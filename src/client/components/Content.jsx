@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { Avatar, Icon } from 'antd'
+import { Avatar, Icon,Spin } from 'antd'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
-import Prismjs from "prismjs"
-import "prismjs/components/prism-jsx.js"
-import "prismjs/themes/prism-okaidia.css"
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
 import config from "../../../config/server.js";
@@ -35,26 +32,24 @@ export default class Content extends Component {
 				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
 			}])
 		}
-		this.scrollToBottom('auto');
 	}
 	componentWillReceiveProps(nextProps){
 		//每次触发url改变都会在这里触发函数。。。
-		const{ socket,myInfo,allHold } = this.props.store
+		const{ socket,allHold } = this.props.store
+		//清空群消息，展示 wait
+		allHold("group.messageList",[])
+		allHold("doing",true)
 		socket({
 			url: 'init group',
 			group_name: nextProps.match.params.group_name
 		})
-		this.scrollToBottom('auto');
-	}
-
-	componentDidUpdate(){
-		Prism.highlightAll()
 	}
 
 	handleMsgSubmit = (e) => {
 		const {
 			myInfo ,
-			group
+			group,
+			scrollToBottom
 		} = this.props.store
 		//如果发的内容为空,退出函数
 		//text && code && messageImage
@@ -74,7 +69,6 @@ export default class Content extends Component {
 		})
 		this._textInput.value = ''
 		this.props.store.showCodeEditFunc(false)
-		this.scrollToBottom('auto');
 	}
 
 	handleImage = (e) => {
@@ -95,21 +89,27 @@ export default class Content extends Component {
 		)
 	}
 
-	scrollToBottom = (behave) => {
-		setTimeout(()=>{
-			this.messagesEnd.scrollIntoView({
-				behavior: behave
-			})
-		},1)
+	scrollToBottom = (data) => {
+		this.messagesEnd.scrollIntoView(data)
 	}
 
+	// componentDidUpdate(){
+	// }
+	
 	render() {
 		const { match } = this.props
-		const { group , doing , myInfo ,showEmoji , showEmojiFunc } = this.props.store;
+		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
+		if (scrollToBottom) {
+			this.scrollToBottom({
+				behavior: 'auto',
+			});
+			allHold('scrollToBottom',false)
+		}
 		return (
 			<div className='content' key={match.params.group_name}>
 				<RoomDetails/>
 				<div className='contentMessages'>
+					{doing && <Spin className='contentMessagesWait'/>}
 					{group.messageList.map((post, i) => (
 						<div className={`contentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
 							<Avatar 

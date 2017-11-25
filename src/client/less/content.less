@@ -11,7 +11,20 @@
         grid-area: contentMessages;
         height: 100%;
         overflow-y: scroll;
+
+        .contentMessagesWait {
+            display: block;
+            margin-top: 100px;
+        }
+
         .contentMessagesList {
+            font-family: 'Reem Kufi',
+            'Roboto',
+            sans-serif;
+            padding: 15px 0;
+            display: grid;
+            grid-template-rows: calc(~'(100% - 77px)');
+            color:#000;
             .timeContainer {
                 display: none;
             }
@@ -20,13 +33,6 @@
                     display: inline-block;
                 }
             }
-            font-family: 'Reem Kufi',
-            'Roboto',
-            sans-serif;
-            padding: 15px 0;
-            display: grid;
-            grid-template-rows: calc(~'(100% - 77px)');
-            color:#000;
             &.other {
                 grid-template-columns: 60px 1fr 160px;
                 grid-template-areas: 'avatar content .';
@@ -35,7 +41,8 @@
                     .text {
                         background-color: #f1f1f1;
                         position: relative;
-                        border: 1px solid #aaa; // &::before {
+                        border: 1px solid #aaa; 
+                        // &::before {
                         //   content: "";
                         //   -webkit-transform: rotate(20deg);
                         //   transform: rotate(20deg);
@@ -60,7 +67,8 @@
                     }
                     .code {
                         position: relative;
-                        border: 1px solid #aaa; // &::before {
+                        border: 1px solid #aaa; 
+                        // &::before {
                         //   content: "";
                         //   -webkit-transform: rotate(20deg);
                         //   transform: rotate(20deg);

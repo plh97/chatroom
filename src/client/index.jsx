@@ -1,8 +1,6 @@
+//package
 import React, { Component } from 'react'
 import {render} from 'react-dom'
-import AsyncApp from './containers/AsyncApp.jsx'
-import GithubReport from './components/GithubReport.jsx'
-// import Canvas from './components/Canvas.jsx'
 import { Route, Redirect,  } from 'react-router'
 import createHistory from 'history/createBrowserHistory'
 import {
@@ -11,8 +9,13 @@ import {
 	Switch
 } from 'react-router-dom'
 import {Provider,observer} from "mobx-react"
-import "./less/index.less"
+
+//local
+// import Canvas from './components/Canvas.jsx'
 import store from "./store/"
+import AsyncApp from './components/AsyncApp.jsx'
+import GithubReport from './components/GithubReport.jsx'
+import "./less/index.less"
 const history = createHistory()
 
 @observer

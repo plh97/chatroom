@@ -1,5 +1,10 @@
-import { action, useStrict, computed, observable } from "mobx";
+import Prismjs from "prismjs"
+import "prismjs/components/prism-jsx.js"
+import "prismjs/themes/prism-okaidia.css"
 import io from 'socket.io-client';
+import { action, useStrict, computed, observable } from "mobx";
+
+
 import config from '../../../config/project.js'
 
 const socket = io.connect({ secure: true });
@@ -51,10 +56,11 @@ class TodoStore {
 		star_count: 0
 	}
 	@observable code = ''
+	@observable scrollToBottom = false
 	@observable messageType = 'text'
 	//当前在线用户
 	@observable onlineUsers = []
-	// @observable doing = false
+	@observable doing = false
 	//登陆/注册用户返回信息提示
 	// @observable tip = '请登录'
 	//登陆/注册用户返回总体json
@@ -111,10 +117,16 @@ class TodoStore {
 				return
 			}
 			this.group = json
+			//当房间信息被加载出来的时候触发这里
+			this.scrollToBottom = true
+			Prism.highlightAll()
+			this.doing = false
 		})
 
 		socket.on('send message', json => {
 			this.group.messageList.push(json)
+			this.scrollToBottom = true
+			console.log('send message',this.scrollToBottom);
 		})
 
 		socket.on('user detail', json => {
