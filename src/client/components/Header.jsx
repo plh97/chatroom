@@ -23,8 +23,8 @@ export default class Header extends Component {
 				{group.group_name==null && <h1>这个房间我找不到。。。。。</h1>}
 				{group.group_name && (group.group_name == '' ? <h1>github chat</h1> : <h1 className='toggleDetail'>
 					{group.group_name}
-					房间(
-					{group.memberList.filter(e=>onlineUsers.indexOf(e.userName)>=0).length}
+					(
+					{group.memberList.filter(e=>onlineUsers.indexOf(e.user_id)>=0).length}
 					/
 					{group.memberList.length}
 					)人
