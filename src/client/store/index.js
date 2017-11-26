@@ -126,7 +126,7 @@ class TodoStore {
 		socket.on('send message', json => {
 			this.group.messageList.push(json)
 			this.scrollToBottom = true
-			console.log('send message',this.scrollToBottom);
+			Prism.highlightAll()
 		})
 
 		socket.on('user detail', json => {
