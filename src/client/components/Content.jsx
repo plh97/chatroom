@@ -32,10 +32,16 @@ export default class Content extends Component {
 				avatar_url:"https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40"
 			}])
 		}
+		allHold("doing",true)
+		socket({
+			url: 'init group',
+			group_name: match.params.group_name
+		})
 	}
 	componentWillReceiveProps(nextProps){
 		//每次触发url改变都会在这里触发函数。。。
 		const{ socket,allHold } = this.props.store
+		console.log('componentWillReceiveProps',nextProps);
 		//清空群消息，展示 wait
 		allHold("group.messageList",[])
 		allHold("doing",true)

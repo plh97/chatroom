@@ -15,6 +15,7 @@ exports.getCode = async (ctx, next) => {
     let redirect_uri = ctx.cookies.get('redirect_uri')
     let code = ctx.request.query["code"];
     let NODE_ENV = process.env.NODE_ENV
+    console.log('NODE_ENV',NODE_ENV);
     let option = {
         uri: `https://github.com/login/oauth/access_token`,
         qs: {
@@ -24,7 +25,9 @@ exports.getCode = async (ctx, next) => {
         },
         json: true
     }
+    console.log('option',option);
     let tokenResp = await rp(option);
+    // console.log('tokenize',tokenize);
     option = {
         uri: `https://api.github.com/user`,
         qs: {

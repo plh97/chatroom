@@ -28,6 +28,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			console.log('connection',process.env.NODE_ENV,process.env.PORT);
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
+			console.log('urlArray',urlArray);
 			if (urlArray[1] == 'group' && urlArray[2]) {
 				if (access_token) {
 					socket.myInfo = await Token.verify({ access_token: access_token })
@@ -50,10 +51,10 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 
 			socket.on('init group', async (json) => {
 				console.log('init group');
-				// console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
+				socket.myInfo && console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
 				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
-				// console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
+				socket.myInfo && console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
@@ -69,7 +70,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 					update_time: message.update_time,
 					create_time: message.create_time,
 				})
-				// console.log(socket.myInfo.github.name,'send message to ',socket.currentRoomId);
+				socket.myInfo && console.log(socket.myInfo.github.name,'send message to ',socket.currentRoomId);
 				io.to(socket.currentRoomId).emit('send message', message)
 			})
 
