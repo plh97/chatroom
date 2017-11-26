@@ -39,6 +39,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				let groupInfo = await Group.findOnePretty({ group_name: group_name })
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
+				console.log('init group');
 				socket.emit('init group', groupInfo)
 				let onlineUser = await User.find({ status: 'online' })
 				let newOnlineUser = onlineUser.map(e => {
@@ -48,10 +49,11 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			}
 
 			socket.on('init group', async (json) => {
-				console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
+				console.log('init group');
+				// console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
 				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
-				console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
+				// console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
