@@ -99,7 +99,7 @@ export default class Content extends Component {
 	render() {
 		const { match } = this.props
 		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
-		console.log(process);
+		console.log(process.env.NODE_ENV);
 		if (scrollToBottom) {
 			this.scrollToBottom({
 				behavior: 'auto',
