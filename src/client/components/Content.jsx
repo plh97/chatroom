@@ -105,6 +105,7 @@ export default class Content extends Component {
 			});
 			allHold('scrollToBottom',false)
 		}
+		console.log(process.env.NODE_ENV);
 		return (
 			<div className='content' key={match.params.group_name}>
 				<RoomDetails/>
