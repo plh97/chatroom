@@ -9,7 +9,7 @@
     "p": "webpack -p --color --env.NODE_ENV=prod --progress",
     "nodemon": "set NODE_ENV=dev&& nodemon src/server/index.js --config nodemonrc.json",
     "pm2": "pm2 start ecosystem.config.js --env prod",
-    "restart": "pm2 reload ecosystem.config.js"
+    "restart": "pm2 reload ecosystem.config.js --env prod"
   },
   "pre-commit": [
     "eslint"
