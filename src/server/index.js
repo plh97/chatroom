@@ -25,7 +25,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.proDatabase, { useMongoClient: true })
 	.then(() => {
 		io.on('connection', async (socket) => {
-			console.log('connection');
+			console.log('connection',process.env.NODE_ENV);
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
 			if (urlArray[1] == 'group' && urlArray[2]) {

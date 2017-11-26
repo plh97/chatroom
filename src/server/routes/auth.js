@@ -24,9 +24,7 @@ exports.getCode = async (ctx, next) => {
         },
         json: true
     }
-    console.log(config);
     let tokenResp = await rp(option);
-    console.log(tokenResp);
     option = {
         uri: `https://api.github.com/user`,
         qs: {
@@ -38,7 +36,6 @@ exports.getCode = async (ctx, next) => {
         json: true
     }
     let userInfo = await rp(option);
-    console.log(userInfo);
     ctx.cookies.set('access_token', tokenResp.access_token, {
         'httpOnly': true
     })
