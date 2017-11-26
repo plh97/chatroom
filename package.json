@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "eslint": "eslint ./src --color --fix",
-    "w": "cross-env-shell NODE_ENV=dev webpack --color --watch",
+    "w": "cross-env NODE_ENV=dev webpack --color --watch",
     "b": "webpack --color",
     "p": "webpack -p --color",
     "pm2": "pm2 start ./src/server/index.js --watch",
