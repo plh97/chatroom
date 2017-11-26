@@ -28,7 +28,6 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			console.log('connection',process.env.NODE_ENV,process.env.PORT);
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
-			console.log('urlArray',urlArray);
 			if (urlArray[1] == 'group' && urlArray[2]) {
 				if (access_token) {
 					socket.myInfo = await Token.verify({ access_token: access_token })
