@@ -4,7 +4,7 @@ import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
-import config from "../../../config/protect.js";
+import config from "../../../config/project.js";
 import moment from 'moment-timezone/builds/moment-timezone.min';
 
 @inject("store")
