@@ -99,7 +99,6 @@ export default class Content extends Component {
 	render() {
 		const { match } = this.props
 		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
-		console.log(process);
 		if (scrollToBottom) {
 			this.scrollToBottom({
 				behavior: 'auto',
@@ -193,7 +192,7 @@ export default class Content extends Component {
 					!myInfo.github.name && <div className='contentFeature'>
 						<h2>
 							请登录
-							<a href={`https://github.com/login/oauth/authorize?client_id=${config.pro.githubClientID}`}>github</a>
+							<a href={`https://github.com/login/oauth/authorize?client_id=${config.githubClientID}`}>github</a>
 						</h2>
 					</div>
 				}

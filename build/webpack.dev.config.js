@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
+const webpack = require('webpack')
 
 module.exports = {
 	plugins: [
@@ -7,6 +7,7 @@ module.exports = {
 			title: 'Chat For Github',
 			favicon: './favicon.png',
 			template: './assets/template/index.ejs',
-		})
+		}),
+		new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('dev')})
 	]
 }

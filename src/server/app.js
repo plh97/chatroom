@@ -14,12 +14,9 @@ const Group = require('./models/Group.model');
 const User = require('./models/User.model');
 const Token = require('./models/Token.model');
 
-//utils
-// const getCookie = require('./utils/getCookie')
-
 //application
 const app = new Koa();
-// const io = new IO();
+
 
 app
     .use(bodyparser())

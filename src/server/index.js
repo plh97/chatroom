@@ -13,10 +13,7 @@ const config = require('../../config/server');
 const allRouter = require('./routes/index.js');
 
 //utils
-const { 
-	getCookie ,
-	getUrl ,
-} = require('./utils/get')
+const { getCookie, getUrl } = require('./utils/get')
 
 //app
 const port = process.env.PORT || config.port;
@@ -31,7 +28,7 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			console.log('connection');
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
-			if(urlArray[1] == 'group' && urlArray[2]){
+			if (urlArray[1] == 'group' && urlArray[2]) {
 				if (access_token) {
 					socket.myInfo = await Token.verify({ access_token: access_token })
 					if (socket.myInfo) {
@@ -43,18 +40,18 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
-				let onlineUser = await User.find({status:'online'})
-				let newOnlineUser = onlineUser.map(e=>{
+				let onlineUser = await User.find({ status: 'online' })
+				let newOnlineUser = onlineUser.map(e => {
 					return e.user_id
 				})
 				io.emit('online user', newOnlineUser)
 			}
 
 			socket.on('init group', async (json) => {
-				console.log(socket.myInfo.github.name,'leave group id ',socket.currentRoomId);
+				console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
 				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
-				console.log(socket.myInfo.github.name,'joind group id ',groupInfo._id.toString());
+				console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
@@ -101,11 +98,11 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				socket.myInfo && await User.update({
 					user_id: socket.myInfo.user_id
 				}, {
-					status: 'offline'
-				})
+						status: 'offline'
+					})
 				//当有用户下线，更新online User Array
-				let onlineUser = await User.find({status:'online'})
-				onlineUser = onlineUser.map(e=> e.user_id)
+				let onlineUser = await User.find({ status: 'online' })
+				onlineUser = onlineUser.map(e => e.user_id)
 				io.emit('online user', onlineUser)
 			});
 		});

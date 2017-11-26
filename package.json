@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "eslint": "eslint ./src --color --fix",
-    "w": "cross-env NODE_ENV=production webpack --color --watch --env.NODE_ENV=dev --progress",
-    "b": "set ENV=development && webpack --color --env.NODE_ENV=dev",
-    "p": "export ENV=production && webpack -p --color --env.NODE_ENV=pro",
-    "pm2": "export NODE_ENV=development && pm2 start ./src/server/index.js --watch",
-    "nodemon": "export NODE_ENV=development && nodemon src/server/index.js --config nodemonrc.json",
-    "restart": "export NODE_ENV=development && pm2 restart ./src/server/index.js"
+    "w": "webpack --color --watch --env.NODE_ENV=dev --progress",
+    "b": "webpack --color --env.NODE_ENV=dev --progress",
+    "p": "webpack -p --color --env.NODE_ENV=pro --progress",
+    "nodemon": "set NODE_ENV=dev&& nodemon src/server/index.js --config nodemonrc.json",
+    "pm2": "export NODE_ENV=pro&& pm2 start ./src/server/index.js --watch",
+    "restart": "export NODE_ENV=pro&& pm2 restart ./src/server/index.js"
   },
   "pre-commit": [
     "eslint"

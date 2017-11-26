@@ -15,16 +15,16 @@ module.exports = {
     maxMessageLength: 1024,
 
     //github OAuth
-    dev: {
+    // dev: {
         // Client ID
-        githubClientID: "b794478ea18f28f30509",
+        githubClientID: process.env.NODE_ENV =='dev'? "b794478ea18f28f30509":"beb866b2260c1881c515",
         // Client Secret
-        githubClientSecret: "e845cb85dae60b38dcab468d9d434b6e068ad083"
-    },
-    pro: {
-        // Client ID
-        githubClientID: "beb866b2260c1881c515",
-        // Client Secret
-        githubClientSecret: "1a0a83d40a110f3db587e134d585fe04bdf07736"
-    }
+        githubClientSecret: process.env.NODE_ENV =='dev'? "e845cb85dae60b38dcab468d9d434b6e068ad083":"1a0a83d40a110f3db587e134d585fe04bdf07736",
+    // },
+    // pro: {
+    //     // Client ID
+    //     githubClientID: "beb866b2260c1881c515",
+    //     // Client Secret
+    //     githubClientSecret: "1a0a83d40a110f3db587e134d585fe04bdf07736"
+    // }
 };

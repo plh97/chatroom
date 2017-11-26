@@ -4,10 +4,8 @@
         "src/client/*",
         "build/*",
         "test/*",
-        "android/*",
-        "ios/*",
         "node_modules/*",
-        "public/*",
+        "dist/*",
         "test.js"
     ]
 }

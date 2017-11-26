@@ -3,7 +3,7 @@ const cookie = require('cookie');
 const User = require('../models/User.model');
 const Token = require('../models/Token.model');
 const Group = require('../models/Group.model');
-const config = require('../../../config/server');
+const config = require('../../../config/project');
 
 /**
  * 获取github code的方法
@@ -14,6 +14,7 @@ const config = require('../../../config/server');
 exports.getCode = async (ctx, next) => {
     let redirect_uri = ctx.cookies.get('redirect_uri')
     let code = ctx.request.query["code"];
+    let NODE_ENV = process.env.NODE_ENV
     let option = {
         uri: `https://github.com/login/oauth/access_token`,
         qs: {
@@ -23,7 +24,9 @@ exports.getCode = async (ctx, next) => {
         },
         json: true
     }
+    console.log(config);
     let tokenResp = await rp(option);
+    console.log(tokenResp);
     option = {
         uri: `https://api.github.com/user`,
         qs: {
@@ -35,23 +38,14 @@ exports.getCode = async (ctx, next) => {
         json: true
     }
     let userInfo = await rp(option);
+    console.log(userInfo);
     ctx.cookies.set('access_token', tokenResp.access_token, {
         'httpOnly': true
     })
-    //初次到访用户
-    //将用户github 信息保存，加入默认群，token储存
     ctx.redirect(redirect_uri)
-    //用户github信息储存/更新
-    console.log('user save');
     await User.save({
         github:userInfo
     });
-    //用户加入默认群
-    // await User.save({
-    //     github:userInfo
-    // });
-    //token储存/更新
-    console.log('token save');
     await Token.register({
         access_token: tokenResp.access_token,
         user_id: userInfo.id
