@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "eslint": "eslint ./src --color --fix",
-    "w": "webpack --color --watch",
-    "b": "cross-env NODE_ENV=development PLATFORM=web webpack --color",
-    "p": "cross-env NODE_ENV=production PLATFORM=web webpack -p --color",
-    "pm2": "cross-env NODE_ENV=production pm2 start ./src/server/index.js --watch",
-    "nodemon": "cross-env NODE_ENV=development nodemon src/server/index.js --ignore src/client/*.jsx",
-    "restart": "cross-env NODE_ENV=production pm2 restart ./src/server/index.js",
+    "w": "cross-env-shell NODE_ENV=dev webpack --color --watch",
+    "b": "webpack --color",
+    "p": "webpack -p --color",
+    "pm2": "pm2 start ./src/server/index.js --watch",
+    "nodemon": "nodemon src/server/index.js --ignore src/client/*.jsx",
+    "restart": "pm2 restart ./src/server/index.js",
     "t": "webpack-dev-server --open --color"
   },
   "pre-commit": [

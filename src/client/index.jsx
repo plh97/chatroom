@@ -11,8 +11,8 @@ import {
 import {Provider,observer} from "mobx-react"
 
 //local
-// import Canvas from './components/Canvas.jsx'
 import store from "./store/"
+import Canvas from './components/Canvas.jsx'
 import AsyncApp from './components/AsyncApp.jsx'
 import GithubReport from './components/GithubReport.jsx'
 import "./less/index.less"
@@ -41,7 +41,8 @@ export default class Root extends Component{
 						)} />
 						<Route path="/group" component={AsyncApp} />
 						<Route path="/githubReport" component={GithubReport} />
-						<div className='window'></div>
+						{/* <div className='window'></div> */}
+						<Canvas/>
 					</div>
 				</Router>
 			</Provider>
