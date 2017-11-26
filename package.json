@@ -6,10 +6,10 @@
     "eslint": "eslint ./src --color --fix",
     "w": "webpack --color --watch --env.NODE_ENV=dev --progress",
     "b": "webpack --color --env.NODE_ENV=dev --progress",
-    "p": "webpack -p --color --env.NODE_ENV=pro --progress",
+    "p": "webpack -p --color --env.NODE_ENV=prod --progress",
     "nodemon": "set NODE_ENV=dev&& nodemon src/server/index.js --config nodemonrc.json",
-    "pm2": "export NODE_ENV=pro&& pm2 start ./src/server/index.js --watch",
-    "restart": "export NODE_ENV=pro&& pm2 restart ./src/server/index.js"
+    "pm2": "pm2 start ecosystem.config.js --env prod",
+    "restart": "pm2 restart ecosystem.config.js"
   },
   "pre-commit": [
     "eslint"
