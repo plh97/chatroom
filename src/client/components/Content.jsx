@@ -4,7 +4,7 @@ import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
 import { inject, observer } from "mobx-react"
 import {colorList,emoji} from '../../../config/client.js'
-import config from "../../../config/project.js";
+import config from "../../../config/protect.js";
 import moment from 'moment-timezone/builds/moment-timezone.min';
 
 @inject("store")
@@ -99,7 +99,7 @@ export default class Content extends Component {
 	render() {
 		const { match } = this.props
 		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
-		console.log(process);
+		console.log(process.env);
 		if (scrollToBottom) {
 			this.scrollToBottom({
 				behavior: 'auto',
@@ -193,7 +193,7 @@ export default class Content extends Component {
 					!myInfo.github.name && <div className='contentFeature'>
 						<h2>
 							请登录
-							<a href={`https://github.com/login/oauth/authorize?client_id=${config[process.env.NODE_ENV].githubClientID}`}>github</a>
+							<a href={`https://github.com/login/oauth/authorize?client_id=${config.pro.githubClientID}`}>github</a>
 						</h2>
 					</div>
 				}
