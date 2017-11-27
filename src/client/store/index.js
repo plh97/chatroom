@@ -4,8 +4,8 @@ import "prismjs/themes/prism-okaidia.css"
 import io from 'socket.io-client';
 import { action, useStrict, computed, observable } from "mobx";
 
-
 import config from '../../../config/project.js'
+
 
 const socket = io.connect({ secure: true });
 // const socket = io();
@@ -58,32 +58,11 @@ class TodoStore {
 	@observable code = ''
 	@observable scrollToBottom = false
 	@observable messageType = 'text'
-	//当前在线用户
 	@observable onlineUsers = []
 	@observable doing = false
-	//登陆/注册用户返回信息提示
-	// @observable tip = '请登录'
-	//登陆/注册用户返回总体json
-	// @observable callBack = {}
-	//封装好的socket.emit
 	@action socket = (state) => {
 		console.log(state);
 		socket.emit(state.url, state)
-	}
-	@action is_show_create_group_input_func = (state) => {
-		this.is_show_create_group_input = state
-	}
-	@action showRoomDetailFunc = (state) => {
-		this.showRoomDetail = state
-	}
-	@action showCodeEditFunc = (state) => {
-		this.showCodeEdit = state
-	}
-	@action showEmojiFunc = (state) => {
-		this.showEmoji = state
-	}
-	@action showMoreUserInfoFunc = (state) => {
-		this.showMoreUserInfo = state
 	}
 	//写了一个通用mobx函数。。。希望能用。。。。。
 	@action allHold = (left, right) => {

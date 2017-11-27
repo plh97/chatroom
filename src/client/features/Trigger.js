@@ -70,14 +70,14 @@ class Trigger extends Component {
 			allHold,
 			socket,
 			showRoomDetail,
-			showRoomDetailFunc,
-			showCodeEditFunc,
+			// showRoomDetailFunc,
+			// showCodeEditFunc,
 			showCodeEdit,
 			showEmoji,
-			showEmojiFunc,
+			// showEmojiFunc,
 			showMoreUserInfo,
-			showMoreUserInfoFunc,
-			is_show_create_group_input_func
+			// showMoreUserInfoFunc,
+			// is_show_create_group_input_func
 		} = this.props.store
 		//avator click
 		//whether show avator details
@@ -92,7 +92,7 @@ class Trigger extends Component {
 		if (filterDOM('showMoreUserInfo')) {
 			//当你点击的仅仅只是头像的时候
 			// allHold('showMoreUserInfo.isShow',false)
-			showMoreUserInfoFunc({
+			allHold('showMoreUserInfo',{
 				isShow: true,
 				x: e.nativeEvent.view.innerWidth - e.nativeEvent.x - 220 > 0 ? e.nativeEvent.x : e.nativeEvent.x - 220,
 				y: e.nativeEvent.view.innerHeight - e.nativeEvent.y - 373 > 0 ? e.nativeEvent.y : e.nativeEvent.y - 373,
@@ -119,29 +119,31 @@ class Trigger extends Component {
 		if (e.nativeEvent.path.filter((index) => {
 			return index.className == 'toggleDetail'
 		}).length > 0) {
-			showRoomDetailFunc(!showRoomDetail)
+			allHold('showRoomDetail',!showRoomDetail)
 		} else if (e.nativeEvent.path.filter((e) => e.id == 'contentRoomDetails' || e.id == 'showMoreUserInfoContainer').length > 0) {
 			//
 		} else {
-			showRoomDetailFunc(false)
+			allHold('showRoomDetail',false)
 		}
 		//是否显示代码编辑器
 		if (e.nativeEvent.path.filter((index) => {
 			return index.className == 'codingClick'
 		}).length > 0) {
-			showCodeEditFunc(!showCodeEdit)
+			allHold('showCodeEdit',!showCodeEdit)
 		} else if (
 			e.nativeEvent.path.filter((index) => {
 				return index.id == 'textArea'
 			}).length > 0
-		) { } else {
-			showCodeEditFunc(false)
+		){
+
+		} else {
+			allHold('showCodeEdit',false)
 		}
 		//是否显示Emoji
 		if (e.nativeEvent.path.filter((index) => {
 			return index.id == 'emojiClick'
 		}).length > 0) {
-			showEmojiFunc(!showEmoji)
+			allHold('showEmoji',!showEmoji)
 		} else if (
 			e.nativeEvent.path.filter((index) => {
 				return index.id == 'emojiContainer'
@@ -152,15 +154,15 @@ class Trigger extends Component {
 				document.getElementById('contentMessagesInput').focus()
 			}
 		} else {
-			showEmojiFunc(false)
+			allHold('showEmojiFunc',false)
 		}
 		//是否显示创建群input
 		if (e.nativeEvent.path.filter((index) => {
 			return index.id == 'addgroup'
 		}).length > 0) {
-			is_show_create_group_input_func(true)
+			allHold('is_show_create_group_input',true)
 		} else {
-			is_show_create_group_input_func(false)
+			allHold('is_show_create_group_input',false)
 		}
 		//Switch Channel
 		if (e.nativeEvent.path.filter((index) => {

@@ -39,7 +39,6 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				let groupInfo = await Group.findOnePretty({ group_name: group_name })
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
-				console.log('init group');
 				socket.emit('init group', groupInfo)
 				let onlineUser = await User.find({ status: 'online' })
 				let newOnlineUser = onlineUser.map(e => {
@@ -49,18 +48,14 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 			}
 
 			socket.on('init group', async (json) => {
-				console.log('init group');
-				socket.myInfo && console.log(socket.myInfo.github.name, 'leave group id ', socket.currentRoomId);
 				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
-				socket.myInfo && console.log(socket.myInfo.github.name, 'joind group id ', groupInfo._id.toString());
 				socket.join(groupInfo._id.toString())
 				socket.currentRoomId = groupInfo._id.toString()
 				socket.emit('init group', groupInfo)
 			})
 
 			socket.on('send message', async (json) => {
-				console.log('send message', json);
 				let message = await Group.sendMsg(json)
 				let user = await User.findOne({ user_id: json.user_id })
 				message = Object.assign({}, message, {
@@ -69,25 +64,21 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 					update_time: message.update_time,
 					create_time: message.create_time,
 				})
-				socket.myInfo && console.log(socket.myInfo.github.name,'send message to ',socket.currentRoomId);
 				io.to(socket.currentRoomId).emit('send message', message)
 			})
 
 			socket.on('user detail', async (json) => {
-				console.log('user detail', json);
 				let user = await User.findOne({ user_id: json.user_id })
 				socket.emit('user detail', user)
 			})
 
 			socket.on('create group', async (json) => {
-				console.log('create group', json);
 				let group = await Group.create({
 					group_name: json.group_name,
 					administratorList: [json.user_id],
 					memberList: [json.user_id],
 					creator: [json.user_id],
 				})
-				//需要更新myInfo
 				let myInfo = await User.join_group({
 					group_id: group._id.toString(),
 					user_id: json.user_id
@@ -100,9 +91,8 @@ mongoose.connect(config.proDatabase, { useMongoClient: true })
 				socket.myInfo && await User.update({
 					user_id: socket.myInfo.user_id
 				}, {
-						status: 'offline'
-					})
-				//当有用户下线，更新online User Array
+					status: 'offline'
+				})
 				let onlineUser = await User.find({ status: 'online' })
 				onlineUser = onlineUser.map(e => e.user_id)
 				io.emit('online user', onlineUser)

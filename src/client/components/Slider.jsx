@@ -43,9 +43,13 @@ export default class Chat extends Component {
 				</div>
 				{myInfo.groups.map((group, i) => (
 					<Link
-						className={`groupList ${group.group_name == decodeURIComponent(location.pathname.split('/')[location.pathname.split('/').length - 1]) ? "active" : ""}`}
-						id={group.group_name}
 						key={i}
+						id={group.group_name}
+						//如果你点击的是一样的url，那么禁止跳转
+						className={`groupList ${`${match.url}/${group.group_name}`===decodeURIComponent(location.pathname) ? "active" : ""}`}
+						onClick={(e)=>{
+							`${match.url}/${group.group_name}`===decodeURIComponent(location.pathname)?e.preventDefault():''
+						}}
 						to={`${match.url}/${group.group_name}`}>
 						<Avatar
 							src={group.avatar_url}

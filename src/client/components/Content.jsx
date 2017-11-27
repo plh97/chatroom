@@ -39,10 +39,10 @@ export default class Content extends Component {
 		})
 	}
 	componentWillReceiveProps(nextProps){
-		//每次触发url改变都会在这里触发函数。。。
 		const{ socket,allHold } = this.props.store
-		console.log('componentWillReceiveProps',nextProps);
-		//清空群消息，展示 wait
+		if (nextProps) {
+			
+		}
 		allHold("group.messageList",[])
 		allHold("doing",true)
 		socket({
@@ -55,10 +55,9 @@ export default class Content extends Component {
 		const {
 			myInfo ,
 			group,
-			scrollToBottom
+			scrollToBottom,
+			allHold
 		} = this.props.store
-		//如果发的内容为空,退出函数
-		//text && code && messageImage
 		if(!e.text && !e.code && !e.image){return}
 		this.props.store.socket({
 			url: 'send message',
@@ -67,14 +66,14 @@ export default class Content extends Component {
 			user_id: myInfo.user_id,
 			name: myInfo.github.name,
 			avatar_url: myInfo.github.avatar_url,
-			//3种信息类型，文字，代码，图片
 			text : e.text,
 			code: e.code,
 			image: e.image,
 			type: e.type,
 		})
 		this._textInput.value = ''
-		this.props.store.showCodeEditFunc(false)
+		allHold('showCodeEdit',false)
+		allHold('showEmoji',false)
 	}
 
 	handleImage = (e) => {
@@ -98,10 +97,6 @@ export default class Content extends Component {
 	scrollToBottom = (data) => {
 		this.messagesEnd.scrollIntoView(data)
 	}
-
-	// componentDidUpdate(){
-	// }
-	
 	render() {
 		const { match } = this.props
 		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
