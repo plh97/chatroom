@@ -1,15 +1,10 @@
 @import "../common/commonStyle";
-.slider {
-    // border-right: 1px solid silver;
-    grid-area: slider;
+.sider {
     color: #fff;
     overflow-y: auto;
     background: #2e3238;
     .myInfo{
-        display: grid;
         padding: 12px;
-        grid-template-columns: 70px 1fr;
-        grid-template-areas: 'myAvatar myName';
         border-bottom: 1px solid #24272c;
 
         .ant-badge-dot{
@@ -36,30 +31,22 @@
         }
 
         .myAvatar{
-            grid-area: myAvatar;
             cursor: pointer;
             width: 60px;
             height: 60px;
             font-size: 24px;
-            justify-self: start;
-            align-self: center;
         }
         .myName{
             font-size: 1.6rem;
-            grid-area: myName;
-            justify-self: start;
-            align-self: center;
         }
     }
     .groupList {
         height: 64px;
-        // color:#fff;
-        border-bottom: 1px solid #292c33;
-        display: grid;
-        grid-template-columns: 70px 1fr;
-        grid-template-areas: 'slideAvatar groupName';
         cursor: pointer;
-        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid #292c33;
         transition: all 0.1s ease-out;
         text-decoration: none;
         &:hover {
@@ -69,14 +56,10 @@
             background-color: #3a3f45;
         }
         .slideAvatar {
-            grid-area: slideAvatar;
-            justify-self: center;
-            align-self: center;
+            margin: 10px;
         }
         .groupName {
-            grid-area: groupName;
-            justify-self: start;
-            align-self: center;
+            // margin-left: 12px;
         }
     }
     .addgroup {

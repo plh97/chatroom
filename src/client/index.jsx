@@ -23,9 +23,6 @@ export default class Root extends Component{
 	componentWillMount(){
 		document.ondragstart= () => false
 	}
-	componentDidUpdate(){
-		Prism.highlightAll()
-	}
 	render(){
 		return(
 			<Provider store={store}>

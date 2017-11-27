@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from "mobx-react"
+import { Layout } from "antd";
 
 @inject("store")
 @observer
@@ -154,7 +155,7 @@ class Trigger extends Component {
 				document.getElementById('contentMessagesInput').focus()
 			}
 		} else {
-			allHold('showEmojiFunc',false)
+			allHold('showEmoji',false)
 		}
 		//是否显示创建群input
 		if (e.nativeEvent.path.filter((index) => {
@@ -180,13 +181,13 @@ class Trigger extends Component {
 	render() {
 		const { children } = this.props
 		return (
-			<div
+			<Layout
 				className={this.props.className}
 				{...this.props}
 				ref={(ref) => this.container = ref}
 				onClick={this.handleAllEventClick}>
 				{children}
-			</div>
+			</Layout>
 		);
 	}
 }

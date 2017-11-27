@@ -2,19 +2,20 @@ import React, { Component } from 'react'
 import {
 	Link
 } from 'react-router-dom'
-import { Avatar, Icon, Badge } from 'antd'
 import { inject, observer } from "mobx-react"
+import { Avatar, Icon, Badge, Layout  } from 'antd'
+const { Sider } = Layout;
 
 @inject("store")
 @observer
-export default class Chat extends Component {
+export default class sider extends Component {
 	add_group = (e) => {
 		const {
 			myInfo,
-			is_show_create_group_input_func
+			allHold
 		} = this.props.store
 		e.preventDefault()
-		is_show_create_group_input_func(false)
+		allHold('is_show_create_group_input',false)
 		this.props.store.socket({
 			url: 'create group',
 			user_id: myInfo.user_id,
@@ -29,7 +30,9 @@ export default class Chat extends Component {
 			is_show_create_group_input
 		} = this.props.store;
 		return (
-			<div className="slider">
+			<Sider 
+				style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
+				className="sider">
 				<div className='myInfo'>
 					<Badge dot className={myInfo.status}>
 						<Avatar
@@ -46,15 +49,15 @@ export default class Chat extends Component {
 						key={i}
 						id={group.group_name}
 						//如果你点击的是一样的url，那么禁止跳转
-						className={`groupList ${`${match.url}/${group.group_name}`===decodeURIComponent(location.pathname) ? "active" : ""}`}
-						onClick={(e)=>{
-							`${match.url}/${group.group_name}`===decodeURIComponent(location.pathname)?e.preventDefault():''
+						className={`groupList ${`${match.url}/${group.group_name}` === decodeURIComponent(location.pathname) ? "active" : ""}`}
+						onClick={(e) => {
+							`${match.url}/${group.group_name}` === decodeURIComponent(location.pathname) ? e.preventDefault() : ''
 						}}
 						to={`${match.url}/${group.group_name}`}>
 						<Avatar
 							src={group.avatar_url}
-							size="large"
 							className="slideAvatar"
+							size="large"
 							shape="square" />
 						<span className="groupName">{group.group_name}</span>
 					</Link>
@@ -69,7 +72,7 @@ export default class Chat extends Component {
 						</form> : 'create group'}
 					</span>
 				}
-			</div>
+			</Sider>
 		)
 	}
 };

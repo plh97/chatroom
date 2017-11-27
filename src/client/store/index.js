@@ -96,16 +96,15 @@ class TodoStore {
 				return
 			}
 			this.group = json
-			//当房间信息被加载出来的时候触发这里
-			this.scrollToBottom = true
 			Prism.highlightAll()
 			this.doing = false
+			this.scrollToBottom = true
 		})
 
 		socket.on('send message', json => {
 			this.group.messageList.push(json)
-			this.scrollToBottom = true
 			Prism.highlightAll()
+			this.scrollToBottom = true
 		})
 
 		socket.on('user detail', json => {

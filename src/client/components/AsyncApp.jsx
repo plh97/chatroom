@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import Slider from "../components/Slider.jsx"
-import Body from "../components/Body.jsx"
+import Sider from "../components/Sider.jsx"
 import Header from "../components/Header.jsx"
 import UserDetails from "../components/UserDetails.jsx"
 import Trigger from "../features/Trigger.js"
@@ -14,14 +13,10 @@ import {
 	Link
 } from 'react-router-dom'
 
-// TODO:
-//3.change roomAvatorImage feature
-//7.wanan to improve Tigger
-
 const AsyncApp = ({match})=>(
   <Trigger className="container">
-    <Slider match={match} />
-    <Layout className="body">
+    <Sider match={match} />
+    <Layout style={{ marginLeft: 200 }} className="body">
       <Header/>
       <Route exact path={match.url} render={() => (
         <h1>Please select a group.</h1>

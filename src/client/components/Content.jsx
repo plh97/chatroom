@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Avatar, Icon,Spin } from 'antd'
+import { Avatar, Icon,Spin,Layout } from 'antd'
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
 import { inject, observer } from "mobx-react"
@@ -7,9 +7,11 @@ import {colorList,emoji} from '../../../config/client.js'
 import config from "../../../config/project.js";
 import moment from 'moment-timezone/builds/moment-timezone.min';
 
+const {Content} = Layout
+
 @inject("store")
 @observer
-export default class Content extends Component {
+export default class content extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
@@ -108,7 +110,7 @@ export default class Content extends Component {
 		}
 		console.log(process.env.NODE_ENV);
 		return (
-			<div className='content' key={match.params.group_name}>
+			<Content style={{overflow: 'initial' }} className='content' key={match.params.group_name}>
 				<RoomDetails/>
 				<div className='contentMessages'>
 					{doing && <Spin className='contentMessagesWait'/>}
@@ -198,7 +200,7 @@ export default class Content extends Component {
 						</h2>
 					</div>
 				}
-			</div>
+			</Content>
 		)
 	}
 }

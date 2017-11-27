@@ -1,15 +1,10 @@
 @import "../common/commonStyle";
 .content {
-    grid-area: content;
-    display: grid;
     position: relative;
-    grid-template-columns: 1fr;
-    grid-template-rows: calc(~'(100% - 77px)') 35px 42px;
-    grid-template-areas: 'contentMessages' 'contentFeature' 'contentMessagesInputArea';
+    
     @import "./roomDetails.less";
     .contentMessages {
-        grid-area: contentMessages;
-        height: 100%;
+        height:  calc(~'(100vh - 154px)');
         overflow-y: scroll;
 
         .contentMessagesWait {
@@ -18,153 +13,79 @@
         }
 
         .contentMessagesList {
-            font-family: 'Reem Kufi',
-            'Roboto',
-            sans-serif;
+            font-family: 'Reem Kufi','Roboto', sans-serif;
             padding: 15px 0;
-            display: grid;
-            grid-template-rows: calc(~'(100% - 77px)');
+            display: flex;
             color:#000;
             .timeContainer {
                 display: none;
             }
             &:hover {
                 .timeContainer {
-                    display: inline-block;
+                    display: flex;
                 }
             }
             &.other {
-                grid-template-columns: 60px 1fr 160px;
-                grid-template-areas: 'avatar content .';
+                flex-direction: row;
+
                 .containerContent {
-                    justify-self: start;
-                    .text {
-                        background-color: #f1f1f1;
-                        position: relative;
-                        border: 1px solid #aaa; 
-                        // &::before {
-                        //   content: "";
-                        //   -webkit-transform: rotate(20deg);
-                        //   transform: rotate(20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   left: -9px;
-                        //   border-right: 10px solid #aaa;
-                        //   top: 5px;
-                        // }
-                        // &::after {
-                        //   content: "";
-                        //   -webkit-transform: rotate(20deg);
-                        //   transform: rotate(20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   left: -7px;
-                        //   border-right: 10px solid #f1f1f1;
-                        //   top: 6px;
-                        // }
+                    align-items: flex-start;
+                    
+                    .messageTittle {
+                        flex-direction: row;
                     }
-                    .code {
-                        position: relative;
-                        border: 1px solid #aaa; 
-                        // &::before {
-                        //   content: "";
-                        //   -webkit-transform: rotate(20deg);
-                        //   transform: rotate(20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   left: -9px;
-                        //   border-right: 10px solid #aaa;
-                        //   top: 5px;
-                        // }
-                        // &::after {
-                        //   content: "";
-                        //   -webkit-transform: rotate(20deg);
-                        //   transform: rotate(20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   left: -7px;
-                        //   border-right: 10px solid #272822;
-                        //   top: 6px;
-                        // }
+                    .messageContainer{
+
+
+                        .text {
+                            background-color: #f1f1f1;
+                            position: relative;
+                            border: 1px solid #aaa; 
+                        }
+                        .code {
+                            position: relative;
+                            border: 1px solid #aaa; 
+                        }
                     }
                 }
             }
             &.me {
-                grid-template-columns: 160px 1fr 60px;
-                grid-template-areas: '. content avatar';
+                flex-direction: row-reverse;
                 .containerContent {
-                    justify-self: end;
+                    align-items: flex-end;
+
                     .messageTittle {
-                        text-align: right;
+                        flex-direction: row-reverse;
                     }
-                    .text {
-                        background-color: #b2e281;
-                        position: relative;
-                        border: 1px solid #aaa; // &::before {
-                        //   content: "";
-                        //   -webkit-transform: rotate(-20deg);
-                        //   transform: rotate(-20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   right: -9px;
-                        //   border-left: 10px solid #aaa;
-                        //   top: 5px;
-                        // }
-                        // &::after {
-                        //   content: "";
-                        //   -webkit-transform: rotate(-20deg);
-                        //   transform: rotate(-20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   right: -7px;
-                        //   border-left: 10px solid #b2e281;
-                        //   top: 6px;
-                        // }
-                    }
-                    .code {
-                        position: relative;
-                        border: 1px solid #aaa; // &:before {
-                        //   content: "";
-                        //   -webkit-transform: rotate(-20deg);
-                        //   transform: rotate(-20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   right: -9px;
-                        //   border-left: 10px solid #aaa;
-                        //   top: 5px;
-                        // }
-                        // &:after {
-                        //   content: "";
-                        //   -webkit-transform: rotate(-20deg);
-                        //   transform: rotate(-20deg);
-                        //   position: absolute;
-                        //   border-top: 2px solid transparent;
-                        //   border-bottom: 7px solid transparent;
-                        //   right: -7px;
-                        //   border-left: 10px solid #272822;
-                        //   top: 6px;
-                        // }
+
+                    .messageContainer{
+                        
+                        .text {
+                            background-color: #b2e281;
+                            position: relative;
+                            border: 1px solid #aaa; 
+                        }
+                        .code {
+                            position: relative;
+                            border: 1px solid #aaa; 
+                        }
                     }
                 }
             }
             .avatar {
-                grid-area: avatar;
-                justify-self: center;
-                align-self: start;
-                margin-top: 24px;
+                width: 40px;
+                margin: 5px;
                 cursor: pointer;
             }
             .containerContent {
-                grid-area: content;
-                max-width: 100%;
-                display: grid;
+                max-width: calc(~'(100vw - 380px)');
+                display: flex;
+                flex-direction: column;
+                .messageTittle{
+                    display: flex;
+                    align-items: center;
+                    // flex-direction: row;
+                }
                 .nameContainer {
                     font-weight: bolder;
                     font-size: 1.2rem;
@@ -172,15 +93,15 @@
                 }
                 .timeContainer {
                     font-size: 0.8rem;
-                    padding-left: 10px;
+                    padding:0 10px;
                 }
                 .messageContainer {
-                    max-width: 100%;
                     margin: 0;
+                    max-width: 100%;
+                    width: fit-content;
                     word-break: break-word;
-                    border-radius: 10px;
                     display: inline-block;
-                    justify-self: inherit;
+                    border-radius: 10px;
                     box-shadow: 3px 3px 10px #aaa;
                     &.text {
                         padding: 5px 10px;
