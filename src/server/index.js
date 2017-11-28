@@ -17,12 +17,14 @@ const { getCookie, getUrl } = require('./utils/get')
 
 //app
 const port = process.env.PORT || config.port;
+// const datebase = config.proDatabase.gigs
+const datebase = config.proDatabase.tencent
 const server = http.createServer(app.callback())
 const io = new IO(server);
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.proDatabase.tencent, { useMongoClient: true })
+mongoose.connect(datebase, { useMongoClient: true })
 	.then(() => {
 		io.on('connection', async (socket) => {
 			console.log('connection',process.env.NODE_ENV,port);
@@ -101,6 +103,6 @@ mongoose.connect(config.proDatabase.tencent, { useMongoClient: true })
 
 		server.listen(port, async () => {
 			console.log(` >>> server listen on http://localhost:${port}`);
-			console.log(` >>> server connect mongodb datebase ${config.proDatabase.tencent}`);
+			console.log(` >>> server connect mongodb datebase ${datebase}`);
 		});
 	})
