@@ -22,7 +22,7 @@ const io = new IO(server);
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.proDatabase, { useMongoClient: true })
+mongoose.connect(config.proDatabase.tencent, { useMongoClient: true })
 	.then(() => {
 		io.on('connection', async (socket) => {
 			console.log('connection',process.env.NODE_ENV,process.env.PORT);
