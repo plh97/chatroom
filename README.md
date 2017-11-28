@@ -10,5 +10,4 @@
 
 ### 公共房间
 ![](https://dn-cnode.qbox.me/FpR0cuh5jf-hjYHriRPj0b08cod5)
-<!-- ### 个人新建房间
-![](https://i.loli.net/2017/10/24/59eedc9541a5c.png) -->
+![](https://i.loli.net/2017/11/28/5a1d4343e5ad8.jpg)
