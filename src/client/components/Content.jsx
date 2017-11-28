@@ -108,7 +108,6 @@ export default class content extends Component {
 			});
 			allHold('scrollToBottom',false)
 		}
-		console.log(process.env.NODE_ENV);
 		return (
 			<Content style={{overflow: 'initial' }} className='content' key={match.params.group_name}>
 				<RoomDetails/>

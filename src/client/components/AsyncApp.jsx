@@ -16,7 +16,7 @@ import {
 const AsyncApp = ({ match }) => (
 	<Trigger className="container">
 		<Sider match={match} />
-		<Layout style={{ marginLeft: 200 }} className="body">
+		<Layout className="body">
 			<Header />
 			<Route exact path={match.url} render={() => (
 				<h1>Please select a group.</h1>

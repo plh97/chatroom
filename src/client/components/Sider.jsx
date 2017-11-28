@@ -31,7 +31,9 @@ export default class sider extends Component {
 		} = this.props.store;
 		return (
 			<Sider 
-				style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}
+				breakpoint="sm"
+				collapsedWidth="0"
+				style={{ overflow: 'auto', height: '100vh' }}
 				className="sider">
 				<div className='myInfo'>
 					<Badge dot className={myInfo.status}>
