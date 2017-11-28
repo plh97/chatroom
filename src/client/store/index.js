@@ -47,7 +47,7 @@ class TodoStore {
 	//是否显示用户信息详情
 	@observable showMoreUserInfo = {
 		isShow: false,
-		x: "50vw",
+		x: "30vw",
 		y: "50vh",
 		github: {
 			name: 'Moonlight',

@@ -28,7 +28,6 @@ export default class header extends Component {
 					</Col>
 					<Col span={2}>
 						<iframe
-							style={{marginLeft: "2px", marginBottom:"-5px"}}
 							frameBorder="0" scrolling="0" width="91px" height="20px"
 							src="https://ghbtns.com/github-btn.html?user=pengliheng&repo=chatroom&type=star&count=true" >
 						</iframe>
