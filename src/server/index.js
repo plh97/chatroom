@@ -25,7 +25,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.proDatabase.tencent, { useMongoClient: true })
 	.then(() => {
 		io.on('connection', async (socket) => {
-			console.log('connection',process.env.NODE_ENV,process.env.PORT,config.proDatabase.tencent);
+			console.log('connection',process.env.NODE_ENV,port);
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
 			if (urlArray[1] == 'group' && urlArray[2]) {
@@ -101,5 +101,6 @@ mongoose.connect(config.proDatabase.tencent, { useMongoClient: true })
 
 		server.listen(port, async () => {
 			console.log(` >>> server listen on http://localhost:${port}`);
+			console.log(` >>> server connect mongodb datebase ${config.proDatabase.tencent}`);
 		});
 	})
