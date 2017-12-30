@@ -16,6 +16,9 @@ class get{
     static getUrl(socket){
         return parse(socket.handshake.headers.referer) || ''
     }
+    static getKoaUrl(ctx){
+        return parse(ctx.originalUrl) || ''
+    }
 }
 
 module.exports = exports = get;

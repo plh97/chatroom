@@ -27,7 +27,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(datebase, { useMongoClient: true })
 	.then(() => {
 		io.on('connection', async (socket) => {
-			console.log('connection',process.env.NODE_ENV,port);
+			console.log('connection');
 			let access_token = getCookie(socket).access_token
 			let urlArray = getUrl(socket).pathname.split('/')
 			if (urlArray[1] == 'group' && urlArray[2]) {
@@ -102,7 +102,8 @@ mongoose.connect(datebase, { useMongoClient: true })
 		});
 
 		server.listen(port, async () => {
-			console.log(` >>> server listen on http://localhost:${port}`);
-			console.log(` >>> server connect mongodb datebase ${datebase}`);
+			console.log(` >>> port: ${port }`);
+			console.log(` >>> ENV: ${process.env.NODE_ENV}`);
+			console.log(` >>> datebase : ${datebase}`);
 		});
 	})

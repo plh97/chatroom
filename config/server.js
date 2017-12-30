@@ -1,11 +1,11 @@
 module.exports = {
     // service port
-    port: 80,
+    port: 8002,
 
     // mongodb config
     proDatabase: {
         gigs:'mongodb://43.239.158.182/sampsite',
-        tencent:'mongodb://139.199.207.77/sampsite'
+        tencent:'mongodb://119.29.21.17/sampsite'
     },
     devDatabase: 'mongodb://127.0.0.1/sampsite',
 
