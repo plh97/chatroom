@@ -43,6 +43,6 @@ app
         } else {
             await next();
         }
-    });
+    })
 
 module.exports = app;

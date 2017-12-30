@@ -82,6 +82,7 @@ class GroupClass extends Model {
 			avatar_url:groupInfo.avatar_url,
 			group_name:groupInfo.group_name
 		}
+		let users = await User.find({})
 		newGroupInfo.administratorList = await Promise.all(groupInfo.administratorList.map(async user_id => {
 			let user = await User.findOne({ user_id: user_id })
 			return {
@@ -91,20 +92,26 @@ class GroupClass extends Model {
 			}
 		}))
 		newGroupInfo.memberList = await Promise.all(groupInfo.memberList.map(async user_id => {
-			let user = await User.findOne({ user_id: user_id })
+			let user = await users.find( user => user.user_id == user_id )
 			return {
 				user_name: user.github.name,
 				avatar_url: user.github.avatar_url,
 				user_id:user_id
 			}
 		}))
-		newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async message=>{
-			let user = await User.findOne({user_id:message.user_id})
+		
+		newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async (message,i)=>{
+			let user = await users.find( user => user.user_id == message.user_id )
+			console.log({
+				index:i,
+				user:user==null,
+				user_name: String(user.github.name)
+			});
 			return {
 				user_id: message.user_id,
 				_id: message._id,
-				avatar_url: user.github.avatar_url,
-				user_name: user.github.name,
+				avatar_url: String(user.github.avatar_url),
+				user_name: String(user.github.name),
 				update_time: message.update_time,
 				create_time: message.create_time,
 				image: message.image,
