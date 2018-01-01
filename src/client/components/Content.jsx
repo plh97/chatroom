@@ -87,7 +87,9 @@ export default class content extends Component {
 				}
 			}
 		}
-		document.addEventListener('paste', paste_file, false)
+		if(myInfo.github.name){
+			document.addEventListener('paste', paste_file, false)
+		}
 	}
 	componentWillReceiveProps(nextProps){
 		const{ socket,allHold } = this.props.store
