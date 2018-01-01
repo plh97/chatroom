@@ -6,10 +6,10 @@ module.exports = {
 
     // qiniu CDN config.
     // this is not necessary. if you not modify this config. image will save to local disk.
-    accessKey: 'qiniu_access_key',
-    secretKey: 'qiniu_secret_key',
-    bucket: 'bucket_name',
-    bucketUrl: 'bucket_outside_url',
+    accessKey: 'LU4OW7NxghlYyqsBM0FOqQqObvs4Ov_SW1eLGuU5',
+    secretKey: '6b0EUR02GlpnLJigqtF-xvkiqPp7AHyPRwyqw_Fo',
+    bucket: 'chatroom',
+    bucketUrl: 'oy0nofg7z.bkt.clouddn.com',
 
     // max message lenght. for both backend and frontend
     maxMessageLength: 1024,

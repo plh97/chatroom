@@ -1,12 +1,20 @@
+// pkg
 import React, { Component } from 'react'
 import { Avatar, Icon,Spin,Layout } from 'antd'
+import { inject, observer } from "mobx-react"
+import moment from 'moment-timezone/builds/moment-timezone.min';
+import debounce from "lodash.debounce";
+
+// local
+import config from "../../../config/project.js";
 import SublimeText from './SublimeText.jsx'
 import RoomDetails from './RoomDetails.jsx'
-import { inject, observer } from "mobx-react"
-import {colorList,emoji} from '../../../config/client.js'
-import config from "../../../config/project.js";
-import moment from 'moment-timezone/builds/moment-timezone.min';
+import {
+	emoji,
+	colorList,
+} from '../../../config/client.js'
 
+// app
 const {Content} = Layout
 
 @inject("store")
@@ -27,7 +35,6 @@ export default class content extends Component {
 		const {match} = this.props
 		document.cookie = `redirect_uri=${match.url};Path=/auth`;
 		if(!myInfo.github.name){
-			//根据url匹配规则匹配该默认群
 			allHold("myInfo.groups",[{
 				group_id:'',
 				group_name:match.params.group_name,
@@ -39,6 +46,48 @@ export default class content extends Component {
 			url: 'init group',
 			group_name: match.params.group_name
 		})
+		let paste_file = e => {
+			var clipboardData = e.clipboardData || window.clipboardData,
+				i = 0,
+				items,
+				item,
+				types;
+			if( clipboardData ) {
+				items = clipboardData.items;
+				if( !items ) {
+					return;
+				}
+				item = items[0];
+				types = clipboardData.types || [];
+				for(i = 0; i < types.length; i++ ) {
+					if( types[i] === 'Files' ) {
+						item = items[i];
+						break;
+					}
+				}
+				if( item && item.kind === 'file' && item.type.match(/^image\//i) ) {
+					var blob = item.getAsFile();
+					let form = new FormData()
+					form.append("images", blob )
+					fetch('/upload', {
+						method: 'POST',
+						body: form
+					}).then(
+						res => res.json()
+					).then(
+						json => {
+							json.map(image=>{
+								this.handleMsgSubmit({
+									image,
+									type:'image'
+								})
+							})
+						}
+					)
+				}
+			}
+		}
+		document.addEventListener('paste', paste_file, false)
 	}
 	componentWillReceiveProps(nextProps){
 		const{ socket,allHold } = this.props.store
@@ -79,21 +128,34 @@ export default class content extends Component {
 	}
 
 	handleImage = (e) => {
-		let data = new FormData()
-		data.append("smfile", e.target.files[0])
-		fetch('https://sm.ms/api/upload', {
-		  method: 'POST',
-		  body: data
-		}).then(
-			response => response.json()
-		).then(
-			success => {
-				this.handleMsgSubmit({
-					image: success.data,
-					type:'image'
+		let input = document.createElement('input')
+		input.type='file'
+		input.multiple=true
+		input.click()
+		input.addEventListener('change', (e)=>{
+			let form = new FormData()
+			Array.from(e.target.files)
+				.filter(file => file.type&&file.type.split('/')[0]=='image')
+				.map((file,i)=>{
+					form.append("images", file,file.name )
 				})
-			}
-		)
+			fetch('/upload', {
+			  method: 'POST',
+			  body: form
+			}).then(
+				res => res.json()
+			).then(
+				rep => {
+					rep.map(image=>{
+						this.handleMsgSubmit({
+							image,
+							type:'image'
+						})
+					})
+				}
+			)
+			input.remove()
+		}, false)
 	}
 
 	scrollToBottom = (data) => {
@@ -109,7 +171,12 @@ export default class content extends Component {
 			allHold('scrollToBottom',false)
 		}
 		return (
-			<Content style={{overflow: 'initial' }} className='content' key={match.params.group_name}>
+			<Content 
+				ref={(c) => this._content = c}
+				refs="content"
+				style={{overflow: 'initial' }} 
+				className='content' 
+				key={match.params.group_name}>
 				<RoomDetails/>
 				<div className='contentMessages'>
 					{doing && <Spin className='contentMessagesWait'/>}
@@ -165,13 +232,7 @@ export default class content extends Component {
 								<span key={i} className = "emoji">{index}</span>
 							))}
 						</div>
-						<Icon className='picture' type="picture" onClick={()=>this._imageInput.click()}/>
-						<input onChange={this.handleImage}
-							value={this.state.file}
-							ref={(c) => this._imageInput = c}
-							id='imgInputFile'
-							className='imgInputFile'
-							type="file" />
+						<Icon className='picture' type="picture" onClick={this.handleImage} />
 						<span className = 'codingClick'>&lt;/></span>
 						<SublimeText handleMsgSubmit={this.handleMsgSubmit}/>
 					</div>

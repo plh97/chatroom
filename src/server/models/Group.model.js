@@ -102,11 +102,6 @@ class GroupClass extends Model {
 		
 		newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async (message,i)=>{
 			let user = await users.find( user => user.user_id == message.user_id )
-			console.log({
-				index:i,
-				user:user==null,
-				user_name: String(user.github.name)
-			});
 			return {
 				user_id: message.user_id,
 				_id: message._id,

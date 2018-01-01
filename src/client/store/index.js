@@ -61,10 +61,10 @@ class TodoStore {
 	@observable onlineUsers = []
 	@observable doing = false
 	@action socket = (state) => {
-		console.log(state);
+		console.log('socket',state);
 		socket.emit(state.url, state)
 	}
-	//写了一个通用mobx函数。。。希望能用。。。。。
+	//通用函数。。。
 	@action allHold = (left, right) => {
 		if (left.split('.').length == 1) {
 			this[left] = right

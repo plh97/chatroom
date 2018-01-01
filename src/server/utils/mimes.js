@@ -18,6 +18,16 @@ let mimes = {
     'wma': 'audio/x-ms-wma',
     'wmv': 'video/x-ms-wmv',
     'xml': 'text/xml'
-  }
-  
-  module.exports = mimes
+}
+
+class Mime {
+    static getType(type){
+		for(let mime in mimes){
+			if(mimes[mime] == type){
+				return mime
+			}
+		}
+    }
+}
+
+module.exports = exports = Mime;
