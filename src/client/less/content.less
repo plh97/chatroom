@@ -75,7 +75,12 @@
                 cursor: pointer;
             }
             .containerContent {
-                max-width: calc(~'(100vw - 100px)');
+                @media screen and (max-width: 768px) {
+                    max-width: calc(~'(100vw - 150px)');
+                }
+                @media screen and (min-width: 768px) {
+                    max-width: calc(~'(100vw - 350px)');
+                }
                 display: flex;
                 flex-direction: column;
                 .messageTittle{
