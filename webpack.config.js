@@ -8,7 +8,6 @@ const
 	CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = (env)=> {
-	console.log('NODE_ENV: ', env.NODE_ENV) // 'local'
 	return merge(env.NODE_ENV == 'dev' ? devWebpackConfig : prodWebpackConfig, {
 		entry: {
 			'app': [
