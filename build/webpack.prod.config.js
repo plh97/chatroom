@@ -4,7 +4,7 @@ const webpack = require('webpack')
 module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: 'Chat For Github',
+			title: 'Github - 聊天室',
 			favicon: './favicon.png',
 			template: './assets/template/index.ejs',
 			minify: {
