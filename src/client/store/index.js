@@ -129,6 +129,6 @@ class TodoStore {
 	}
 }
 window.store = new TodoStore
-window.debug1 = "localStorage.debug = 'socket.io-client:socket'"
+// window.debug1 = "localStorage.debug = 'socket.io-client:socket'"
 const store = window.store
 export default store
