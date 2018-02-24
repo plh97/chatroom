@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { inject, observer } from "mobx-react"
-import { Layout } from "antd";
 
 @inject("store")
 @observer
@@ -181,13 +180,13 @@ class Trigger extends Component {
 	render() {
 		const { children } = this.props
 		return (
-			<Layout
+			<div
 				className={this.props.className}
 				{...this.props}
 				ref={(ref) => this.container = ref}
 				onClick={this.handleAllEventClick}>
 				{children}
-			</Layout>
+			</div>
 		);
 	}
 }

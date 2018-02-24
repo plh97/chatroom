@@ -38,8 +38,8 @@ export default class Root extends Component{
 						)} />
 						<Route path="/group" component={AsyncApp} />
 						<Route path="/githubReport" component={GithubReport} />
-						{/* <div className='window'></div> */}
-						<Canvas/>
+						<div className='window'></div>
+						{/* <Canvas/> */}
 					</div>
 				</Router>
 			</Provider>

@@ -29,7 +29,7 @@ class TodoStore {
 	//当前房间信息
 	@observable group = {
 		_id: '',
-		group_name: '',
+		group_name: '请等待。。',
 		avatar_url: '',
 		creator: '',
 		administratorList: [],
@@ -56,6 +56,7 @@ class TodoStore {
 		star_count: 0
 	}
 	@observable code = ''
+	@observable scrollToBottom = false
 	@observable scrollToBottom = false
 	@observable messageType = 'text'
 	@observable onlineUsers = []
@@ -85,6 +86,7 @@ class TodoStore {
 	constructor() {
 		socket.on('get myInfo', json => {
 			this.myInfo = json
+			this.initMyInfo = true
 		})
 		socket.on('online user', json => {
 			console.log('online user',json);
@@ -92,7 +94,7 @@ class TodoStore {
 		})
 		socket.on('init group', json => {
 			if (!json) {
-				this.group.name = null
+				this.group.group_name = null
 				return
 			}
 			this.group = json

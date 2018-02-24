@@ -1,6 +1,6 @@
 // pkg
 import React, { Component } from 'react'
-import { Avatar, Icon,Spin,Layout } from 'antd'
+import { Avatar, Icon, Spin } from 'antd'
 import { inject, observer } from "mobx-react"
 import moment from 'moment-timezone/builds/moment-timezone.min';
 import debounce from "lodash.debounce";
@@ -14,8 +14,6 @@ import {
 	colorList,
 } from '../../../config/client.js'
 
-// app
-const {Content} = Layout
 
 @inject("store")
 @observer
@@ -45,50 +43,47 @@ export default class content extends Component {
 		socket({
 			url: 'init group',
 			group_name: match.params.group_name
-		})
-		let paste_file = e => {
-			var clipboardData = e.clipboardData || window.clipboardData,
-				i = 0,
-				items,
-				item,
-				types;
-			if( clipboardData ) {
-				items = clipboardData.items;
-				if( !items ) {
-					return;
-				}
-				item = items[0];
-				types = clipboardData.types || [];
-				for(i = 0; i < types.length; i++ ) {
-					if( types[i] === 'Files' ) {
-						item = items[i];
-						break;
-					}
-				}
-				if( item && item.kind === 'file' && item.type.match(/^image\//i) ) {
-					var blob = item.getAsFile();
-					let form = new FormData()
-					form.append("images", blob )
-					fetch('/upload', {
-						method: 'POST',
-						body: form
-					}).then(
-						res => res.json()
-					).then(
-						json => {
-							json.map(image=>{
-								this.handleMsgSubmit({
-									image,
-									type:'image'
-								})
-							})
-						}
-					)
+		});
+	}
+	paste_file = e => {
+		var clipboardData = e.clipboardData || window.clipboardData,
+			i = 0,
+			items,
+			item,
+			types;
+		if( clipboardData ) {
+			items = clipboardData.items;
+			if( !items ) {
+				return;
+			}
+			item = items[0];
+			types = clipboardData.types || [];
+			for(i = 0; i < types.length; i++ ) {
+				if( types[i] === 'Files' ) {
+					item = items[i];
+					break;
 				}
 			}
-		}
-		if(myInfo.github.name){
-			document.addEventListener('paste', paste_file, false)
+			if( item && item.kind === 'file' && item.type.match(/^image\//i) ) {
+				var blob = item.getAsFile();
+				let form = new FormData()
+				form.append("images", blob )
+				fetch('/upload', {
+					method: 'POST',
+					body: form
+				}).then(
+					res => res.json()
+				).then(
+					json => {
+						json.map(image=>{
+							this.handleMsgSubmit({
+								image,
+								type:'image'
+							})
+						})
+					}
+				)
+			}
 		}
 	}
 	componentWillReceiveProps(nextProps){
@@ -165,15 +160,19 @@ export default class content extends Component {
 	}
 	render() {
 		const { match } = this.props
-		const { scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
+		const { initMyInfo, scrollToBottom, group,allHold , doing , myInfo ,showEmoji } = this.props.store;
 		if (scrollToBottom) {
 			this.scrollToBottom({
 				behavior: 'auto',
 			});
 			allHold('scrollToBottom',false)
 		}
+		if(initMyInfo){
+			document.addEventListener('paste', this.paste_file)
+			allHold('initMyInfo',false)
+		}
 		return (
-			<Content 
+			<div 
 				ref={(c) => this._content = c}
 				refs="content"
 				style={{overflow: 'initial' }} 
@@ -182,7 +181,7 @@ export default class content extends Component {
 				<RoomDetails/>
 				<div className='contentMessages'>
 					{doing && <Spin className='contentMessagesWait'/>}
-					{group.messageList.map((post, i) => (
+					{group&&group.messageList.map((post, i) => (
 						<div className={`contentMessagesList ${post.user_name == myInfo.github.name ? 'me' : 'other'}`} key={i}>
 							<Avatar 
 								data-id={post.user_id} 
@@ -197,9 +196,7 @@ export default class content extends Component {
 										{post.user_name}
 									</span>
 									<span className="timeContainer">
-										{
-											moment(post.create_time).format(`MMM Do , HH:mm:ss`)
-										}
+										{moment(post.create_time).format(`MMM Do , HH:mm:ss`)}
 									</span>
 								</p>
 								{post.text && <p className = {`messageContainer ${post.type}`}>
@@ -262,7 +259,7 @@ export default class content extends Component {
 						</h2>
 					</div>
 				}
-			</Content>
+			</div>
 		)
 	}
 }

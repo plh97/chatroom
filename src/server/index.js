@@ -32,16 +32,19 @@ mongoose.connect(datebase, { useMongoClient: true })
 			let urlArray = getUrl(socket).pathname.split('/')
 			if (urlArray[1] == 'group' && urlArray[2]) {
 				if (access_token) {
-					socket.myInfo = await Token.verify({ access_token: access_token })
+					console.log(`access_token: ${access_token}`)
+					socket.myInfo = await Token.verify({ access_token })
 					if (socket.myInfo) {
 						socket.emit('get myInfo', socket.myInfo)
 					}
 				}
 				let group_name = urlArray[2]
-				let groupInfo = await Group.findOnePretty({ group_name: group_name })
-				socket.join(groupInfo._id.toString())
-				socket.currentRoomId = groupInfo._id.toString()
-				socket.emit('init group', groupInfo)
+				let groupInfo = await Group.findOnePretty({ group_name })
+				if(groupInfo != null){
+					socket.join(groupInfo._id.toString())
+					socket.currentRoomId = groupInfo._id.toString()
+					socket.emit('init group', groupInfo)
+				}
 				let onlineUser = await User.find({ status: 'online' })
 				let newOnlineUser = onlineUser.map(e => {
 					return e.user_id
@@ -50,10 +53,12 @@ mongoose.connect(datebase, { useMongoClient: true })
 			}
 
 			socket.on('init group', async (json) => {
-				socket.leave(socket.currentRoomId)
 				let groupInfo = await Group.findOnePretty({ group_name: json.group_name })
-				socket.join(groupInfo._id.toString())
-				socket.currentRoomId = groupInfo._id.toString()
+				if(groupInfo != null){
+					socket.leave(socket.currentRoomId)
+					socket.join(groupInfo._id.toString())
+					socket.currentRoomId = groupInfo._id.toString()
+				}
 				socket.emit('init group', groupInfo)
 			})
 

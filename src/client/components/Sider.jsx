@@ -3,8 +3,7 @@ import {
 	Link
 } from 'react-router-dom'
 import { inject, observer } from "mobx-react"
-import { Avatar, Icon, Badge, Layout  } from 'antd'
-const { Sider } = Layout;
+import { Avatar, Icon, Badge  } from 'antd'
 
 @inject("store")
 @observer
@@ -30,11 +29,7 @@ export default class sider extends Component {
 			is_show_create_group_input
 		} = this.props.store;
 		return (
-			<Sider 
-				breakpoint="sm"
-				collapsedWidth="0"
-				style={{ overflow: 'auto', height: '100vh' }}
-				className="sider">
+			<div className="sider">
 				<div className='myInfo'>
 					<Badge dot className={myInfo.status}>
 						<Avatar
@@ -74,7 +69,7 @@ export default class sider extends Component {
 						</form> : 'create group'}
 					</span>
 				}
-			</Sider>
+			</div>
 		)
 	}
 };

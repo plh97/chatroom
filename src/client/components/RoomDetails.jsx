@@ -9,15 +9,15 @@ export default class RoomDetails extends React.Component {
 	render() {
 		const { group, showRoomDetail, onlineUsers } = this.props.store;
 		const showRoomDetailListText = [
-			// {
-			// 	title: '群头像',
-			// 	onlineUsers: [{
-			// 		//为了配合循环，故意叫做user_name   ,他的真名叫做group_name
-			// 		user_name: group.group_name,
-			// 		avatar_url: group.avatar_url
-			// 	}],
-			// 	offlineUsers: []
-			// }, 
+			{
+				title: '群头像',
+				onlineUsers: [{
+					//为了配合循环，故意叫做user_name   ,他的真名叫做group_name
+					user_name: group.group_name,
+					avatar_url: group.avatar_url
+				}],
+				offlineUsers: []
+			}, 
 			{
 				title: '管理员',
 				onlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.user_id) >= 0)],
@@ -30,7 +30,7 @@ export default class RoomDetails extends React.Component {
 		]
 		return (
 			<div id='contentRoomDetails' className={`contentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
-				<div className="showRoomDetailList">
+				{/* <div className="showRoomDetailList">
 					<span className="title">群头像:</span>
 					<span className="avatarContainer">
 						<span className="avatar">
@@ -47,8 +47,8 @@ export default class RoomDetails extends React.Component {
 							</span>
 						</span>
 					</span>
-				</div>
-				{group.group_name && showRoomDetailListText.map((avatars, i) => (
+				</div> */}
+				{group && showRoomDetailListText.map((avatars, i) => (
 					<div className="showRoomDetailList" key={i}>
 						<span className="title">{avatars.title}:</span>
 						<span className="avatarContainer">

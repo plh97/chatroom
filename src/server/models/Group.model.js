@@ -27,7 +27,7 @@ const groupSchema = new Schema({
 		avatar_url: { type: String, default: '' },
 	}],
 	create_time: { type: Date, default: Date.now, index: true },
-	update_time: { type: Date, default: Date.now, index: true },
+	update_time: { type: Date, default: Date.now, index: true }
 });
 
 

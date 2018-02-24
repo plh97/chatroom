@@ -39,8 +39,7 @@ class TokenClass extends Model {
                 status: 'online'
             })
             //然后再将用户信息发给前台
-            let user = await User.findOnePretty({user_id:token.user_id})
-            return user
+            return await User.findOnePretty({user_id: token.user_id})
         }else{
             return null
         }

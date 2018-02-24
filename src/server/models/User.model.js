@@ -14,6 +14,8 @@ const userSchema = new Schema({
     ],
     status: { type: String, default: 'offline' },
 });
+
+
 class UserClass extends Model {
     static async save(data) {
         let Group = require('./Group.model')
@@ -47,6 +49,7 @@ class UserClass extends Model {
     static async findOnePretty(data) {
         let Group = require('./Group.model')
         let myInfo = await this.findOne(data)
+        let users = await this.find({})
         let newMyInfo = {
             user_id: myInfo.user_id,
             groups: myInfo.groups,
