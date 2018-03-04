@@ -8,15 +8,13 @@ const config = require('../../../config/project');
 /**
  * 获取github code的方法
  * @param  {string} access_token
- * @return {async} 
+ * @return {async}
  */
 
 exports.getCode = async (ctx, next) => {
-    let users = await User.find({});
-    users.map((user,i)=>{
-        console.log(
-            user.github
-        );
-    })
-    ctx.body = users;
-}
+  const users = await User.find({});
+  users.map((user, i) => {
+    console.log(user.github);
+  });
+  ctx.body = users;
+};

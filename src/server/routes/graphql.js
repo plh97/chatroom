@@ -1,10 +1,10 @@
 const graphqlHTTP = require('koa-graphql');
-const {apolloServer} = require ('graphql-tools')
-const {schema} = require ('../models/GraphQL.model')
+const { apolloServer } = require('graphql-tools');
+const { schema } = require('../models/GraphQL.model');
 
 exports.getCode = apolloServer({
-	schema:schema,
-	// rootValue: root,
-	graphiql: true,
-	pretty:true
-})
+  schema,
+  // rootValue: root,
+  graphiql: true,
+  pretty: true,
+});

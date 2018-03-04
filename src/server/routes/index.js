@@ -2,7 +2,7 @@ const Auth = require('./auth.js');
 const Test = require('./test.js');
 const Upload = require('./upload.js');
 const router = require('koa-router')();
-const koaBody = require('koa-body')
+const koaBody = require('koa-body');
 
 
 // const graphqlHTTP = require('koa-graphql');
@@ -18,7 +18,7 @@ const koaBody = require('koa-body')
 
 
 router
-      .get('/auth', Auth.getCode)
-      .get('/test', Test.getCode)
-      .post('/upload', koaBody({multipart: true}), Upload.getCode)
+  .get('/auth', Auth.getCode)
+  .get('/test', Test.getCode)
+  .post('/upload', koaBody({ multipart: true }), Upload.getCode);
 module.exports = router;
