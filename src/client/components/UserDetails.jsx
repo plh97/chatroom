@@ -45,7 +45,7 @@ export default class UserDetails extends Component {
             <a className="github" target="_blank" href={showMoreUserInfo.github.html_url}>
               <Icon type="github" />
             </a>
-            <Icon type="message" />
+            💬
           </div>
           <div
             onMouseLeave={this.mouseLeave}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Icon } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 @inject('store')
@@ -18,7 +17,7 @@ export default class header extends Component {
           {group.group_name == null ? <h1>房间不存在</h1> : (
             group.group_name == '' ? <h1>github chat</h1> : <h1 className="toggleDetail">
               {`${group.group_name}(${group.memberList.filter(e => onlineUsers.indexOf(e.user_id) >= 0).length}/${group.memberList.length})人`}
-              {showRoomDetail ? <Icon type="up" /> : <Icon type="down" />}
+              {showRoomDetail ? '👇' : '👆'}
             </h1>
           )}
         </span>

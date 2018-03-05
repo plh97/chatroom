@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { Icon } from 'antd';
 
 // local
 import Avatar from './Avatar/index.jsx';
@@ -65,7 +64,7 @@ export default class sider extends Component {
         ))}
         {myInfo.user_id &&
           <span onClick={this.toggle} className="addgroup" id="addgroup">
-            <Icon type="usergroup-add" />
+            👪
             {is_show_create_group_input ?
               <form className="form" onSubmit={this.addGroup}>
                 <input

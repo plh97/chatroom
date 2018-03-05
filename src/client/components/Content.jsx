@@ -1,12 +1,9 @@
 // pkg
 import React, { Component } from 'react';
-import {
-  Icon,
-  Spin,
-} from 'antd';
 import { inject, observer } from 'mobx-react';
 
 // local
+import Loading from './Loading/index.jsx';
 import config from '../../../config/project.js';
 import SublimeText from './SublimeText.jsx';
 import RoomDetails from './RoomDetails.jsx';
@@ -167,7 +164,7 @@ export default class content extends Component {
       >
         <RoomDetails />
         <div className="contentMessages">
-          {doing && <Spin className="contentMessagesWait" />}
+          {doing && <Loading className="contentMessagesWait" />}
           {group && group.messageList.map((post, i) => (
             <div className={`contentMessagesList ${post.user_name === myInfo.github.name ? 'me' : 'other'}`} key={i}>
               <Avatar
@@ -220,14 +217,14 @@ export default class content extends Component {
         </div>
         {myInfo.github.name &&
           <div className="contentFeature">
-            <Icon className="emojiClick" id="emojiClick" type="smile-o" />
+            <span className="emojiClick" id="emojiClick" aria-label="emojiclick" role="img">🙂</span>
             <div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
               {emoji.split(' ').map((index, i) => (
                 <span key={i} className="emoji">{index}</span>
               ))}
             </div>
-            <Icon className="picture" type="picture" onClick={this.handleImage} />
-            <span className="codingClick">{'</>'}</span>
+            <span className="picture" id="picture" onClick={this.handleImage} aria-label="picture" role="img">📁</span>
+            <span className="codingClick" role="img📋">{'</>'}</span>
             <SublimeText handleMsgSubmit={this.handleMsgSubmit} />
           </div>}
         {myInfo.github.name &&
