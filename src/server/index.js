@@ -32,7 +32,6 @@ mongoose.connect(datebase, { useMongoClient: true })
       const urlArray = getUrl(socket).pathname.split('/');
       if (urlArray[1] == 'group' && urlArray[2]) {
         if (access_token) {
-          console.log(`access_token: ${access_token}`);
           socket.myInfo = await Token.verify({ access_token });
           if (socket.myInfo) {
             socket.emit('get myInfo', socket.myInfo);
