@@ -1,6 +1,5 @@
 // package
 const http = require('http');
-const path = require('path');
 const IO = require('socket.io');
 const mongoose = require('mongoose');
 
@@ -10,7 +9,6 @@ const User = require('./models/User.model');
 const Token = require('./models/Token.model');
 const Group = require('./models/Group.model');
 const config = require('../../config/server');
-const allRouter = require('./routes/index.js');
 
 // utils
 const { getCookie, getUrl } = require('./utils/get');
@@ -27,10 +25,10 @@ mongoose.Promise = global.Promise;
 mongoose.connect(datebase, { useMongoClient: true })
   .then(() => {
     io.on('connection', async (socket) => {
-      console.log('connection');
+      console.log('connection', process.env.access_token);
       const access_token = getCookie(socket).access_token;
       const urlArray = getUrl(socket).pathname.split('/');
-      if (urlArray[1] == 'group' && urlArray[2]) {
+      if (urlArray[1] === 'group' && urlArray[2]) {
         if (access_token) {
           socket.myInfo = await Token.verify({ access_token });
           if (socket.myInfo) {
@@ -90,13 +88,11 @@ mongoose.connect(datebase, { useMongoClient: true })
         socket.emit('get myInfo', myInfo);
       });
 
-      socket.on('disconnect', async (json) => {
+      socket.on('disconnect', async () => {
         console.log('disconnect');
         socket.myInfo && await User.update({
           user_id: socket.myInfo.user_id,
-        }, {
-          status: 'offline',
-        });
+        }, { status: 'offline' });
         let onlineUser = await User.find({ status: 'online' });
         onlineUser = onlineUser.map(e => e.user_id);
         io.emit('online user', onlineUser);
