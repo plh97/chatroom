@@ -25,7 +25,7 @@
   },
   "homepage": "https://www.penlh.com",
   "engines": {
-    "node": ">= 9.7.0",
+    "node": ">= 8.7.0",
     "npm": ">= 5.0.0"
   },
   "dependencies": {
