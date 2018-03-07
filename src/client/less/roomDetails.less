@@ -26,6 +26,9 @@
         visibility: hidden;
     }
 
+    .showRoomDetailList+.showRoomDetailList{
+        margin-top: 0.5rem;
+    }
     .showRoomDetailList {
         display: flex;
         flex-direction: row;
@@ -34,11 +37,12 @@
             margin-top: 0.8em;
             font-size: 0.8em;
             display: flex;
-            width: 55px;
+            flex: 0 0 55px;
             justify-content: flex-end;
         }
 
         .avatarContainer {
+            overflow-x: auto;
             flex-direction: row;
             display: flex;
 
@@ -46,7 +50,9 @@
                 display: flex;
                 flex-direction: column;
                 width: 65px;
+                flex-shrink: 0;
                 align-items: center;
+                overflow-x: hidden;
 
                 .ant-badge{
 

@@ -60,22 +60,27 @@
                         &.text {
                             background-color: #b2e281;
                             position: relative;
-                            border: 1px solid #aaa; 
+                            border: 1px solid #898283; 
                         }
                         &.code {
                             position: relative;
-                            border: 1px solid #aaa; 
+                            border: 1px solid #898283; 
                         }
                     }
                 }
             }
             .avatar {
-                width: 40px;
+                // width: 40px;
                 margin: 5px;
                 cursor: pointer;
             }
             .containerContent {
-                max-width: calc(~'(100vw - 100px)');
+                @media screen and (max-width: 768px) {
+                    max-width: calc(~'(100vw - 150px)');
+                }
+                @media screen and (min-width: 768px) {
+                    max-width: calc(~'(100vw - 350px)');
+                }
                 display: flex;
                 flex-direction: column;
                 .messageTittle{
@@ -99,10 +104,10 @@
                     word-break: break-word;
                     display: inline-block;
                     border-radius: 10px;
-                    box-shadow: 3px 3px 10px #aaa;
+                    box-shadow: 1px 1px 20px 0px #b0b6bc;
                     &.text {
                         padding: 5px 10px;
-                        box-shadow: 3px 3px 10px #aaa;
+                        box-shadow: 1px 1px 20px 0px #b0b6bc;
                         font-size: 1rem;
                     }
                     &.image {
@@ -175,13 +180,14 @@
             display: none;
         }
         .codingClick {
+            color: #ffc83d;
+            text-shadow: 2px 2px 1px black;
             cursor: pointer;
             font-size: 1.7rem;
-            color: @grey9;
             font-weight: bolder;
             margin: 0 0px;
             user-select: none;
-            margin: 0 0 6px 8px;
+            // margin: 0 0 6px 8px;
             &:hover {
                 opacity: 0.5;
             }

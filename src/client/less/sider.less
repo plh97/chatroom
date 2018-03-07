@@ -3,44 +3,20 @@
     color: #fff;
     overflow-y: auto;
     background: #2e3238;
+    width: 200px;
     .myInfo{
         border-bottom: 1px solid #24272c;
-
-        .ant-badge-dot{
-            top: unset;
-            width: 10px;
-            height: 10px;
-            bottom: -0.2em;
-            box-shadow: 0 0 0 2px #2f3136;
-        }
-        .online{
-            .ant-badge-dot{
-                background-color: #43b581;
-            }
-        }
-        .busy{
-            .ant-badge-dot{
-                background-color: #faa61a;
-            }
-        }
-        .offline{
-            .ant-badge-dot{
-                background-color: #747f8d;
-            }
-        }
-
-        .ant-badge{
+        display: inline-flex;
+        height: 86px;
+        width: 100%;
+        align-items: center;
+        
+        .avatar {
             margin: 12px;
-
-            .myAvatar{
-                cursor: pointer;
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
+            cursor: pointer;
         }
 
-        .myName{
+        .name{
             font-size: 1.4rem;
         }
     }
