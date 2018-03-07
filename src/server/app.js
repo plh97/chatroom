@@ -3,6 +3,7 @@ const Koa = require('koa');
 const path = require('path');
 // const IO = require('koa-socket');
 const json = require('koa-json');
+const cors = require('@koa/cors');
 const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const kosStatic = require('koa-static');
@@ -20,6 +21,7 @@ const app = new Koa();
 app
   .use(bodyparser())
   .use(json())
+  .use(cors())
   .use(logger())
   .use(kosStatic(path.resolve('./dist'), {
     // maxAge: 1000 * 60 * 60 * 24 * 7,

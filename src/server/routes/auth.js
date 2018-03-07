@@ -1,8 +1,6 @@
 const rp = require('request-promise');
-const cookie = require('cookie');
 const User = require('../models/User.model');
 const Token = require('../models/Token.model');
-const Group = require('../models/Group.model');
 const config = require('../../../config/project');
 
 /**
@@ -11,10 +9,9 @@ const config = require('../../../config/project');
  * @return {async}
  */
 
-exports.getCode = async (ctx, next) => {
-  const redirect_uri = ctx.cookies.get('redirect_uri');
-  const code = ctx.request.query.code;
-  const NODE_ENV = process.env.NODE_ENV;
+const Auth = async (ctx) => {
+  const redirectUri = ctx.cookies.get('redirect_uri');
+  const { code } = ctx.request.query;
   let option = {
     uri: 'https://github.com/login/oauth/access_token',
     qs: {
@@ -40,7 +37,7 @@ exports.getCode = async (ctx, next) => {
   ctx.cookies.set('access_token', tokenResp.access_token, {
     httpOnly: true,
   });
-  ctx.redirect(redirect_uri);
+  ctx.redirect(redirectUri);
   await User.save({
     github: userInfo,
   });
@@ -49,3 +46,5 @@ exports.getCode = async (ctx, next) => {
     user_id: userInfo.id,
   });
 };
+
+module.exports = Auth;

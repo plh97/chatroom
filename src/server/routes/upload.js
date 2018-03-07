@@ -17,7 +17,7 @@ const { getType } = require('../utils/mimes.js');
  * @return {async}
  */
 
-exports.getCode = async (ctx, next) => {
+const Upload = async (ctx, next) => {
   if (ctx.method !== 'POST') return await next();
   let { images } = ctx.request.body.files;
   if (!images.length) {
@@ -29,7 +29,7 @@ exports.getCode = async (ctx, next) => {
     const newpath = path.resolve(`./public/${name}`);
     const topath = fs.createWriteStream(newpath);
     const stream = await fs.createReadStream(image.path).pipe(topath);
-    return await new promise((resolve, reject) => {
+    const result = await new promise((resolve) => {
       stream.on('finish', async () => {
         const callback = await uploadFile(name, newpath);
         resolve({
@@ -38,5 +38,8 @@ exports.getCode = async (ctx, next) => {
         });
       });
     });
+    return result;
   }));
 };
+
+module.exports = Upload;

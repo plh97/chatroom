@@ -48,7 +48,7 @@ const {
   canary,
 } = config;
 
-exports.getCode = async (ctx, next) => {
+exports.getCode = async (ctx) => {
   const phone = getKoaUrl(ctx).query.split('=')[1] || config.phone;
   const browser = await puppeteer.launch({
     // 想要代码运的好，还得首选金丝雀

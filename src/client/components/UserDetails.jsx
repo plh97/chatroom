@@ -9,18 +9,7 @@ import Avatar from './Avatar/index.jsx';
 @inject('store')
 @observer
 export default class UserDetails extends Component {
-  mouseEnter = () => {
-    this.githubReport.scrollIntoView({
-      behavior: 'smooth',
-    });
-  }
-  mouseLeave = () => {
-    this.followers.scrollIntoView({
-      behavior: 'smooth',
-    });
-  }
   render() {
-    const { match } = this.props;
     const {
       myInfo,
       showMoreUserInfo,
@@ -48,40 +37,10 @@ export default class UserDetails extends Component {
             </a>
             💬
           </div>
-          <div
-            onMouseLeave={this.mouseLeave}
-            onMouseEnter={this.mouseEnter}
-            className="followRepot"
-          >
-            <span
-              ref={(el) => { this.followers = el; }}
-              className="followers"
-            >
-              <span className="count">
-                {showMoreUserInfo.github.followers}
-              </span>
-              followers
-            </span>
-            <span className="repos">
-              <span className="count">
-                {showMoreUserInfo.github.public_repos}
-              </span>
-              repots
-            </span>
-            <span className="following">
-              <span className="count">
-                {showMoreUserInfo.star_count}
-              </span>
-              stars
-            </span>
-            <span
-              ref={(el) => { this.githubReport = el; }}
-              className="githubReport"
-            >
-              <Link to="/githubReport">
-                看看这货的Github分析报告
-              </Link>
-            </span>
+          <div className="followRepot">
+            <Link className="githubReport" to={`/githubReport/${showMoreUserInfo.github.login}`}>
+              看看这货的Github分析报告
+            </Link>
           </div>
           {showMoreUserInfo.github.bio && showMoreUserInfo.github.bio.length &&
           <div className="infoList">

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import styles from './index.less';
-import { defaultUserAvatar } from '../../../../config/server.js';
+import { defaultUserAvatar } from '../../../../config/server';
 
 @inject('store')
 @observer

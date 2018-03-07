@@ -35,7 +35,7 @@ export default class Root extends Component {
             )}
             />
             <Route path="/group" component={AsyncApp} />
-            <Route path="/githubReport" component={GithubReport} />
+            <Route path="/githubReport/:name" component={GithubReport} />
             <div className="window" />
           </div>
         </Router>
