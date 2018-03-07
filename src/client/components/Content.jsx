@@ -25,7 +25,7 @@ export default class content extends Component {
     };
   }
   componentDidMount() {
-    const { socket, myInfo, allHold } = this.props.store;
+    const { socket, myInfo, allHold, firstIn } = this.props.store;
     const { match } = this.props;
     document.cookie = `redirect_uri=${match.url};Path=/auth`;
     if (!myInfo.github.name) {
@@ -39,7 +39,9 @@ export default class content extends Component {
     socket({
       url: 'init group',
       group_name: match.params.group_name,
+      firstIn,
     });
+    allHold('firstInner', false);
   }
   componentWillReceiveProps(nextProps) {
     const { socket, allHold } = this.props.store;
@@ -181,7 +183,7 @@ export default class content extends Component {
                     {post.user_name}
                   </span>
                   <span className="timeContainer">
-                    {(new Date(post.create_time)).toLocaleString()}
+                    {(new Date(post.create_time)).toLocaleString() === 'Invalid Date' ? post.create_time : (new Date(post.create_time)).toLocaleString()}
                   </span>
                 </p>
                 {post.text &&

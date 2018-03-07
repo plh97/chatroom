@@ -15,12 +15,7 @@ class Trigger extends Component {
   }
   handleAllEventClick = (e) => {
     const {
-      allHold,
-      socket,
-      showRoomDetail,
-      showCodeEdit,
-      showEmoji,
-      showMoreUserInfo,
+      allHold, socket, showRoomDetail, showCodeEdit, showEmoji, showMoreUserInfo,
     } = this.props.store;
     // avator click
     // whether show avator details

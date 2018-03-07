@@ -50,7 +50,7 @@ mongoose.connect(datebase, { useMongoClient: true })
       socket.on('init group', async (json) => {
         const groupInfo = await Group.findOnePretty({ group_name: json.group_name });
         if (groupInfo != null) {
-          socket.leave(socket.currentRoomId);
+          !json.firstIn && socket.leave(socket.currentRoomId);
           socket.join(groupInfo._id.toString());
           socket.currentRoomId = groupInfo._id.toString();
         }
@@ -63,8 +63,8 @@ mongoose.connect(datebase, { useMongoClient: true })
         message = Object.assign({}, message, {
           user_name: user.github.name,
           avatar_url: user.github.avatar_url,
-          update_time: message.update_time,
-          create_time: message.create_time,
+          update_time: '刚刚',
+          create_time: '刚刚',
         });
         io.to(socket.currentRoomId).emit('send message', message);
       });

@@ -11,9 +11,6 @@ const bodyparser = require('koa-bodyparser');
 
 // local
 const allRouter = require('./routes/index.js');
-// const Group = require('./models/Group.model');
-// const User = require('./models/User.model');
-// const Token = require('./models/Token.model');
 
 // application
 const app = new Koa();
@@ -39,7 +36,7 @@ app
           root: path.resolve('./dist'),
           // maxage: 1000 * 60 * 60 * 24 * 7,
           gzip: true,
-        } // eslint-disable-line
+        },
       );
     } else {
       await next();
