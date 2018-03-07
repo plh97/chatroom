@@ -108,17 +108,6 @@ constructor() {
 
   socket.on('user detail', (json) => {
     console.log('user detail', json);
-    // 同时查询该用户star总数，
-    fetch(`${json.github.repos_url}`)
-      .then(response => response.json())
-      .then((innerJson) => {
-        innerJson.map((repos) => {
-          this.showMoreUserInfo.star_count += repos.stargazers_count;
-        });
-      })
-      .then(() => {
-        console.log('count', this.showMoreUserInfo.star_count);
-      });
     // 只能一个一个获取，不然会改变 showmoreuserinfo 的框框xy坐标位置。
     this.showMoreUserInfo.github = json.github;
     this.showMoreUserInfo.groups = json.groups;

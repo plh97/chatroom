@@ -4,7 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 
 // local
-import Avatar from './Avatar/index.jsx';
+import Avatar from '../Avatar/index.jsx';
+import './index.less';
 
 @inject('store')
 @observer
@@ -37,11 +38,9 @@ export default class UserDetails extends Component {
             </a>
             💬
           </div>
-          <div className="followRepot">
-            <Link className="githubReport" to={`/githubReport/${showMoreUserInfo.github.login}`}>
-              看看这货的Github分析报告
-            </Link>
-          </div>
+          <Link className="githubReport" to={`/githubReport/${showMoreUserInfo.github.login}`}>
+            看看这货的Github分析报告
+          </Link>
           {showMoreUserInfo.github.bio && showMoreUserInfo.github.bio.length &&
           <div className="infoList">
             <span className="label" role="img" aria-label="bio">🙆</span>
