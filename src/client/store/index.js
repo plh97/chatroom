@@ -9,6 +9,7 @@ const socket = io.connect({ secure: true });
 
 // useStrict(true)
 class TodoStore {
+@observable pageIndex = 1;
 // 我的用户信息
 @observable myInfo = {
   user_id: '',

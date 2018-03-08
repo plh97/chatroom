@@ -24,8 +24,12 @@ export default class content extends Component {
       url: 'send message',
     };
   }
+
   componentDidMount() {
-    const { socket, myInfo, allHold, firstIn } = this.props.store;
+    console.log('componentDidMount');
+    const {
+      socket, myInfo, allHold, firstIn,
+    } = this.props.store;
     const { match } = this.props;
     document.cookie = `redirect_uri=${match.url};Path=/auth`;
     if (!myInfo.github.name) {
@@ -43,6 +47,7 @@ export default class content extends Component {
     });
     allHold('firstInner', false);
   }
+
   componentWillReceiveProps(nextProps) {
     const { socket, allHold } = this.props.store;
     allHold('group.messageList', []);
@@ -52,6 +57,17 @@ export default class content extends Component {
       group_name: nextProps.match.params.group_name,
     });
   }
+
+  componentDidUpdate() {
+    const container = document.querySelector('.contentMessages');
+    console.log('componentDidUpdate', container.children.length);
+    if (container.children[9]) {
+      setTimeout(() => {
+        container.children[9].scrollIntoView();
+      }, 10);
+    }
+  }
+
   pasteFile = (e) => {
     const clipboardData = e.clipboardData || window.clipboardData;
     let i = 0;
@@ -141,10 +157,21 @@ export default class content extends Component {
   scrollToBottom = (data) => {
     this.messagesEnd.scrollIntoView(data);
   }
+
+  timesCalc = (() => {
+    let PRIVATE = 0;
+    return {
+      inc: () => {
+        PRIVATE += 1;
+        return PRIVATE;
+      },
+    };
+  })();
+
   render() {
     const { match } = this.props;
     const {
-      initMyInfo, scrollToBottom, group, allHold, doing, myInfo, showEmoji,
+      initMyInfo, scrollToBottom, group, allHold, doing, myInfo, showEmoji, pageIndex,
     } = this.props.store;
     if (scrollToBottom) {
       this.scrollToBottom({
@@ -156,18 +183,18 @@ export default class content extends Component {
       document.addEventListener('paste', this.pasteFile);
       allHold('initMyInfo', false);
     }
+    console.log('render');
     return (
       <div
-        // ref={c => this._content = c}
         refs="content"
         style={{ overflow: 'initial' }}
         className="content"
         key={match.params.group_name}
       >
         <RoomDetails />
-        <div className="contentMessages">
-          {doing && <Loading className="contentMessagesWait" />}
-          {group && group.messageList.map((post, i) => (
+        <div className="contentMessages" refs="contentMessages">
+          <Loading className="contentMessagesWait" />
+          {group && group.messageList.slice(group.messageList.length - (pageIndex * 10)).map((post, i) => (
             <div className={`contentMessagesList ${post.user_name === myInfo.github.name ? 'me' : 'other'}`} key={i}>
               <Avatar
                 data-id={post.user_id}
