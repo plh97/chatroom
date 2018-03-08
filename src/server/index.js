@@ -44,6 +44,7 @@ mongoose.connect(datebase, { useMongoClient: true })
         }
         const onlineUser = await User.find({ status: 'online' });
         const newOnlineUser = onlineUser.map(e => e.user_id);
+        console.log('send online user info!');
         io.emit('online user', newOnlineUser);
       }
 
