@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import debounce from 'lodash.debounce';
 
 // local
 import { composedPath } from './dom';
-
 
 @inject('store')
 @observer
@@ -11,9 +11,21 @@ class Trigger extends Component {
   // 事件总代理模型
   // all event only Perform their own duties
   componentDidMount() {
-    this.container.addEventListener('click', this.handleAllEventClick);
+    this.container.addEventListener('click', this.handleClick);
+    this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 100));
   }
-  handleAllEventClick = (e) => {
+  handleScroll = (e) => {
+    const {
+      allHold, pageIndex, group,
+    } = this.props.store;
+    if (e.target.scrollTop < 80) {
+      // scroll into view
+      // which is the Previous top message dom
+      console.log('scrollTop');
+      allHold('pageIndex', pageIndex + 1);
+    }
+  }
+  handleClick = (e) => {
     const {
       allHold, socket, showRoomDetail, showCodeEdit, showEmoji, showMoreUserInfo,
     } = this.props.store;
