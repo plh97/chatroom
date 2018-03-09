@@ -60,12 +60,13 @@ export default class content extends Component {
 
   componentDidUpdate() {
     const container = document.querySelector('.contentMessages');
-    console.log('componentDidUpdate', container.children.length);
-    if (container.children[9]) {
+    console.log('componentDidUpdate');
+    if (container.children[8]) {
       setTimeout(() => {
-        container.children[9].scrollIntoView();
-      }, 10);
+        container.children[11].scrollIntoView();
+      }, 1);
     }
+    window.Prism.highlightAll();
   }
 
   pasteFile = (e) => {
@@ -106,7 +107,6 @@ export default class content extends Component {
     const {
       myInfo,
       group,
-      scrollToBottom,
       allHold,
     } = this.props.store;
     if (!e.text && !e.code && !e.image) { return; }
@@ -136,14 +136,14 @@ export default class content extends Component {
       const form = new FormData();
       Array.from(e.target.files)
         .filter(file => file.type && file.type.split('/')[0] === 'image')
-        .map((file) => {
+        .forEach((file) => {
           form.append('images', file, file.name);
         });
       fetch('/upload', {
         method: 'POST',
         body: form,
       }).then(res => res.json()).then((rep) => {
-        rep.map((image) => {
+        rep.forEach((image) => {
           this.handleMsgSubmit({
             image,
             type: 'image',
@@ -155,6 +155,7 @@ export default class content extends Component {
   }
 
   scrollToBottom = (data) => {
+    console.log('scrollTobottom');
     this.messagesEnd.scrollIntoView(data);
   }
 
@@ -173,17 +174,16 @@ export default class content extends Component {
     const {
       initMyInfo, scrollToBottom, group, allHold, doing, myInfo, showEmoji, pageIndex,
     } = this.props.store;
-    if (scrollToBottom) {
-      this.scrollToBottom({
-        behavior: 'auto',
-      });
-      allHold('scrollToBottom', false);
-    }
+    // if (scrollToBottom) {
+    //   this.scrollToBottom({
+    //     behavior: 'auto',
+    //   });
+    //   allHold('scrollToBottom', false);
+    // }
     if (initMyInfo) {
       document.addEventListener('paste', this.pasteFile);
       allHold('initMyInfo', false);
     }
-    console.log('render');
     return (
       <div
         refs="content"
@@ -219,13 +219,14 @@ export default class content extends Component {
                   </p>}
                 {post.image ?
                   <img
-                    onLoad={this.scrollToBottom.bind(this, 'auto')}
+                    // onLoad={this.scrollToBottom.bind(this, 'auto')}
                     className={`messageContainer ${post.type}`}
                     style={{
                       width: post.image.width,
+                      height: post.image.height,
                     }}
                     src={post.image.url}
-                    alt="头像"
+                    alt={`${post.image.width, post.image.height}头.像`}
                   /> : ''}
                 {post.code ?
                   <pre
@@ -239,7 +240,7 @@ export default class content extends Component {
               </div>
             </div>
           ))}
-          <div
+          <div id="bottomInToView"
             style={{ float: 'left', clear: 'both' }}
             ref={(el) => { this.messagesEnd = el; }}
           />

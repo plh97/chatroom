@@ -42,6 +42,7 @@ const uploadFile = async (
   // 文件上传
   return new promise((resolve, reject) => {
     formUploader.putFile(uploadToken, key, localFile, putExtra, (err, res, respInfo) => {
+      console.log('ewwefwef,', respInfo);
       if (err) {
         reject(err);
       } else {

@@ -93,7 +93,7 @@ class GroupClass extends Model {
       };
     }));
     newGroupInfo.memberList = await Promise.all(groupInfo.memberList.map(async (user_id) => {
-      const user = await users.find(user => user.user_id == user_id);
+      const user = await users.find(user => user.user_id === user_id);
       return {
         user_name: user.github.name,
         avatar_url: user.github.avatar_url,
@@ -102,7 +102,7 @@ class GroupClass extends Model {
     }));
 
     newGroupInfo.messageList = await Promise.all(groupInfo.messageList.map(async (message, i) => {
-      const user = await users.find(user => user.user_id == message.user_id);
+      const user = await users.find(user => user.user_id === message.user_id);
       return {
         user_id: message.user_id,
         _id: message._id,
