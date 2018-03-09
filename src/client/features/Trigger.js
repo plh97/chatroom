@@ -11,18 +11,19 @@ class Trigger extends Component {
   // 事件总代理模型
   // all event only Perform their own duties
   componentDidMount() {
-    this.container.addEventListener('click', this.handleClick);
-    this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 100));
+    if (this.container.querySelector('.contentMessages')) {
+      this.container.addEventListener('click', this.handleClick);
+      this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 100));
+    }
   }
   handleScroll = (e) => {
     const {
-      allHold, pageIndex, group,
+      allHold, pageIndex,
     } = this.props.store;
     if (e.target.scrollTop < 80) {
-      // scroll into view
-      // which is the Previous top message dom
-      console.log('scrollTop');
-      allHold('pageIndex', pageIndex + 1);
+      setTimeout(() => {
+        allHold('pageIndex', pageIndex + 1);
+      }, 300);
     }
   }
   handleClick = (e) => {
