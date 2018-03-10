@@ -4,10 +4,6 @@ const path = require('path');
 const promise = require('bluebird');
 
 // local
-// const User = require('../models/User.model');
-// const Token = require('../models/Token.model');
-// const Group = require('../models/Group.model');
-// const config = require('../../../config/project');
 const uploadFile = require('../utils/qiniu.js');
 const { getType } = require('../utils/mimes.js');
 
@@ -29,7 +25,7 @@ const Upload = async (ctx, next) => {
     const newpath = path.resolve(`./public/${name}`);
     const topath = fs.createWriteStream(newpath);
     const stream = await fs.createReadStream(image.path).pipe(topath);
-    const result = await new promise((resolve) => {
+    const result = await new Promise((resolve) => {
       stream.on('finish', async () => {
         const callback = await uploadFile(name, newpath);
         resolve({

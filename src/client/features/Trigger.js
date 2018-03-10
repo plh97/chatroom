@@ -13,7 +13,7 @@ class Trigger extends Component {
   componentDidMount() {
     if (this.container.querySelector('.contentMessages')) {
       this.container.addEventListener('click', this.handleClick);
-      this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 100));
+      this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 10));
     }
   }
   handleScroll = (e) => {
@@ -23,7 +23,7 @@ class Trigger extends Component {
     if (e.target.scrollTop < 80) {
       setTimeout(() => {
         allHold('pageIndex', pageIndex + 1);
-      }, 300);
+      }, 20);
     }
   }
   handleClick = (e) => {

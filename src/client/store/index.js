@@ -108,9 +108,11 @@ constructor() {
     console.log('更新store 里面的message', json);
     this.group.messageList.push(json);
     Prism.highlightAll();
-    // this.scrollToBottom = true;
-    console.log(document.querySelector('#contentMessages'));
-    document.querySelector('#contentMessages').scrollIntoView();
+    this.scrollToBottom = true;
+    console.log(document.querySelector('#bottomInToView'));
+    setTimeout(() => {
+      document.querySelector('#bottomInToView').scrollIntoView();
+    }, 0);
   });
 
   socket.on('user detail', (json) => {
