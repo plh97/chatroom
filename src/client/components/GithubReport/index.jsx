@@ -5,9 +5,9 @@ import '@pengliheng/github-report/lib/index.less';
 // local
 import './index.less';
 
-const GithubReport = ({ match }) => (
+const GithubReport = props => (
   <div className="github-report">
-    <Github name={(match.params.name === 'undefined' ? 'pengliheng' : match.params.name)} />
+    <Github {...props} />
   </div>
 );
 

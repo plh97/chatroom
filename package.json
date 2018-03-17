@@ -10,7 +10,10 @@
     "nodemon": "set NODE_ENV=dev&& nodemon src/server/index.js --config nodemonrc.json",
     "pm2": "pm2 start ecosystem.config.js --env prod",
     "restart": "pm2 reload ecosystem.config.js --env prod",
-    "pu": "nodemon puppeteer.js"
+    "pu": "nodemon puppeteer.js",
+    "dev": "pandora dev",
+    "start": "pandora start",
+    "stop": "pandora stop"
   },
   "pre-commit": [
     "eslint"
@@ -30,7 +33,7 @@
   },
   "dependencies": {
     "@koa/cors": "2",
-    "@pengliheng/github-report": "^1.2.6",
+    "@pengliheng/github-report": "^1.2.16",
     "antd": "^2.13.3",
     "axios": "^0.17.1",
     "base64id": "^1.0.0",
