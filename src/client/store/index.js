@@ -109,7 +109,6 @@ constructor() {
     this.group.messageList.push(json);
     Prism.highlightAll();
     this.scrollToBottom = true;
-    console.log(document.querySelector('#bottomInToView'));
     setTimeout(() => {
       document.querySelector('#bottomInToView').scrollIntoView();
     }, 0);

@@ -1,7 +1,7 @@
 // apk
 const fs = require('fs-extra');
 const path = require('path');
-const promise = require('bluebird');
+// const promise = require('bluebird');
 
 // local
 const uploadFile = require('../utils/qiniu.js');
@@ -19,7 +19,7 @@ const Upload = async (ctx, next) => {
   if (!images.length) {
     images = [images];
   }
-  ctx.body = await new promise.all(await images.map(async (image) => {
+  ctx.body = await Promise.all(images.map(async (image) => {
     const ext = getType(image.type);
     const name = `${Math.random().toString().replace(/0./, '')}.${ext}`;
     const newpath = path.resolve(`./public/${name}`);
