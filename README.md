@@ -1,5 +1,8 @@
 # chatroom
 
+## 目前来看，唯一可用功能就是提供黏贴图片了，任意用户可以随意黏贴图片在自己建立的私人群里面
+
+
 [![Build Status](https://travis-ci.org/pengliheng/chatroom.svg?branch=master)](https://travis-ci.org/pengliheng/chatroom)
 [![author](https://img.shields.io/badge/author-peng-blue.svg)](https://www.penlh.com)
 [![Node.js Version](https://img.shields.io/badge/node.js-9.2.0-blue.svg)](http://nodejs.org/download)
@@ -12,3 +15,5 @@
 ### 公共房间
 ![](https://dn-cnode.qbox.me/FpR0cuh5jf-hjYHriRPj0b08cod5)
 ![](https://i.loli.net/2017/11/28/5a1d4343e5ad8.jpg)
+
+
