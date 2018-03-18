@@ -1,7 +1,11 @@
 # chatroom
 
-## 目前来看，唯一可用功能就是提供黏贴图片了，任意用户可以随意黏贴图片在自己建立的私人群里面
+## `Ctrl + v` 粘贴黏贴板里面的图片
 
+## [自动生成的一份github报告](https://chat.pipk.top/githubReport/pengliheng)
+```js
+	https://chat.pipk.top/githubReport/<username>
+```
 
 [![Build Status](https://travis-ci.org/pengliheng/chatroom.svg?branch=master)](https://travis-ci.org/pengliheng/chatroom)
 [![author](https://img.shields.io/badge/author-peng-blue.svg)](https://www.penlh.com)

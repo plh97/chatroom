@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = function (pandora) {
   pandora
     // 定义一个进程，名字叫 processA
@@ -15,3 +14,6 @@ module.exports = function (pandora) {
   // 这个进程的入口文件地址
     .entry('./src/server/index.js');
 };
+
+
+// pandora start --name dashboard `pandora-dashboard-dir`
