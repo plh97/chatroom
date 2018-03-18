@@ -1,7 +1,5 @@
 'use strict';
 
-import { BaseEnvironment } from 'pandora';
-
 module.exports = (pandora) => {
   pandora('chat')
     .env({
