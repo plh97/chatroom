@@ -3,7 +3,7 @@
 module.exports = (pandora) => {
 
   pandora
-    .fork('init', './keystone.js');
+    .fork('init', './src/server/index.js');
 
   /**
    * you can also use cluster mode to start application
