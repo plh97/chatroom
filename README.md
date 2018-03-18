@@ -14,7 +14,7 @@
 
 ### 实现房间切换的功能，各个房间独立发言互不干扰
 
-### socket.io(nameSpace to divide all chaenel into room) +react16+webpack
+### socket.io(nameSpace divide room) + react16 + webpack4
 
 ### 公共房间
 ![](https://dn-cnode.qbox.me/FpR0cuh5jf-hjYHriRPj0b08cod5)
