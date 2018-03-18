@@ -3,9 +3,6 @@
 module.exports = (pandora) => {
   pandora
     .process('chatroom')
-    .env({
-      ...process.env,
-    })
     .entry('./src/server/index.js');
 
   /**
