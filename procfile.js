@@ -1,11 +1,14 @@
 'use strict';
 
 module.exports = (pandora) => {
-
-  pandora
+  pandora('chatroom')
+    .env({
+      PROD: '8001',
+      NODE_ENV: 'prod',
+    })
     .cluster('./src/server/index.js');
-    
-  /** 
+
+  /**
   * you can custom workers scale number
   */
   // pandora
@@ -13,7 +16,7 @@ module.exports = (pandora) => {
   //   .scale(2); // .scale('auto') means os.cpus().length
 
   /**
-   * you can also use fork mode to start application 
+   * you can also use fork mode to start application
    */
   // pandora
   //   .fork('init', './src/server/index.js');
@@ -29,5 +32,4 @@ module.exports = (pandora) => {
    * more features please visit our document.
    * https://github.com/midwayjs/pandora/
    */
-
 };
