@@ -3,7 +3,7 @@
 module.exports = (pandora) => {
   pandora('chatroom')
     .env({
-      PROD: '8001',
+      PROD: '8002',
       NODE_ENV: 'prod',
     })
     .cluster('./src/server/index.js');
