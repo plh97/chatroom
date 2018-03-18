@@ -7,7 +7,7 @@ module.exports = (pandora) => {
       PROD: '8002',
       NODE_ENV: 'prod',
     })
-    .cluster('./src/server/index.js');
+    .entry('./src/server/index.js');
 
   /**
   * you can custom workers scale number
