@@ -1,8 +1,13 @@
 'use strict';
 
-module.exports = (pandora) => {
+import { BaseEnvironment } from 'pandora';
 
-  pandora
+module.exports = (pandora) => {
+  pandora('chat')
+    .env({
+      NODE_ENV: 'prod',
+      PORT: '8002',
+    })
     .fork('init', './src/server/index.js');
 
   /**
@@ -22,5 +27,4 @@ module.exports = (pandora) => {
    * more features please visit our document.
    * https://github.com/midwayjs/pandora/
    */
-
 };
