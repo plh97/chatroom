@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = (pandora) => {
-  pandora('chatroom')
+  pandora
+    .process('chatroom')
     .env({
       PROD: '8002',
       NODE_ENV: 'prod',
