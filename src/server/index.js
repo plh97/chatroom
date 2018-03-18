@@ -106,6 +106,6 @@ mongoose.connect(datebase, { useMongoClient: true })
       console.log(` >>> port: ${process.env.PORT}`);
       console.log(` >>> NODE_ENV: ${process.env.NODE_ENV}`);
       console.log(` >>> datebase : ${datebase}`);
-      console.log(` >>> access_token : ${process.env.ACCESS_TOKEN}`);
+      console.log(` >>> access_token : ${process.env.access_token}`);
     });
   });
