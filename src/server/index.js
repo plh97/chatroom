@@ -25,7 +25,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(datebase, { useMongoClient: true })
   .then(() => {
     io.on('connection', async (socket) => {
-      console.log('connection', process.env.access_token);
+      console.log('connection');
       const access_token = getCookie(socket).access_token;
       const urlArray = getUrl(socket).pathname.split('/');
       if (urlArray[1] === 'group' && urlArray[2]) {
@@ -44,13 +44,14 @@ mongoose.connect(datebase, { useMongoClient: true })
         }
         const onlineUser = await User.find({ status: 'online' });
         const newOnlineUser = onlineUser.map(e => e.user_id);
+        console.log('send online user info!');
         io.emit('online user', newOnlineUser);
       }
 
       socket.on('init group', async (json) => {
         const groupInfo = await Group.findOnePretty({ group_name: json.group_name });
         if (groupInfo != null) {
-          socket.leave(socket.currentRoomId);
+          !json.firstIn && socket.leave(socket.currentRoomId);
           socket.join(groupInfo._id.toString());
           socket.currentRoomId = groupInfo._id.toString();
         }
@@ -63,8 +64,8 @@ mongoose.connect(datebase, { useMongoClient: true })
         message = Object.assign({}, message, {
           user_name: user.github.name,
           avatar_url: user.github.avatar_url,
-          update_time: message.update_time,
-          create_time: message.create_time,
+          update_time: '刚刚',
+          create_time: '刚刚',
         });
         io.to(socket.currentRoomId).emit('send message', message);
       });
@@ -90,9 +91,11 @@ mongoose.connect(datebase, { useMongoClient: true })
 
       socket.on('disconnect', async () => {
         console.log('disconnect');
-        socket.myInfo && await User.update({
-          user_id: socket.myInfo.user_id,
-        }, { status: 'offline' });
+        if (socket.myInfo) {
+          await User.update({
+            user_id: socket.myInfo.user_id,
+          }, { status: 'offline' });
+        }
         let onlineUser = await User.find({ status: 'online' });
         onlineUser = onlineUser.map(e => e.user_id);
         io.emit('online user', onlineUser);
@@ -100,8 +103,9 @@ mongoose.connect(datebase, { useMongoClient: true })
     });
 
     server.listen(port, async () => {
-      console.log(` >>> port: ${port}`);
-      console.log(` >>> ENV: ${process.env.NODE_ENV}`);
+      console.log(` >>> port: ${process.env.PORT}`);
+      console.log(` >>> NODE_ENV: ${process.env.NODE_ENV}`);
       console.log(` >>> datebase : ${datebase}`);
+      console.log(` >>> access_token : ${process.env.access_token}`);
     });
   });

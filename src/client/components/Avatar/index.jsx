@@ -8,7 +8,6 @@ import { defaultUserAvatar } from '../../../../config/server';
 @observer
 export default class Avatar extends Component {
   render() {
-    console.log(styles, this.props, defaultUserAvatar);
     const {
       id, className, shape, src, size, badge,
     } = this.props;

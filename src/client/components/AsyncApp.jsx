@@ -5,7 +5,7 @@ import Sider from '../components/Sider.jsx';
 import Header from '../components/Header.jsx';
 import Trigger from '../features/Trigger.js';
 import Content from '../components/Content.jsx';
-import UserDetails from '../components/UserDetails.jsx';
+import UserDetails from '../components/UserDetails/index.jsx';
 
 const AsyncApp = ({ match }) => (
   <Trigger className="container">

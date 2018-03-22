@@ -9,6 +9,7 @@ const socket = io.connect({ secure: true });
 
 // useStrict(true)
 class TodoStore {
+@observable pageIndex = 1;
 // 我的用户信息
 @observable myInfo = {
   user_id: '',
@@ -58,6 +59,7 @@ class TodoStore {
 @observable messageType = 'text'
 @observable onlineUsers = []
 @observable doing = false
+@observable firstIn = true
 @action socket = (state) => {
   console.log('socket', state);
   socket.emit(state.url, state);
@@ -82,14 +84,16 @@ class TodoStore {
 }
 constructor() {
   socket.on('get myInfo', (json) => {
+    console.log('获取我的信息', json);
     this.myInfo = json;
     this.initMyInfo = true;
   });
   socket.on('online user', (json) => {
-    console.log('online user', json);
+    console.log('在线用户', json);
     this.onlineUsers = json;
   });
   socket.on('init group', (json) => {
+    console.log('初始化群', json);
     if (!json) {
       this.group.group_name = null;
       return;
@@ -101,24 +105,17 @@ constructor() {
   });
 
   socket.on('send message', (json) => {
+    console.log('更新store 里面的message', json);
     this.group.messageList.push(json);
     Prism.highlightAll();
     this.scrollToBottom = true;
+    setTimeout(() => {
+      document.querySelector('#bottomInToView').scrollIntoView();
+    }, 0);
   });
 
   socket.on('user detail', (json) => {
-    console.log('user detail', json);
-    // 同时查询该用户star总数，
-    fetch(`${json.github.repos_url}`)
-      .then(response => response.json())
-      .then((innerJson) => {
-        innerJson.map((repos) => {
-          this.showMoreUserInfo.star_count += repos.stargazers_count;
-        });
-      })
-      .then(() => {
-        console.log('count', this.showMoreUserInfo.star_count);
-      });
+    console.log('用户详情', json);
     // 只能一个一个获取，不然会改变 showmoreuserinfo 的框框xy坐标位置。
     this.showMoreUserInfo.github = json.github;
     this.showMoreUserInfo.groups = json.groups;
