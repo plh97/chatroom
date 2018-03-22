@@ -7,7 +7,7 @@ const koaBody = require('koa-body');
 
 router
   .get('/auth', Auth)
-  .all('/graphql', Graphql)
+  .post('/graphql', Graphql)
   .post('/upload', koaBody({ multipart: true }), Upload);
 
 module.exports = router;
