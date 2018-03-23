@@ -10,9 +10,21 @@ import { Provider, observer } from 'mobx-react';
 
 // local
 import store from './store/';
-import AsyncApp from './components/AsyncApp.jsx';
-import GithubReport from './components/GithubReport/index.jsx';
+import AsyncApp from './components/AsyncApp';
+import GithubReport from './components/GithubReport/index';
 import './less/index.less';
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+      console.log('SW registered: ', registration);
+    }).catch((registrationError) => {
+      console.log('SW registration failed: ', registrationError);
+    });
+  });
+}
+
 
 @observer
 export default class Root extends Component {
