@@ -9,7 +9,7 @@ module.exports = function (pandora) {
     .scale(1)
     // 定义进程环境变量，创建出来的进程中可以通过 process.env 获得
     .env({
-      PORT: '8001',
+      PORT: '8002',
     })
   // 这个进程的入口文件地址
     .entry('./src/server/index.js');
