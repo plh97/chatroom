@@ -5,8 +5,8 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const	CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // local
-const devWebpackConfig = require('./build/webpack.dev.config');
-const prodWebpackConfig = require('./build/webpack.prod.config');
+const devWebpackConfig = require('./build/webpack.dev');
+const prodWebpackConfig = require('./build/webpack.prod');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWebpackConfig, {
