@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 
 // local
-import Loading from './Loading/index.jsx';
-import config from '../../../config/project.js';
-import SublimeText from './SublimeText.jsx';
-import RoomDetails from './RoomDetails.jsx';
-import { emoji } from '../../../config/client.js';
-import Avatar from './Avatar/index.jsx';
+import Loading from './Loading/index';
+import config from '../../../config/project';
+import SublimeText from './SublimeText';
+import RoomDetails from './RoomDetails';
+import { emoji } from '../../../config/client';
+import Avatar from './Avatar/index';
 
 
 @inject('store')
@@ -26,7 +26,6 @@ export default class content extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     const {
       socket, myInfo, allHold, firstIn,
     } = this.props.store;
@@ -39,7 +38,6 @@ export default class content extends Component {
         avatar_url: 'https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40',
       }]);
     }
-    allHold('doing', true);
     socket({
       url: 'init group',
       group_name: match.params.group_name,
@@ -51,7 +49,6 @@ export default class content extends Component {
   componentWillReceiveProps(nextProps) {
     const { socket, allHold } = this.props.store;
     allHold('group.messageList', []);
-    allHold('doing', true);
     socket({
       url: 'init group',
       group_name: nextProps.match.params.group_name,
@@ -60,7 +57,6 @@ export default class content extends Component {
 
   componentDidUpdate() {
     const container = document.querySelector('.contentMessages');
-    console.log('componentDidUpdate');
     if (container.children[8]) {
       setTimeout(() => {
         container.children[11].scrollIntoView();
@@ -79,7 +75,7 @@ export default class content extends Component {
       }
       let item = items[0];
       const types = clipboardData.types || [];
-      for (i = 0; i < types.length; i++) {
+      for (i = 0; i < types.length; i += 1) {
         if (types[i] === 'Files') {
           item = items[i];
           break;
@@ -93,7 +89,7 @@ export default class content extends Component {
           method: 'POST',
           body: form,
         }).then(res => res.json()).then((json) => {
-          json.map((image) => {
+          json.forEach((image) => {
             this.handleMsgSubmit({
               image,
               type: 'image',
@@ -155,7 +151,6 @@ export default class content extends Component {
   }
 
   scrollToBottom = (data) => {
-    console.log('scrollTobottom');
     this.messagesEnd.scrollIntoView(data);
   }
 
@@ -172,14 +167,8 @@ export default class content extends Component {
   render() {
     const { match } = this.props;
     const {
-      initMyInfo, scrollToBottom, group, allHold, doing, myInfo, showEmoji, pageIndex,
+      initMyInfo, scrollToBottom, group, allHold, myInfo, showEmoji, pageIndex,
     } = this.props.store;
-    // if (scrollToBottom) {
-    //   this.scrollToBottom({
-    //     behavior: 'auto',
-    //   });
-    //   allHold('scrollToBottom', false);
-    // }
     if (initMyInfo) {
       document.addEventListener('paste', this.pasteFile);
       allHold('initMyInfo', false);
@@ -219,14 +208,12 @@ export default class content extends Component {
                   </p>}
                 {post.image ?
                   <img
-                    // onLoad={this.scrollToBottom.bind(this, 'auto')}
                     className={`messageContainer ${post.type}`}
                     style={{
                       width: post.image.width,
                       height: post.image.height,
                     }}
                     src={post.image.url}
-                    alt={`${post.image.width, post.image.height}头.像`}
                   /> : ''}
                 {post.code ?
                   <pre
@@ -240,7 +227,8 @@ export default class content extends Component {
               </div>
             </div>
           ))}
-          <div id="bottomInToView"
+          <div
+            id="bottomInToView"
             style={{ float: 'left', clear: 'both' }}
             ref={(el) => { this.messagesEnd = el; }}
           />
