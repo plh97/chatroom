@@ -33,6 +33,7 @@
   "dependencies": {
     "@koa/cors": "2",
     "@pengliheng/github-report": "^1.2.16",
+    "antd": "^2.13.6",
     "axios": "^0.17.1",
     "body-parser": "^1.17.2",
     "clean-webpack-plugin": "^0.1.16",
