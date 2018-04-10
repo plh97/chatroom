@@ -6,7 +6,7 @@ module.exports = {
   proDatabase: {
     gigs: 'mongodb://43.239.158.182/chat',
     // tencent:'mongodb://119.29.21.17/chatroom'
-    tencent: 'mongodb://pengliheng:ewqewq123@119.29.21.17:27017/chatroom',
+    tencent: 'mongodb://pengliheng:ewqewq@119.29.21.17:27017/chatroom',
   },
   devDatabase: 'mongodb://127.0.0.1/chatroom',
 
