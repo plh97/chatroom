@@ -28,6 +28,7 @@ const Upload = async (ctx, next) => {
     const result = await new Promise((resolve) => {
       stream.on('finish', async () => {
         const callback = await uploadFile(name, newpath);
+        console.log(callback);
         resolve({
           name: callback.key,
           url: callback.url,
