@@ -27,11 +27,11 @@ const Upload = async (ctx, next) => {
     const stream = await fs.createReadStream(image.path).pipe(topath);
     const result = await new Promise((resolve) => {
       stream.on('finish', async () => {
-        const callback = await uploadFile(name, newpath);
-        console.log(callback);
+        // const callback = await uploadFile(name, newpath);
+        console.log(`${name}.${ext}`);
         resolve({
-          name: callback.key,
-          url: callback.url,
+          name: `${name}.${ext}`,
+          url: `http://pipk.top:8080/chat/public/${name}.${ext}`,
         });
       });
     });
