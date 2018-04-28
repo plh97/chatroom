@@ -28,10 +28,9 @@ const Upload = async (ctx, next) => {
     const result = await new Promise((resolve) => {
       stream.on('finish', async () => {
         // const callback = await uploadFile(name, newpath);
-        console.log(`${name}.${ext}`);
         resolve({
-          name: `${name}.${ext}`,
-          url: `http://pipk.top:8080/chat/public/${name}.${ext}`,
+          name,
+          url: `http://pipk.top:8080/chat/public/${name}`,
         });
       });
     });
