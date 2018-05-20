@@ -30,7 +30,7 @@ const Upload = async (ctx, next) => {
         // const callback = await uploadFile(name, newpath);
         resolve({
           name,
-          url: `http://pipk.top:8080/chat/public/${name}`,
+          url: `https://static.pipk.top/chat/public/${name}`,
         });
       });
     });
