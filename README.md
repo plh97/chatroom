@@ -28,7 +28,6 @@ demo：[自动生成的一份github报告](https://chat.pipk.top/githubReport/pe
 
 ### 公共房间，实现房间切换的功能，各个房间独立发言互不干扰
 ![](https://dn-cnode.qbox.me/FpR0cuh5jf-hjYHriRPj0b08cod5)
-![](https://i.loli.net/2017/11/28/5a1d4343e5ad8.jpg)
 
 
 ### 视频粘贴（youtube）
