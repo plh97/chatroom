@@ -175,7 +175,7 @@ export default class content extends Component {
         });
       } else {
         // 无法识别
-        console.log('这个不是YouTube地址')
+        console.log('这个不是YouTube地址');
       }
     }
   }
@@ -284,7 +284,7 @@ export default class content extends Component {
             </div>
             <span className="picture" id="picture" onClick={this.handleImage} aria-label="picture" role="img">📁</span>
             <span className="codingClick" role="img📋">{'</>'}</span>
-            <span className="vedio" id="vedio" onClick={this.handleVedio} aria-label="vedio" role="img">🎥</span>
+            <span className="picture" id="vedio" onClick={this.handleVedio} aria-label="vedio" role="img">🎥</span>
             <SublimeText handleMsgSubmit={this.handleMsgSubmit} />
           </div>}
         {myInfo.github.name &&
