@@ -4,7 +4,7 @@
 ![Size](https://github-size-badge.herokuapp.com/pengliheng/chatroom.svg)
 
 
-# chatroom
+## chatroom
 
 ### 技术栈
 socket.io(nameSpace divide room) + react16 + webpack4
