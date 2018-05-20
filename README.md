@@ -27,3 +27,7 @@ to look backend [dashboard](http://pipk.top:9081/application/chatroom/stdout)
 ![](https://i.loli.net/2017/11/28/5a1d4343e5ad8.jpg)
 
 
+### 视频粘贴（youtube）
+![](https://static.pipk.top/chat/public/43023493822484316.png)
+
+暂时只做YouTube视频，默认你翻墙了，没梯子找我要。

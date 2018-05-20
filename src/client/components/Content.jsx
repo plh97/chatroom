@@ -166,7 +166,7 @@ export default class content extends Component {
       } else if (url.match(/www.youtube.com\/watch\?v=/)) {
         // 这个是视频格式
         const indexOf = url.indexOf('=');
-        const vedioId = url.slice(indexOf + 1);
+        const vedioId = url.replace(/watch\?v=/, 'embed/');
         this.handleMsgSubmit({
           vedio: {
             url: `https://www.youtube.com/embed/${vedioId}`,
