@@ -18,13 +18,11 @@ to look backend [dashboard](http://pipk.top:9081/application/chatroom/stdout) --
 `Ctrl + v` 粘贴黏贴板里面的图片
 
 ### github 报告自动生成
-[自动生成的一份github报告](https://chat.pipk.top/githubReport/pengliheng)
-
+网址：`https://chat.pipk.top/githubReport/<username>`
+demo：[自动生成的一份github报告](https://chat.pipk.top/githubReport/pengliheng)
+实例：
 ![](https://static.pipk.top/chat/public/6982254054091583.png)
 
-```js
-https://chat.pipk.top/githubReport/<username>
-```
 
 
 
