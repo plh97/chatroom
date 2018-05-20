@@ -79,7 +79,7 @@
                     max-width: calc(~'(100vw - 150px)');
                 }
                 @media screen and (min-width: 768px) {
-                    max-width: calc(~'(100vw - 350px)');
+                    width: calc(~'(100vw - 350px)');
                 }
                 display: flex;
                 flex-direction: column;
@@ -115,6 +115,12 @@
                         .imageContainer {
                             border-radius: 2%;
                         }
+                    }
+                    &.vedio {
+                        width: 900px; /* you can use % */
+                        height: 36vw;
+                        max-width: 100%;
+                        max-height: 500px;
                     }
                 }
             }

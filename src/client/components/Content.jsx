@@ -105,7 +105,7 @@ export default class content extends Component {
       group,
       allHold,
     } = this.props.store;
-    if (!e.text && !e.code && !e.image) { return; }
+    if (!e.text && !e.code && !e.image && !e.vedio) { return; }
     this.props.store.socket({
       url: 'send message',
       group_name: group.group_name,
@@ -115,6 +115,7 @@ export default class content extends Component {
       avatar_url: myInfo.github.avatar_url,
       text: e.text,
       code: e.code,
+      vedio: e.vedio,
       image: e.image,
       type: e.type,
     });
@@ -148,6 +149,21 @@ export default class content extends Component {
       });
       input.remove();
     }, false);
+  }
+
+  handleVedio = () => {
+    const url = prompt('视频格式：https://www.youtube.com/embed/xreEKuBBJFE');
+    if (url) {
+      // 确认
+      console.log(url);
+      // if(url.match(/https:\/\/www.youtube.com/embed\//))
+      this.handleMsgSubmit({
+        vedio: {
+          url,
+        },
+        type: 'vedio',
+      });
+    }
   }
 
   scrollToBottom = (data) => {
@@ -213,6 +229,7 @@ export default class content extends Component {
                       width: post.image.width,
                       height: post.image.height,
                     }}
+                    alt="聊天室图片"
                     src={post.image.url}
                   /> : ''}
                 {post.code ?
@@ -224,6 +241,16 @@ export default class content extends Component {
                       {post.code}
                     </code>
                   </pre> : ''}
+                {post.vedio ?
+                  <iframe
+                    ref={(c) => { this.vedio = c; }}
+                    title="youtube vedio"
+                    src={`${post.vedio.url}`}
+                    frameBorder="0"
+                    allowFullScreen
+                    className={`messageContainer ${post.type}`}
+                  />
+                  : ''}
               </div>
             </div>
           ))}
@@ -243,6 +270,7 @@ export default class content extends Component {
             </div>
             <span className="picture" id="picture" onClick={this.handleImage} aria-label="picture" role="img">📁</span>
             <span className="codingClick" role="img📋">{'</>'}</span>
+            <span className="vedio" id="vedio" onClick={this.handleVedio} aria-label="vedio" role="img">🎥</span>
             <SublimeText handleMsgSubmit={this.handleMsgSubmit} />
           </div>}
         {myInfo.github.name &&

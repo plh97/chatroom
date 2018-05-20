@@ -19,6 +19,7 @@ const groupSchema = new Schema({
     text: { type: String, default: '' },
     code: { type: String, default: '' },
     image: { type: Object, default: '' },
+    vedio: { type: Object, default: '' },
     // 不用填
     create_time: { type: Date, default: Date.now },
     update_time: { type: Date, default: new Date(), index: true },
@@ -111,6 +112,7 @@ class GroupClass extends Model {
         update_time: message.update_time,
         create_time: message.create_time,
         image: message.image,
+        vedio: message.vedio,
         code: message.code,
         text: message.text,
         type: message.type,
