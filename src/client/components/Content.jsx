@@ -155,14 +155,28 @@ export default class content extends Component {
     const url = prompt('视频格式：https://www.youtube.com/embed/xreEKuBBJFE');
     if (url) {
       // 确认
-      console.log(url);
-      // if(url.match(/https:\/\/www.youtube.com/embed\//))
-      this.handleMsgSubmit({
-        vedio: {
-          url,
-        },
-        type: 'vedio',
-      });
+      if (url.match(/www.youtube.com\/embed/)) {
+        // 如果格式正确
+        this.handleMsgSubmit({
+          vedio: {
+            url,
+          },
+          type: 'vedio',
+        });
+      } else if (url.match(/www.youtube.com\/watch\?v=/)) {
+        // 这个是视频格式
+        const indexOf = url.indexOf('=');
+        const vedioId = url.slice(indexOf + 1);
+        this.handleMsgSubmit({
+          vedio: {
+            url: `https://www.youtube.com/embed/${vedioId}`,
+          },
+          type: 'vedio',
+        });
+      } else {
+        // 无法识别
+        console.log('这个不是YouTube地址')
+      }
     }
   }
 
