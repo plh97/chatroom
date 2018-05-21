@@ -1,6 +1,7 @@
 // pkg
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import axios from 'axios';
 
 // local
 import Loading from './Loading/index';
@@ -84,18 +85,23 @@ export default class content extends Component {
       if (item && item.kind === 'file' && item.type.match(/^image\//i)) {
         const blob = item.getAsFile();
         const form = new FormData();
-        form.append('images', blob);
-        fetch('/upload', {
+        form.append('file', blob);
+        fetch('https://api.pipk.top/upload', {
           method: 'POST',
           body: form,
-        }).then(res => res.json()).then((json) => {
-          json.forEach((image) => {
-            this.handleMsgSubmit({
-              image,
-              type: 'image',
+        })
+          .then(res => res.json())
+          .then((json) => {
+            json.forEach((img) => {
+              this.handleMsgSubmit({
+                image: {
+                  name: img.name,
+                  url: img.url,
+                },
+                type: 'image',
+              });
             });
           });
-        });
       }
     }
   }
@@ -134,15 +140,20 @@ export default class content extends Component {
       Array.from(e.target.files)
         .filter(file => file.type && file.type.split('/')[0] === 'image')
         .forEach((file) => {
-          form.append('images', file, file.name);
+          form.append('file', file, file.name);
         });
-      fetch('/upload', {
-        method: 'POST',
-        body: form,
-      }).then(res => res.json()).then((rep) => {
+      axios({
+        method: 'post',
+        url: 'https://api.pipk.top/upload',
+        data: form,
+        withCredentials: 'true',
+      }).then((rep) => {
         rep.forEach((image) => {
           this.handleMsgSubmit({
-            image,
+            image: {
+              url: image.url,
+              name: image.name,
+            },
             type: 'image',
           });
         });
