@@ -142,22 +142,21 @@ export default class content extends Component {
         .forEach((file) => {
           form.append('file', file, file.name);
         });
-      axios({
-        method: 'post',
-        url: 'https://api.pipk.top/upload',
-        data: form,
-        withCredentials: 'true',
-      }).then((rep) => {
-        rep.forEach((image) => {
-          this.handleMsgSubmit({
-            image: {
-              url: image.url,
-              name: image.name,
-            },
-            type: 'image',
+      fetch('https://api.pipk.top/upload', {
+        method: 'POST',
+        body: form,
+      }).then(res => res.json())
+        .then((rep) => {
+          rep.forEach((image) => {
+            this.handleMsgSubmit({
+              image: {
+                url: image.url,
+                name: image.name,
+              },
+              type: 'image',
+            });
           });
         });
-      });
       input.remove();
     }, false);
   }
