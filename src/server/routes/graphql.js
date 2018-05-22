@@ -13,7 +13,10 @@ const Graphql = async (ctx) => {
       data,
     })
       .then(res => resolve(res.data))
-      .catch(err => reject(err));
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
   });
   ctx.body = await queryFunc(query);
 };
