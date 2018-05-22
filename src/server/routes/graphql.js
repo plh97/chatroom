@@ -14,8 +14,8 @@ const Graphql = async (ctx) => {
     })
       .then(res => resolve(res.data))
       .catch((err) => {
-        console.log(process.env.access_token);
         console.log(err);
+        console.log(process.env.access_token);
         reject(err);
       });
   });
