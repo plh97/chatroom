@@ -7,7 +7,7 @@ const Graphql = async (ctx) => {
       url: 'https://api.github.com/graphql',
       method: 'post',
       headers: {
-        Authorization: 'bearer b67d99aab4366e69043d787397b88a2df07da01f',
+        Authorization: `bearer ${process.env.access_token}`,
         'Content-Type': 'application/json',
       },
       data,
