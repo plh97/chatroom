@@ -12,8 +12,12 @@ const Graphql = async (ctx) => {
       },
       data,
     })
-      .then(res => resolve(res.data))
-      .catch((err) => {
+      .then((res) => {
+        resolve({
+          code: 200,
+          data: res.data,
+        });
+      }, (err) => {
         console.log(err);
         console.log(process.env.access_token);
         reject(err);
