@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { Model, Schema } = mongoose;
 const groupSchema = new Schema({
   group_name: { type: String, default: 'Moonlight' },
-  avatar_url: { type: String, default: 'https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40' },
+  avatar_url: { type: String, default: 'https://static.pipk.top/api/public/images/9212914842667803.png' },
   creator: { type: String, default: '' },
   memberList: [
     { type: String, default: '' },
