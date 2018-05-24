@@ -1,7 +1,7 @@
 // pkg
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import axios from 'axios';
+// import axios from 'axios';
 
 // local
 import Loading from './Loading/index';
@@ -36,7 +36,7 @@ export default class content extends Component {
       allHold('myInfo.groups', [{
         group_id: '',
         group_name: match.params.group_name,
-        avatar_url: 'https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40',
+        avatar_url: config.groupDefaultAvator,
       }]);
     }
     socket({

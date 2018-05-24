@@ -21,4 +21,7 @@ module.exports = {
   chromium: process.env.NODE_ENV === 'dev' ? 'C:/Users/33318/AppData/Local/Chromium/Application/chrome.exe' : 'beb866b2260c1881c515',
   canary: 'C:/Users/33318/AppData/Local/Google/Chrome SxS/Application/chrome.exe',
   phone: '18825142583',
+
+  groupDefaultAvator: 'https://static.pipk.top/api/public/images/6189594031421304.png',
+  personalDefaultAvator: 'https://static.pipk.top/api/public/images/8016654055335628.png',
 };

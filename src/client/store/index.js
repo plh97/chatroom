@@ -20,7 +20,7 @@ class TodoStore {
     groups: [{
       group_id: '',
       group_name: 'Moonlight',
-      avatar_url: 'https://assets.suisuijiang.com/group_avatar_default.jpeg?imageView2/2/w/40/h/40',
+      avatar_url: 'https://static.pipk.top/api/public/images/6189594031421304.png',
     }],
     status: 'offline',
   }

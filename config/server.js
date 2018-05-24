@@ -39,11 +39,4 @@ module.exports = {
   // New users use random avatars. You need to install ImageMagick first
   // 新建用户使用随机头像, 需要先安装ImageMagick
   useRandomAvatar: false,
-
-  // Default group avatar url.
-  // 默认群组头像链接
-  defaultGroupAvatar: 'https://assets.suisuijiang.com/group_avatar_default.jpeg',
-  // Default user avatar url. If use random avatar, you do not need this configuration
-  // 默认用户头像链接, 如果使用随机头像则不需要该项配置
-  defaultUserAvatar: 'https://assets.suisuijiang.com/group_avatar_default.jpeg',
 };
