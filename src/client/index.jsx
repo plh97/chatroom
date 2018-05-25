@@ -44,7 +44,7 @@ export default class Root extends Component {
                   <h1>欢迎光临Github聊天室</h1>
                   <p><Link to="/group">open github chat</Link></p>
                 </div>
-            )}
+              )}
             />
             <Route path="/group" component={AsyncApp} />
             <Route path="/githubReport/:name" component={GithubReport} />
