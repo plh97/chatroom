@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 
 // local
-import Avatar from './Avatar/index.jsx';
+import Avatar from './Avatar/index';
 
 @inject('store')
 @observer
@@ -22,33 +22,15 @@ export default class RoomDetails extends React.Component {
       {
         title: '管理员',
         onlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.user_id) >= 0)],
-        offlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.user_id) == -1)],
+        offlineUsers: [...group.administratorList.filter(e => onlineUsers.indexOf(e.user_id) === -1)],
       }, {
         title: '成员',
         onlineUsers: [...group.memberList.filter(e => onlineUsers.indexOf(e.user_id) >= 0)],
-        offlineUsers: [...group.memberList.filter(e => onlineUsers.indexOf(e.user_id) == -1)],
+        offlineUsers: [...group.memberList.filter(e => onlineUsers.indexOf(e.user_id) === -1)],
       },
     ];
     return (
       <div id="contentRoomDetails" className={`contentRoomDetails ${showRoomDetail ? 'show' : 'hide'}`}>
-        {/* <div className="showRoomDetailList">
-      <span className="title">群头像:</span>
-      <span className="avatarContainer">
-        <span className="avatar">
-          <div className='ant-badge'>
-            <Avatar
-              data-id={group._id}
-              src={group.avatar_url}
-              className="slideAvatar"
-              shape="square"
-              size="large" />
-          </div>
-          <span className="name">
-            {group.group_name}
-          </span>
-        </span>
-      </span>
-    </div> */}
         {group &&
           showRoomDetailListText.map((avatars, i) => (
             <div className="showRoomDetailList" key={i}>

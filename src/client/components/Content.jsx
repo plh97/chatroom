@@ -1,6 +1,7 @@
 // pkg
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import io from 'socket.io-client';
 // import axios from 'axios';
 
 // local
@@ -11,6 +12,7 @@ import RoomDetails from './RoomDetails';
 import { emoji } from '../../../config/client';
 import Avatar from './Avatar/index';
 
+const socket = io.connect({ secure: true });
 
 @inject('store')
 @observer
@@ -24,6 +26,52 @@ export default class content extends Component {
       type: 'text',
       url: 'send message',
     };
+    socket.on('send message', (json) => {
+      console.log('更新store 里面的message', json);
+      // Prism.highlightAll();
+      // this.scrollToBottom = true;
+      const lastdom = document.querySelector('.contentMessages').lastChild;
+      const wrapper = document.createElement('div');
+      const html = `
+        <div class="contentMessagesList me">
+          <div class="self-avatar avatar middle" data-id="${json.user_id}" id="showMoreUserInfo">
+            <img class="middle square" src="${json.avatar_url}" alt="头像">
+          </div>
+          <div class="containerContent">
+            <p class="messageTittle">
+              <span class="nameContainer">${json.user_name}</span>
+              <span class="timeContainer">${(new Date()).toLocaleString()}</span>
+            </p>
+            ${json.type === 'text' ? `<p class="messageContainer text">${json.text}</p>` : ''}
+            ${json.type === 'code' ? `
+              <pre style="overflow: auto" class="code messageContainer language-jsx">
+                <code class="language-jsx">
+                  ${json.code}
+                </code>
+              </pre>
+            ` : ''}
+            ${json.type === 'image' ? `<img class="messageContainer image" alt="聊天室图片" src="${json.image.url}">` : ''}
+            ${json.type === 'vedio' ? `
+              <iframe
+                title="youtube vedio"
+                src="${json.vedio.url}"
+                frameBorder="0"
+                allowFullScreen
+                class="messageContainer vedio"
+              />
+            ` : ''}
+          </div>
+        </div>
+      `;
+      wrapper.innerHTML = html;
+      const newDom = wrapper.querySelector('.contentMessagesList');
+
+      console.log('123213', json, newDom);
+      document.querySelector('.contentMessages').insertBefore(newDom, lastdom);
+      setTimeout(() => {
+        document.querySelector('#bottomInToView').scrollIntoView();
+      }, 0);
+    });
   }
 
   componentDidMount() {
@@ -284,7 +332,7 @@ export default class content extends Component {
             ref={(el) => { this.messagesEnd = el; }}
           />
         </div>
-        {myInfo.github.name &&
+        {myInfo.github.id &&
           <div className="contentFeature">
             <span className="emojiClick" id="emojiClick" aria-label="emojiclick" role="img">🙂</span>
             <div id="emojiContainer" className={showEmoji ? 'emojiContainer display' : 'emojiContainer none'}>
@@ -297,7 +345,7 @@ export default class content extends Component {
             <span className="picture" id="vedio" onClick={this.handleVedio} aria-label="vedio" role="img">🎥</span>
             <SublimeText handleMsgSubmit={this.handleMsgSubmit} />
           </div>}
-        {myInfo.github.name &&
+        {myInfo.github.id &&
           <form
             className="contentMessagesInputArea"
             onSubmit={(e) => {
@@ -316,7 +364,7 @@ export default class content extends Component {
             />
           </form>
         }
-        {!myInfo.github.name &&
+        {!myInfo.github.id &&
           <div className="contentFeature">
             <h2>
               请登录

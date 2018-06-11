@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 // local
-import Avatar from './Avatar/index.jsx';
+import Avatar from './Avatar/index';
 
 @inject('store')
 @observer

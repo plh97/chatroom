@@ -2,12 +2,12 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const	Clean = require('clean-webpack-plugin');
+const	CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // local
 const devWebpackConfig = require('./build/webpack.dev');
 const prodWebpackConfig = require('./build/webpack.prod');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWebpackConfig, {
   entry: {
@@ -18,6 +18,9 @@ module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWe
       'mobx-react',
       'react-router',
       'react-router-dom',
+      '@pengliheng/github-report',
+      'prismjs',
+      'lodash.debounce',
     ],
   },
   output: {
@@ -31,7 +34,7 @@ module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWe
       test: /(\.less|\.css)$/,
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: [ 'css-loader', 'postcss-loader', 'less-loader'],
+        use: ['css-loader', 'postcss-loader', 'less-loader'],
       }),
     }, {
       test: /\.(png|svg|jpg|gif)$/,
@@ -48,9 +51,9 @@ module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWe
       use: ['file-loader'],
     }],
   },
-  resolve: { extensions: ['.js', '.jsx'] },
+  resolve: { extensions: ['.js', '.jsx', '.json'] },
   plugins: [
-    new Clean(['dist']),
+    new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
       filename: 'index.[hash].css',
     }),
@@ -61,7 +64,13 @@ module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWe
   ],
   optimization: {
     splitChunks: {
-      name: 'vendor',
+      cacheGroups: {
+        commons: {
+          name: 'vender',
+          chunks: 'initial',
+          minChunks: 2,
+        },
+      },
     },
   },
 });

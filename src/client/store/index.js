@@ -15,6 +15,7 @@ class TodoStore {
     user_id: '',
     github: {
       name: '',
+      id: '',
       avatar_url: '',
     },
     groups: [{
@@ -104,15 +105,15 @@ class TodoStore {
       this.scrollToBottom = true;
     });
 
-    socket.on('send message', (json) => {
-      console.log('更新store 里面的message', json);
-      this.group.messageList.push(json);
-      Prism.highlightAll();
-      this.scrollToBottom = true;
-      setTimeout(() => {
-        document.querySelector('#bottomInToView').scrollIntoView();
-      }, 0);
-    });
+    // socket.on('send message', (json) => {
+    //   console.log('更新store 里面的message', json);
+    //   this.group.messageList.push(json);
+    //   Prism.highlightAll();
+    //   this.scrollToBottom = true;
+    //   setTimeout(() => {
+    //     document.querySelector('#bottomInToView').scrollIntoView();
+    //   }, 0);
+    // });
 
     socket.on('user detail', (json) => {
       console.log('用户详情', json);

@@ -27,8 +27,7 @@ export default class header extends Component {
           width="91px"
           height="20px"
           src="https://ghbtns.com/github-btn.html?user=pengliheng&repo=chatroom&type=star&count=true"
-        >
-        </iframe>
+        />
       </div>
     );
   }
