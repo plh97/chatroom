@@ -14,8 +14,14 @@ pandora start --name dashboard --env "DASHBORAD_PORT=8080 DASHBOARD_HOST=0.0.0.0
 ```
 to look backend [dashboard](http://pipk.top:9081/application/chatroom/stdout) -->
 
-### need to fixed BUG
-- [ ] 加载更多的时候整个页面重构，改成appendChild()形式。
+### TODO
+- [x] 加载更多的时候整个页面重构，改成appendChild()形式。
+- [ ] 切换页面的时候，滚动绑定没有了。
+- [ ] 加载更多动画效果有待优化
+- [ ] router切换像vue那样做淡入淡出效果。
+- [ ] 依赖包已经3m了，优化他吧，最要紧减小体积。
+
+
 
 
 
