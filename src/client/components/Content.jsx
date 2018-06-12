@@ -268,6 +268,7 @@ export default class content extends Component {
       // 确认
       let youtubeId = url.split('/');
       youtubeId = youtubeId[youtubeId.length - 1];
+      console.log(youtubeId);
       if (youtubeId.length === 11) {
         // 这个是视频格式
         this.handleMsgSubmit({

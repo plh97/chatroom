@@ -24,7 +24,8 @@ export default class header extends Component {
         <iframe
           frameBorder="0"
           scrolling="0"
-          width="91px"
+          width="80px"
+          className="github-iframe"
           height="20px"
           src="https://ghbtns.com/github-btn.html?user=pengliheng&repo=chatroom&type=star&count=true"
         />
