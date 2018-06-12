@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import debounce from 'lodash.debounce';
 
 // local
 import { composedPath } from './dom';
@@ -13,17 +12,6 @@ class Trigger extends Component {
   componentDidMount() {
     if (this.container.querySelector('.contentMessages')) {
       this.container.addEventListener('click', this.handleClick);
-      this.container.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 10));
-    }
-  }
-  handleScroll = (e) => {
-    const {
-      allHold, pageIndex,
-    } = this.props.store;
-    if (e.target.scrollTop < 80) {
-      setTimeout(() => {
-        allHold('pageIndex', pageIndex + 1);
-      }, 20);
     }
   }
   handleClick = (e) => {
@@ -61,7 +49,7 @@ class Trigger extends Component {
     // 是否显示房间细节
     if (path.filter(index => index.className === 'toggleDetail').length > 0) {
       allHold('showRoomDetail', !showRoomDetail);
-    } else if (path.filter(e => e.id === 'contentRoomDetails' || e.id === 'showMoreUserInfoContainer').length > 0) {
+    } else if (path.filter(ev => ev.id === 'contentRoomDetails' || ev.id === 'showMoreUserInfoContainer').length > 0) {
       //
     } else {
       allHold('showRoomDetail', false);

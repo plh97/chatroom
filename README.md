@@ -14,6 +14,12 @@ pandora start --name dashboard --env "DASHBORAD_PORT=8080 DASHBOARD_HOST=0.0.0.0
 ```
 to look backend [dashboard](http://pipk.top:9081/application/chatroom/stdout) -->
 
+### need to fixed BUG
+- [ ] 加载更多的时候整个页面重构，改成appendChild()形式。
+
+
+
+
 ### 贴图功能
 `Ctrl + v` 粘贴黏贴板里面的图片
 

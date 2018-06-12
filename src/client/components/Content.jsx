@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import io from 'socket.io-client';
+import Prism from 'prismjs';
+import debounce from 'lodash.debounce';
 // import axios from 'axios';
 
 // local
@@ -27,8 +29,6 @@ export default class content extends Component {
       url: 'send message',
     };
     socket.on('send message', (json) => {
-      console.log('更新store 里面的message', json);
-      // Prism.highlightAll();
       // this.scrollToBottom = true;
       const lastdom = document.querySelector('.contentMessages').lastChild;
       const wrapper = document.createElement('div');
@@ -65,11 +65,10 @@ export default class content extends Component {
       `;
       wrapper.innerHTML = html;
       const newDom = wrapper.querySelector('.contentMessagesList');
-
-      console.log('123213', json, newDom);
       document.querySelector('.contentMessages').insertBefore(newDom, lastdom);
       setTimeout(() => {
         document.querySelector('#bottomInToView').scrollIntoView();
+        Prism.highlightAll();
       }, 0);
     });
   }
@@ -93,6 +92,7 @@ export default class content extends Component {
       firstIn,
     });
     allHold('firstInner', false);
+    document.querySelector('.contentMessages').addEventListener('scroll', debounce(this.handleScroll, 50));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -105,6 +105,7 @@ export default class content extends Component {
   }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate');
     const container = document.querySelector('.contentMessages');
     if (container.children[8]) {
       setTimeout(() => {
@@ -113,7 +114,58 @@ export default class content extends Component {
     }
     window.Prism.highlightAll();
   }
-
+  // 处理监听事件
+  handleScroll = (e) => {
+    // 到顶，并且有足够数据来加载
+    const { allHold, pageIndex, group } = this.props.store;
+    if (e.target.scrollTop < 80 && this.props.store.group.messageList.length > 10) {
+      const len = group.messageList.length;
+      const c = document.createDocumentFragment();
+      group.messageList.slice(len - ((pageIndex + 1) * 10), len - (pageIndex * 10))
+        .forEach((json) => {
+          // this.scrollToBottom = true;
+          const wrapper = document.createElement('div');
+          const html = `
+            <div class="contentMessagesList me">
+              <div class="self-avatar avatar middle" data-id="${json.user_id}" id="showMoreUserInfo">
+                <img class="middle square" src="${json.avatar_url}" alt="头像">
+              </div>
+              <div class="containerContent">
+                <p class="messageTittle">
+                  <span class="nameContainer">${json.user_name}</span>
+                  <span class="timeContainer">${(new Date()).toLocaleString()}</span>
+                </p>
+                ${json.type === 'text' ? `<p class="messageContainer text">${json.text}</p>` : ''}
+                ${json.type === 'code' ? `
+                  <pre style="overflow: auto" class="code messageContainer language-jsx">
+                    <code class="language-jsx">
+                      ${json.code}
+                    </code>
+                  </pre>
+                ` : ''}
+                ${json.type === 'image' ? `<img class="messageContainer image" alt="聊天室图片" src="${json.image.url}">` : ''}
+                ${json.type === 'vedio' ? `
+                  <iframe
+                    title="youtube vedio"
+                    src="${json.vedio.url}"
+                    frameBorder="0"
+                    allowFullScreen
+                    class="messageContainer vedio"
+                  />
+                ` : ''}
+              </div>
+            </div>
+          `;
+          wrapper.innerHTML = html;
+          c.appendChild(wrapper.querySelector('.contentMessagesList'));
+        });
+      // 当前页数+1
+      const lastdom = document.querySelector('.contentMessages .loading').nextElementSibling;
+      document.querySelector('.contentMessages').insertBefore(c, lastdom);
+      allHold('pageIndex', pageIndex + 1);
+    }
+  }
+  // 监听剪切板函数
   pasteFile = (e) => {
     const clipboardData = e.clipboardData || window.clipboardData;
     let i = 0;
@@ -153,6 +205,7 @@ export default class content extends Component {
       }
     }
   }
+  // 真正发消息函数，运用socket技术
   handleMsgSubmit = (e) => {
     const {
       myInfo,
@@ -177,7 +230,7 @@ export default class content extends Component {
     allHold('showCodeEdit', false);
     allHold('showEmoji', false);
   }
-
+  // 上传图片函数
   handleImage = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -208,26 +261,18 @@ export default class content extends Component {
       input.remove();
     }, false);
   }
-
+  // 上传youtube视频函数
   handleVedio = () => {
     const url = prompt('视频格式：https://www.youtube.com/embed/xreEKuBBJFE');
     if (url) {
       // 确认
-      if (url.match(/www.youtube.com\/embed/)) {
-        // 如果格式正确
-        this.handleMsgSubmit({
-          vedio: {
-            url,
-          },
-          type: 'vedio',
-        });
-      } else if (url.match(/www.youtube.com\/watch\?v=/)) {
+      let youtubeId = url.split('/');
+      youtubeId = youtubeId[youtubeId.length - 1];
+      if (youtubeId.length === 11) {
         // 这个是视频格式
-        const indexOf = url.indexOf('=');
-        const vedioId = url.replace(/watch\?v=/, 'embed/');
         this.handleMsgSubmit({
           vedio: {
-            url: `https://www.youtube.com/embed/${vedioId}`,
+            url: `https://www.youtube.com/embed/${youtubeId}`,
           },
           type: 'vedio',
         });
@@ -241,16 +286,6 @@ export default class content extends Component {
   scrollToBottom = (data) => {
     this.messagesEnd.scrollIntoView(data);
   }
-
-  timesCalc = (() => {
-    let PRIVATE = 0;
-    return {
-      inc: () => {
-        PRIVATE += 1;
-        return PRIVATE;
-      },
-    };
-  })();
 
   render() {
     const { match } = this.props;
@@ -269,9 +304,9 @@ export default class content extends Component {
         key={match.params.group_name}
       >
         <RoomDetails />
-        <div className="contentMessages" refs="contentMessages">
+        <div className="contentMessages" refs="contentMessages" ref={(e) => { this.container = e; }}>
           <Loading className="contentMessagesWait" />
-          {group && group.messageList.slice(group.messageList.length - (pageIndex * 10)).map((post, i) => (
+          {group && group.messageList.slice(group.messageList.length - 10).map((post, i) => (
             <div className={`contentMessagesList ${post.user_name === myInfo.github.name ? 'me' : 'other'}`} key={i}>
               <Avatar
                 data-id={post.user_id}

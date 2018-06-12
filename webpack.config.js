@@ -9,7 +9,19 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const devWebpackConfig = require('./build/webpack.dev');
 const prodWebpackConfig = require('./build/webpack.prod');
 
+
+function resolve(dir) {
+  return path.join(__dirname, '..', dir);
+}
+
 module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWebpackConfig, {
+  context: __dirname,
+  resolve: {
+    extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      '@': resolve('src'),
+    },
+  },
   entry: {
     app: './src/client/index.jsx',
     vender: [
@@ -51,7 +63,6 @@ module.exports = env => merge(env.NODE_ENV === 'dev' ? devWebpackConfig : prodWe
       use: ['file-loader'],
     }],
   },
-  resolve: { extensions: ['.js', '.jsx', '.json'] },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
