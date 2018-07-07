@@ -48,4 +48,3 @@ demo：[自动生成的一份github报告](https://chat.pipk.top/githubReport/pe
 
 ### 视频粘贴（youtube）
 暂时只做YouTube视频，默认你翻墙了，没梯子找我要。
-![](https://static.pipk.top/chat/public/43023493822484316.png)
