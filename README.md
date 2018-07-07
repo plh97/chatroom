@@ -7,12 +7,16 @@
 ## chatroom
 
 ### 技术栈
-socket.io(nameSpace divide room) + react16 + webpack4
+- 前台：react+react-router+mobx（在控制台console.log(store)就能看到全局状态数据）
+- 后台：[socket.io](https://socket.io/)建立websock链接,关于原理可以看[http](https://nodejs.org/api/http.html#http_event_upgrade)模块的api，有关于如何建立websocket连接的教程+[mongodb](https://www.mongodb.com/cn)数据库存储数据用的。
 
 <!-- ```
 pandora start --name dashboard --env "DASHBORAD_PORT=8080 DASHBOARD_HOST=0.0.0.0" --npm pandora-dashboard
 ```
 to look backend [dashboard](http://pipk.top:9081/application/chatroom/stdout) -->
+
+
+
 
 ### TODO
 - [x] 加载更多的时候整个页面重构，改成appendChild()形式。
