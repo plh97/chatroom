@@ -40,9 +40,10 @@ export default class Root extends Component {
               exact
               path="/"
               render={() => (
-                <div>
+                <div className="dashboard">
                   <h1>欢迎光临Github聊天室</h1>
-                  <p><Link to="/group">open github chat</Link></p>
+                  <Link to="/group/Moonlight">进入聊天室</Link>
+                  <Link to="/githubReport/pengliheng">看看我的Github分析报告</Link>
                 </div>
               )}
             />

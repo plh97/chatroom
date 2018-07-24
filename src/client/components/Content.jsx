@@ -117,7 +117,7 @@ export default class content extends Component {
   // 处理监听事件
   handleScroll = (e) => {
     // 到顶，并且有足够数据来加载
-    const { allHold, pageIndex, group } = this.props.store;
+    const { allHold, pageIndex, group,myInfo } = this.props.store;
     if (e.target.scrollTop < 80 && this.props.store.group.messageList.length > 10) {
       const len = group.messageList.length;
       const c = document.createDocumentFragment();
@@ -126,7 +126,7 @@ export default class content extends Component {
           // this.scrollToBottom = true;
           const wrapper = document.createElement('div');
           const html = `
-            <div class="contentMessagesList me">
+            <div class="contentMessagesList ${json.user_name === myInfo.github.name ? 'me' : 'other'}">
               <div class="self-avatar avatar middle" data-id="${json.user_id}" id="showMoreUserInfo">
                 <img class="middle square" src="${json.avatar_url}" alt="头像">
               </div>

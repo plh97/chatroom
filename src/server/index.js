@@ -14,7 +14,7 @@ const config = require('../../config/server');
 const { getCookie, getUrl } = require('./utils/get');
 
 // app
-const port = process.env.PORT || config.port;
+const port = 8002;
 // const datebase = config.proDatabase.gigs
 const datebase = config.proDatabase.tencent;
 const server = http.createServer(app.callback());
