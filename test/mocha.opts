@@ -1,4 +1,0 @@
-./test/demo.test.js
---require babel-polyfill 
---require babel-register
--w
