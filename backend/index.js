@@ -1,90 +1,41 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const jwt = require('jsonwebtoken');
-const cors = require('cors')
-var cookieParser = require('cookie-parser')
-const app = express()
-const port = process.env.PORT || 9002
-const privateKey = process.env.PRIVATE_KEY || String(Math.random())
+const Koa = require('koa');
+const jwt = require('koa-jwt');
+const path = require('path');
+const json = require('koa-json');
+const cors = require('@koa/cors');
+// const koaSend = require('koa-send');
+const logger = require('koa-logger');
+const kosStatic = require('koa-static');
+const bodyparser = require('koa-bodyparser');
+const allRouter = require('./routes/index.js');
+const { privateKey } = require('./config');
+require('./mongo')
 
-app.use(cookieParser())
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  if (req.headers.origin) {
-    res.setHeader('Access-Control-Allow-Origin', req.headers.origin)
-  }
-  res.setHeader('Access-Control-Allow-Headers', 'Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Access-Control-Request-Headers, Access-Control-Request-Method, Connection, Host, Origin, User-Agent, Referer, Cache-Control, X-header')
-  next()
-})
+const app = new Koa();
+const port = process.env.PORT || 9002;
+const whiteList = ['/api/login', '/api/register']
 
-
-
-app.use(bodyParser.json()) // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
-const account = {}
-const tokenContainer = {}
-
-app.use(function (req, res, next) {
-  // check if client sent cookie
-  var cookie = req.cookies && req.cookies.token;
-  const whiteList = ['/login', '/register']
-  if (whiteList.includes(req.url)) {
-    next();
-  } else {
-    if (tokenContainer[cookie]) {
-      // check token
-      jwt.verify(cookie, privateKey, function(err, token){
-        if (err) {
-          res.status(401)
-          res.send({
-            code: 1,
-            message: 'token verify error'
-          })
-          return
-        }
-        res.send({
-          code: 0,
-          message: 'token verify success',
-          data: {
-            username: token
-          }
-        })
-      });
-    } else {
-      res.status(401)
-      res.send({
-        message: 'not login'
-      })
-    }
-  }
-});
-
-app.post('/login', function (req, res) {
-  if (!req.body) return
-  const { username, password } = req.body
-  console.log(username, password)
-  if (username === '1' && password === '1') {
-    // pass
-    var token = jwt.sign(username, privateKey);
-    res.cookie('token', token, { maxAge: 900000, httpOnly: true });
-    console.log('cookie created successfully', token);
-    tokenContainer[token] = true
-    res.send({
-      token,
-      message: 'login success'
-    })
-  } else {
-    res.send({
-      message: 'password or username wrong'
-    })
-  }
-})
-
-app.get('/userinfo', function (req, res) {
-  var cookie = req.cookies.cookieName;
-  res.send({})
-})
+app
+  .use(logger())
+  .use(bodyparser())
+  .use(json())
+  .use(cors({
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    origin: 'http://localhost:3000',
+    credentials: true
+  }))
+  .use(kosStatic(path.resolve('./dist'), {
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    gzip: true,
+  }))
+  .use(
+    jwt({
+      secret: privateKey,
+      getToken: (ctx) => ctx.cookies.get('token')
+    }).unless({ path: whiteList })
+  )
+  .use(allRouter.routes())
+  .use(allRouter.allowedMethods())
 
 app.listen(port, () => {
   console.log(`listening at port ${port}`)

@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux'
 import userReducer from './user'
+import fetchReducer from './fetch'
+import messageReducer from './message'
 
 export default combineReducers({
-    // task: taskReducer,
+    message: messageReducer,
+    fetch: fetchReducer,
     user: userReducer,
 })
