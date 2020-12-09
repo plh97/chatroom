@@ -28,7 +28,7 @@ async function UserInfo(ctx) {
     }
 };
 
-async function QueryUserInfo(ctx) {
+async function GetUserImage(ctx) {
     const { username } = ctx.request.query
     if (username) {
         const userinfo = await UserModel.findOne({ username }).exec();
@@ -37,9 +37,7 @@ async function QueryUserInfo(ctx) {
             ctx.body = ({
                 code: 0,
                 message: 'get user info success!',
-                data: {
-                    image: userinfo.image
-                }
+                data: userinfo.image
             })
         } else {
             ctx.body = ({
@@ -122,5 +120,5 @@ module.exports = {
     Login,
     Register,
     UserInfo,
-    QueryUserInfo,
+    GetUserImage,
 }

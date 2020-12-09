@@ -12,8 +12,9 @@ const { privateKey } = require('./config');
 require('./mongo')
 
 const app = new Koa();
-const port = process.env.PORT || 9002;
-const whiteList = ['/api/login', '/api/register', '/api/queryUserInfo']
+const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
+const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
+const whiteList = ['/api/login', '/api/register', '/api/userImage']
 
 app
   .use(logger())
@@ -21,7 +22,7 @@ app
   .use(json())
   .use(cors({
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:' + FRONTEND_PORT,
     credentials: true
   }))
   .use(kosStatic(path.resolve('./dist'), {
@@ -37,6 +38,6 @@ app
   .use(allRouter.routes())
   .use(allRouter.allowedMethods())
 
-app.listen(port, () => {
-  console.log(`listening at port ${port}`)
+app.listen(BACKEND_PROT, () => {
+  console.log(`listening at port ${BACKEND_PROT}`)
 })

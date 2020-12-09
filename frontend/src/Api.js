@@ -1,3 +1,4 @@
+import { useToast } from '@chakra-ui/react';
 import Axios from 'axios'
 import store from './store'
 import { ACTION_TYPE } from './utils/constants';
@@ -20,7 +21,18 @@ axios.interceptors.request.use(function (config) {
 });
 axios.interceptors.response.use(function (response) {
     // store.dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
-    return response.data.data
+    const res = response.data
+    // const toast = useToast();
+    if(res.code===1) {
+        console.log({
+            title: "Warning.",
+            description: res.message,
+            status: "error",
+            position: "top",
+            duration: 1000,
+        })
+    }
+    return res.data
 }, (error) => {
     // Do something with request error
     store.dispatch({ type: ACTION_TYPE.FETCH_FAIL })
@@ -48,7 +60,7 @@ export default {
         method: 'get'
     }),
     getUserImage: (username) => axios({
-        url: '/queryUserInfo',
+        url: '/userImage',
         method: 'get',
         params: {
             username

@@ -20,7 +20,11 @@ services:
         command: "npm run start"
         environment: 
             PORT: "8080"
+<<<<<<< HEAD
             FRONTEND: frontend
+=======
+            FRONTEND_PORT: "9001"
+>>>>>>> dip(frontend): upload code and do it at home
         build:
             context: "./backend"
         volumes:
