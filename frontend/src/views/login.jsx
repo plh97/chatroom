@@ -56,13 +56,18 @@ export default function Login() {
     function handleRegister() {
         history.push('/register')
     }
+    async function handleInputUsername(e) {
+        setUsername(e.target.value)
+        const userinfo = await Api.getUserImage(e.target.value)
+        console.log(userinfo)
+    }
     return <div className="login" data-testid="login">
         <Wrapper>
             <>
                 <Title>Login</Title>
                 <FormControl id="username" isRequired>
                     <FormLabel>User Name</FormLabel>
-                    <Input type="text" autoComplete="true" autoFocus value={username} onChange={e => setUsername(e.target.value)} />
+                    <Input type="text" autoComplete="true" autoFocus value={username} onChange={handleInputUsername} />
                 </FormControl>
                 <FormControl id="password" isRequired>
                     <FormLabel>Password</FormLabel>

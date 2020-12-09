@@ -47,6 +47,13 @@ export default {
         url: '/userInfo',
         method: 'get'
     }),
+    getUserImage: (username) => axios({
+        url: '/queryUserInfo',
+        method: 'get',
+        params: {
+            username
+        }
+    }),
     sendMessage: data => axios({
         url: '/message',
         method: 'post',

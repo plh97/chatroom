@@ -13,7 +13,7 @@ require('./mongo')
 
 const app = new Koa();
 const port = process.env.PORT || 9002;
-const whiteList = ['/api/login', '/api/register']
+const whiteList = ['/api/login', '/api/register', '/api/queryUserInfo']
 
 app
   .use(logger())

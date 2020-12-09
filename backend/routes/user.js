@@ -12,22 +12,47 @@ async function UserInfo(ctx) {
         });
     })
     const userinfo = await UserModel.findOne({ username }).exec();
-    console.log(userinfo)
     if (userinfo) {
+        userinfo.password = undefined;
         ctx.body = ({
             code: 0,
             message: 'get user info success!',
-            data: {
-                username
-            }
+            data: userinfo
         })
     } else {
         ctx.body = ({
             code: 0,
             message: 'user info not found!',
-            data: {
-                username
-            }
+            data: null
+        })
+    }
+};
+
+async function QueryUserInfo(ctx) {
+    const { username } = ctx.request.query
+    if (username) {
+        const userinfo = await UserModel.findOne({ username }).exec();
+        if (userinfo) {
+            userinfo.password = undefined;
+            ctx.body = ({
+                code: 0,
+                message: 'get user info success!',
+                data: {
+                    image: userinfo.image
+                }
+            })
+        } else {
+            ctx.body = ({
+                code: 0,
+                message: 'user info not found!',
+                data: null
+            })
+        }
+    } else {
+        ctx.body = ({
+            code: 0,
+            message: 'please provide username',
+            data: null
         })
     }
 };
@@ -35,22 +60,20 @@ async function UserInfo(ctx) {
 async function Login(ctx) {
     if (!ctx.request.body) {
         return ctx.body = {
-            data: {},
+            data: null,
             code: 1,
             message: 'must provide username or password!'
         }
     }
     const { username, password } = ctx.request.body
     const userinfo = await UserModel.findOne({ username, password }).exec();
-    console.log(11, userinfo);
-    if (username === 'pengliheng' && password === 'ewqewq') {
+    if (userinfo) {
         var token = jwt.sign(username, privateKey);
         ctx.cookies.set('token', token, { maxAge: 3600000, httpOnly: true });
         console.log('cookie created successfully', token);
+        userinfo.password = undefined;
         ctx.body = ({
-            data: {
-                token
-            },
+            data: userinfo,
             code: 0,
             message: 'login success'
         })
@@ -65,7 +88,7 @@ async function Login(ctx) {
 async function Register(ctx) {
     if (!ctx.request.body) {
         return ctx.body = {
-            data: {},
+            data: null,
             code: 1,
             message: 'must provide username or password!'
         }
@@ -78,13 +101,15 @@ async function Register(ctx) {
             message: 'This account is already occupied!'
         })
     } else {
-        const data = await UserModel.saveOne({
+        const data = await UserModel.create({
             username,
-            password
+            password,
+            image: 'https://avatars3.githubusercontent.com/u/14355994?s=460&u=1f1d3a174d2e0f79bcd5379a4d832fa9d0777ff3&v=4'
         })
         var token = jwt.sign(username, privateKey);
         ctx.cookies.set('token', token, { maxAge: 3600000, httpOnly: true });
         console.log('cookie created successfully', token);
+        data.password = undefined;
         ctx.body = ({
             code: 0,
             message: 'Register account success',
@@ -96,5 +121,6 @@ async function Register(ctx) {
 module.exports = {
     Login,
     Register,
-    UserInfo
+    UserInfo,
+    QueryUserInfo,
 }
