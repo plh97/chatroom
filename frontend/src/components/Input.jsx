@@ -14,7 +14,7 @@ import Api from '../Api';
 export default function Input2() {
     const [message, setMessage] = useState('');
     const dispatch = useDispatch()
-    const userInfo = useSelector(state => state.user.userInfo)
+    const userInfo = useSelector(state => state.user)
     async function handleSendMessage() {
         if (message) {
             const msgBody = {

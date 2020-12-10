@@ -16,13 +16,13 @@ async function UserInfo(ctx) {
         userinfo.password = undefined;
         ctx.body = ({
             code: 0,
-            message: 'get user info success!',
+            // message: 'get user info success!',
             data: userinfo
         })
     } else {
         ctx.body = ({
             code: 0,
-            message: 'user info not found!',
+            // message: 'user info not found!',
             data: null
         })
     }
@@ -36,20 +36,17 @@ async function GetUserImage(ctx) {
             userinfo.password = undefined;
             ctx.body = ({
                 code: 0,
-                message: 'get user info success!',
                 data: userinfo.image
             })
         } else {
             ctx.body = ({
-                code: 0,
-                message: 'user info not found!',
+                code: 1,
                 data: null
             })
         }
     } else {
         ctx.body = ({
             code: 0,
-            message: 'please provide username',
             data: null
         })
     }

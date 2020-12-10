@@ -41,15 +41,20 @@ export default function Register() {
             })
             return
         }
-        dispatch({ type: ACTION_TYPE.FETCH_START })
-        await Api.register({
+        // dispatch({ type: ACTION_TYPE.FETCH_START })
+        const userinfo = await Api.register({
             username,
             password
         })
-        dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
+        // dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
         dispatch({
             type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: ''
+            payload: userinfo
+        })
+        const message = await Api.getMessage()
+        dispatch({
+            type: ACTION_TYPE.INITIAL_MESSAGE,
+            payload: message
         })
     }
     function handleLogin() {

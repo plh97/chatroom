@@ -6,9 +6,9 @@ import {
 import { useSelector } from 'react-redux'
 
 export default function Header() {
-    let userInfo = useSelector(state => state.user.userInfo)
+    let userInfo = useSelector(state => state.user)
     return <div className="App-Header" data-testid="header" >
-        <Avatar name={userInfo.username} />
+        <Avatar name={userInfo.image} />
         {userInfo.username}
     </div>
 }

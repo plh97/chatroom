@@ -80,4 +80,11 @@
 2020/12/09 06:11:11 [error] 7#7: *7 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /favicon.ico HTTP/1.1", upstream: "http://172.22.0.4:8080/favicon.ico", host: "localhost:9002", referrer: "http://localhost:9002/"
 2020/12/09 06:11:11 [error] 7#7: *7 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET / HTTP/1.1", upstream: "http://172.22.0.4:8080/", host: "localhost:9002"
 2020/12/09 06:11:11 [error] 7#7: *7 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /favicon.ico HTTP/1.1", upstream: "http://172.22.0.4:8080/favicon.ico", host: "localhost:9002", referrer: "http://localhost:9002/"
+<<<<<<< HEAD
 >>>>>>> dip(frontend): upload code and do it at home
+=======
+2020/12/10 09:38:46 [error] 6#6: *5332 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /api/userInfo HTTP/1.1", upstream: "http://172.22.0.2:8080/api/userInfo", host: "localhost:9002", referrer: "http://localhost:9001/"
+2020/12/10 09:38:46 [error] 6#6: *5352 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /api/userImage?username=peng HTTP/1.1", upstream: "http://172.22.0.2:8080/api/userImage?username=peng", host: "localhost:9002", referrer: "http://localhost:9001/"
+2020/12/10 09:38:48 [error] 6#6: *5352 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /api/userInfo HTTP/1.1", upstream: "http://172.22.0.2:8080/api/userInfo", host: "localhost:9002", referrer: "http://localhost:9001/"
+2020/12/10 09:38:48 [error] 6#6: *5352 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: 0.0.0.0, request: "GET /api/userImage?username=peng HTTP/1.1", upstream: "http://172.22.0.2:8080/api/userImage?username=peng", host: "localhost:9002", referrer: "http://localhost:9001/"
+>>>>>>> dip(frontend): store code

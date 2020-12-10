@@ -4,24 +4,26 @@ import FrontendAuth from './components/FrontendAuth'
 import store from './store'
 import './App.styl';
 import {
-  HashRouter as Router,
-  Switch,
-  Route,
+    HashRouter as Router,
+    Switch,
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react"
+import Loading from './components/Loading'
 
 function App() {
     return (
-    <Provider store={store}>
-      <Router>
-        <ChakraProvider className="App" data-testid="App">
-          <Switch>
-            <FrontendAuth />
-          </Switch>
-        </ChakraProvider>
-      </Router>
-    </Provider>
-  );
+        <Provider store={store}>
+            <Router>
+                <ChakraProvider className="App" data-testid="App">
+                    <Loading>
+                        <Switch>
+                            <FrontendAuth />
+                        </Switch>
+                    </Loading>
+                </ChakraProvider>
+            </Router>
+        </Provider>
+    );
 }
 
 export default App;

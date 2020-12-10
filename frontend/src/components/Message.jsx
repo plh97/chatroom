@@ -14,7 +14,7 @@ export default function Meaaage() {
     })
     return <div ref={scrollEl} className="App-Message" data-testid="message" >
         {message.map((m) => <div className="line" key={m._id}>
-            <Avatar name={m.user} />
+            <Avatar name={m.user} src={m.image} />
             <span className="content">{m.text}</span>
         </div>)}
     </div>
