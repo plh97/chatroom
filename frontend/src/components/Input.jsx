@@ -19,7 +19,7 @@ export default function Input2() {
         if (message) {
             const msgBody = {
                 text: message,
-                user: userInfo.username
+                user: userInfo._id
             }
             await Api.sendMessage(msgBody)
             dispatch({

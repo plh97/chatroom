@@ -6,7 +6,7 @@ const {
     GetUserImage
 } = require('./user.js');
 
-const { sendMessage, getMessage } = require('./message');
+const { sendMessage, getMessage, deleteMessage } = require('./message');
 
 module.exports = router
     .post('/login', Login)
@@ -15,3 +15,4 @@ module.exports = router
     .get('/userImage', GetUserImage)
     .get('/message', getMessage)
     .post('/message', sendMessage)
+    .delete('/message', deleteMessage)

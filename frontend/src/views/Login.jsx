@@ -62,10 +62,9 @@ export default function Login() {
             type: ACTION_TYPE.SAVE_USER_INFO,
             payload: userInfo
         })
-        const message = await Api.getMessage()
         dispatch({
             type: ACTION_TYPE.INITIAL_MESSAGE,
-            payload: message
+            payload: await Api.getMessage()
         })
     }
     function handleRegister() {

@@ -89,5 +89,10 @@ export default {
     getMessage: () => axios({
         url: '/message',
         method: 'get',
+    }),
+    deleteMessage: data => axios({
+        url: '/message',
+        method: 'delete',
+        data
     })
 }

@@ -1,15 +1,18 @@
-const { Schema, Model, model } = require('mongoose')
+const { Schema, Model, model, ObjectId } = require('mongoose')
 
 const schema = new Schema({
     image: String,
     text: String,
-    user: String,
+    user: {type: String, ref: 'User'},
     isRead: Boolean
 });
 
 class ModelClass extends Model {
-    static saveOne(body) {
-        return this.create(body);
+    // static saveOne(body) {
+    //     return this.create(body);
+    // }
+    static findAndReplaceUserInfo() {
+        return this.find({}).populate('User').exec()
     }
 }
 
