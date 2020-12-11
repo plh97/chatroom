@@ -3,6 +3,8 @@ version: "3.8"
 services:
 
     mongodb:
+        build:
+            context: "./mongodb"
         logging:
             driver: none
         image: mongo
@@ -11,7 +13,7 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: ewqewq
         volumes:
-            - ./mongodb:/data/db
+            - ./mongodb/db:/data/db
         networks:
             - back-tier
 
