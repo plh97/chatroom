@@ -1,0 +1,2 @@
+2020/12/11 13:48:33 [error] 8#8: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.24.0.1, server: 0.0.0.0, request: "GET / HTTP/1.1", upstream: "http://172.24.0.4:80/", host: "localhost:9001", referrer: "http://localhost:9001/"
+2020/12/11 13:48:34 [error] 8#8: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.24.0.1, server: 0.0.0.0, request: "GET /favicon.ico HTTP/1.1", upstream: "http://172.24.0.4:80/favicon.ico", host: "localhost:9001", referrer: "http://localhost:9001/"

@@ -1,0 +1,2 @@
+172.24.0.1 - - [11/Dec/2020:13:48:33 +0000] "GET / HTTP/1.1" 502 559 "http://localhost:9001/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "-"
+172.24.0.1 - - [11/Dec/2020:13:48:34 +0000] "GET /favicon.ico HTTP/1.1" 502 559 "http://localhost:9001/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36" "-"
