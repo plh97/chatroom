@@ -22,11 +22,7 @@ services:
         command: "npm run start"
         environment: 
             PORT: "8080"
-<<<<<<< HEAD
-            FRONTEND: frontend
-=======
             FRONTEND_PORT: "9001"
->>>>>>> dip(frontend): upload code and do it at home
         build:
             context: "./backend"
         volumes:
@@ -35,21 +31,21 @@ services:
             - gate-tier
             - back-tier
 
-    # frontend:
-    #     restart: always
-    #     # command: "yarn run start"
-    #     stdin_open: true
-    #     environment: 
-    #         CI: "true"
-    #         PORT: "80"
-    #         NODE_ENV: "development"
-    #         BASE_URL: ""
-    #     build:
-    #         context: "./frontend"
-    #     volumes:
-    #         - ./frontend/:/app
-    #     networks:
-    #         - gate-tier
+    frontend:
+        restart: always
+        # command: "yarn run start"
+        stdin_open: true
+        environment: 
+            CI: "true"
+            PORT: "80"
+            NODE_ENV: "development"
+            BASE_URL: ""
+        build:
+            context: "./frontend"
+        volumes:
+            - ./frontend/:/app
+        networks:
+            - gate-tier
 
     nginx:
         restart: always

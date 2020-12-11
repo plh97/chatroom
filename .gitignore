@@ -1,13 +1,6 @@
-# node.js
-#
 node_modules/
 yarn.lock
-yarn-error.log
 package-lock.json
-<<<<<<< HEAD
-demo.json
-
-mongodb/journal/
-=======
 mongodb/db/
->>>>>>> dip(frontend): store code
+*.log
+dist
