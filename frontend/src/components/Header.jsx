@@ -3,7 +3,6 @@ import './Header.less'
 import {
     Avatar,
     Button,
-    useToast
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from 'react-redux'
 import Api from '../Api'
@@ -19,13 +18,13 @@ const Wrapper = styled.div`
 `;
 
 const Content = styled.span`
-padding: 0 10px;
+    padding: 0 10px;
 `
 
 export default function Header() {
     let userInfo = useSelector(state => state.user)
+    let userInfoDetailSidebar = useSelector(state => state.layout.userInfoDetailSidebar)
     const dispatch = useDispatch();
-    const toast = useToast();
     async function handleLogout() {
         await Api.logout();
         dispatch({
@@ -33,8 +32,16 @@ export default function Header() {
             payload: null
         })
     }
+    function handleClick() {
+        dispatch({
+            type: ACTION_TYPE.SET_LAYOUT,
+            payload: {
+                userInfoDetailSidebar: !userInfoDetailSidebar
+            }
+        })
+    }
     return <Wrapper className="App-Header" data-testid="header" >
-        <Avatar name={userInfo.username} src={userInfo.image} />
+        <Avatar onClick={handleClick} name={userInfo.username} src={userInfo.image} />
         <Content>{userInfo.username}</Content>
         <Button colorScheme="teal" onClick={handleLogout}>Logout</Button>
     </Wrapper>

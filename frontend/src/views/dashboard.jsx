@@ -1,7 +1,8 @@
 import React from 'react'
+import Input from '../components/Input'
 import Header from '../components/Header'
 import Message from '../components/Message'
-import Input from '../components/Input'
+import UserDetailSidebar from '../components/UserDetailSidebar'
 import './Dashboard.less'
 
 export default function Dashboard() {
@@ -10,6 +11,7 @@ export default function Dashboard() {
             <Header />
             <Message />
             <Input />
+            <UserDetailSidebar />
         </div>
     </div>
 }

@@ -7,15 +7,6 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import Api from '../Api'
 import { ACTION_TYPE } from '../utils/constants'
-import styled from 'styled-components'
-
-const Wrapper = styled.div`
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    padding-bottom: 10px;
-`;
 
 export default function Meaaage() {
     const dispatch = useDispatch()
@@ -39,8 +30,7 @@ export default function Meaaage() {
                 <Button onClick={e => handleDelteMessage(m)}>Delete</Button>
                 <span className="content">{m.text}</span>
                 <Avatar name={m.user.username} src={m.user.image} />
-            </div>) :
-            (<div className="line" key={m._id}>
+            </div>) : (<div className="line" key={m._id}>
                 <Avatar name={m.user.username} src={m.user.image} />
                 <span className="content">{m.text}</span>
                 <Button onClick={e => handleDelteMessage(m)}>Delete</Button>
