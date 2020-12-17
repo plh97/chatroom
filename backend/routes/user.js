@@ -102,7 +102,7 @@ async function Register(ctx) {
             image: 'https://avatars3.githubusercontent.com/u/14355994?s=460&u=1f1d3a174d2e0f79bcd5379a4d832fa9d0777ff3&v=4'
         })
         var token = jwt.sign(username, privateKey);
-        ctx.cookies.set('token', token, { maxAge: 3600000, httpOnly: true });
+        ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
         console.log('cookie created successfully', token);
         data.password = undefined;
         ctx.body = ({
@@ -113,8 +113,17 @@ async function Register(ctx) {
     }
 }
 
+async function Logout(ctx) {
+    ctx.cookies.set('token', null);
+    ctx.body = ({
+        code: 0,
+        message: 'Logout success'
+    })
+}
+
 module.exports = {
     Login,
+    Logout,
     Register,
     UserInfo,
     GetUserImage,

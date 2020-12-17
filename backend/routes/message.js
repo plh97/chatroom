@@ -9,10 +9,11 @@ const getMessage = async (ctx) => {
 
 const sendMessage = async (ctx) => {
     const body = ctx.request.body
-    const res = await MessageModel.create(body)
+    const msg = await MessageModel.create(body)
+    const data = await MessageModel.findOne(msg).populate('user').exec()
     ctx.body = ({
         code: 0,
-        data: res
+        data
     })
 };
 

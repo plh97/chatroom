@@ -58,6 +58,7 @@ export default function Login() {
             password
         })
         // dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
+        if (!userInfo) return
         dispatch({
             type: ACTION_TYPE.SAVE_USER_INFO,
             payload: userInfo

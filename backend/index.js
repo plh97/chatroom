@@ -14,7 +14,7 @@ require('./mongo')
 const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
 const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
-const whiteList = ['/api/login', '/api/register', '/api/userImage']
+const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage']
 
 app
   .use(logger())

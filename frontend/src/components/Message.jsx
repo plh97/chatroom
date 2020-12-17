@@ -7,10 +7,20 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import Api from '../Api'
 import { ACTION_TYPE } from '../utils/constants'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    padding-bottom: 10px;
+`;
 
 export default function Meaaage() {
     const dispatch = useDispatch()
     let message = useSelector(state => state.message)
+    let userInfo = useSelector(state => state.user)
     const scrollEl = useRef(null);
     useEffect(() => {
         const el = scrollEl.current
@@ -24,10 +34,17 @@ export default function Meaaage() {
         })
     }
     return <div ref={scrollEl} className="App-Message" data-testid="message" >
-        {message.map((m) => <div className="line" key={m._id}>
-            <Avatar name={m.user} src={m.image} />
-            <span className="content">{m.text}</span>
-            <Button onClick={e => handleDelteMessage(m)}>delete</Button>
-        </div>)}
+        {message.map((m) => userInfo._id === m.user._id ?
+            (<div className="line reserve" key={m._id}>
+                <Button onClick={e => handleDelteMessage(m)}>Delete</Button>
+                <span className="content">{m.text}</span>
+                <Avatar name={m.user.username} src={m.user.image} />
+            </div>) :
+            (<div className="line" key={m._id}>
+                <Avatar name={m.user.username} src={m.user.image} />
+                <span className="content">{m.text}</span>
+                <Button onClick={e => handleDelteMessage(m)}>Delete</Button>
+            </div>)
+        )}
     </div>
 }
