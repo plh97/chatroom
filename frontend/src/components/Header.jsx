@@ -41,7 +41,7 @@ export default function Header() {
         })
     }
     return <Wrapper className="App-Header" data-testid="header" >
-        <Avatar onClick={handleClick} name={userInfo.username} src={userInfo.image} />
+        <Avatar className="avatar" onClick={handleClick} name={userInfo.username} src={userInfo.image} />
         <Content>{userInfo.username}</Content>
         <Button colorScheme="teal" onClick={handleLogout}>Logout</Button>
     </Wrapper>

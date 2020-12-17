@@ -1,18 +1,22 @@
-import React, { useEffect, useRef } from 'react'
-import './UserDetailSidebar.less'
+import React from 'react'
 import {
     Button,
     Avatar
 } from "@chakra-ui/react"
-import { useDispatch, useSelector } from 'react-redux'
-import Api from '../Api'
+import { useSelector } from 'react-redux'
+import './UserDetailSidebar.less'
 import { ACTION_TYPE } from '../utils/constants'
+import cs from 'classnames'
 
 export default function UserDetailSidebar() {
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     let userInfo = useSelector(state => state.user)
-    return <div className="App-UserDetailSidebar" data-testid="userDetailSidebar" >
-        {JSON.stringify(userInfo)}
-        <Avatar name={userInfo.username} src={userInfo.image} />
+    let userInfoDetailSidebar = useSelector(state => state.layout.userInfoDetailSidebar)
+    return <div className={cs('App-UserDetailSidebar', { active: userInfoDetailSidebar })} data-testid="userDetailSidebar" >
+        {/* {JSON.stringify(userInfo)} */}
+        <Avatar size="2xl" name={userInfo.username} src={userInfo.image} />
+        <p className="name">
+            name: {userInfo.username}
+        </p>
     </div>
 }
