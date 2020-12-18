@@ -1,11 +1,10 @@
 import React from 'react'
 import {
-    Button,
     Avatar
 } from "@chakra-ui/react"
 import { useSelector } from 'react-redux'
 import './UserDetailSidebar.less'
-import { ACTION_TYPE } from '../utils/constants'
+// import { ACTION_TYPE } from '../utils/constants'
 import cs from 'classnames'
 
 export default function UserDetailSidebar() {

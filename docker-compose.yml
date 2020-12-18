@@ -19,21 +19,23 @@ services:
 
     backend:
         restart: always
-        command: "npm run start"
+        # command: "npm run start"
         environment: 
             PORT: "8080"
             FRONTEND_PORT: "9001"
         build:
             context: "./backend"
         volumes:
-            - ./backend/:/app
+            - ./backend/:/app/
         networks:
             - gate-tier
             - back-tier
 
     frontend:
         restart: always
-        command: "yarn run start"
+        # command: 'ls'
+            # - "ls"
+            # - "yarn run start"
         stdin_open: true
         environment: 
             CI: "true"
@@ -43,7 +45,9 @@ services:
         build:
             context: "./frontend"
         volumes:
-            - ./frontend/:/app
+            - ./frontend/config/:/app/config/
+            - ./frontend/public/:/app/public/
+            - ./frontend/src/:/app/src/
         networks:
             - gate-tier
 
