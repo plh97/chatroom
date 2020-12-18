@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+
+    mongodb:
+        build:
+            context: "./mongodb"
+        logging:
+            driver: none
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: ewqewq
+        volumes:
+            - ./mongodb/db:/data/db
+        networks:
+            - back-tier
+
+    backend:
+        restart: always
+        command: "npm run start"
+        environment: 
+            PORT: "8080"
+            FRONTEND_PORT: "9001"
+        build:
+            context: "./backend"
+        volumes:
+            - ./backend/:/app
+        networks:
+            - gate-tier
+            - back-tier
+
+    frontend:
+        restart: always
+        command: "yarn run start"
+        stdin_open: true
+        environment: 
+            CI: "true"
+            PORT: "80"
+            NODE_ENV: "development"
+            BASE_URL: ""
+        build:
+            context: "./frontend"
+        volumes:
+            - ./frontend/:/app
+        networks:
+            - gate-tier
+
+    nginx:
+        restart: always
+        build:
+            context: "./nginx"
+        networks:
+            - gate-tier
+        volumes:
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./nginx:/var/log/nginx/
+        ports:
+            - "9001:80"
+            - "9002:8080"
+
+networks:
+    gate-tier:
+    back-tier:

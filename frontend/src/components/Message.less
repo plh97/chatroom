@@ -1,0 +1,19 @@
+.App-Message {
+    height: 100px;
+    flex: 1;
+    overflow: auto;
+    .line {
+        margin: 15px 20px;
+        display: flex;
+        .content {
+            margin: 0 10px;
+            padding: 10px;
+            max-width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 0px 5px 2px rgba(0, 21, 20, 0.1);
+        }
+        &.reserve {
+            justify-content: flex-end;
+        }
+    }
+}
