@@ -2,6 +2,6 @@ FROM node:13
 COPY . /app
 WORKDIR /app
 # RUN yarn add node-sass
-RUN yarn add 'react-dev-utils'
+RUN npm i
 RUN yarn
 # CMD [ "yarn", "run", "start" ]
