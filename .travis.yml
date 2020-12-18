@@ -6,6 +6,7 @@ addons:
       - docker-ce
 os: linux
 language: ruby
+dist: xenial
 
 services:
   - docker
