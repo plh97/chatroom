@@ -7,10 +7,7 @@ env:
   global:
     - DOCKER_COMPOSE_VERSION: 1.27.4
   matrix:
-    - TEST_DIR: "frontend"
-    - TEST_DIR: "backend"
-    - TEST_DIR: "mongodb"
-    - TEST_DIR: "nginx"
+    - TEST_DIR: "./"
 
 services:
   - docker
