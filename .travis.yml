@@ -1,35 +1,8 @@
----
-sudo: required
-
 env:
-  global:
-    - DOCKER_COMPOSE_VERSION: 1.27.4
-  matrix:
-    - TEST_DIR: "./"
-
-services:
-  - docker
+  - DOCKER_COMPOSE_VERSION=1.4.2
 
 before_install:
-  # Upgrade Docker Compose.
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  # Upgrade Docker.
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-
-before_script:
-  - cd $TEST_DIR
-
-script:
-  - ls
-
-  # Extra Docker Compose file for Traefik.
-  - |
-    if [ "${TEST_DIR}" == "traefik" ]; then
-      docker-compose -f traefik.yml up -d
-    fi
-  - docker-compose up -d
-  - docker-compose stop
