@@ -15,5 +15,5 @@ script:
     if [ "${TEST_DIR}" == "traefik" ]; then
       docker-compose -f traefik.yml up -d
     fi
-  - docker-compose up -d
+  - docker-compose up
   - docker-compose stop
