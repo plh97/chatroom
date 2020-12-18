@@ -4,6 +4,7 @@ addons:
   apt:
     packages:
       - docker-ce
+os: linux
 language: ruby
 
 services:
