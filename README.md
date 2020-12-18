@@ -1,3 +1,5 @@
+![](https://travis-ci.org/pengliheng/chatroom.svg?branch=develop)
+
 # Chatroom
 
 ## Run command
