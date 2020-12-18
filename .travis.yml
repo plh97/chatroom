@@ -1,8 +1,6 @@
 ---
 sudo: required
-language: node_js
-node_js:
-  - 12.13.0
+
 env:
   global:
     - DOCKER_COMPOSE_VERSION: 1.27.4
