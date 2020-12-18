@@ -5,10 +5,10 @@ env:
   global:
     - DOCKER_COMPOSE_VERSION: 1.14.0
   matrix:
-    - TEST_DIR: "flask"
-    - TEST_DIR: "php"
-    # - TEST_DIR: "symfony"
-    - TEST_DIR: "traefik"
+    - TEST_DIR: "frontend"
+    - TEST_DIR: "backend"
+    - TEST_DIR: "mongodb"
+    - TEST_DIR: "nginx"
 
 services:
   - docker
