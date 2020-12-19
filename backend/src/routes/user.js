@@ -38,13 +38,7 @@ async function SetUserInfo(ctx) {
             resolve(token);
         });
     })
-    if (usernameFromToken !== username) {
-        return ctx.body = ({
-            code: 0,
-            message: "you can not update other people user info"
-        })
-    }
-    const userinfo = await UserModel.updateOne({}, { $set: { image } });
+    const userinfo = await UserModel.updateOne({ username: usernameFromToken }, { $set: { image } });
     if (userinfo) {
         userinfo.password = undefined;
         ctx.body = ({

@@ -34,9 +34,7 @@ services:
 
     frontend:
         restart: always
-        # command: 'ls'
-            # - "ls"
-            # - "yarn run start"
+        command: 'yarn run start'
         stdin_open: true
         environment: 
             CI: "true"

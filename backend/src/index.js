@@ -6,41 +6,37 @@ const cors = require('@koa/cors');
 // const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const kosStatic = require('koa-static');
-const bodyparser = require('koa-bodyparser');
-const publicIp = require('public-ip');
+const koaBody = require("koa-body");
 const allRouter = require('./routes');
-const { privateKey } = require('./config');
+const { privateKey, frontendOrigin, backendOrigin } = require('./config');
 require('./mongo')
 
 const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
-const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
-const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage']
+const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage', '/static/WX20201219-181229@2x.png'];
 
-;(async function() {
-  app
-    .use(logger())
-    .use(bodyparser())
-    .use(json())
-    .use(cors({
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      origin: `http://${await publicIp.v4()}:${FRONTEND_PORT}`,
-      credentials: true
-    }))
-    .use(kosStatic(path.resolve('./dist'), {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      gzip: true,
-    }))
-    .use(
-      jwt({
-        secret: privateKey,
-        getToken: (ctx) => ctx.cookies.get('token')
-      }).unless({ path: whiteList })
-    )
-    .use(allRouter.routes())
-    .use(allRouter.allowedMethods())
-  
-  app.listen(BACKEND_PROT, () => {
-    console.log(`listening at port ${BACKEND_PROT}`)
-  })
-})()
+app
+  .use(logger())
+  .use(koaBody({ multipart: true }))
+  .use(json())
+  .use(cors({
+    origin: frontendOrigin,
+    credentials: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  }))
+  .use(kosStatic(path.resolve('static'), {
+    gzip: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  }))
+  .use(
+    jwt({
+      secret: privateKey,
+      getToken: (ctx) => ctx.cookies.get('token')
+    }).unless({ path: whiteList })
+  )
+  .use(allRouter.routes())
+  .use(allRouter.allowedMethods())
+
+app.listen(BACKEND_PROT, () => {
+  console.log(`listening at port ${BACKEND_PROT}`)
+})
