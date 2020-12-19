@@ -2,4 +2,4 @@ FROM node:12.13.0
 COPY . /app
 WORKDIR /app
 RUN yarn
-CMD [ "yarn","run","start" ]
+# CMD [ "yarn","run","start" ]

@@ -74,6 +74,16 @@ export default {
         url: '/userInfo',
         method: 'get'
     }),
+    setUserInfo: (data) => axios({
+        url: '/userInfo',
+        method: 'post',
+        data
+    }),
+    upload: (data) => axios({
+        url: '/upload',
+        method: 'post',
+        data
+    }),
     getUserImage: (username) => axios({
         url: '/userImage',
         method: 'get',

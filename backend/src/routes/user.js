@@ -3,7 +3,11 @@ const { privateKey } = require('../config');
 const user = require('../model/user');
 const UserModel = require('../model/user')
 
-async function UserInfo(ctx) {
+/**
+ * get user info through cookie
+ * @param {*} ctx
+ */
+async function GetUserInfo(ctx) {
     const cookie = ctx.cookies.get('token')
     const username = await new Promise((resolve, reject) => {
         jwt.verify(cookie, privateKey, (err, token) => {
@@ -16,14 +20,40 @@ async function UserInfo(ctx) {
         userinfo.password = undefined;
         ctx.body = ({
             code: 0,
-            // message: 'get user info success!',
             data: userinfo
         })
     } else {
         ctx.body = ({
+            code: 0
+        })
+    }
+};
+
+async function SetUserInfo(ctx) {
+    const { username, image } = ctx.request.body
+    const cookie = ctx.cookies.get('token')
+    const usernameFromToken = await new Promise((resolve, reject) => {
+        jwt.verify(cookie, privateKey, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
+        });
+    })
+    if (usernameFromToken !== username) {
+        return ctx.body = ({
             code: 0,
-            // message: 'user info not found!',
-            data: null
+            message: "you can not update other people user info"
+        })
+    }
+    const userinfo = await UserModel.updateOne({}, { $set: { image } });
+    if (userinfo) {
+        userinfo.password = undefined;
+        ctx.body = ({
+            code: 0,
+            data: userinfo
+        })
+    } else {
+        ctx.body = ({
+            code: 0
         })
     }
 };
@@ -125,6 +155,7 @@ module.exports = {
     Login,
     Logout,
     Register,
-    UserInfo,
+    GetUserInfo,
+    SetUserInfo,
     GetUserImage,
 }

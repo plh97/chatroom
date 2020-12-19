@@ -19,7 +19,7 @@ services:
 
     backend:
         restart: always
-        # command: "npm run start"
+        command: "npm run start"
         environment: 
             PORT: "8080"
             FRONTEND_PORT: "9001"
@@ -27,6 +27,7 @@ services:
             context: "./backend"
         volumes:
             - ./backend/:/app/
+            - ./backend/node_modules/
         networks:
             - gate-tier
             - back-tier
@@ -45,9 +46,8 @@ services:
         build:
             context: "./frontend"
         volumes:
-            - ./frontend/config/:/app/config/
-            - ./frontend/public/:/app/public/
-            - ./frontend/src/:/app/src/
+            - ./frontend/:/app/
+            - ./frontend/node_modules/
         networks:
             - gate-tier
 
