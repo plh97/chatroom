@@ -13,16 +13,16 @@ require('./mongo')
 
 const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
-const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage', '/static/WX20201219-181229@2x.png'];
+const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage', '/api/upload'];
 
 app
   .use(logger())
   .use(koaBody({ multipart: true }))
   .use(json())
   .use(cors({
-    origin: frontendOrigin,
+    // origin: frontendOrigin,
     credentials: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+    // maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
   .use(kosStatic(path.resolve('static'), {
     gzip: true,

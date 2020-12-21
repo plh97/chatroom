@@ -1,21 +1,25 @@
 const fs = require('fs');
-const UserModel = require('../model/user')
-const { privateKey, backendOrigin } = require('../config');
+const { backendOrigin } = require('../config');
 const path = require('path');
+const Mime = require('../utils/mime')
+const mime = new Mime();
 
 const Upload = async (ctx) => {
     const file = ctx.request.files.file;
-    fs.writeFile(path.resolve('static', 'image', file.name), file._writeStream, function() {
-        console.log(23)
-    })
-    console.log(
-        111,
-        file
-    )
-
+    console.log(file);
+    const ext = mime.getType(file.type);
+    const name = `${Math.random().toString().replace(/0./, '')}.${ext}`;
+    const newpath = path.resolve('static', 'image', name);
+    const topath = fs.createWriteStream(newpath);
+    const stream = await fs.createReadStream(file.path).pipe(topath);
+    await new Promise((resolve) => {
+        stream.on('finish', async () => {
+            resolve();
+        });
+    });
     ctx.body = {
         code: 0,
-        data: `${backendOrigin}/image/${file.name}`
+        data: `${await backendOrigin}/image/${name}`
     }
 };
 

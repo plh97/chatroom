@@ -27,7 +27,8 @@ services:
             context: "./backend"
         volumes:
             - ./backend/:/app/
-            - ./backend/node_modules/
+            - /app/node_modules/
+            - /app/static/
         networks:
             - gate-tier
             - back-tier
@@ -45,7 +46,7 @@ services:
             context: "./frontend"
         volumes:
             - ./frontend/:/app/
-            - ./frontend/node_modules/
+            - /app/node_modules/
         networks:
             - gate-tier
 
