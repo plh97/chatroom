@@ -86,6 +86,7 @@ async function Login(ctx) {
         }
     }
     const { username, password } = ctx.request.body
+    console.log(2123, username)
     const userinfo = await UserModel.findOne({ username, password }).exec();
     if (userinfo) {
         var token = jwt.sign(username, privateKey);

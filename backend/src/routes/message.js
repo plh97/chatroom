@@ -19,7 +19,9 @@ const sendMessage = async (ctx) => {
 
 const deleteMessage = async (ctx) => {
     const { _id } = ctx.request.body;
-    const res = await MessageModel.deleteOne({ _id });
+    const message = await MessageModel.findOne({ _id });
+    console.log(message, _id, ctx.request.body)
+    const res = await MessageModel.deleteOne(message);
     ctx.body = ({
         code: 0,
         data: res
