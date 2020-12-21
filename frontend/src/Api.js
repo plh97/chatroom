@@ -74,6 +74,16 @@ export default {
         url: '/userInfo',
         method: 'get'
     }),
+    setUserInfo: (data) => axios({
+        url: '/userInfo',
+        method: 'post',
+        data
+    }),
+    upload: (data) => axios({
+        url: '/upload',
+        method: 'post',
+        data
+    }),
     getUserImage: (username) => axios({
         url: '/userImage',
         method: 'get',
@@ -90,9 +100,9 @@ export default {
         url: '/message',
         method: 'get',
     }),
-    deleteMessage: data => axios({
+    deleteMessage: _id => axios({
         url: '/message',
         method: 'delete',
-        data
+        params: { _id }
     })
 }

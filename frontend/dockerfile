@@ -1,6 +1,6 @@
 FROM node:13
 COPY . /app
 WORKDIR /app
-# RUN yarn add node-sass
-RUN yarn
-CMD [ "yarn", "run", "start" ]
+# RUN mkdir -p /app/node_modules
+RUN yarn --silent
+# CMD [ "yarn","run","start" ]

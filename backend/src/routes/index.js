@@ -3,9 +3,11 @@ const {
     Login,
     Logout,
     Register,
-    UserInfo,
+    GetUserInfo,
+    SetUserInfo,
     GetUserImage
 } = require('./user.js');
+const { Upload } = require('./image.js');
 
 const { sendMessage, getMessage, deleteMessage } = require('./message');
 
@@ -13,7 +15,9 @@ module.exports = router
     .post('/login', Login)
     .post('/logout', Logout)
     .post('/register', Register)
-    .get('/userInfo', UserInfo)
+    .get('/userInfo', GetUserInfo)
+    .post('/userInfo', SetUserInfo)
+    .post('/upload', Upload)
     .get('/userImage', GetUserImage)
     .get('/message', getMessage)
     .post('/message', sendMessage)

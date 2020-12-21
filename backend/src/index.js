@@ -6,28 +6,27 @@ const cors = require('@koa/cors');
 // const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const kosStatic = require('koa-static');
-const bodyparser = require('koa-bodyparser');
-const allRouter = require('./routes/index.js');
+const koaBody = require("koa-body");
+const allRouter = require('./routes');
 const { privateKey } = require('./config');
 require('./mongo')
 
 const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
-const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
-const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage']
+const whiteList = ['/api/login', '/api/logout', '/api/register', '/api/userImage', '/api/upload'];
 
 app
   .use(logger())
-  .use(bodyparser())
+  .use(koaBody({ multipart: true }))
   .use(json())
   .use(cors({
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    origin: 'http://localhost:' + FRONTEND_PORT,
-    credentials: true
+    // origin: frontendOrigin,
+    credentials: true,
+    // maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
-  .use(kosStatic(path.resolve('./dist'), {
-    maxAge: 1000 * 60 * 60 * 24 * 7,
+  .use(kosStatic(path.resolve('static'), {
     gzip: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
   .use(
     jwt({

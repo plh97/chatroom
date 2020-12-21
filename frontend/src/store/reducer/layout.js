@@ -2,7 +2,7 @@ import {
     ACTION_TYPE
 } from '../../utils/constants'
 const initState = {
-    userInfoDetailSidebar: true
+    userInfoDetailSidebar: false
 }
 export default function layoutReducer(state = initState, action) {
     switch (action.type) {

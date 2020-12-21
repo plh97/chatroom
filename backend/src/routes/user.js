@@ -3,7 +3,11 @@ const { privateKey } = require('../config');
 const user = require('../model/user');
 const UserModel = require('../model/user')
 
-async function UserInfo(ctx) {
+/**
+ * get user info through cookie
+ * @param {*} ctx
+ */
+async function GetUserInfo(ctx) {
     const cookie = ctx.cookies.get('token')
     const username = await new Promise((resolve, reject) => {
         jwt.verify(cookie, privateKey, (err, token) => {
@@ -16,14 +20,35 @@ async function UserInfo(ctx) {
         userinfo.password = undefined;
         ctx.body = ({
             code: 0,
-            // message: 'get user info success!',
             data: userinfo
         })
     } else {
         ctx.body = ({
+            code: 0
+        })
+    }
+};
+
+async function SetUserInfo(ctx) {
+    const { username, image } = ctx.request.body
+    const cookie = ctx.cookies.get('token')
+    const usernameFromToken = await new Promise((resolve, reject) => {
+        jwt.verify(cookie, privateKey, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
+        });
+    })
+    await UserModel.updateOne({ username: usernameFromToken }, { $set: { image } });
+    const userinfo = await UserModel.findOne({ username: usernameFromToken })
+    if (userinfo) {
+        userinfo.password = undefined;
+        ctx.body = ({
             code: 0,
-            // message: 'user info not found!',
-            data: null
+            data: userinfo
+        })
+    } else {
+        ctx.body = ({
+            code: 0
         })
     }
 };
@@ -61,6 +86,7 @@ async function Login(ctx) {
         }
     }
     const { username, password } = ctx.request.body
+    console.log(2123, username)
     const userinfo = await UserModel.findOne({ username, password }).exec();
     if (userinfo) {
         var token = jwt.sign(username, privateKey);
@@ -125,6 +151,7 @@ module.exports = {
     Login,
     Logout,
     Register,
-    UserInfo,
+    GetUserInfo,
+    SetUserInfo,
     GetUserImage,
 }
