@@ -8,7 +8,7 @@ const logger = require('koa-logger');
 const kosStatic = require('koa-static');
 const koaBody = require("koa-body");
 const allRouter = require('./routes');
-const { privateKey, frontendOrigin, backendOrigin } = require('./config');
+const { privateKey } = require('./config');
 require('./mongo')
 
 const app = new Koa();

@@ -38,7 +38,8 @@ async function SetUserInfo(ctx) {
             resolve(token);
         });
     })
-    const userinfo = await UserModel.updateOne({ username: usernameFromToken }, { $set: { image } });
+    await UserModel.updateOne({ username: usernameFromToken }, { $set: { image } });
+    const userinfo = await UserModel.findOne({ username: usernameFromToken })
     if (userinfo) {
         userinfo.password = undefined;
         ctx.body = ({
