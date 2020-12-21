@@ -46,6 +46,7 @@ export default function Register() {
             username,
             password
         })
+        if (!userinfo) return;
         // dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
         dispatch({
             type: ACTION_TYPE.SAVE_USER_INFO,

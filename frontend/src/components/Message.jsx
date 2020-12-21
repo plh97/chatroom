@@ -27,7 +27,7 @@ export default function Meaaage() {
     return <div ref={scrollEl} className="App-Message" data-testid="message" >
         {message.map((m) => userInfo._id === m.user._id ?
             (<div className="line reserve" key={m._id}>
-                <Button onClick={e => handleDelteMessage(m)}>Recall</Button>
+                <Button onClick={e => handleDelteMessage(m._id)}>Recall</Button>
                 <span className="content">{m.text}</span>
                 <Avatar name={m.user.username} src={m.user.image} />
             </div>) : (<div className="line" key={m._id}>

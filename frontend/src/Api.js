@@ -100,9 +100,9 @@ export default {
         url: '/message',
         method: 'get',
     }),
-    deleteMessage: data => axios({
+    deleteMessage: _id => axios({
         url: '/message',
         method: 'delete',
-        data
+        params: { _id }
     })
 }
