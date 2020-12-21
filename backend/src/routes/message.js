@@ -1,9 +1,12 @@
 const MessageModel = require('../model/message')
 
 const getMessage = async (ctx) => {
+    const { page, pageSize } = ctx.request.query;
     ctx.body = {
         code: 0,
-        data: await MessageModel.findAndReplaceUserInfo()
+        data: await MessageModel.findAndReplaceUserInfo({
+            page, pageSize
+        })
     }
 };
 
