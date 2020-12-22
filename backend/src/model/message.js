@@ -10,13 +10,16 @@ const schema = new Schema({
 
 class ModelClass extends Model {
     static async findAndReplaceUserInfo({
-        page = 1,
+        index = 0,
         pageSize = 20
     }) {
-        return this
-            .find({})
-            .skip(await this.collection.count() - page * pageSize)
-            .limit(pageSize)
+        const totalCount = await this.collection.count();
+        if (totalCount == index) {
+            return []
+        }
+        return this.find({})
+            .skip(totalCount - pageSize - index > 0 ? totalCount - pageSize - index : 0)
+            .limit(totalCount - pageSize - index < 0 ? totalCount - index : Number(pageSize))
             .populate('user')
             .exec()
     }

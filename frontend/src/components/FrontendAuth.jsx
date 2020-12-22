@@ -12,24 +12,27 @@ export default function FrontendAuth(props) {
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
-            if (!userInfo) {
+            if (!userInfo.username) {
                 dispatch({ type: ACTION_TYPE.FETCH_START })
                 let newUserInfo = await Api.getUserInfo()
                 dispatch({
                     type: ACTION_TYPE.SAVE_USER_INFO,
                     payload: newUserInfo
                 })
-                const message = await Api.getMessage()
+                const data = await Api.getMessage()
                 dispatch({
-                    type: ACTION_TYPE.INITIAL_MESSAGE,
-                    payload: message
+                    type: ACTION_TYPE.ADD_MESSAGE,
+                    payload: {
+                        ...data,
+                        trigger: Math.random()
+                    }
                 })
                 dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
             }
         })()
-    }, [userInfo, dispatch])
+    }, [userInfo.trigger, userInfo, dispatch])
     // 如果已经登录
-    if (userInfo) {
+    if (userInfo.username) {
         if (props.location.pathname === '/login' || props.location.pathname === '/register') {
             return <Redirect to='/' />
         }
