@@ -11,22 +11,31 @@ import { ACTION_TYPE } from '../utils/constants';
 import Api from '../Api';
 
 export default function Input2() {
-    const [message, setMessage] = useState('');
+    const [text, setText] = useState('');
     const dispatch = useDispatch()
     const userInfo = useSelector(state => state.user)
     const input = useRef(null);
+    let message = useSelector(state => state.message.message)
+    let totalCount = useSelector(state => state.message.totalCount)
     async function handleSendMessage() {
-        if (message) {
+        if (text) {
             const data = {
-                text: message,
+                text,
                 user: userInfo._id
             }
             const msgBody = await Api.sendMessage(data)
             dispatch({
                 type: ACTION_TYPE.ADD_MESSAGE,
-                payload: msgBody
+                payload: {
+                    message: [
+                        ...message,
+                        msgBody
+                    ],
+                    totalCount: totalCount + 1,
+                    trigger: Math.random()
+                } 
             })
-            setMessage('')
+            setText('')
             input.current.focus();
         }
     }
@@ -42,8 +51,8 @@ export default function Input2() {
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
                 placeholder="Enter password"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
+                value={text}
+                onChange={e => setText(e.target.value)}
                 autoFocus
             />
             <InputRightElement width="4.5rem">

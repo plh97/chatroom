@@ -28,8 +28,7 @@ export default function Header() {
     async function handleLogout() {
         await Api.logout();
         dispatch({
-            type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: null
+            type: ACTION_TYPE.LOGOUT
         })
     }
     function handleClick() {

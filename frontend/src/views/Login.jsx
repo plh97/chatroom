@@ -61,11 +61,9 @@ export default function Login() {
         if (!userInfo) return
         dispatch({
             type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: userInfo
-        })
-        dispatch({
-            type: ACTION_TYPE.INITIAL_MESSAGE,
-            payload: await Api.getMessage()
+            payload: {
+                trigger: Math.random()
+            }
         })
     }
     function handleRegister() {
