@@ -50,12 +50,9 @@ export default function Register() {
         // dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
         dispatch({
             type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: userinfo
-        })
-        const message = await Api.getMessage()
-        dispatch({
-            type: ACTION_TYPE.INITIAL_MESSAGE,
-            payload: message
+            payload: {
+                trigger: Math.random()
+            }
         })
     }
     function handleLogin() {

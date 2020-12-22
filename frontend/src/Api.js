@@ -96,9 +96,10 @@ export default {
         method: 'post',
         data
     }),
-    getMessage: () => axios({
+    getMessage: (params) => axios({
         url: '/message',
         method: 'get',
+        params
     }),
     deleteMessage: _id => axios({
         url: '/message',
