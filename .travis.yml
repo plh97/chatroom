@@ -10,8 +10,8 @@ before_script:
   - docker-compose build
 
 script:
-  - docker-compose exec frontend yarn run start
-  - docker-compose exec backend yarn run start
+  - docker-compose exec chatroom_frontend yarn run start
+  - docker-compose exec chatroom_backend yarn run start
 
 after_script:
   # - docker-compose stop
