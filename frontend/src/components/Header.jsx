@@ -2,6 +2,7 @@ import React from 'react'
 import './Header.less'
 import {
     Avatar,
+    AvatarBadge,
     Button,
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,7 +41,10 @@ export default function Header() {
         })
     }
     return <Wrapper className="App-Header" data-testid="header" >
-        <Avatar className="avatar" onClick={handleClick} name={userInfo.username} src={userInfo.image} />
+        <Avatar className="avatar" onClick={handleClick} name={userInfo.username} src={userInfo.image}>
+            <AvatarBadge boxSize="1em" bg="green.500" />
+            {/* <AvatarBadge borderColor="papayawhip" bg="tomato" boxSize="1.25em" /> */}
+        </Avatar>
         <Content>{userInfo.username}</Content>
         <Button colorScheme="teal" onClick={handleLogout}>Logout</Button>
     </Wrapper>
