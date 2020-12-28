@@ -17,7 +17,13 @@ import Loading from './Loading';
 import { ACTION_TYPE } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 
+<<<<<<< HEAD
 export default function InputComponent() {
+=======
+export default function Input2() {
+    const [text, setText] = useState('');
+    const [images, setImages] = useState([]);
+>>>>>>> dip(frontend): save code
     const dispatch = useDispatch()
     const [text, setText] = useState('');
     const [images, setImages] = useState([]);
@@ -64,8 +70,14 @@ export default function InputComponent() {
             handleSendMessage()
         }
     }
+<<<<<<< HEAD
     function handlePaste($event) {
         if ($event.clipboardData.files.length > 0) {
+=======
+    const toast = useToast();
+    function handlePaste($event) {
+        if ($event.clipboardData.files.length) {
+>>>>>>> dip(frontend): save code
             if (images.length > 2) {
                 return toast({
                     title: "Warning.",
@@ -77,10 +89,16 @@ export default function InputComponent() {
             }
             const files = [...$event.clipboardData.files].map(file => {
                 return {
+<<<<<<< HEAD
                     raw: file,
                     _id: Math.random(),
                     url: URL.createObjectURL(file),
                     loading: true,
+=======
+                    ...file,
+                    _id: Math.random(),
+                    url: URL.createObjectURL(file),
+>>>>>>> dip(frontend): save code
                 }
             })
             setImages([
@@ -89,6 +107,7 @@ export default function InputComponent() {
             ])
         }
     }
+<<<<<<< HEAD
     useEffect(() => {
         (async () => {
             const form = new FormData();
@@ -113,6 +132,8 @@ export default function InputComponent() {
     function handleRemoveImage(data) {
         setImages(images.filter(img => img !== data))
     }
+=======
+>>>>>>> dip(frontend): save code
     return <div className="App-Input" data-testid="input" >
         <InputGroup size="md">
             <Input
@@ -120,7 +141,11 @@ export default function InputComponent() {
                 onPaste={handlePaste}
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
+<<<<<<< HEAD
                 pl={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}
+=======
+                pl={`${1 + 2.5 * images.length}rem`}
+>>>>>>> dip(frontend): save code
                 placeholder="Enter password"
                 value={text}
                 onChange={e => setText(e.target.value)}
@@ -133,6 +158,7 @@ export default function InputComponent() {
             </InputRightElement>
             {
                 images.length ?
+<<<<<<< HEAD
                     <InputLeftElement pl="0" pr="0" width={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}>
                         <HStack>
                             {images.map(image => <Box
@@ -149,6 +175,20 @@ export default function InputComponent() {
                                     />
                                 </Loading>
                                 <CloseButton onClick={e => handleRemoveImage(image)} className="close-btn" size="sm" />
+=======
+                    <InputLeftElement pl="0" pr="0" width={`${0 + 2 * images.length}rem`}>
+                        <HStack>
+                            {images.map(image => <Box
+                                borderWidth="1px"
+                                key={image._id}
+                            >
+                                <Image
+                                    objectFit="contain"
+                                    alt={image.url}
+                                    boxSize="2rem"
+                                    src={image.url}
+                                />
+>>>>>>> dip(frontend): save code
                             </Box>)}
                         </HStack>
                     </InputLeftElement> : ''
