@@ -18,6 +18,8 @@ import { ACTION_TYPE } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function InputComponent() {
+    const [text, setText] = useState('');
+    const [images, setImages] = useState([]);
     const dispatch = useDispatch()
     const [text, setText] = useState('');
     const [images, setImages] = useState([]);
@@ -64,6 +66,7 @@ export default function InputComponent() {
             handleSendMessage()
         }
     }
+    const toast = useToast();
     function handlePaste($event) {
         if ($event.clipboardData.files.length > 0) {
             if (images.length > 2) {
@@ -77,10 +80,9 @@ export default function InputComponent() {
             }
             const files = [...$event.clipboardData.files].map(file => {
                 return {
-                    raw: file,
+                    ...file,
                     _id: Math.random(),
                     url: URL.createObjectURL(file),
-                    loading: true,
                 }
             })
             setImages([
@@ -120,7 +122,7 @@ export default function InputComponent() {
                 onPaste={handlePaste}
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
-                pl={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}
+                pl={`${1 + 2.5 * images.length}rem`}
                 placeholder="Enter password"
                 value={text}
                 onChange={e => setText(e.target.value)}
