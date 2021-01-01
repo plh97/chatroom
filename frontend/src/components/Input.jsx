@@ -65,10 +65,13 @@ export default function InputComponent() {
         }
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
     function handlePaste($event) {
         if ($event.clipboardData.files.length > 0) {
 =======
     const toast = useToast();
+=======
+>>>>>>> feat(frontend): finish send image feature
     function handlePaste($event) {
 <<<<<<< HEAD
         if ($event.clipboardData.files.length) {
@@ -88,6 +91,7 @@ export default function InputComponent() {
             const files = [...$event.clipboardData.files].map(file => {
                 return {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     raw: file,
                     _id: Math.random(),
                     url: URL.createObjectURL(file),
@@ -97,6 +101,12 @@ export default function InputComponent() {
                     _id: Math.random(),
                     url: URL.createObjectURL(file),
 >>>>>>> dip(frontend): save code
+=======
+                    raw: file,
+                    _id: Math.random(),
+                    url: URL.createObjectURL(file),
+                    loading: true,
+>>>>>>> feat(frontend): finish send image feature
                 }
             })
             setImages([
@@ -107,6 +117,9 @@ export default function InputComponent() {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> feat(frontend): finish send image feature
     useEffect(() => {
         (async () => {
             const form = new FormData();
@@ -196,6 +209,7 @@ export default function InputComponent() {
                                 key={image._id}
                             >
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <Image
                                     objectFit="contain"
                                     alt={image.url}
@@ -205,6 +219,9 @@ export default function InputComponent() {
 >>>>>>> dip(frontend): save code
 =======
                                 <Loading isLoading={true}>
+=======
+                                <Loading size="sm" isLoading={image.loading}>
+>>>>>>> feat(frontend): finish send image feature
                                     <Image
                                         objectFit="contain"
                                         alt={image.url}
@@ -212,8 +229,12 @@ export default function InputComponent() {
                                         src={image.url}
                                     />
                                 </Loading>
+<<<<<<< HEAD
                                 <CloseButton onClick={e=>handleRemoveImage(image)} className="close-btn" size="sm" />
 >>>>>>> dip(frontend): save code
+=======
+                                <CloseButton onClick={e => handleRemoveImage(image)} className="close-btn" size="sm" />
+>>>>>>> feat(frontend): finish send image feature
                             </Box>)}
                         </HStack>
                     </InputLeftElement> : ''
