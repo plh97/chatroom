@@ -47,7 +47,7 @@ export default function UserDetailSidebar() {
     >
         <div className="sidebar" onClick={e=>e.stopPropagation()}>
             <input ref={inputFileRef} accept=".jpg,.png,.jpeg" type="file" name="" id="" onChange={handleUserInfoChange} />
-            <span className="avatar21" onClick={handleUploadImage} >
+            <span onClick={handleUploadImage} >
                 <Avatar size="2xl" name={userInfo.username} src={userInfo.image} />
             </span>
             <p className="name">
