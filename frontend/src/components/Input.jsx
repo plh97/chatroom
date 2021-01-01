@@ -122,7 +122,7 @@ export default function InputComponent() {
                 onPaste={handlePaste}
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
-                pl={`${1 + 2.5 * images.length}rem`}
+                pl={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}
                 placeholder="Enter password"
                 value={text}
                 onChange={e => setText(e.target.value)}
