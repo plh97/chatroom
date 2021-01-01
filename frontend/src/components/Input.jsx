@@ -17,9 +17,7 @@ import Loading from './Loading';
 import { ACTION_TYPE } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function Input2() {
-    const [text, setText] = useState('');
-    const [images, setImages] = useState([]);
+export default function InputComponent() {
     const dispatch = useDispatch()
     const [text, setText] = useState('');
     const [images, setImages] = useState([]);
@@ -66,7 +64,6 @@ export default function Input2() {
             handleSendMessage()
         }
     }
-    const toast = useToast();
     function handlePaste($event) {
         if ($event.clipboardData.files.length > 0) {
             if (images.length > 2) {
