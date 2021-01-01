@@ -27,7 +27,7 @@ export default function FrontendAuth(props) {
                         speed="0.65s"
                         emptyColor="gray.200"
                         color="blue.500"
-                        size="xl"
+                        size={props.size || 'xl'}
                     />
                 </Wrapper>
             }

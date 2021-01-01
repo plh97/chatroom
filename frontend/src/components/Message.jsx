@@ -34,8 +34,8 @@ export default function Meaaage() {
         dispatch({
             type: ACTION_TYPE.ADD_MESSAGE,
             payload: {
-                message: message.filter(msg=> msg._id!==id),
-                totalCount: totalCount-1
+                message: message.filter(msg => msg._id !== id),
+                totalCount: totalCount - 1
             }
         })
     }
@@ -44,7 +44,7 @@ export default function Meaaage() {
             index: message.length,
             pageSize: 20
         })
-        if (data.message.length ===0) {
+        if (data.message.length === 0) {
             setHasMessage(false)
         }
         dispatch({
@@ -54,13 +54,13 @@ export default function Meaaage() {
                     ...data.message,
                     ...message,
                 ],
-                totalCount: totalCount+20
+                totalCount: totalCount + 20
             }
         })
     }
     return <div ref={scrollEl} className="App-Message" data-testid="message" >
         <LoadMore>
-            {hasMessage ? 
+            {hasMessage ?
                 <Button onClick={handleGetMessage}>LOAD MORE</Button>
                 :
                 <span>No More Message</span>
@@ -69,7 +69,14 @@ export default function Meaaage() {
         {message.map((m) => userInfo._id === m.user._id ?
             (<div className="line reserve" key={m._id}>
                 <Button onClick={e => handleDelteMessage(m._id)}>Recall</Button>
-                <span className="content">{m.text}</span>
+                <div className="content">
+                    <div className="img">
+                        {m.images.map(img => <img src={img} alt="img" />)}
+                    </div>
+                    <span className="text">
+                        {m.text}
+                    </span>
+                </div>
                 <Avatar name={m.user.username} src={m.user.image} />
             </div>) : (<div className="line" key={m._id}>
                 <Avatar name={m.user.username} src={m.user.image} />

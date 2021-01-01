@@ -1,7 +1,7 @@
-const { Schema, Model, model, ObjectId } = require('mongoose')
+const { Schema, Model, model } = require('mongoose')
 
 const schema = new Schema({
-    image: String,
+    images: Array,
     text: String,
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     createTime: { type: Date, default: Date.now },
