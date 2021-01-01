@@ -8,18 +8,15 @@ import {
     Switch,
 } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react"
-import Loading from './components/Loading'
 
 function App() {
     return (
         <Provider store={store}>
             <Router>
                 <ChakraProvider className="App" data-testid="App">
-                    <Loading>
-                        <Switch>
-                            <FrontendAuth />
-                        </Switch>
-                    </Loading>
+                    <Switch>
+                        <FrontendAuth />
+                    </Switch>
                 </ChakraProvider>
             </Router>
         </Provider>

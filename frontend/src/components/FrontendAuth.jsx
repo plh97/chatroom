@@ -6,9 +6,11 @@ import Login from '../views/Login';
 import Register from '../views/Register';
 import Dashboard from '../views/Dashboard';
 import { ACTION_TYPE } from '../utils/constants';
+import Loading from './Loading'
 
 export default function FrontendAuth(props) {
     let userInfo = useSelector(state => state.user)
+    let fetchStatus = useSelector(state => state.fetch)
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
@@ -42,16 +44,21 @@ export default function FrontendAuth(props) {
         }
     }
     return (
-        <Switch>
-            <Route path="/register">
-                <Register />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
-            <Route path="/">
-                <Dashboard />
-            </Route>
-        </Switch>
+        <Loading
+            style={{ position: 'fixed', left: 0, top: 0 }}
+            isLoading={fetchStatus === ACTION_TYPE.FETCH_START}
+        >
+            <Switch>
+                <Route path="/register">
+                    <Register />
+                </Route>
+                <Route path="/login">
+                    <Login />
+                </Route>
+                <Route path="/">
+                    <Dashboard />
+                </Route>
+            </Switch>
+        </Loading>
     )
 }

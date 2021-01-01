@@ -5,15 +5,17 @@ import {
     InputRightElement,
     InputLeftElement,
     HStack,
+    CloseButton,
     Box,
     Image,
     Button,
     Input,
     useToast
 } from "@chakra-ui/react"
-import { useDispatch, useSelector } from 'react-redux';
-import { ACTION_TYPE } from '../utils/constants';
 import Api from '../Api';
+import Loading from './Loading';
+import { ACTION_TYPE } from '../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Input2() {
     const [text, setText] = useState('');
@@ -52,7 +54,7 @@ export default function Input2() {
     }
     const toast = useToast();
     function handlePaste($event) {
-        if ($event.clipboardData.files.length) {
+        if ($event.clipboardData.files.length > 0) {
             if (images.length > 2) {
                 return toast({
                     title: "Warning.",
@@ -75,6 +77,9 @@ export default function Input2() {
             ])
         }
     }
+    function handleRemoveImage(data) {
+        setImages(images.filter(img => img !== data))
+    }
     return <div className="App-Input" data-testid="input" >
         <InputGroup size="md">
             <Input
@@ -82,7 +87,7 @@ export default function Input2() {
                 onPaste={handlePaste}
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
-                pl={`${1 + 2.5 * images.length}rem`}
+                pl={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}
                 placeholder="Enter password"
                 value={text}
                 onChange={e => setText(e.target.value)}
@@ -95,18 +100,22 @@ export default function Input2() {
             </InputRightElement>
             {
                 images.length ?
-                    <InputLeftElement pl="0" pr="0" width={`${0 + 2 * images.length}rem`}>
+                    <InputLeftElement pl="0" pr="0" width={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}>
                         <HStack>
                             {images.map(image => <Box
-                                borderWidth="1px"
+                                className="image-box"
+                                borderWidth="0.1rem"
                                 key={image._id}
                             >
-                                <Image
-                                    objectFit="contain"
-                                    alt={image.url}
-                                    boxSize="2rem"
-                                    src={image.url}
-                                />
+                                <Loading isLoading={true}>
+                                    <Image
+                                        objectFit="contain"
+                                        alt={image.url}
+                                        boxSize="2rem"
+                                        src={image.url}
+                                    />
+                                </Loading>
+                                <CloseButton onClick={e=>handleRemoveImage(image)} className="close-btn" size="sm" />
                             </Box>)}
                         </HStack>
                     </InputLeftElement> : ''

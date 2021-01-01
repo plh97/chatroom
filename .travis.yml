@@ -7,11 +7,11 @@ before_script:
   - echo "Before Script:"
   - docker version
   - docker-compose version
-  - docker-compose build
 
 script:
-  - docker-compose exec chatroom_frontend yarn run start
-  - docker-compose exec chatroom_backend yarn run start
+  - docker-compose up --build -d
+  # - docker-compose exec chatroom_frontend yarn run start
+  # - docker-compose exec chatroom_backend yarn run start
 
 after_script:
   # - docker-compose stop
