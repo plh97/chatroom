@@ -1,0 +1,8 @@
+body {
+  background: #fff;
+  margin: 0;
+}
+.visible {
+  z-index: 11!important;
+  opacity: 1!important;
+}
