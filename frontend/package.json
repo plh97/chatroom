@@ -77,7 +77,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "codecov" : "codecov --token=656aa155-20fb-48b6-a47e-fc704e318ddd"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -95,6 +96,8 @@
     ]
   },
   "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
     "roots": [
       "<rootDir>/src"
     ],
