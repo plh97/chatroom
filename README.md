@@ -1,7 +1,6 @@
 # Chatroom
 
-## develop
-
+[![codeCov](https://codecov.io/gh/pengliheng/chatroom/branch/develop/graph/badge.svg)](https://codecov.io/gh/pengliheng/chatroom)
 [![Build Status](https://travis-ci.org/pengliheng/chatroom.svg?branch=develop)](https://travis-ci.org/pengliheng/chatroom)
 
 ## Run command
