@@ -16,3 +16,6 @@ script:
 after_script:
   # - docker-compose stop
   - docker-compose down
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 656aa155-20fb-48b6-a47e-fc704e318ddd
