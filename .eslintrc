@@ -6,6 +6,7 @@
     "browser": true
   },
   "rules": {
+    "indent": ["error", 4],
     "strict": 0,
     "jsx-a11y/anchor-is-valid": [ "error", {
       "components": [ "Link" ],

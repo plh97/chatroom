@@ -9,6 +9,7 @@ const schema = new Schema({
     wechat: String,
     github: String,
     permission: String,
+    room: [{ type: Schema.Types.ObjectId, ref: 'Room' }],
 });
 
 class ModelClass extends Model {

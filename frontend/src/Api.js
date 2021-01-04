@@ -105,6 +105,18 @@ const Api = {
         url: '/message',
         method: 'delete',
         params: { _id }
+    }),
+    addRoom: () => axios({
+        url: '/room',
+        method: 'put',
+    }),
+    deleteRoom: (id) => axios({
+        url: '/room' + id,
+        method: 'delete',
+    }),
+    editRoom: () => axios({
+        url: '/room',
+        method: 'put',
     })
 }
 

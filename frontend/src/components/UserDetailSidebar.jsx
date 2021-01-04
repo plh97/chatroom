@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import {
     Avatar
 } from "@chakra-ui/react"
@@ -51,8 +51,12 @@ export default function UserDetailSidebar() {
                 <Avatar size="2xl" name={userInfo.username} src={userInfo.image} />
             </span>
             <p className="name">
-                name: {userInfo.username}
+                Name: {userInfo.username}
             </p>
+            <h3 className="room-title">Room</h3>
+            <div className="room">
+                <span>{userInfo.room}</span>
+            </div>
         </div>
     </div>
 }
