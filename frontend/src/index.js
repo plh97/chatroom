@@ -5,7 +5,9 @@ import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <App />,
+  <span className="red">
+    <App />
+  </span>,
   document.getElementById('root')
 );
 
