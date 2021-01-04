@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './Input.less'
+import './Input.scss'
 import {
     InputGroup,
     InputRightElement,

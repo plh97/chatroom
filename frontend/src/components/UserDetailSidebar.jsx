@@ -3,7 +3,7 @@ import {
     Avatar
 } from "@chakra-ui/react"
 import { useSelector, useDispatch } from 'react-redux'
-import './UserDetailSidebar.less'
+import './UserDetailSidebar.scss'
 // import { ACTION_TYPE } from '../utils/constants'
 import cs from 'classnames'
 import Api from '../Api'

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './Message.less'
+import './Message.scss'
 import {
     Button,
     Avatar

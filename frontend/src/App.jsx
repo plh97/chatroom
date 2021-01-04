@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import FrontendAuth from './components/FrontendAuth'
 import store from './store'
-import './App.less';
+import './App.scss';
 import {
     HashRouter as Router,
     Switch,

@@ -1,5 +1,5 @@
 import React from 'react'
-import './Header.less'
+import './Header.scss'
 import {
     Avatar,
     AvatarBadge,
