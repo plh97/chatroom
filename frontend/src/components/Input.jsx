@@ -140,12 +140,6 @@ export default function InputComponent() {
                                 borderWidth="0.1rem"
                                 key={image._id}
                             >
-                                <Image
-                                    objectFit="contain"
-                                    alt={image.url}
-                                    boxSize="2rem"
-                                    src={image.url}
-                                />
                                 <Loading size="sm" isLoading={image.loading}>
                                     <Image
                                         objectFit="contain"
