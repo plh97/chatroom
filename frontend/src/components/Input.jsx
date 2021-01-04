@@ -64,7 +64,6 @@ export default function InputComponent() {
             handleSendMessage()
         }
     }
-    const toast = useToast();
     function handlePaste($event) {
         if ($event.clipboardData.files.length > 0) {
             if (images.length > 2) {
