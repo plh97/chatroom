@@ -5,7 +5,6 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@chakra-ui/react": "^1.0.1",
-    "@craco/craco": "^6.0.0",
     "@emotion/react": "^11.1.1",
     "@emotion/styled": "^11.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.2",
