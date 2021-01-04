@@ -54,7 +54,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error);
 })
 
-export default {
+const Api = {
     login: (data) => axios({
         url: '/login',
         method: 'post',
@@ -107,3 +107,5 @@ export default {
         params: { _id }
     })
 }
+
+export default Api;

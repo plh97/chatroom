@@ -1,7 +1,6 @@
 # Chatroom
 
-## develop
-
+[![codeCov](https://codecov.io/gh/pengliheng/chatroom/branch/develop/graph/badge.svg)](https://codecov.io/gh/pengliheng/chatroom)
 [![Build Status](https://travis-ci.org/pengliheng/chatroom.svg?branch=develop)](https://travis-ci.org/pengliheng/chatroom)
 
 ## Run command
@@ -23,7 +22,7 @@ code: 1 // fail
 - [ ] 第三方登录
 - [x] 向上加载更多消息
 - [ ] 表情包
-- [ ] 发送图片
+- [x] 发送图片
 - [ ] websocket
 - [ ] 房间
 - [ ] 语音发送
