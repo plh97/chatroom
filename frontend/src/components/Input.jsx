@@ -80,6 +80,7 @@ export default function InputComponent() {
                     raw: file,
                     _id: Math.random(),
                     url: URL.createObjectURL(file),
+                    loading: true,
                 }
             })
             setImages([
