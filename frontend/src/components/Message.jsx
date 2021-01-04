@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './Message.scss'
+import './Message.scoped.scss'
 import {
     Button,
     Avatar

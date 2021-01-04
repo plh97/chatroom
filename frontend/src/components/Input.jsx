@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import './Input.scss'
+import './Input.scoped.scss'
 import {
     InputGroup,
     InputRightElement,
