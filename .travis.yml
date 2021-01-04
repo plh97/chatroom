@@ -13,9 +13,9 @@ script:
   # - docker-compose exec chatroom_frontend yarn run start
   # - docker-compose exec chatroom_backend yarn run start
 
-after_script:
+after_success:
   # - docker-compose stop
   - docker-compose down
 
-after_success:
+after_script:
   - bash <(curl -s https://codecov.io/bash) -t 656aa155-20fb-48b6-a47e-fc704e318ddd
