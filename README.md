@@ -19,6 +19,7 @@ code: 1 // fail
 ## TODO
 
 - [x] 修改个人信息
+- [x] 添加 index.scoped.scss 局部样式
 - [ ] 第三方登录
 - [x] 向上加载更多消息
 - [ ] 表情包

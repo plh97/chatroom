@@ -1,6 +1,5 @@
 FROM node:13
 COPY . /app
 WORKDIR /app
-# RUN mkdir -p /app/node_modules
 RUN yarn --silent
 # CMD [ "yarn","run","start" ]
