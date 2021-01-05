@@ -10,4 +10,32 @@
             margin-left: 13px;
         }
     }
+    .search-result {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0px;
+        user-select: none;
+        cursor: pointer;
+        .title {
+            margin: 0 15px 10px;
+            font-weight: bold;
+        }
+        .divider {
+            margin: 0 15px;
+        }
+        .room-user, .line-user {
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .username {
+                flex: 1;
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+            &:hover {
+                background-color: #ccc;
+            }
+        }
+    }
 }

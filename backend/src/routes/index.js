@@ -5,7 +5,8 @@ const {
     Register,
     GetUserInfo,
     SetUserInfo,
-    GetUserImage
+    GetUserImage,
+    QueryUser
 } = require('./user.js');
 const { Upload } = require('./image.js');
 
@@ -16,6 +17,7 @@ module.exports = router
     .post('/logout', Logout)
     .post('/register', Register)
     .get('/userInfo', GetUserInfo)
+    .get('/user', QueryUser)
     .post('/userInfo', SetUserInfo)
     .post('/upload', Upload)
     .get('/userImage', GetUserImage)

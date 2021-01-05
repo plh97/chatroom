@@ -3,7 +3,7 @@ const { Schema, Model, model } = require('mongoose')
 const schema = new Schema({
     image: String,
     username: String,
-    password: String,
+    password: { type: String, required: true, select: false },
     bio: String,
     qq: String,
     wechat: String,

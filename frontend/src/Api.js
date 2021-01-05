@@ -91,6 +91,11 @@ const Api = {
             username
         }
     }),
+    queryUser: (params) => axios({
+        url: '/user',
+        method: 'get',
+        params
+    }),
     sendMessage: data => axios({
         url: '/message',
         method: 'post',

@@ -77,6 +77,23 @@ async function GetUserImage(ctx) {
     }
 };
 
+async function QueryUser(ctx) {
+    const { username } = ctx.request.query
+    if (username) {
+        const users = await UserModel.find({ username }).populate('room').exec();
+        ctx.body = {
+            code: users ? 0 : 1,
+            data: users ? users : []
+        }
+    } else {
+        ctx.body = ({
+            code: 1,
+            message: 'Please provide info to query user infomation.',
+            data: []
+        })
+    }
+};
+
 async function Login(ctx) {
     if (!ctx.request.body) {
         return ctx.body = {
@@ -86,12 +103,10 @@ async function Login(ctx) {
         }
     }
     const { username, password } = ctx.request.body
-    console.log(2123, username)
     const userinfo = await UserModel.findOne({ username, password }).exec();
     if (userinfo) {
         var token = jwt.sign(username, privateKey);
         ctx.cookies.set('token', token, { maxAge: 3600000, httpOnly: true });
-        console.log('cookie created successfully', token);
         userinfo.password = undefined;
         ctx.body = ({
             data: userinfo,
@@ -129,7 +144,6 @@ async function Register(ctx) {
         })
         var token = jwt.sign(username, privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
-        console.log('cookie created successfully', token);
         data.password = undefined;
         ctx.body = ({
             code: 0,
@@ -154,4 +168,5 @@ module.exports = {
     GetUserInfo,
     SetUserInfo,
     GetUserImage,
+    QueryUser,
 }
