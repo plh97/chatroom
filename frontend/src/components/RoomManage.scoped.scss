@@ -1,4 +1,13 @@
 .App-RoomManage {
     flex: 0 0 270px;
     border-right: 1px solid #e1e1e7;
+    .search-bar {
+        padding: 13px;
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid #e1e1e7;
+        .button {
+            margin-left: 13px;
+        }
+    }
 }

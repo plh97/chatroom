@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import Api from '../Api'
-import Login from '../views/Login';
-import Register from '../views/Register';
-import Dashboard from '../views/Dashboard';
-import { ACTION_TYPE } from '../utils/constants';
+import Api from '@/Api'
+import Login from '@/views/Login';
+import Register from '@/views/Register';
+import Dashboard from '@/views/Dashboard';
+import { ACTION_TYPE } from '@/utils/constants';
 import Loading from './Loading'
 
 export default function FrontendAuth(props) {

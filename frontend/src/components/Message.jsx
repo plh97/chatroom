@@ -5,8 +5,8 @@ import {
     Avatar
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from 'react-redux'
-import Api from '../Api'
-import { ACTION_TYPE } from '../utils/constants'
+import Api from '@/Api'
+import { ACTION_TYPE } from '@/utils/constants'
 import styled from 'styled-components'
 
 const LoadMore = styled.div`

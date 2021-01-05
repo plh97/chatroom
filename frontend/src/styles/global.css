@@ -1,11 +1,9 @@
 body {
-  background: #fff;
   margin: 0;
+  background: #fff;
+  overflow: hidden;
 }
 .visible {
   z-index: 11!important;
   opacity: 1!important;
-}
-.red {
-  
 }

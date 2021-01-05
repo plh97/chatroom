@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scoped.css';
+import '@/styles/global.css';
 import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <span className="red">
-    <App />
-  </span>,
+  <App />,
   document.getElementById('root')
 );
 

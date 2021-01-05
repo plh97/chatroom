@@ -12,9 +12,9 @@ import {
     Input,
     useToast
 } from "@chakra-ui/react"
-import Api from '../Api';
+import Api from '@/Api';
 import Loading from './Loading';
-import { ACTION_TYPE } from '../utils/constants';
+import { ACTION_TYPE } from '@/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function InputComponent() {
@@ -27,7 +27,7 @@ export default function InputComponent() {
     let totalCount = useSelector(state => state.message.totalCount)
     const toast = useToast();
     async function handleSendMessage() {
-        if (images.filter(img => img.loading).length>0) {
+        if (images.filter(img => img.loading).length > 0) {
             return toast({
                 title: "Warning.",
                 description: "Image still uploading.",
