@@ -122,7 +122,12 @@ const Api = {
     editRoom: () => axios({
         url: '/room',
         method: 'put',
-    })
+    }),
+    addFriend: (params) => axios({
+        url: '/friend',
+        method: 'put',
+        params
+    }),
 }
 
 export default Api;

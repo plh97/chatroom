@@ -161,6 +161,22 @@ async function Logout(ctx) {
     })
 }
 
+async function AddFriend(ctx) {
+    const { _id } = ctx.request.body
+    const cookie = ctx.cookies.get('token')
+    const usernameFromToken = await new Promise((resolve, reject) => {
+        jwt.verify(cookie, privateKey, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
+        });
+    })
+    const res = await UserModel.updateOne({ username: usernameFromToken }, { $push: { friend: _id } });
+    ctx.body = ({
+        code: 0,
+        data: res
+    })
+}
+
 module.exports = {
     Login,
     Logout,
@@ -169,4 +185,5 @@ module.exports = {
     SetUserInfo,
     GetUserImage,
     QueryUser,
+    AddFriend,
 }

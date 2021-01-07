@@ -10,6 +10,7 @@ const schema = new Schema({
     github: String,
     permission: String,
     room: [{ type: Schema.Types.ObjectId, ref: 'Room' }],
+    friend: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 });
 
 class ModelClass extends Model {

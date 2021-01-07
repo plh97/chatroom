@@ -39,8 +39,8 @@ export default function RoomManage() {
             name: 'new room'
         })
     }
-    async function handleAddUser(e) {
-        
+    async function handleAddUser(data) {
+        await Api.addFriend(data)
     }
     return <div
         className="App-RoomManage"
@@ -95,7 +95,7 @@ export default function RoomManage() {
                     </>
                 ) : ''
             }
-            {user.map(user => <div key={user._id} className="line-user" onClick={handleAddUser}>
+            {user.map(user => <div key={user._id} className="line-user" onClick={e => handleAddUser(user)}>
                 <Avatar className="avatar" name={user.username} src={user.image} />
                 <span className="username">{user.username}</span>
                 <AddIcon className="icon" />
