@@ -3,10 +3,14 @@ import {
     InputGroup,
     InputLeftElement,
     AlertDialog,
+    FormControl,
+    FormLabel,
     AlertDialogOverlay,
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogBody,
+    Stack,
+    Checkbox,
     AlertDialogFooter,
     Divider,
     Input,
@@ -14,6 +18,7 @@ import {
     Button,
     ButtonGroup,
     IconButton,
+    useToast,
 } from "@chakra-ui/react"
 import { SearchIcon, AddIcon } from '@chakra-ui/icons'
 import { useSelector } from 'react-redux'
@@ -22,9 +27,11 @@ import './RoomManage.scoped.scss'
 
 export default function RoomManage() {
     let userInfo = useSelector(state => state.user)
-    const [isOpen, setIsOpen] = React.useState(false)
     const [user, setUser] = React.useState([])
-    const [username, setUsername] = React.useState('')
+    const toast = useToast();
+    const [isOpen, setIsOpen] = React.useState(false)
+    const [username, setUsername] = React.useState('peng')
+    const [roomname, setRoomname] = React.useState('')
     const onClose = () => setIsOpen(false)
     const cancelRef = React.useRef()
     useEffect(() => {
@@ -57,12 +64,16 @@ export default function RoomManage() {
                         Add Room
                     </AlertDialogHeader>
                     <AlertDialogBody>
-                        <div>
-                            room name: <Input />
-                        </div>
-                        <div>
-                            room member: <Input />
-                        </div>
+                        <FormControl id="name" isRequired>
+                            <FormLabel>room name</FormLabel>
+                            <Input type="text" autoComplete="true" autoFocus value={roomname} onChange={e=>setRoomname(e.target.value)} />
+                        </FormControl>
+                        <FormControl id="name" isRequired>
+                            <FormLabel>select member</FormLabel>
+                            <Stack spacing={10} direction="row">
+                                {userInfo.friend.map(fri => <Checkbox key={fri._id}>{fri.username}</Checkbox>)}
+                            </Stack>
+                        </FormControl>
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <Button ref={cancelRef} onClick={onClose}>

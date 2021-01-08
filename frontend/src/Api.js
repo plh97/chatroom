@@ -49,6 +49,9 @@ axios.interceptors.response.use(function (response) {
 }, (error) => {
     // Do something with request error
     store.dispatch({
+        type: ACTION_TYPE.LOGOUT
+    })
+    store.dispatch({
         type: ACTION_TYPE.FETCH_FAIL
     })
     return Promise.reject(error);

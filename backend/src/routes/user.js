@@ -9,13 +9,13 @@ const UserModel = require('../model/user')
  */
 async function GetUserInfo(ctx) {
     const cookie = ctx.cookies.get('token')
-    const username = await new Promise((resolve, reject) => {
+    const _id = await new Promise((resolve, reject) => {
         jwt.verify(cookie, privateKey, (err, token) => {
             if (err) reject(err);
             resolve(token);
         });
     })
-    const userinfo = await UserModel.findOne({ username }).exec();
+    const userinfo = await UserModel.findOne({ _id }).populate('friend').exec();
     if (userinfo) {
         userinfo.password = undefined;
         ctx.body = ({
@@ -28,20 +28,23 @@ async function GetUserInfo(ctx) {
         })
     }
 };
-
+/**
+ * 只能设置自己的信息
+ *
+ * @param {*} ctx
+ */
 async function SetUserInfo(ctx) {
-    const { username, image } = ctx.request.body
+    const { image } = ctx.request.body
     const cookie = ctx.cookies.get('token')
-    const usernameFromToken = await new Promise((resolve, reject) => {
+    const _id = await new Promise((resolve, reject) => {
         jwt.verify(cookie, privateKey, (err, token) => {
             if (err) reject(err);
             resolve(token);
         });
     })
-    await UserModel.updateOne({ username: usernameFromToken }, { $set: { image } });
-    const userinfo = await UserModel.findOne({ username: usernameFromToken })
+    await UserModel.updateOne({ _id }, { $set: { image } });
+    const userinfo = await UserModel.findOne({ _id })
     if (userinfo) {
-        userinfo.password = undefined;
         ctx.body = ({
             code: 0,
             data: userinfo
@@ -105,7 +108,8 @@ async function Login(ctx) {
     const { username, password } = ctx.request.body
     const userinfo = await UserModel.findOne({ username, password }).exec();
     if (userinfo) {
-        var token = jwt.sign(username, privateKey);
+        console.log(userinfo)
+        var token = jwt.sign(String(userinfo._id), privateKey);
         ctx.cookies.set('token', token, { maxAge: 3600000, httpOnly: true });
         userinfo.password = undefined;
         ctx.body = ({
@@ -137,18 +141,18 @@ async function Register(ctx) {
             message: 'This account is already occupied!'
         })
     } else {
-        const data = await UserModel.create({
+        const userinfo = await UserModel.create({
             username,
             password,
             image: 'https://avatars3.githubusercontent.com/u/14355994?s=460&u=1f1d3a174d2e0f79bcd5379a4d832fa9d0777ff3&v=4'
         })
-        var token = jwt.sign(username, privateKey);
+        var token = jwt.sign(userinfo._id, privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
-        data.password = undefined;
+        userinfo.password = undefined;
         ctx.body = ({
             code: 0,
             message: 'Register account success',
-            data
+            data: userinfo
         })
     }
 }
@@ -160,21 +164,33 @@ async function Logout(ctx) {
         message: 'Logout success'
     })
 }
-
+/**
+ * 一次只能添加一个好友, 不可重复添加已存在的好友.
+ *
+ * @param {*} ctx
+ */
 async function AddFriend(ctx) {
-    const { _id } = ctx.request.body
+    const { _id } = ctx.request.query
     const cookie = ctx.cookies.get('token')
-    const usernameFromToken = await new Promise((resolve, reject) => {
+    const userIdFromToken = await new Promise((resolve, reject) => {
         jwt.verify(cookie, privateKey, (err, token) => {
             if (err) reject(err);
             resolve(token);
         });
     })
-    const res = await UserModel.updateOne({ username: usernameFromToken }, { $push: { friend: _id } });
-    ctx.body = ({
-        code: 0,
-        data: res
-    })
+    if (_id === userIdFromToken) {
+        ctx.body = {
+            code: 0,
+            message: 'cannot add yourself as friend'
+        }
+    } else {
+        const res = await UserModel.updateOne({ _id: userIdFromToken }, { $addToSet: { friend: _id } });
+        ctx.body = ({
+            code: 0,
+            data: res,
+            message: 'Add friend success'
+        })
+    }
 }
 
 module.exports = {
