@@ -52,9 +52,9 @@ export default function UserDetailSidebar() {
                 Name: {userInfo.username}
             </p>
             <h3 className="room-title">Room</h3>
-            <div className="room">
-                <span>{userInfo.room}</span>
-            </div>
+            {/* <div className="room">
+                {userInfo.room.map(room => <span key={room._id}>{room.name}</span>)}
+            </div> */}
         </div>
     </div>
 }

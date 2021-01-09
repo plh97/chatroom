@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { privateKey } = require('../config');
 const user = require('../model/user');
-const UserModel = require('../model/user')
+const UserModel = require('../model/user');
+const RoomModel = require('../model/room');
 
 /**
  * get user info through cookie
@@ -17,10 +18,12 @@ async function GetUserInfo(ctx) {
     })
     const userinfo = await UserModel.findOne({ _id }).populate('friend').exec();
     if (userinfo) {
-        userinfo.password = undefined;
+        const room = await RoomModel.find({}).exec()
+        userinfo.room = room;
+        console.log((userinfo));
         ctx.body = ({
             code: 0,
-            data: userinfo
+            data: userinfo,
         })
     } else {
         ctx.body = ({
@@ -144,7 +147,6 @@ async function Register(ctx) {
         const userinfo = await UserModel.create({
             username,
             password,
-            image: 'https://avatars3.githubusercontent.com/u/14355994?s=460&u=1f1d3a174d2e0f79bcd5379a4d832fa9d0777ff3&v=4'
         })
         var token = jwt.sign(userinfo._id, privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -184,10 +186,11 @@ async function AddFriend(ctx) {
             message: 'cannot add yourself as friend'
         }
     } else {
-        const res = await UserModel.updateOne({ _id: userIdFromToken }, { $addToSet: { friend: _id } });
+        // 双方互加
+        await UserModel.updateOne({ _id: userIdFromToken }, { $addToSet: { friend: _id } });
+        await UserModel.updateOne({ _id }, { $addToSet: { friend: userIdFromToken } });
         ctx.body = ({
             code: 0,
-            data: res,
             message: 'Add friend success'
         })
     }

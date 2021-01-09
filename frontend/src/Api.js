@@ -48,9 +48,11 @@ axios.interceptors.response.use(function (response) {
     return res.data
 }, (error) => {
     // Do something with request error
-    store.dispatch({
-        type: ACTION_TYPE.LOGOUT
-    })
+    if (error.response.status===401) {
+        store.dispatch({
+            type: ACTION_TYPE.LOGOUT
+        })
+    }
     store.dispatch({
         type: ACTION_TYPE.FETCH_FAIL
     })
@@ -114,9 +116,10 @@ const Api = {
         method: 'delete',
         params: { _id }
     }),
-    addRoom: () => axios({
+    addRoom: params => axios({
         url: '/room',
         method: 'put',
+        params
     }),
     deleteRoom: (id) => axios({
         url: '/room' + id,

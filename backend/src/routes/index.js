@@ -12,8 +12,12 @@ const {
 const { Upload } = require('./image.js');
 
 const { sendMessage, getMessage, deleteMessage } = require('./message');
+const { getRoom, deleteRoom, modifyRoom, addRoom } = require('./room');
 
 module.exports = router
+    // image
+    .post('/upload', Upload)
+    // user
     .post('/login', Login)
     .post('/logout', Logout)
     .post('/register', Register)
@@ -21,8 +25,14 @@ module.exports = router
     .get('/user', QueryUser)
     .put('/friend', AddFriend)
     .post('/userInfo', SetUserInfo)
-    .post('/upload', Upload)
     .get('/userImage', GetUserImage)
+    // message
     .get('/message', getMessage)
     .post('/message', sendMessage)
     .delete('/message', deleteMessage)
+    // room
+    .put('/room', addRoom)
+    .get('/room', getRoom)
+    .post('/room', sendMessage)
+    .delete('/room', deleteRoom)
+

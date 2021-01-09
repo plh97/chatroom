@@ -71,7 +71,7 @@ export default function Meaaage() {
                 <Button onClick={e => handleDelteMessage(m._id)}>Recall</Button>
                 <div className="content">
                     <div className="img">
-                        {m.images.map(img => <img src={img} alt="img" />)}
+                        {m.images.map(img => <img key={img} src={img} alt="img" />)}
                     </div>
                     <span className="text">
                         {m.text}
@@ -80,7 +80,14 @@ export default function Meaaage() {
                 <Avatar name={m.user.username} src={m.user.image} />
             </div>) : (<div className="line" key={m._id}>
                 <Avatar name={m.user.username} src={m.user.image} />
-                <span className="content">{m.text}</span>
+                <span className="content">
+                    <div className="img">
+                        {m.images.map(img => <img key={img} src={img} alt="img" />)}
+                    </div>
+                    <span className="text">
+                        {m.text}
+                    </span>
+                </span>
             </div>)
         )}
     </div>
