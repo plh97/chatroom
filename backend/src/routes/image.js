@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { backendOrigin } = require('../config');
+// const { backendOrigin } = require('../config');
 const path = require('path');
 const Mime = require('../utils/mime')
 const mime = new Mime();
