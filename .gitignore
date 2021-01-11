@@ -5,3 +5,5 @@ mongodb/db/
 *.log
 dist
 static
+**/*/.eslintcache
+.DS_Store
