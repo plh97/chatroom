@@ -148,7 +148,7 @@ async function Register(ctx) {
             username,
             password,
         })
-        var token = jwt.sign(userinfo._id, privateKey);
+        var token = jwt.sign({_id: userinfo._id}, privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
         userinfo.password = undefined;
         ctx.body = ({

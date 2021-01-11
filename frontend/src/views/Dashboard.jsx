@@ -22,16 +22,16 @@ export default function Dashboard() {
             <div className="container">
                 <RoomManage />
                 {
-                    match ? 
-                    <div className="right">
-                        <Header />
-                        <Message {...match.params}/>
-                        <Input {...match.params}/>
-                    </div>
-                    :
-                    <div className="right">
-                        <Header />
-                    </div>
+                    match ?
+                        <div className="right">
+                            <Header />
+                            <Message {...match.params} />
+                            <Input {...match.params} />
+                        </div>
+                        :
+                        <div className="right">
+                            <Header />
+                        </div>
                 }
                 <UserDetailSidebar />
             </div>

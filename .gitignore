@@ -7,4 +7,3 @@ dist
 static
 .DS_Store
 .eslintcache
-**/*/.eslintcache

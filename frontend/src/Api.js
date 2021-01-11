@@ -48,7 +48,7 @@ axios.interceptors.response.use(function (response) {
     return res.data
 }, (error) => {
     // Do something with request error
-    if (error.response.status===401) {
+    if (error?.response?.status===401) {
         store.dispatch({
             type: ACTION_TYPE.LOGOUT
         })
