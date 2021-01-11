@@ -26,6 +26,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Api from '@/Api'
 import './RoomManage.scoped.scss'
 import { ACTION_TYPE } from '@/utils/constants'
+import { Link } from "react-router-dom";
 
 export default function RoomManage() {
     let userInfo = useSelector(state => state.user)
@@ -145,10 +146,12 @@ export default function RoomManage() {
         :
             // room-container
             <div className="search-result">
-                {userInfo.room.map(room => <div key={room._id} className="line-user">
-                    <Avatar className="avatar" name={room.name} src={room.image} />
-                    <span className="username">{room.name}</span>
-                </div>)}
+                {userInfo.room.map(room => (
+                    <Link to={`/room/${room._id}`} key={room._id} className="line-user">
+                        <Avatar className="avatar" name={room.name} src={room.image} />
+                        <span className="username">{room.name}</span>
+                    </Link>
+                ))}
             </div>
         }
     </div>

@@ -1,6 +1,18 @@
 version: "3.7"
 
 services:
+    nginx:
+        restart: always
+        build:
+            context: "./nginx"
+        networks:
+            - gate-tier
+        volumes:
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./nginx:/var/log/nginx/
+        ports:
+            - "9001:80"
+            - "9002:8080"
 
     mongodb:
         build:
@@ -28,7 +40,7 @@ services:
         volumes:
             - ./backend/:/app/
             - /app/node_modules/
-            - /app/static/
+            # - /app/static/
         networks:
             - gate-tier
             - back-tier
@@ -49,19 +61,6 @@ services:
             - /app/node_modules/
         networks:
             - gate-tier
-
-    nginx:
-        restart: always
-        build:
-            context: "./nginx"
-        networks:
-            - gate-tier
-        volumes:
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
-            - ./nginx:/var/log/nginx/
-        ports:
-            - "9001:80"
-            - "9002:8080"
 
 networks:
     gate-tier:

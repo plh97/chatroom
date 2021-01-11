@@ -15,12 +15,12 @@ const LoadMore = styled.div`
     text-align: center;
 `
 
-export default function Meaaage() {
+export default function Meaaage(props) {
     const [hasMessage, setHasMessage] = useState(true)
     const dispatch = useDispatch()
     let message = useSelector(state => state.message.message)
-    let totalCount = useSelector(state => state.message.totalCount)
-    let trigger = useSelector(state => state.message.trigger)
+    // let totalCount = useSelector(state => state.message.totalCount)
+    // let trigger = useSelector(state => state.message.trigger)
     let userInfo = useSelector(state => state.user)
     const scrollEl = useRef(null);
     // 1. 初始化
@@ -28,25 +28,36 @@ export default function Meaaage() {
     useEffect(() => {
         const el = scrollEl.current
         el.scrollTop = el.scrollHeight - el.clientHeight;
-    }, [trigger])
+    }, [message.length])
     async function handleDelteMessage(id) {
         await Api.deleteMessage(id)
+        // dispatch({
+        //     type: ACTION_TYPE.ADD_MESSAGE,
+        //     payload: {
+        //         message: message.filter(msg => msg._id !== id),
+        //         totalCount: totalCount - 1
+        //     }
+        // })
+    };
+    useEffect(() => {
         dispatch({
             type: ACTION_TYPE.ADD_MESSAGE,
             payload: {
-                message: message.filter(msg => msg._id !== id),
-                totalCount: totalCount - 1
+                message: [],
+                totalCount: 0,
             }
         })
-    }
+        handleGetMessage();
+    }, [props.roomId]);
     async function handleGetMessage() {
-        const data = await Api.getMessage({
+        const data = await Api.getRoom({
+            _id: props.roomId,
             index: message.length,
             pageSize: 20
-        })
+        });
         if (data.message.length === 0) {
-            setHasMessage(false)
-        }
+            setHasMessage(false);
+        };
         dispatch({
             type: ACTION_TYPE.ADD_MESSAGE,
             payload: {
@@ -54,7 +65,7 @@ export default function Meaaage() {
                     ...data.message,
                     ...message,
                 ],
-                totalCount: totalCount + 20
+                // totalCount: totalCount + 20
             }
         })
     }

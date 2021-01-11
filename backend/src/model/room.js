@@ -8,6 +8,13 @@ const schema = new Schema({
     member: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     manager: { type: Schema.Types.ObjectId, ref: 'User' },
     createTime: { type: Date, default: Date.now },
+    message: [{
+        images: Array,
+        text: String,
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        createTime: { type: Date, default: Date.now },
+        isRead: Boolean
+    }]
 });
 
 class ModelClass extends Model {

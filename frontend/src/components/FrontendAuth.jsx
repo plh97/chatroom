@@ -21,14 +21,14 @@ export default function FrontendAuth(props) {
                     type: ACTION_TYPE.SAVE_USER_INFO,
                     payload: newUserInfo
                 })
-                const data = await Api.getMessage()
-                dispatch({
-                    type: ACTION_TYPE.ADD_MESSAGE,
-                    payload: {
-                        ...data,
-                        trigger: Math.random()
-                    }
-                })
+                // const data = await Api.getMessage()
+                // dispatch({
+                //     type: ACTION_TYPE.ADD_MESSAGE,
+                //     payload: {
+                //         ...data,
+                //         trigger: Math.random()
+                //     }
+                // })
                 dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
             }
         })()

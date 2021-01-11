@@ -1,4 +1,4 @@
-const MessageModel = require('../model/message')
+const RoomModel = require('../model/room')
 
 const getMessage = async (ctx) => {
     const { index, pageSize } = ctx.request.query;

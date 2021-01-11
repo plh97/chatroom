@@ -101,20 +101,10 @@ const Api = {
         method: 'get',
         params
     }),
-    sendMessage: data => axios({
-        url: '/message',
-        method: 'post',
-        data
-    }),
-    getMessage: (params) => axios({
-        url: '/message',
+    getRoom: params => axios({
+        url: '/room',
         method: 'get',
         params
-    }),
-    deleteMessage: _id => axios({
-        url: '/message',
-        method: 'delete',
-        params: { _id }
     }),
     addRoom: params => axios({
         url: '/room',
@@ -122,16 +112,31 @@ const Api = {
         params
     }),
     deleteRoom: (id) => axios({
-        url: '/room' + id,
+        url: '/room/' + id,
         method: 'delete',
     }),
     editRoom: () => axios({
         url: '/room',
-        method: 'put',
+        method: 'post',
+    }),
+    sendMessage: data => axios({
+        url: '/room/message',
+        method: 'post',
+        data
+    }),
+    deleteMessage: _id => axios({
+        url: '/room/message',
+        method: 'delete',
+        params: { _id }
     }),
     addFriend: (params) => axios({
         url: '/friend',
         method: 'put',
+        params
+    }),
+    deleteFriend: (params) => axios({
+        url: '/friend',
+        method: 'delete',
         params
     }),
 }

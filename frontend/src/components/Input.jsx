@@ -16,8 +16,9 @@ import Api from '@/Api';
 import Loading from './Loading';
 import { ACTION_TYPE } from '@/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouteMatch } from "react-router-dom";
 
-export default function InputComponent() {
+export default function InputComponent(props) {
     const dispatch = useDispatch()
     const [text, setText] = useState('');
     const [images, setImages] = useState([]);
@@ -40,7 +41,8 @@ export default function InputComponent() {
             const data = {
                 text,
                 images: images.filter(e => !e.loading).map(e => e.url),
-                user: userInfo._id
+                user: userInfo._id,
+                roomId: props.roomId,
             }
             const msgBody = await Api.sendMessage(data)
             dispatch({

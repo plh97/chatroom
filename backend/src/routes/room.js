@@ -3,10 +3,10 @@ const {verify} = require('jsonwebtoken');
 const { privateKey } = require('../config');
 
 const getRoom = async (ctx) => {
-    const { index, pageSize } = ctx.request.query;
+    const { index, pageSize, _id } = ctx.request.query;
     ctx.body = {
         code: 0,
-        data: await RoomModel.find({}),
+        data: await RoomModel.findOne({_id}).populate('user').exec(),
     }
 };
 
@@ -50,9 +50,37 @@ const deleteRoom = async (ctx) => {
     })
 };
 
+
+const addMessage = async (ctx) => {
+    const body = ctx.request.body
+    // const msg = await RoomModel.update(body)
+    const res = await RoomModel.updateOne({ _id: body.roomId }, { $addToSet: { message: body } });
+    const data = await RoomModel.findOne({
+        _id: body.roomId
+    })
+        // message: {'$all': body}
+    console.log(111, data);
+    ctx.body = ({
+        code: 0,
+        data
+    })
+};
+
+const deleteMessage = async (ctx) => {
+    const { _id } = ctx.request.query;
+    const res = await MessageModel.deleteOne({ _id });
+    ctx.body = ({
+        code: 0,
+        data: res
+    })
+};
+
+
 module.exports = {
     addRoom,
     getRoom,
     modifyRoom,
-    deleteRoom
+    deleteRoom,
+    addMessage,
+    deleteMessage,
 };
