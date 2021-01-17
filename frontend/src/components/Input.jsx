@@ -16,7 +16,6 @@ import Api from '@/Api';
 import Loading from './Loading';
 import { ACTION_TYPE } from '@/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from "react-router-dom";
 
 export default function InputComponent(props) {
     const dispatch = useDispatch()

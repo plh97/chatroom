@@ -3,6 +3,7 @@ const { privateKey } = require('../config');
 const user = require('../model/user');
 const UserModel = require('../model/user');
 const RoomModel = require('../model/room');
+const { Types } = require('mongoose');
 
 /**
  * get user info through cookie
@@ -16,11 +17,16 @@ async function GetUserInfo(ctx) {
             resolve(token);
         });
     })
-    const userinfo = await UserModel.findOne({ _id }).populate('friend').exec();
+    const userinfo = await UserModel
+        .findOne({ _id })
+        .populate('friend')
+        .populate('room')
+        .exec();
+
     if (userinfo) {
-        const room = await RoomModel.find({}).exec()
-        userinfo.room = room;
-        console.log((userinfo));
+        // const room = await RoomModel.find({}).exec()
+        // userinfo.room = room;
+        // console.log((userinfo));
         ctx.body = ({
             code: 0,
             data: userinfo,
@@ -148,7 +154,7 @@ async function Register(ctx) {
             username,
             password,
         })
-        var token = jwt.sign({_id: userinfo._id}, privateKey);
+        var token = jwt.sign({ _id: userinfo._id }, privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
         userinfo.password = undefined;
         ctx.body = ({
@@ -182,18 +188,25 @@ async function AddFriend(ctx) {
     })
     if (_id === userIdFromToken) {
         ctx.body = {
-            code: 0,
+            code: 1,
             message: 'cannot add yourself as friend'
         }
-    } else {
-        // 双方互加
-        await UserModel.updateOne({ _id: userIdFromToken }, { $addToSet: { friend: _id } });
-        await UserModel.updateOne({ _id }, { $addToSet: { friend: userIdFromToken } });
-        ctx.body = ({
-            code: 0,
-            message: 'Add friend success'
-        })
     }
+    // 双方互加
+    console.log(
+        'userIdFromToken:', userIdFromToken,
+        '_id:', _id,
+        [
+            { _id: Types.ObjectId(userIdFromToken) },
+            { $addToSet: { friend: Types.ObjectId(_id) } }
+        ]
+    )
+    await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { friend: Types.ObjectId(_id) } });
+    await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { friend: Types.ObjectId(userIdFromToken) } });
+    ctx.body = ({
+        code: 0,
+        message: 'Add friend success',
+    })
 }
 
 module.exports = {

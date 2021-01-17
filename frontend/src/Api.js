@@ -27,9 +27,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 axios.interceptors.response.use(function (response) {
-    // store.dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
     const res = response.data
-    // const toast = useToast();
     if (res.code === 1) {
         res.message && toast({
             description: res.message,
@@ -106,10 +104,10 @@ const Api = {
         method: 'get',
         params
     }),
-    addRoom: params => axios({
+    addRoom: data => axios({
         url: '/room',
-        method: 'put',
-        params
+        method: 'post',
+        data
     }),
     deleteRoom: (id) => axios({
         url: '/room/' + id,
@@ -117,7 +115,7 @@ const Api = {
     }),
     editRoom: () => axios({
         url: '/room',
-        method: 'post',
+        method: 'patch',
     }),
     sendMessage: data => axios({
         url: '/room/message',

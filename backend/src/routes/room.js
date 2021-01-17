@@ -1,29 +1,52 @@
 const RoomModel = require('../model/room')
-const {verify} = require('jsonwebtoken');
+const { verify } = require('jsonwebtoken');
 const { privateKey } = require('../config');
+const UserModel = require('../model/user');
+const { Types } = require('mongoose');
 
 const getRoom = async (ctx) => {
     const { index, pageSize, _id } = ctx.request.query;
+    console.log(
+        2134,
+        _id
+    );
     ctx.body = {
         code: 0,
-        data: await RoomModel.findOne({_id}).populate('user').exec(),
+        data: await RoomModel
+            .findOne({ _id: Types.ObjectId(_id) })
+            .populate('manager')
+            .populate('member')
+            .populate('message.user')
+            .exec(),
     }
 };
 
 const addRoom = async (ctx) => {
-    const body = ctx.request.query
+    const body = ctx.request.body
     const cookie = ctx.cookies.get('token')
     const userIdFromToken = await new Promise((resolve, reject) => {
-      verify(cookie, privateKey, (err, token) => {
-        if (err) reject(err);
-        resolve(token);
-      });
+        verify(cookie, privateKey, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
+        });
     });
-    const msg = await RoomModel.create({
+    const roomResponse = await RoomModel.create({
         ...body,
-        member: [userIdFromToken],
-        manager: userIdFromToken
+        member: [
+            Types.ObjectId(userIdFromToken),
+            ...body.member,
+        ],
+        manager: Types.ObjectId(userIdFromToken)
     })
+    // update myself into a room id
+    await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { room: roomResponse } });
+    // update otherpersion into userid
+    await Promise.all(body.member.map(id => new Promise(async(resolve,reject) => {
+        UserModel.updateOne({ _id: Types.ObjectId(id) }, { $addToSet: { room: roomResponse } }, (err, res) => {
+            if (err) reject(err);
+            resolve(res)
+        });
+    })))
     ctx.body = ({
         code: 0,
         message: 'Create room success'
@@ -54,15 +77,14 @@ const deleteRoom = async (ctx) => {
 const addMessage = async (ctx) => {
     const body = ctx.request.body
     // const msg = await RoomModel.update(body)
-    const res = await RoomModel.updateOne({ _id: body.roomId }, { $addToSet: { message: body } });
-    const data = await RoomModel.findOne({
-        _id: body.roomId
-    })
-        // message: {'$all': body}
-    console.log(111, data);
+    await RoomModel.updateOne({ _id: body.roomId }, { $addToSet: { message: body } });
+    const data = await RoomModel
+        .findOne({ _id: body.roomId })
+        .populate('message.user')
+        .exec();
     ctx.body = ({
         code: 0,
-        data
+        data: data.message[data.message.length - 1]
     })
 };
 

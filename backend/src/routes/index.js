@@ -31,9 +31,9 @@ module.exports = router
     // .post('/message', sendMessage)
     // .delete('/message', deleteMessage)
     // room
-    .put('/room', addRoom)
+    .post('/room', addRoom)
     .get('/room', getRoom)
-    .post('/room', modifyRoom)
+    .patch('/room', modifyRoom)
     .delete('/room', deleteRoom)
     .post('/room/message', addMessage)
     .delete('/room/message', deleteMessage)

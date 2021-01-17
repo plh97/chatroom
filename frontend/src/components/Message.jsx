@@ -19,7 +19,7 @@ export default function Meaaage(props) {
     const [hasMessage, setHasMessage] = useState(true)
     const dispatch = useDispatch()
     let message = useSelector(state => state.message.message)
-    // let totalCount = useSelector(state => state.message.totalCount)
+    let totalCount = useSelector(state => state.message.totalCount)
     // let trigger = useSelector(state => state.message.trigger)
     let userInfo = useSelector(state => state.user)
     const scrollEl = useRef(null);
@@ -31,13 +31,13 @@ export default function Meaaage(props) {
     }, [message.length])
     async function handleDelteMessage(id) {
         await Api.deleteMessage(id)
-        // dispatch({
-        //     type: ACTION_TYPE.ADD_MESSAGE,
-        //     payload: {
-        //         message: message.filter(msg => msg._id !== id),
-        //         totalCount: totalCount - 1
-        //     }
-        // })
+        dispatch({
+            type: ACTION_TYPE.ADD_MESSAGE,
+            payload: {
+                message: message.filter(msg => msg._id !== id),
+                totalCount: totalCount - 1
+            }
+        })
     };
     useEffect(() => {
         dispatch({
@@ -55,7 +55,7 @@ export default function Meaaage(props) {
             index: message.length,
             pageSize: 20
         });
-        if (data.message.length === 0) {
+        if (message.length === 0) {
             setHasMessage(false);
         };
         dispatch({
@@ -65,7 +65,7 @@ export default function Meaaage(props) {
                     ...data.message,
                     ...message,
                 ],
-                // totalCount: totalCount + 20
+                totalCount: totalCount + 20
             }
         })
     }

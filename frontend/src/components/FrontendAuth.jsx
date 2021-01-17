@@ -34,13 +34,17 @@ export default function FrontendAuth(props) {
         })()
     }, [userInfo.trigger, userInfo, dispatch])
     // 如果已经登录
-    if (userInfo.username) {
-        if (props.location.pathname === '/login' || props.location.pathname === '/register') {
-            return <Redirect to='/' />
-        }
-    } else {
-        if (props.location.pathname !== '/login' && props.location.pathname !== '/register') {
-            return <Redirect to='/login' />
+    if (fetchStatus !== ACTION_TYPE.FETCH_START) {
+        if (userInfo.username) {
+            if (props.location.pathname === '/login' || props.location.pathname === '/register') {
+                debugger
+                return <Redirect to='/' />
+            }
+        } else {
+            if (props.location.pathname !== '/login' && props.location.pathname !== '/register') {
+                debugger
+                return <Redirect to='/login' />
+            }
         }
     }
     return (
@@ -56,6 +60,9 @@ export default function FrontendAuth(props) {
                     <Login />
                 </Route>
                 <Route path="/">
+                    <Dashboard />
+                </Route>
+                <Route path="/room/:id">
                     <Dashboard />
                 </Route>
             </Switch>

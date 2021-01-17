@@ -137,7 +137,7 @@ export default function RoomManage() {
                         </>
                     ) : ''
                 }
-                {user.map(user => <div key={user._id} className="line-user" onClick={e => handleAddUser(user)}>
+                {user.map(user => <div key={user._id} className="line-user" onClick={e => handleAddUser({_id: user._id})}>
                     <Avatar className="avatar" name={user.username} src={user.image} />
                     <span className="username">{user.username}</span>
                     <AddIcon className="icon" />
