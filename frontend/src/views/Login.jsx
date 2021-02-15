@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useHistory } from "react-router-dom";
 
-import { ACTION_TYPE } from '@/utils/constants'
-import Api from '@/Api'
+import { ACTION_TYPE } from '@src/utils/constants'
+import Api from '@src/Api'
 import {
     Stack,
     Input,

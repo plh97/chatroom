@@ -5,11 +5,11 @@ import {
     Avatar
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from 'react-redux'
-import Api from '@/Api'
-import { ACTION_TYPE } from '@/utils/constants'
-import { getMessage } from '@/store/actions/room'
-import { scrollToBottom } from '@/utils/scroll'
-import { useLoadingIndicator } from "@hooks/useLoadingIndicator";
+import Api from '@src/Api'
+import { ACTION_TYPE } from '@src/utils/constants'
+import { getMessage } from '@src/store/actions/room'
+import { scrollToBottom } from '@src/utils/scroll'
+import { useLoading } from "@hooks/loading";
 
 export default function Meaaage(props) {
     const [hasMessage, setHasMessage] = useState(true)
@@ -33,6 +33,7 @@ export default function Meaaage(props) {
             }
         })
     };
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         // here to target while room change or initial.
         (async () => {
@@ -44,10 +45,9 @@ export default function Meaaage(props) {
             scrollToBottom()
         })()
     }, [props.roomId]);
-
+    useLoading(loading, props)
     async function handleGetMessage() {
         setLoadingMessage(true)
-        useLoadingIndicator()
         const data = await dispatch(getMessage(props))
         setLoadingMessage(false)
         if (data.isLoadEnd) {

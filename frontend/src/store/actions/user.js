@@ -1,5 +1,5 @@
-import Api from '@/Api.js'
-import { ACTION_TYPE } from '@/utils/constants'
+import Api from '@src/Api.js'
+import { ACTION_TYPE } from '@src/utils/constants'
 
 export function getMyUserInfo() {
     return async (dispatch) => {

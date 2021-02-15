@@ -2,8 +2,8 @@ import React from 'react'
 import { Avatar, AvatarBadge, Button } from "@chakra-ui/react"
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import Api from '@/Api'
-import { ACTION_TYPE } from '@/utils/constants'
+import Api from '@src/Api'
+import { ACTION_TYPE } from '@src/utils/constants'
 import './Header.scoped.scss'
 
 const Wrapper = styled.div`

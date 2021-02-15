@@ -1,6 +1,6 @@
-import Api from '@/Api.js'
-import { ACTION_TYPE } from '@/utils/constants'
-const sleep = (ms = 200) => new Promise((res,reh) => setTimeout(() => res(), ms));
+import Api from '@src/Api.js'
+import { ACTION_TYPE } from '@src/utils/constants'
+const sleep = (ms = 200) => new Promise((res, reh) => setTimeout(() => res(), ms));
 
 export function getMessage({ roomId, pageSize = 20 }) {
     return async (dispatch, getState, b, c, d) => {

@@ -1,4 +1,4 @@
-import Api from '@/Api'
+import Api from '@src/Api'
 
 const imageMap = [
     // 1-3

@@ -24,11 +24,11 @@ import {
 } from "@chakra-ui/react"
 import { SearchIcon, AddIcon } from '@chakra-ui/icons'
 import { useSelector, useDispatch } from 'react-redux'
-import Api from '@/Api'
+import Api from '@src/Api'
 import './RoomManage.scoped.scss'
 import { Link } from "react-router-dom";
-import { getMyUserInfo } from '@/store/actions/user'
-import { drawCombineImage } from '@/utils/draw'
+import { getMyUserInfo } from '@src/store/actions/user'
+import { drawCombineImage } from '@src/utils/draw'
 import cs from 'classnames'
 
 export default function RoomManage({ match }) {

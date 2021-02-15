@@ -12,12 +12,12 @@ import {
     Input,
     useToast
 } from "@chakra-ui/react"
-import Api from '@/Api';
+import Api from '@src/Api';
 import Loading from './Loading';
-import { ACTION_TYPE } from '@/utils/constants';
+import { ACTION_TYPE } from '@src/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMyUserInfo } from '@/store/actions/user'
-import { scrollToBottom } from '@/utils/scroll'
+import { getMyUserInfo } from '@src/store/actions/user'
+import { scrollToBottom } from '@src/utils/scroll'
 
 export default function InputComponent(props) {
     const dispatch = useDispatch()

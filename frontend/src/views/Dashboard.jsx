@@ -1,10 +1,10 @@
 import React from 'react'
-import Input from '@/components/Input'
-import Header from '@/components/Header'
-import Message from '@/components/Message'
-import UserDetailSidebar from '@/components/UserDetailSidebar'
+import Input from '@src/components/Input'
+import Header from '@src/components/Header'
+import Message from '@src/components/Message'
+import UserDetailSidebar from '@src/components/UserDetailSidebar'
 import './Dashboard.scoped.scss'
-import RoomManage from '@/components/RoomManage'
+import RoomManage from '@src/components/RoomManage'
 import { ActiveListener } from 'react-event-injector';
 import { useRouteMatch } from "react-router-dom";
 

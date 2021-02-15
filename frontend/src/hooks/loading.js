@@ -1,6 +1,6 @@
 import {useRef} from "react";
 
-export const useLoadingIndicator = (isLoading, props)=>{
+export const useLoading = (isLoading, props)=>{
     const needToHide = useRef(false);
     if(isLoading && typeof props.showLoader === "function"){
         needToHide.current = true;

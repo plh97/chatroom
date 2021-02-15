@@ -3,9 +3,9 @@ import React, { useRef } from 'react'
 import { Avatar } from "@chakra-ui/react"
 import { useSelector, useDispatch } from 'react-redux'
 import './UserDetailSidebar.scoped.scss'
-// import { ACTION_TYPE } from '@/utils/constants'
-import Api from '@/Api'
-import { ACTION_TYPE } from '@/utils/constants'
+// import { ACTION_TYPE } from '@src/utils/constants'
+import Api from '@src/Api'
+import { ACTION_TYPE } from '@src/utils/constants'
 
 export default function UserDetailSidebar() {
     const dispatch = useDispatch()

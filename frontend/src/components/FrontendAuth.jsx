@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Route, Redirect, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import Login from '@/views/Login';
-import Register from '@/views/Register';
-import Dashboard from '@/views/Dashboard';
-import { ACTION_TYPE } from '@/utils/constants';
+import Login from '@src/views/Login';
+import Register from '@src/views/Register';
+import Dashboard from '@src/views/Dashboard';
+import { ACTION_TYPE } from '@src/utils/constants';
 import Loading from './Loading'
-import { getMyUserInfo } from '@/store/actions/user'
+import { getMyUserInfo } from '@src/store/actions/user'
 
 export default function FrontendAuth(props) {
     let userInfo = useSelector(state => state.user)
