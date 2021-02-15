@@ -12,12 +12,14 @@ import {
     Input,
     useToast
 } from "@chakra-ui/react"
-import Api from '../Api';
+import Api from '@/Api';
 import Loading from './Loading';
-import { ACTION_TYPE } from '../utils/constants';
+import { ACTION_TYPE } from '@/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { getMyUserInfo } from '@/store/actions/user'
+import { scrollToBottom } from '@/utils/scroll'
 
-export default function InputComponent() {
+export default function InputComponent(props) {
     const dispatch = useDispatch()
     const [text, setText] = useState('');
     const [images, setImages] = useState([]);
@@ -27,7 +29,7 @@ export default function InputComponent() {
     let totalCount = useSelector(state => state.message.totalCount)
     const toast = useToast();
     async function handleSendMessage() {
-        if (images.filter(img => img.loading).length>0) {
+        if (images.filter(img => img.loading).length > 0) {
             return toast({
                 title: "Warning.",
                 description: "Image still uploading.",
@@ -40,7 +42,8 @@ export default function InputComponent() {
             const data = {
                 text,
                 images: images.filter(e => !e.loading).map(e => e.url),
-                user: userInfo._id
+                user: userInfo._id,
+                roomId: props.roomId,
             }
             const msgBody = await Api.sendMessage(data)
             dispatch({
@@ -54,9 +57,11 @@ export default function InputComponent() {
                     trigger: Math.random()
                 }
             })
+            dispatch(getMyUserInfo())
             setText('')
             setImages([]);
             input.current.focus();
+            scrollToBottom();
         }
     }
     function handleKeyPress(e) {
@@ -110,6 +115,9 @@ export default function InputComponent() {
             }))
         })()
     }, [images])
+    useEffect(() => {
+        input.current.focus();
+    }, [props.roomId])
     function handleRemoveImage(data) {
         setImages(images.filter(img => img !== data))
     }

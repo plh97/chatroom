@@ -27,9 +27,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error);
 });
 axios.interceptors.response.use(function (response) {
-    // store.dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
     const res = response.data
-    // const toast = useToast();
     if (res.code === 1) {
         res.message && toast({
             description: res.message,
@@ -48,6 +46,11 @@ axios.interceptors.response.use(function (response) {
     return res.data
 }, (error) => {
     // Do something with request error
+    if (error?.response?.status===401) {
+        store.dispatch({
+            type: ACTION_TYPE.LOGOUT
+        })
+    }
     store.dispatch({
         type: ACTION_TYPE.FETCH_FAIL
     })
@@ -70,11 +73,11 @@ const Api = {
         method: 'post',
         data
     }),
-    getUserInfo: () => axios({
+    getMyUserInfo: () => axios({
         url: '/userInfo',
         method: 'get'
     }),
-    setUserInfo: (data) => axios({
+    setMyUserInfo: (data) => axios({
         url: '/userInfo',
         method: 'post',
         data
@@ -91,21 +94,49 @@ const Api = {
             username
         }
     }),
-    sendMessage: data => axios({
-        url: '/message',
-        method: 'post',
-        data
-    }),
-    getMessage: (params) => axios({
-        url: '/message',
+    queryUser: (params) => axios({
+        url: '/user',
         method: 'get',
         params
     }),
-    deleteMessage: _id => axios({
-        url: '/message',
+    getRoom: params => axios({
+        url: '/room',
+        method: 'get',
+        params
+    }),
+    addRoom: data => axios({
+        url: '/room',
+        method: 'post',
+        data
+    }),
+    deleteRoom: (id) => axios({
+        url: '/room/' + id,
         method: 'delete',
-        params: { _id }
-    })
+    }),
+    editRoom: () => axios({
+        url: '/room',
+        method: 'patch',
+    }),
+    sendMessage: data => axios({
+        url: '/room/message',
+        method: 'post',
+        data
+    }),
+    deleteMessage: params => axios({
+        url: '/room/message',
+        method: 'delete',
+        params
+    }),
+    addFriend: (data) => axios({
+        url: '/friend',
+        method: 'post',
+        data
+    }),
+    deleteFriend: (params) => axios({
+        url: '/friend',
+        method: 'delete',
+        params
+    }),
 }
 
 export default Api;

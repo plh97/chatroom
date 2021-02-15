@@ -1,6 +1,8 @@
 import { ACTION_TYPE } from '../../utils/constants'
 
 const userInitState = {
+    room: [],
+    friend: [],
     trigger: Math.random()
 }
 export default function userReducer(state = userInitState, action) {

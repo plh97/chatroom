@@ -5,20 +5,40 @@ const {
     Register,
     GetUserInfo,
     SetUserInfo,
-    GetUserImage
+    GetUserImage,
+    QueryUser,
+    AddFriend,
+    DeleteFriend,
 } = require('./user.js');
 const { Upload } = require('./image.js');
 
-const { sendMessage, getMessage, deleteMessage } = require('./message');
+// const { getMessage, deleteMessage } = require('./message');
+const { addRoom, getRoom, deleteRoom, modifyRoom, addMessage, deleteMessage } = require('./room');
 
 module.exports = router
+    // image
+    .post('/upload', Upload)
+    // user
     .post('/login', Login)
     .post('/logout', Logout)
     .post('/register', Register)
     .get('/userInfo', GetUserInfo)
+    .get('/user', QueryUser)
+    .post('/friend', AddFriend)
+    .delete('/friend', DeleteFriend)
     .post('/userInfo', SetUserInfo)
-    .post('/upload', Upload)
     .get('/userImage', GetUserImage)
-    .get('/message', getMessage)
-    .post('/message', sendMessage)
-    .delete('/message', deleteMessage)
+    // message
+    // .get('/message', getMessage)
+    // .post('/message', sendMessage)
+    // .delete('/message', deleteMessage)
+    // room
+    .post('/room', addRoom)
+    .get('/room', getRoom)
+    .patch('/room', modifyRoom)
+    .delete('/room', deleteRoom)
+    .post('/room/message', addMessage)
+    .delete('/room/message', deleteMessage)
+    // .get('/room/message', getMessage)
+    // .post('/room/message', sendMessage)
+

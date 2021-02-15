@@ -1,6 +1,18 @@
 version: "3.7"
 
 services:
+    nginx:
+        restart: always
+        build:
+            context: "./nginx"
+        networks:
+            - gate-tier
+        volumes:
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./nginx:/var/log/nginx/
+        ports:
+            - "9001:80"
+            - "9002:8080"
 
     mongodb:
         build:
@@ -8,6 +20,8 @@ services:
         logging:
             driver: none
         image: mongo
+        ports: 
+            - "27017:27017"
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
@@ -49,19 +63,6 @@ services:
             - /app/node_modules/
         networks:
             - gate-tier
-
-    nginx:
-        restart: always
-        build:
-            context: "./nginx"
-        networks:
-            - gate-tier
-        volumes:
-            - ./nginx/conf.d/:/etc/nginx/conf.d/
-            - ./nginx:/var/log/nginx/
-        ports:
-            - "9001:80"
-            - "9002:8080"
 
 networks:
     gate-tier:

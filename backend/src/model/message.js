@@ -4,7 +4,7 @@ const schema = new Schema({
     images: Array,
     text: String,
     user: { type: Schema.Types.ObjectId, ref: 'User' },
-    createTime: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
     isRead: Boolean
 });
 
@@ -21,7 +21,7 @@ class ModelClass extends Model {
             .skip(totalCount - pageSize - index > 0 ? totalCount - pageSize - index : 0)
             .limit(totalCount - pageSize - index < 0 ? totalCount - index : Number(pageSize))
             .populate('user')
-            .exec()
+
     }
 }
 

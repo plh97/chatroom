@@ -1,13 +1,11 @@
+import cs from 'classnames'
 import React, { useRef } from 'react'
-import {
-    Avatar
-} from "@chakra-ui/react"
+import { Avatar } from "@chakra-ui/react"
 import { useSelector, useDispatch } from 'react-redux'
 import './UserDetailSidebar.scoped.scss'
-// import { ACTION_TYPE } from '../utils/constants'
-import cs from 'classnames'
-import Api from '../Api'
-import { ACTION_TYPE } from '../utils/constants'
+// import { ACTION_TYPE } from '@/utils/constants'
+import Api from '@/Api'
+import { ACTION_TYPE } from '@/utils/constants'
 
 export default function UserDetailSidebar() {
     const dispatch = useDispatch()
@@ -22,7 +20,7 @@ export default function UserDetailSidebar() {
         })
         // upload image
         const image = await Api.upload(form)
-        let newUserInfo = await Api.setUserInfo({
+        let newUserInfo = await Api.setMyUserInfo({
             image,
         })
         dispatch({
@@ -45,14 +43,18 @@ export default function UserDetailSidebar() {
         data-testid="userDetailSidebar"
         onClick={handleClick}
     >
-        <div className="sidebar" onClick={e=>e.stopPropagation()}>
+        <div className="sidebar" onClick={e => e.stopPropagation()}>
             <input ref={inputFileRef} accept=".jpg,.png,.jpeg" type="file" name="" id="" onChange={handleUserInfoChange} />
             <span onClick={handleUploadImage} >
                 <Avatar size="2xl" name={userInfo.username} src={userInfo.image} />
             </span>
             <p className="name">
-                name: {userInfo.username}
+                Name: {userInfo.username}
             </p>
+            <h3 className="room-title">Room</h3>
+            <div className="room">
+                {userInfo.room.map(room => <p key={room._id}>{room.name}</p>)}
+            </div>
         </div>
     </div>
 }

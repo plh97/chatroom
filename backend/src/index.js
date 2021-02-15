@@ -3,7 +3,6 @@ const jwt = require('koa-jwt');
 const path = require('path');
 const json = require('koa-json');
 const cors = require('@koa/cors');
-// const koaSend = require('koa-send');
 const logger = require('koa-logger');
 const kosStatic = require('koa-static');
 const koaBody = require("koa-body");
@@ -24,7 +23,8 @@ app
     credentials: true,
     // maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
-  .use(kosStatic(path.resolve('static'), {
+  .use(kosStatic(path.resolve('static')))
+  .use(kosStatic(path.resolve('public'), {
     gzip: true,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
@@ -34,6 +34,17 @@ app
       getToken: (ctx) => ctx.cookies.get('token')
     }).unless({ path: whiteList })
   )
+  // .use(async(ctx,next) => {
+  //   const cookie = ctx.cookies.get('token')
+  //   const userIdFromToken = await new Promise((resolve, reject) => {
+  //     verify(cookie, privateKey, (err, token) => {
+  //       if (err) reject(err);
+  //       resolve(token);
+  //     });
+  //   });
+  //   ctx.userid = userIdFromToken;
+  //   next();
+  // })
   .use(allRouter.routes())
   .use(allRouter.allowedMethods())
 

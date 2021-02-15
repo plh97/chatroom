@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import { ACTION_TYPE } from '../utils/constants'
-import Api from '../Api'
+import { ACTION_TYPE } from '@/utils/constants'
+import Api from '@/Api'
 import {
     Input,
     Stack,

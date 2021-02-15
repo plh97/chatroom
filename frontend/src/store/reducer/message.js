@@ -13,8 +13,8 @@ export default function messageReducer(state = initialState, action) {
                 ...state,
                 ...action.payload
             }
-        // case ACTION_TYPE.INITIAL_MESSAGE:
-        //     return action.payload
+        case ACTION_TYPE.INITIAL_MESSAGE:
+            return initialState;
         default:
             return state
     }

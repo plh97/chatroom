@@ -1,6 +1,6 @@
 import { ACTION_TYPE } from '../../utils/constants'
 
-const initState = ACTION_TYPE.FETCH_SUCCESS
+const initState = ACTION_TYPE.FETCH_START
 
 export default function fetchReducer(state = initState, action) {
     switch (action.type) {
