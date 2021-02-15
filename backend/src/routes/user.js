@@ -21,12 +21,8 @@ async function GetUserInfo(ctx) {
         .findOne({ _id })
         .populate('friend')
         .populate('room')
-        .exec();
-
+        .populate({ path: 'room', options: { sort: { updatedAt: -1 } } })
     if (userinfo) {
-        // const room = await RoomModel.find({}).exec()
-        // userinfo.room = room;
-        // console.log((userinfo));
         ctx.body = ({
             code: 0,
             data: userinfo,
@@ -52,7 +48,7 @@ async function SetUserInfo(ctx) {
         });
     })
     await UserModel.updateOne({ _id }, { $set: { image } });
-    const userinfo = await UserModel.findOne({ _id })
+    const userinfo = await UserModel.findOne({ _id }).populate('friend').populate('room');
     if (userinfo) {
         ctx.body = ({
             code: 0,
@@ -68,7 +64,7 @@ async function SetUserInfo(ctx) {
 async function GetUserImage(ctx) {
     const { username } = ctx.request.query
     if (username) {
-        const userinfo = await UserModel.findOne({ username }).exec();
+        const userinfo = await UserModel.findOne({ username });
         if (userinfo) {
             userinfo.password = undefined;
             ctx.body = ({
@@ -92,7 +88,7 @@ async function GetUserImage(ctx) {
 async function QueryUser(ctx) {
     const { username } = ctx.request.query
     if (username) {
-        const users = await UserModel.find({ username }).populate('room').exec();
+        const users = await UserModel.find({ username }).populate('room');
         ctx.body = {
             code: users ? 0 : 1,
             data: users ? users : []
@@ -115,7 +111,7 @@ async function Login(ctx) {
         }
     }
     const { username, password } = ctx.request.body
-    const userinfo = await UserModel.findOne({ username, password }).exec();
+    const userinfo = await UserModel.findOne({ username, password });
     if (userinfo) {
         console.log(userinfo)
         var token = jwt.sign(String(userinfo._id), privateKey);
@@ -137,13 +133,12 @@ async function Login(ctx) {
 async function Register(ctx) {
     if (!ctx.request.body) {
         return ctx.body = {
-            data: null,
             code: 1,
             message: 'must provide username or password!'
         }
     }
     const { username, password } = ctx.request.body
-    const userInfo = await UserModel.findOne({ username }).exec();
+    const userInfo = await UserModel.findOne({ username });
     if (userInfo) {
         ctx.body = ({
             code: 1,
@@ -154,7 +149,7 @@ async function Register(ctx) {
             username,
             password,
         })
-        var token = jwt.sign({ _id: userinfo._id }, privateKey);
+        var token = jwt.sign(String(userinfo._id), privateKey);
         ctx.cookies.set('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true });
         userinfo.password = undefined;
         ctx.body = ({
@@ -177,7 +172,57 @@ async function Logout(ctx) {
  *
  * @param {*} ctx
  */
-async function AddFriend(ctx) {
+async function AddFriend(ctx, next) {
+    const { _id, username, image } = ctx.request.body;
+    const cookie = ctx.cookies.get('token')
+    const userIdFromToken = await new Promise((resolve, reject) => {
+        jwt.verify(cookie, privateKey, (err, token) => {
+            if (err) reject(err);
+            resolve(token);
+        });
+    })
+    if (_id === userIdFromToken) {
+        return ctx.body = {
+            code: 1,
+            message: 'cannot add yourself as friend'
+        }
+    }
+    const isFriend = await UserModel.findOne({ _id: userIdFromToken, friend: { $in: { _id: Types.ObjectId(_id) } } })
+    if (isFriend) {
+        return ctx.body = {
+            code: 1,
+            message: 'you are already friend.'
+        }
+    }
+    // add friend
+    await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { friend: Types.ObjectId(_id) } })
+    await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { friend: Types.ObjectId(userIdFromToken) } });
+    // create room
+    const roomResponse = await RoomModel.create({
+        image,
+        name: username,
+        member: [
+            userIdFromToken,
+            _id,
+        ],
+        manager: Types.ObjectId(userIdFromToken)
+    })
+    // update myself into a room id
+    // update otherpersion into userid
+    const data = await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { room: roomResponse } })
+    await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { room: roomResponse } });
+    ctx.body = ({
+        code: 0,
+        message: 'Add friend success',
+        data
+    })
+}
+/**
+ * 删除好友.
+ *
+ * @param {*} ctx
+ */
+async function DeleteFriend(ctx) {
     const { _id } = ctx.request.query
     const cookie = ctx.cookies.get('token')
     const userIdFromToken = await new Promise((resolve, reject) => {
@@ -189,23 +234,14 @@ async function AddFriend(ctx) {
     if (_id === userIdFromToken) {
         ctx.body = {
             code: 1,
-            message: 'cannot add yourself as friend'
+            message: 'cannot delete yourself as friend'
         }
     }
-    // 双方互加
-    console.log(
-        'userIdFromToken:', userIdFromToken,
-        '_id:', _id,
-        [
-            { _id: Types.ObjectId(userIdFromToken) },
-            { $addToSet: { friend: Types.ObjectId(_id) } }
-        ]
-    )
-    await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { friend: Types.ObjectId(_id) } });
-    await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { friend: Types.ObjectId(userIdFromToken) } });
+    // await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { friend: Types.ObjectId(_id) } });
+    // await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { friend: Types.ObjectId(userIdFromToken) } });
     ctx.body = ({
         code: 0,
-        message: 'Add friend success',
+        message: 'Delete friend success',
     })
 }
 
@@ -218,4 +254,5 @@ module.exports = {
     GetUserImage,
     QueryUser,
     AddFriend,
+    DeleteFriend,
 }

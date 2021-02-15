@@ -23,7 +23,8 @@ app
     credentials: true,
     // maxAge: 1000 * 60 * 60 * 24 * 7,
   }))
-  .use(kosStatic(path.resolve('static'), {
+  .use(kosStatic(path.resolve('static')))
+  .use(kosStatic(path.resolve('public'), {
     gzip: true,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   }))

@@ -20,7 +20,7 @@ export default function UserDetailSidebar() {
         })
         // upload image
         const image = await Api.upload(form)
-        let newUserInfo = await Api.setUserInfo({
+        let newUserInfo = await Api.setMyUserInfo({
             image,
         })
         dispatch({
@@ -52,9 +52,9 @@ export default function UserDetailSidebar() {
                 Name: {userInfo.username}
             </p>
             <h3 className="room-title">Room</h3>
-            {/* <div className="room">
-                {userInfo.room.map(room => <span key={room._id}>{room.name}</span>)}
-            </div> */}
+            <div className="room">
+                {userInfo.room.map(room => <p key={room._id}>{room.name}</p>)}
+            </div>
         </div>
     </div>
 }

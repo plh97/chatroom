@@ -9,14 +9,14 @@ const getMessage = async (ctx) => {
             message: await MessageModel.findAndReplaceUserInfo({
                 index, pageSize
             }),
-        } 
+        }
     }
 };
 
 const sendMessage = async (ctx) => {
     const body = ctx.request.body
     const msg = await MessageModel.create(body)
-    const data = await MessageModel.findOne(msg).populate('user').exec()
+    const data = await MessageModel.findOne(msg).populate('user')
     ctx.body = ({
         code: 0,
         data

@@ -8,6 +8,7 @@ const {
     GetUserImage,
     QueryUser,
     AddFriend,
+    DeleteFriend,
 } = require('./user.js');
 const { Upload } = require('./image.js');
 
@@ -23,7 +24,8 @@ module.exports = router
     .post('/register', Register)
     .get('/userInfo', GetUserInfo)
     .get('/user', QueryUser)
-    .put('/friend', AddFriend)
+    .post('/friend', AddFriend)
+    .delete('/friend', DeleteFriend)
     .post('/userInfo', SetUserInfo)
     .get('/userImage', GetUserImage)
     // message

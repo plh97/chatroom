@@ -16,6 +16,8 @@ import Api from '@/Api';
 import Loading from './Loading';
 import { ACTION_TYPE } from '@/utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
+import { getMyUserInfo } from '@/store/actions/user'
+import { scrollToBottom } from '@/utils/scroll'
 
 export default function InputComponent(props) {
     const dispatch = useDispatch()
@@ -55,9 +57,11 @@ export default function InputComponent(props) {
                     trigger: Math.random()
                 }
             })
+            dispatch(getMyUserInfo())
             setText('')
             setImages([]);
             input.current.focus();
+            scrollToBottom();
         }
     }
     function handleKeyPress(e) {
@@ -111,6 +115,9 @@ export default function InputComponent(props) {
             }))
         })()
     }, [images])
+    useEffect(() => {
+        input.current.focus();
+    }, [props.roomId])
     function handleRemoveImage(data) {
         setImages(images.filter(img => img !== data))
     }

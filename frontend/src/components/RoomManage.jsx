@@ -1,4 +1,4 @@
-import React, { useEffect,useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     InputGroup,
     InputLeftElement,
@@ -9,7 +9,8 @@ import {
     AlertDialogContent,
     AlertDialogHeader,
     AlertDialogBody,
-    Stack,
+    HStack,
+    VStack,
     Checkbox,
     CheckboxGroup,
     AlertDialogFooter,
@@ -25,11 +26,13 @@ import { SearchIcon, AddIcon } from '@chakra-ui/icons'
 import { useSelector, useDispatch } from 'react-redux'
 import Api from '@/Api'
 import './RoomManage.scoped.scss'
-import { ACTION_TYPE } from '@/utils/constants'
 import { Link } from "react-router-dom";
+import { getMyUserInfo } from '@/store/actions/user'
+import { drawCombineImage } from '@/utils/draw'
+import cs from 'classnames'
 
-export default function RoomManage() {
-    let userInfo = useSelector(state => state.user)
+export default function RoomManage({ match }) {
+    let myUserInfo = useSelector(state => state.user)
     const [user, setUser] = useState([])
     const toast = useToast();
     const [isOpen, setIsOpen] = useState(false)
@@ -57,24 +60,27 @@ export default function RoomManage() {
             })
         }
         await Api.addRoom({
+            image: await drawCombineImage([
+                myUserInfo.image,
+                ...selectUser.map(userId => myUserInfo.friend.find(fri => fri._id === userId).image)
+            ]),
             name: roomname,
             member: selectUser
         })
         setIsOpen(false)
-        let newUserInfo = await Api.getUserInfo()
-        dispatch({
-            type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: newUserInfo
-        })
+        dispatch(getMyUserInfo())
     }
-    async function handleAddUser(data) {
-        if (!data) return;
-        await Api.addFriend(data)
-        let newUserInfo = await Api.getUserInfo()
-        dispatch({
-            type: ACTION_TYPE.SAVE_USER_INFO,
-            payload: newUserInfo
+    async function handleAddUser(user) {
+        if (!user) return;
+        const data = await Api.addFriend({
+            _id: user._id,
+            image: await drawCombineImage([user.image, myUserInfo.image]),
+            username: `${user.username},${myUserInfo.username}`
         })
+        if (data) {
+            dispatch(getMyUserInfo())
+            setSearchContent('');
+        }
     }
     return <div
         className="App-RoomManage"
@@ -93,14 +99,22 @@ export default function RoomManage() {
                     <AlertDialogBody>
                         <FormControl id="name" isRequired>
                             <FormLabel>room name</FormLabel>
-                            <Input type="text" autoComplete="true" autoFocus value={roomname} onChange={e=>setRoomname(e.target.value)} />
+                            <Input type="text" autoComplete="true" autoFocus value={roomname} onChange={e => setRoomname(e.target.value)} />
                         </FormControl>
                         <FormControl id="name" isRequired>
                             <FormLabel>select member</FormLabel>
-                            <CheckboxGroup colorScheme="green" value={selectUser} onChange={e=>setSelectUser(e)}>
-                                <Stack spacing={10} direction="row">
-                                    {userInfo.friend.map(fri => <Checkbox key={fri._id} value={fri._id}>{fri.username}</Checkbox>)}
-                                </Stack>
+                            <CheckboxGroup colorScheme="green" value={selectUser} onChange={e => setSelectUser(e)}>
+                                <HStack align="start">
+                                    <VStack wrap="flexWrap" spacing={4} align="start">
+                                        {myUserInfo.friend.map((fri, i) => i % 3 === 0 ? <Checkbox key={fri._id} value={fri._id}>{fri.username}</Checkbox> : '')}
+                                    </VStack>
+                                    <VStack wrap="flexWrap" spacing={4} align="start">
+                                        {myUserInfo.friend.map((fri, i) => i % 3 === 1 ? <Checkbox key={fri._id} value={fri._id}>{fri.username}</Checkbox> : '')}
+                                    </VStack>
+                                    <VStack wrap="flexWrap" spacing={4} align="start">
+                                        {myUserInfo.friend.map((fri, i) => i % 3 === 2 ? <Checkbox key={fri._id} value={fri._id}>{fri.username}</Checkbox> : '')}
+                                    </VStack>
+                                </HStack>
                             </CheckboxGroup>
                         </FormControl>
                     </AlertDialogBody>
@@ -123,36 +137,40 @@ export default function RoomManage() {
                 <Input size="sm" value={searchContent} onChange={e => setSearchContent(e.target.value)} placeholder="search room/user" />
             </InputGroup>
             <ButtonGroup className="button" size="sm" isAttached variant="outline">
-                <IconButton onClick={e=>setIsOpen(true)} aria-label="Add to friends" icon={<AddIcon />} />
+                <IconButton onClick={e => setIsOpen(true)} aria-label="Add to friends" icon={<AddIcon />} />
             </ButtonGroup>
         </div>
         {
-            searchContent ? 
-            <span className="search-result">
-                {
-                    user.length ? (
-                        <>
-                            <h4 className="title">User Result</h4>
-                            <Divider className="divider" orientation="horizontal" />
-                        </>
-                    ) : ''
-                }
-                {user.map(user => <div key={user._id} className="line-user" onClick={e => handleAddUser({_id: user._id})}>
-                    <Avatar className="avatar" name={user.username} src={user.image} />
-                    <span className="username">{user.username}</span>
-                    <AddIcon className="icon" />
-                </div>)}
-            </span>
-        :
-            // room-container
-            <div className="search-result">
-                {userInfo.room.map(room => (
-                    <Link to={`/room/${room._id}`} key={room._id} className="line-user">
-                        <Avatar className="avatar" name={room.name} src={room.image} />
-                        <span className="username">{room.name}</span>
-                    </Link>
-                ))}
-            </div>
+            searchContent ?
+                <span className="search-result">
+                    {
+                        user.length ? (
+                            <>
+                                <h4 className="title">User Result</h4>
+                                <Divider className="divider" orientation="horizontal" />
+                            </>
+                        ) : ''
+                    }
+                    {user.map(user => <div key={user._id} className="line-user" onClick={e => handleAddUser(user)}>
+                        <Avatar className="avatar" name={user.username} src={user.image} borderRadius="5px" />
+                        <span className="username">{user.username}</span>
+                        <AddIcon className="icon" />
+                    </div>)}
+                </span>
+                :
+                // room-container
+                <div className="search-result">
+                    {myUserInfo.room.map(room => (
+                        <Link
+                            key={room._id}
+                            to={`/room/${room._id}`}
+                            className={cs({ active: match?.params?.roomId === room._id }, 'line-room')}
+                        >
+                            <Avatar className="avatar" name={room.name} src={room.image} borderRadius="5px" />
+                            <span className="username">{room.name}</span>
+                        </Link>
+                    ))}
+                </div>
         }
     </div>
 }

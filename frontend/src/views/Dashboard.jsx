@@ -15,12 +15,11 @@ export default function Dashboard() {
             e.preventDefault()
         }
     }
-
     let match = useRouteMatch("/room/:roomId");
     return <ActiveListener onWheel={handlePrevent}>
         <div className="App-Dashboard" data-testid="dashboard">
             <div className="container">
-                <RoomManage />
+                <RoomManage match={match} />
                 {
                     match ?
                         <div className="right">

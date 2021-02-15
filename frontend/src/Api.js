@@ -73,11 +73,11 @@ const Api = {
         method: 'post',
         data
     }),
-    getUserInfo: () => axios({
+    getMyUserInfo: () => axios({
         url: '/userInfo',
         method: 'get'
     }),
-    setUserInfo: (data) => axios({
+    setMyUserInfo: (data) => axios({
         url: '/userInfo',
         method: 'post',
         data
@@ -122,15 +122,15 @@ const Api = {
         method: 'post',
         data
     }),
-    deleteMessage: _id => axios({
+    deleteMessage: params => axios({
         url: '/room/message',
         method: 'delete',
-        params: { _id }
-    }),
-    addFriend: (params) => axios({
-        url: '/friend',
-        method: 'put',
         params
+    }),
+    addFriend: (data) => axios({
+        url: '/friend',
+        method: 'post',
+        data
     }),
     deleteFriend: (params) => axios({
         url: '/friend',
