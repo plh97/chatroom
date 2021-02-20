@@ -17,12 +17,6 @@ const getRoom = async (ctx) => {
         .populate('message.user')
     const message = data.message;
     const totalCount = data.message.length;
-    console.log(
-        12321,
-        totalCount, page, pageSize,
-        totalCount - page * pageSize,
-        totalCount - (page - 1) * pageSize
-    )
     ctx.body = {
         code: 0,
         data: {

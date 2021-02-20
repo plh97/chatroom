@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import './Message.scoped.scss'
 import {
     Button,
+    Spinner,
     Avatar
 } from "@chakra-ui/react"
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,17 +10,22 @@ import Api from '@src/Api'
 import { ACTION_TYPE } from '@src/utils/constants'
 import { getMessage } from '@src/store/actions/room'
 import { scrollToBottom } from '@src/utils/scroll'
-import { useLoading } from "@hooks/loading";
 
 export default function Meaaage(props) {
     const [hasMessage, setHasMessage] = useState(true)
-    const dispatch = useDispatch()
     const [loadingMessage, setLoadingMessage] = useState(false)
+    const dispatch = useDispatch()
     let message = useSelector(state => state.message.message)
     let userInfo = useSelector(state => state.user)
     const scrollEl = useRef(null);
-    // 1. 初始化
-    // 2. 新消息
+    const handleGetMessage = React.useCallback(async () => {
+        setLoadingMessage(true)
+        const data = await dispatch(getMessage(props))
+        setLoadingMessage(false)
+        if (data.isLoadEnd) {
+            setHasMessage(false);
+        };
+    }, [dispatch, props])
     async function handleDelteMessage(id) {
         // can only recall themselves's message.
         await Api.deleteMessage({
@@ -33,27 +39,18 @@ export default function Meaaage(props) {
             }
         })
     };
-    const [loading, setLoading] = useState(true)
-    useEffect(() => {
-        // here to target while room change or initial.
-        (async () => {
+    React.useEffect(() => {
+        async function inititalRoom() {
             await setHasMessage(true);
             await dispatch({
                 type: ACTION_TYPE.INITIAL_MESSAGE,
             })
             await handleGetMessage();
             scrollToBottom()
-        })()
-    }, [props.roomId]);
-    useLoading(loading, props)
-    async function handleGetMessage() {
-        setLoadingMessage(true)
-        const data = await dispatch(getMessage(props))
-        setLoadingMessage(false)
-        if (data.isLoadEnd) {
-            setHasMessage(false);
-        };
-    }
+        }
+        // here to target while room change or initial.
+        inititalRoom()
+    }, [props.roomId, dispatch]);
     async function handleScroll() {
         // 1. has message and not loading true
         // 2. has message and loading false
@@ -61,10 +58,14 @@ export default function Meaaage(props) {
         if (scrollEl.current.scrollTop === 0 && !loadingMessage && hasMessage) {
             const targetElement = scrollEl.current.children[0]
             await handleGetMessage();
-            targetElement.previousSibling.scrollIntoView();
+            if (scrollEl.current.scrollTop === 0) {
+                targetElement.previousSibling.scrollIntoView();
+            }
         }
     }
     return <div ref={scrollEl} className="App-Message" data-testid="message" onScroll={handleScroll}>
+        {loadingMessage && <div className='load-more'><Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="md" /></div>}
+        {!hasMessage && <div className='no-more-message'>---------- No More Message ----------</div>}
         {message.map(m =>
             <MessageComponent
                 m={m}
@@ -83,13 +84,11 @@ function MessageComponent({
     handleDelteMessage,
 }) {
     const container = useRef(null);
-    useEffect(() => {
-    }, [])
     return <div ref={container}>
         {
             userInfo._id === m.user._id ?
                 (<div className="line reserve" >
-                    <Button onClick={e => handleDelteMessage(m._id)}>Recall</Button>
+                    <Button onClick={_ => handleDelteMessage(m._id)}>Recall</Button>
                     <div className="content">
                         <div className="img">
                             {m.images.map(img => <img key={img} src={img} alt="img" />)}
