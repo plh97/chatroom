@@ -129,7 +129,7 @@ export default function InputComponent(props) {
                 onKeyPress={handleKeyPress}
                 pr="4.5rem"
                 pl={`${2 + 2 * images.length + 0.5 * (images.length - 1)}rem`}
-                placeholder="Enter password"
+                placeholder="Ctrl+v paste Image From Clipboard."
                 value={text}
                 onChange={e => setText(e.target.value)}
                 autoFocus
