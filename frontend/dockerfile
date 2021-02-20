@@ -1,4 +1,5 @@
 FROM node:13
 COPY . /app
 WORKDIR /app
-RUN npm install
+RUN yarn add @chakra-ui/icons
+RUN yarn --silent
