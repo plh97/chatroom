@@ -2,6 +2,14 @@
     height: 100px;
     flex: 1;
     overflow: auto;
+    .load-more {
+        text-align: center;
+        margin-top: 10px;
+    }
+    .no-more-message {
+        text-align: center;
+        margin-top: 10px;
+    }
     .line {
         margin: 15px 20px;
         display: flex;
