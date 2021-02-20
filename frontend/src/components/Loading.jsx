@@ -1,7 +1,7 @@
 import React from 'react'
 import { Spinner } from "@chakra-ui/react"
 import cs from 'classnames'
-import './Loading.scss'
+import './Loading.scoped.scss'
 
 export default function FrontendAuth(props) {
     // 如果已经登录
