@@ -1,6 +1,7 @@
 {
   "name": "chatroom",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "repository": "https://github.com/pengliheng/chatroom.git",
   "author": "pengliheng <pengliheng111@gmail.com>",

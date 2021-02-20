@@ -333,7 +333,9 @@ module.exports = function (webpackEnv) {
         }),
         ...(modules.webpackAliases || {}),
         '@src': path.resolve(__dirname, '..', 'src'),
-        '@hooks': path.resolve(__dirname, '..', 'src/hooks'),
+        '@store': path.resolve(__dirname, '..', 'src', 'store'),
+        '@utils': path.resolve(__dirname, '..', 'src', 'utils'),
+        '@hooks': path.resolve(__dirname, '..', 'src', 'hooks'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding

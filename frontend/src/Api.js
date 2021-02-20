@@ -50,7 +50,7 @@ axios.interceptors.response.use(function (response) {
         store.dispatch({
             type: ACTION_TYPE.LOGOUT
         })
-        throw new Error(error);
+        // return new Error('error');
     }
     store.dispatch({
         type: ACTION_TYPE.FETCH_FAIL

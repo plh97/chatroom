@@ -41,10 +41,18 @@ export default function Meaaage(props) {
     };
     React.useEffect(() => {
         async function inititalRoom() {
-            await setHasMessage(true);
-            await dispatch({
+            setHasMessage(true);
+            dispatch({
                 type: ACTION_TYPE.INITIAL_MESSAGE,
             })
+            const handleGetMessage = async () => {
+                setLoadingMessage(true)
+                const data = await dispatch(getMessage(props))
+                setLoadingMessage(false)
+                if (data.isLoadEnd) {
+                    setHasMessage(false);
+                };
+            }
             await handleGetMessage();
             scrollToBottom()
         }

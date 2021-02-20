@@ -13,13 +13,14 @@ export default function FrontendAuth(props) {
     let fetchStatus = useSelector(state => state.fetch)
     const dispatch = useDispatch()
     useEffect(() => {
-        (async () => {
+        async function getUserInfo() {
             if (!userInfo.username) {
                 dispatch({ type: ACTION_TYPE.FETCH_START })
-                dispatch(getMyUserInfo())
+                await dispatch(getMyUserInfo())
                 dispatch({ type: ACTION_TYPE.FETCH_SUCCESS })
             }
-        })()
+        }
+        getUserInfo();
     }, [userInfo.trigger, userInfo, dispatch])
     // 如果已经登录
     if (fetchStatus !== ACTION_TYPE.FETCH_START) {
@@ -36,7 +37,7 @@ export default function FrontendAuth(props) {
     return (
         <Loading
             style={{ position: 'fixed', left: 0, top: 0 }}
-            isLoading={fetchStatus === ACTION_TYPE.FETCH_START}
+            isloading={fetchStatus === ACTION_TYPE.FETCH_START ? 'true' : 'false'}
         >
             <Switch>
                 <Route path="/register">
