@@ -3,4 +3,4 @@ COPY . /app
 WORKDIR /app
 # RUN yarn add @chakra-ui/icons
 RUN yarn --silent
-RUN yarn build
+RUN yarn build --silent
