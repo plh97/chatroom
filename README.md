@@ -54,3 +54,7 @@ DELETE /room/ID/message/ID：删除某个指定room的指定message
 username: admin
 password: admin
 ```
+
+## Todo
+
+1. everny new comer should be joined in a default room.
