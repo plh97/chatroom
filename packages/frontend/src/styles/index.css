@@ -1,0 +1,19 @@
+@import url('@fontsource/roboto/300.css');
+@import url('@fontsource/roboto/400.css');
+@import url('@fontsource/roboto/500.css');
+@import url('@fontsource/roboto/700.css');
+@import url(./reset.css);
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+#root {
+  background-color: #000;
+  color: #fff;
+  width: 100vw;
+  height: 100vh;
+}
