@@ -1,15 +1,14 @@
 import { AnyAction } from "redux";
 import { ACTION_TYPE } from "../../constants";
+import { USER } from "../../interfaces/IUser";
 
-const userInitState = {
+const userInitState: Partial<USER> = {
+  _id: "",
   room: [],
   friend: [],
-  trigger: Math.random(),
+  // trigger: Math.random(),
 };
-export default function userReducer(
-  state = userInitState,
-  action: AnyAction
-) {
+export function userReducer(state = userInitState, action: AnyAction) {
   switch (action.type) {
     case ACTION_TYPE.SAVE_USER_INFO:
       return action.payload;
@@ -19,3 +18,5 @@ export default function userReducer(
       return state;
   }
 }
+
+export type USER_TYPE = Partial<USER>;

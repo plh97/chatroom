@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import CSS from "csstype";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Stack,
   Input,
@@ -42,12 +42,12 @@ const style: { [key: string]: CSS.Properties } = {
 };
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("1");
+  const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
-  const history = useLocation();
   async function handleLogin() {
     if (!username || !password) {
       toast({
@@ -59,12 +59,10 @@ export default function Login() {
       });
       return;
     }
-    dispatch({ type: ACTION_TYPE.FETCH_START });
     const userInfo = await Api.login({
       username,
       password,
     });
-    dispatch({ type: ACTION_TYPE.FETCH_SUCCESS });
     if (!userInfo) return;
     dispatch({
       type: ACTION_TYPE.SAVE_USER_INFO,
@@ -72,8 +70,8 @@ export default function Login() {
         trigger: Math.random(),
       },
     });
+    return navigate("/");
   }
-  const navigate = useNavigate();
   function handleRegister() {
     return navigate("/register");
   }

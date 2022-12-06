@@ -2,25 +2,29 @@ import { createStandaloneToast } from "@chakra-ui/react";
 import Axios from "axios";
 import { store } from "./store";
 import { ACTION_TYPE } from "./constants";
+import { useNavigate } from "react-router-dom";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({
   baseURL: `//${document.domain}:9002/api`,
   timeout: 10000,
   withCredentials: true,
-  headers: {
-    "Access-Control-Allow-Origin": "http://127.0.0.1:5173/",
-  },
+  // headers: {
+  //   "Access-Control-Allow-Origin": "http://127.0.0.1:5173/",
+  // },
 });
 
 // Add a request interceptor
 axios.interceptors.request.use(
-  function (config) {
+  (config) => {
+    console.log("req: suc", config);
     // Do something before request is sent
     // store.dispatch({ type: ACTION_TYPE.FETCH_START })
     return config;
   },
   (error) => {
+    console.log("req: error", error.message);
+    debugger;
     // Do something with request error
     store.dispatch({
       type: ACTION_TYPE.FETCH_FAIL,
@@ -29,7 +33,8 @@ axios.interceptors.request.use(
   }
 );
 axios.interceptors.response.use(
-  function (response) {
+  (response) => {
+    console.log("res: suc", response);
     const res = response.data;
     if (res.code === 1) {
       res.message &&
@@ -51,11 +56,14 @@ axios.interceptors.response.use(
     return res.data;
   },
   (error) => {
-    // Do something with request error
+    const navigate = useNavigate();
+    debugger;
+    console.log("res: error", error);
     if (error?.response?.status === 401) {
       store.dispatch({
         type: ACTION_TYPE.LOGOUT,
       });
+      navigate("/login");
       // return new Error('error');
     }
     store.dispatch({

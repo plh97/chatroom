@@ -45,6 +45,7 @@ axios.interceptors.response.use(function (response) {
     }
     return res.data
 }, (error) => {
+    debugger;
     // Do something with request error
     if (error?.response?.status===401) {
         store.dispatch({
