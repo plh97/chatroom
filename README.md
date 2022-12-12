@@ -1,8 +1,8 @@
 # Chatroom
 
-## architecture
+## Architecture
 
-- DEVELOPMENT(lerna)
+- Development(lerna)
   - package
     - frontend
       vite + react + ts + tailwind + redux[dispatch(action/asyncthunk)]
@@ -10,7 +10,7 @@
       nodejs + koajs + cors + koa-router + koa-static
     - db
       docker-compose + mongodb
-- (DEPLOY)
+- Deploy
   - terraoform 开一个 AWS EC2 服务
   - ansible 部署 VM
   - K8S 建立 Container
