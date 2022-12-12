@@ -1,8 +1,13 @@
 import { createStandaloneToast } from "@chakra-ui/react";
 import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { store } from "./store";
-import { ADD_MESSAGE_REQUEST, MESSAGE_RESPONSE } from "./interfaces/IMessage";
+import {
+  ADD_MESSAGE_REQUEST,
+  MESSAGE,
+  MESSAGE_RESPONSE,
+} from "./interfaces/IMessage";
 import { logout } from "./store/reducer/user";
+import { USER } from "./interfaces/IUser";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({
@@ -69,7 +74,7 @@ const Api = {
       method: "post",
     }),
   getMyUserInfo: () =>
-    request({
+    request<USER>({
       url: "/userInfo",
       method: "get",
     }),
@@ -122,7 +127,7 @@ const Api = {
       method: "patch",
     }),
   sendMessage: (data: ADD_MESSAGE_REQUEST) =>
-    request({
+    request<MESSAGE>({
       url: "/room/message",
       method: "post",
       data,

@@ -23,11 +23,7 @@ export const fetchUserInfoThunk = createAsyncThunk(
   `getMyUserInfo`,
   async (_, { dispatch }) => {
     const userinfo = await Api.getMyUserInfo();
-    dispatch({
-      type: "user/saveUserInfo",
-      payload: userinfo,
-    });
-    return userinfo;
+    dispatch(saveUserInfo(userinfo));
   }
 );
 
@@ -43,11 +39,8 @@ export const loginThunk = createAsyncThunk<
 export const logoutThunk = createAsyncThunk(
   `logout`,
   async (_, { dispatch }) => {
-    const userinfo = await Api.logout();
-    dispatch({
-      type: "user/logout",
-    });
-    return userinfo;
+    await Api.logout();
+    dispatch(logout());
   }
 );
 
@@ -73,6 +66,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, saveUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -38,10 +38,7 @@ export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
   `addRoomMessage`,
   async (data, { dispatch }) => {
     let newMessage = await Api.sendMessage(data);
-    dispatch({
-      type: "message/addMessage",
-      payload: [newMessage],
-    });
+    dispatch(addMessage([newMessage]));
   }
 );
 
