@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "liheng.peng <liheng.peng@bybit.com>",
+  "author": "plh2 <pengliheng111@mgail.com>",
   "homepage": "https://github.com/plh2/chatroom#readme",
   "license": "ISC",
   "main": "lib/backend.js",

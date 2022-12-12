@@ -2,7 +2,7 @@
   "name": "db",
   "version": "0.0.0",
   "description": "> TODO: description",
-  "author": "liheng.peng <liheng.peng@bybit.com>",
+  "author": "plh2 <pengliheng111@mgail.com>",
   "homepage": "https://github.com/plh2/chatroom#readme",
   "license": "ISC",
   "main": "lib/db.js",
@@ -21,7 +21,7 @@
     "url": "git+https://github.com/plh2/chatroom.git"
   },
   "scripts": {
-    "dev": "docker-compose images"
+    "dev": "docker-compose up"
   },
   "bugs": {
     "url": "https://github.com/plh2/chatroom/issues"

@@ -1,21 +1,8 @@
-import { getMyUserInfo } from "../store/action/user";
 import CSS from "csstype";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import Api from "../Api";
-import SidebarComponent from "../components/SidebarComponent";
-import { ACTION_TYPE } from "../constants";
+import Layout from "@/components/Layout";
+import { useAuth } from "@/hooks/useAuth";
 
 const style: { [key: string]: CSS.Properties } = {
-  home: {
-    height: "100%",
-    display: "flex",
-  },
-  body: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
   content: {
     display: "flex",
     flexDirection: "column",
@@ -23,22 +10,11 @@ const style: { [key: string]: CSS.Properties } = {
   },
 };
 
-function HomePage() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    async () => {
-      dispatch(getMyUserInfo());
-    };
-  }, []);
+export default function HomePage() {
+  useAuth();
   return (
-    <div style={style.home}>
-      <SidebarComponent />
-      <div style={style.sider}></div>
-      <div style={style.body}>
-        <div style={style.content}></div>
-      </div>
-    </div>
+    <Layout>
+      <div style={style.content}></div>
+    </Layout>
   );
 }
-
-export default HomePage;

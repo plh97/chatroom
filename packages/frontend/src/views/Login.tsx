@@ -13,7 +13,10 @@ import {
 } from "@chakra-ui/react";
 import useRequest from "../hooks/useRequest";
 import { ACTION_TYPE } from "../constants";
-import Api from "../Api";
+import Api from "@/Api";
+import { useAuth } from "@/hooks/useAuth";
+import { loginThunk } from "@/store/reducer/user";
+import { AsyncThunkAction } from "@reduxjs/toolkit";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -42,11 +45,13 @@ const style: { [key: string]: CSS.Properties } = {
 };
 
 export default function Login() {
+  useAuth();
   const [username, setUsername] = useState("1");
   const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch =
+    useDispatch();
   const toast = useToast();
   async function handleLogin() {
     if (!username || !password) {
@@ -59,23 +64,17 @@ export default function Login() {
       });
       return;
     }
-    const userInfo = await Api.login({
-      username,
-      password,
-    });
-    if (!userInfo) return;
-    dispatch({
-      type: ACTION_TYPE.SAVE_USER_INFO,
-      payload: {
-        trigger: Math.random(),
-      },
-    });
-    return navigate("/");
+    dispatch(
+      loginThunk({
+        username,
+        password,
+      }) as any
+    );
   }
   function handleRegister() {
     return navigate("/register");
   }
-  const { run, loading } = useRequest<string>();
+  const { run } = useRequest<string>();
 
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
@@ -85,6 +84,7 @@ export default function Login() {
       method: "get",
       data: { input },
     });
+    debugger;
     setImageUrl(userImage);
   }
   return (

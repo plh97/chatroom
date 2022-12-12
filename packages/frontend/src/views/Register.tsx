@@ -11,9 +11,10 @@ import {
   FormControl,
   Avatar,
 } from "@chakra-ui/react";
-import useRequest from "../hooks/useRequest";
-import { ACTION_TYPE } from "../constants";
-import Api from "../Api";
+import useRequest from "@/hooks/useRequest";
+import { ACTION_TYPE } from "@/constants";
+import Api from "@/Api";
+import { useAuth } from "@/hooks/useAuth";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -43,6 +44,7 @@ const style: { [key: string]: CSS.Properties } = {
 };
 
 export default function Login() {
+  useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();

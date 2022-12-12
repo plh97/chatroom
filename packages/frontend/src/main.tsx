@@ -5,7 +5,9 @@ import App from "./App";
 import "./styles/index.css";
 import theme from "./theme";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+const rootDom = document.querySelector("#root") as HTMLElement;
+
+ReactDOM.createRoot(rootDom).render(
   <React.StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <App />

@@ -1,14 +1,13 @@
-import thunk from "redux-thunk";
-import { applyMiddleware, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-import messageReducer from "./reducer/message";
-import { userReducer } from "./reducer/user";
-// ...
+import thunk from "redux-thunk";
+import userReducer from "./reducer/user";
+import roomReducer from "./reducer/room";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    message: messageReducer,
+    room: roomReducer,
   },
   middleware: [logger, thunk],
 });
