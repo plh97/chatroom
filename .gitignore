@@ -7,3 +7,4 @@ dist
 static
 .DS_Store
 .eslintcache
+db/data/
