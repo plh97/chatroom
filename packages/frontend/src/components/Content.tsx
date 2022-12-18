@@ -6,13 +6,11 @@ import { useEffect, useRef } from "react";
 import { fetchRoomInfoThunk, IState } from "@/store/reducer/room";
 import { useAppSelector } from "@/hooks/app";
 import Message from "./Message";
-import useScrollbar from "@/hooks/useScrollbar";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
     flex: 1,
     padding: "0.8125rem",
-    overflow: "scroll",
   },
 };
 
@@ -55,7 +53,7 @@ export default function Content() {
   }, [id]);
   // useScrollbar(".scrollable");
   return (
-    <div style={style.container} className="overflow-scroll">
+    <div style={style.container} className="overflow-auto scrollbar">
       {message.map((msg, i) => (
         <div
           key={msg._id}
@@ -64,7 +62,6 @@ export default function Content() {
           <Message data={msg} />
         </div>
       ))}
-      <span className="font-bold">font-bold</span>
     </div>
   );
 }

@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "repository": "https://github.com/pengliheng/chatroom.git",
-  "author": "pengliheng <pengliheng111@gmail.com>",
+  "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
   "config": {
     "commitizen": {
