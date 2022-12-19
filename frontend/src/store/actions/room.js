@@ -1,9 +1,9 @@
 import Api from '@src/Api.js'
 import { ACTION_TYPE } from '@src/utils/constants'
-const sleep = (ms = 200) => new Promise((res, reh) => setTimeout(() => res(), ms));
+const sleep = (ms = 200) => new Promise((res) => setTimeout(() => res(), ms));
 
 export function getMessage({ roomId, pageSize = 20 }) {
-    return async (dispatch, getState, b, c, d) => {
+    return async (dispatch, getState) => {
         const message = getState().message.message;
         const data = await Api.getRoom({
             _id: roomId,
