@@ -1,20 +1,6 @@
 import { Context } from "koa";
 
-const MessageModel = require("../model/room");
-
-const getMessage = async (ctx: Context) => {
-  const { index, pageSize } = ctx.request.query;
-  ctx.body = {
-    code: 0,
-    data: {
-      totalCount: await MessageModel.collection.count(),
-      message: await MessageModel.findAndReplaceUserInfo({
-        index,
-        pageSize,
-      }),
-    },
-  };
-};
+import MessageModel from "@/model/room";
 
 const sendMessage = async (ctx: Context) => {
   const body = ctx.request.body;
@@ -37,6 +23,5 @@ const deleteMessage = async (ctx: Context) => {
 
 export default {
   sendMessage,
-  getMessage,
   deleteMessage,
 };

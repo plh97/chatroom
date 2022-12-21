@@ -1,9 +1,10 @@
-import RoomModel from "../model/room";
-import { verify } from "jsonwebtoken";
-import { privateKey } from "../config";
-import UserModel from "../model/user";
-import { Types } from "mongoose";
 import { Context } from "koa";
+import { verify } from "jsonwebtoken";
+import { Types } from "mongoose";
+import { privateKey } from "@/config";
+import RoomModel from "@/model/room";
+import UserModel from "@/model/user";
+import { getWS } from "@/ws";
 
 export const getRoom = async (ctx: Context) => {
   const _id = (ctx.request.query._id as string) ?? "";
@@ -14,12 +15,13 @@ export const getRoom = async (ctx: Context) => {
   }).populate("message.user");
   const message = data.message;
   const totalCount = data.message.length;
+  getWS(_id);
   ctx.body = {
     code: 0,
     data: {
       totalCount,
       message: message.slice(
-        totalCount < Number(page) * pageSize ? 0 : totalCount - page * pageSize,
+        totalCount < page * pageSize ? 0 : totalCount - page * pageSize,
         totalCount - (page - 1) * pageSize
       ),
     },

@@ -1,8 +1,8 @@
 import { Context } from "koa";
 import * as jwt from "jsonwebtoken";
-import { privateKey } from "../config";
-import UserModel, { IUser } from "../model/user";
-import RoomModel from "../model/room";
+import { privateKey } from "@/config";
+import RoomModel from "@/model/room";
+import UserModel, { IUser } from "@/model/user";
 import { Types } from "mongoose";
 
 /**

@@ -1,9 +1,6 @@
 import { Schema, Model, model } from "mongoose";
-import { roomIcon } from "../config";
-import { IMessage } from "./message";
-import { IUser } from "./user";
-
-
+import { roomIcon } from "@/config";
+import { IMessage } from "@/model/message";
 
 export interface IRoom {
   name: string;

@@ -13,7 +13,6 @@ import {
 } from "./user";
 import { Upload } from "./image";
 
-// const { getMessage, deleteMessage } = require('./message');
 import {
   addRoom,
   getRoom,
@@ -38,10 +37,6 @@ export default router
   .delete("/friend", DeleteFriend)
   .post("/userInfo", SetUserInfo)
   .get("/userImage", GetUserImage)
-  // message
-  // .get('/message', getMessage)
-  // .post('/message', sendMessage)
-  // .delete('/message', deleteMessage)
   // room
   .post("/room", addRoom)
   .get("/room", getRoom)
@@ -49,5 +44,3 @@ export default router
   .delete("/room", deleteRoom)
   .post("/room/message", addMessage)
   .delete("/room/message", deleteMessage);
-// .get('/room/message', getMessage)
-// .post('/room/message', sendMessage)

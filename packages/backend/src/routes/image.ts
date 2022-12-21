@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { Context } from "koa";
 import * as path from "path";
-import Mime, { MINE } from "../utils/mime";
+import Mime, { MINE } from "@/utils/mime";
 
 const mime = new Mime();
 

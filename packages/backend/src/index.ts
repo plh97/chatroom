@@ -6,9 +6,9 @@ import * as cors from "@koa/cors";
 import * as logger from "koa-logger";
 import * as kosStatic from "koa-static";
 import * as koaBody from "koa-body";
-import allRouter from "./routes";
-import { privateKey } from "./config";
-import "./mongo";
+import "@/mongo";
+import allRouter from "@/routes";
+import { privateKey } from "@/config";
 
 const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
@@ -44,17 +44,6 @@ app
       getToken: (ctx: Koa.Context) => ctx.cookies.get("token") ?? "",
     }).unless({ path: whiteList })
   )
-  // .use(async(ctx,next) => {
-  //   const cookie = ctx.cookies.get('token')
-  //   const userIdFromToken = await new Promise((resolve, reject) => {
-  //     verify(cookie, privateKey, (err, token) => {
-  //       if (err) reject(err);
-  //       resolve(token);
-  //     });
-  //   });
-  //   ctx.userid = userIdFromToken;
-  //   next();
-  // })
   .use(allRouter.routes())
   .use(allRouter.allowedMethods());
 

@@ -1,5 +1,5 @@
 import { Schema, Model, model } from "mongoose";
-import { IUser } from "./user";
+import { IUser } from "@/model/user";
 
 export interface IMessage {
   images: string[];
@@ -38,4 +38,4 @@ class ModelClass extends Model {
 
 schema.loadClass(ModelClass);
 
-export default model("Message", schema);
+export default model<IMessage>("Message", schema);

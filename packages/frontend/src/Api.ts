@@ -1,13 +1,13 @@
 import { createStandaloneToast } from "@chakra-ui/react";
-import Axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { store } from "./store";
+import Axios, { AxiosRequestConfig } from "axios";
+import { store } from "@/store";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
   MESSAGE_RESPONSE,
-} from "./interfaces/IMessage";
-import { logout } from "./store/reducer/user";
-import { USER } from "./interfaces/IUser";
+} from "@/interfaces/IMessage";
+import { logout } from "@/store/reducer/user";
+import { USER } from "@/interfaces/IUser";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({
@@ -18,7 +18,6 @@ export const axios = Axios.create({
 
 axios.interceptors.response.use(
   (response) => {
-    console.log("res: suc", response);
     const res = response.data;
     if (res.code === 1) {
       res.message &&
@@ -40,7 +39,6 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log("res: error", error);
     if (error?.response?.status === 401) {
       store.dispatch(logout());
     }

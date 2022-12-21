@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import Message from "./Message";
 import { Spinner } from "@chakra-ui/react";
 import { useScroll } from "@/hooks/useScroll";
+import { useWebsocket } from "@/hooks/useWebsocket";
+// import WebSocket from "ws";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -22,11 +24,17 @@ export default function Content() {
   const dispatch = useAppDispatch();
   const { id = "" } = useParams();
   useScroll(scrollEl);
+  const { connect, disconnect } = useWebsocket(id)
   useEffect(() => {
     if (!id) return;
     dispatch(
       getRoomInfoThunk(id) as any
-    );
+    ).then(() => {
+      connect();
+    })
+    return () => {
+      disconnect();
+    }
   }, [id]);
   const handleScroll = async () => {
     // 如果滚动到了顶部

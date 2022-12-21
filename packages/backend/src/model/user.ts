@@ -1,6 +1,6 @@
 import { Schema, Model, model, Types } from "mongoose";
-import { personIcon } from "../config";
-import { IRoom } from "./room";
+import { personIcon } from "@/config";
+import { IRoom } from "@/model/room";
 
 export interface IUser {
   _id: Types.ObjectId;
