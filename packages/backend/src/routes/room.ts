@@ -87,9 +87,12 @@ export const addMessage = async (ctx: Context) => {
   const data = await RoomModel.findOne({ _id: body.roomId }).populate(
     "message.user"
   );
+  const namespace = getWS(body.roomId);
+  const message = data.message[data.message.length - 1];
+  namespace.send(message);
   ctx.body = {
     code: 0,
-    data: data.message[data.message.length - 1],
+    data: message,
   };
 };
 

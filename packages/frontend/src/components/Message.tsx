@@ -30,9 +30,6 @@ interface IProps {
  * @return {JSX.Element}
  */
 export default function Message({ data }: IProps): JSX.Element {
-  // useEffect(() => {
-  //   console.log("new msg", data);
-  // }, []);
   return (
     <div style={style.container}>
       <Avatar name={data.user?.username} src={data.user?.image} />

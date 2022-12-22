@@ -1,25 +1,40 @@
-import { useEffect, useRef, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { addMessage, scrollToEnd } from "@/store/reducer/room";
+import { DefaultEventsMap } from "@socket.io/component-emitter";
+import { useState } from "react";
+import { io, Socket, Manager } from "socket.io-client";
+import { useAppDispatch } from "./app";
 
 export function useWebsocket(id: string) {
-  const [ws, setWs] = useState<Socket>();
+  const dispatch = useAppDispatch();
+  let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
   const connect = () => {
     if (!id) return;
     // connect
-    const socket = io(`ws://${document.domain}:9003/` + id);
+    const manager = new Manager(`ws://${document.domain}:9003`, {
+      reconnectionDelayMax: 10000,
+      query: {
+        namespace: id,
+      },
+    });
+    socket = manager.socket(`/${id}`);
     socket.on("connect", () => {
       console.log("connected: ", id);
-      setWs(socket);
+    });
+    socket.on("message", (msg) => {
+      dispatch(addMessage([msg]));
+      dispatch(scrollToEnd());
     });
     socket.on("error", (error) => {
-      console.log("error: ", id);
+      console.log("error: ", error);
     });
     socket.on("disconnect", (error) => {
-      console.log(error, socket.nsp);
+      console.log("disconnect: ", error);
     });
   };
   return {
     connect,
-    disconnect: () => ws?.close(),
+    disconnect: () => {
+      socket?.close();
+    },
   };
 }

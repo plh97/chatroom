@@ -46,9 +46,7 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
     // 将当前房间基本信息存到store里面
     dispatch(initialMessage(res));
     // div元素撑开后，滚动到底部
-    setTimeout(() => {
-      dispatch(scrollToEnd());
-    }, 0);
+    dispatch(scrollToEnd());
   }
 );
 // 加载更多消息
@@ -66,8 +64,7 @@ export const loadRoomMoreMessageThunk = createAsyncThunk<void, MESSAGE_REQUEST>(
 export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
   `addRoomMessage`,
   async (data, { dispatch }) => {
-    let newMessage = await Api.sendMessage(data);
-    dispatch(addMessage([newMessage]));
+    await Api.sendMessage(data);
   }
 );
 

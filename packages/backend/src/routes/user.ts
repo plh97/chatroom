@@ -104,7 +104,6 @@ export async function Login(ctx: Context) {
   const { username, password } = ctx.request.body;
   const userinfo = await UserModel.findOne({ username, password });
   if (userinfo) {
-    console.log(userinfo);
     var token = jwt.sign(String(userinfo._id), privateKey);
     ctx.cookies.set("token", token, { maxAge: 3600000, httpOnly: true });
     userinfo.password = "";

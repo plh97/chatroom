@@ -1,11 +1,8 @@
 import CSS from "csstype";
 import { Textarea } from "@chakra-ui/react";
 import { KeyboardEvent, useState } from "react";
-import Api from "@/Api";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ACTION_TYPE } from "../constants";
-import { useAppSelector } from "@/hooks/app";
+import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import { addRoomMessageThunk, scrollToEnd } from "@/store/reducer/room";
 
 const style: { [key: string]: CSS.Properties } = {
@@ -22,7 +19,7 @@ const style: { [key: string]: CSS.Properties } = {
 };
 export default function Input() {
   const { id = "" } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [text, setText] = useState("");
   const [images, setImage] = useState<{ loading: boolean; url: string }[]>([]);
   const myUserInfo = useAppSelector((state) => state.user.data);
@@ -51,7 +48,6 @@ export default function Input() {
         style={style.input}
         aria-label="maximum height"
         placeholder="Command + Enter to send message"
-        // placeholder="Message"
       />
     </div>
   );

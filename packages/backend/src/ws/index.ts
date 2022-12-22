@@ -36,7 +36,10 @@ const io = new Server(server, {
 
 export const createWS = (id: string) => {
   const namespace = io.of(`/${id}`).on("connect", (socket) => {
-    console.log(`success connect room: ${id}!!!!!!!!!!!!!!!`);
+    console.log(`connect room: ${id}!`);
+    socket.on("disconnect", () => {
+      console.log(`disconnect room: ${id}!`);
+    });
   });
   wsPool[id] = namespace;
   return namespace;
