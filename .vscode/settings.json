@@ -1,5 +1,6 @@
 {
-    "eslint.run": "onSave",
-    "editor.formatOnSave": true,
-    "eslint.format.enable": true
+  "eslint.run": "onSave",
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "git.ignoreLimitWarning": true
 }
