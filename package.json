@@ -6,6 +6,9 @@
   "repository": "https://github.com/pengliheng/chatroom.git",
   "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "lerna run dev"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
