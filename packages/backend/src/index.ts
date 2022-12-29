@@ -46,8 +46,8 @@ app
     }).unless({ path: whiteList })
   );
 
-export const server = app.listen(BACKEND_PROT, () => {
+const server = app.listen(BACKEND_PROT, () => {
   console.log(`listening at port ${BACKEND_PROT}`);
 });
 
-app.use(socket()).use(allRouter.routes()).use(allRouter.allowedMethods());
+app.use(socket(server)).use(allRouter.routes()).use(allRouter.allowedMethods());
