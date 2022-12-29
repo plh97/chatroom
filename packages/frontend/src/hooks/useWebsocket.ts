@@ -1,7 +1,6 @@
 import { addMessage, scrollToEnd } from "@/store/reducer/room";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { useState } from "react";
-import { io, Socket, Manager } from "socket.io-client";
+import { Socket, Manager } from "socket.io-client";
 import { useAppDispatch } from "./app";
 
 export function useWebsocket(id: string) {
@@ -11,6 +10,7 @@ export function useWebsocket(id: string) {
     if (!id) return;
     // connect
     const manager = new Manager(`ws://${document.domain}:9003`, {
+      withCredentials: true,
       reconnectionDelayMax: 10000,
       query: {
         namespace: id,

@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "bootstrap": "lerna bootstrap --concurrency 3",
-    "dev": "lerna run dev --concurrency 3"
+    "dev": "lerna run dev --parallel --concurrency 3"
   },
   "config": {
     "commitizen": {
