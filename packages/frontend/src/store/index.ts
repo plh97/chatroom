@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
-import userReducer from "./reducer/user";
-import roomReducer from "./reducer/room";
+import roomReducer from "@/store/reducer/room";
+import userReducer from "@/store/reducer/user";
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +10,7 @@ export const store = configureStore({
     room: roomReducer,
   },
   middleware: [
-    // logger,
+    logger,
     thunk,
   ],
 });

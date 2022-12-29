@@ -38,7 +38,7 @@ lerna run dev
 
 - [x] if not login, redirect to login screen
 - [ ] use terrform to create vultr instance
-- [ ] use ansible to crate VM
+- [x] use ansible to crate VM
 - [ ] room online people display status
 - [ ] room name able to setup/change
 - [ ] room role: administer, menber, manager, room member

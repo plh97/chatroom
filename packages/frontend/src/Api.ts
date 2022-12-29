@@ -1,12 +1,10 @@
 import { createStandaloneToast } from "@chakra-ui/react";
 import Axios, { AxiosRequestConfig } from "axios";
-import { store } from "@/store";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
-import { logout } from "@/store/reducer/user";
 import { USER } from "@/interfaces/IUser";
 
 const { toast } = createStandaloneToast();
@@ -38,8 +36,11 @@ axios.interceptors.response.use(
     }
     return res;
   },
-  (error) => {
+  async (error) => {
     if (error?.response?.status === 401) {
+      // to fix the cycle import
+      const { store } = await import("@/store");
+      const { logout } = await import("@/store/reducer/user");
       store.dispatch(logout());
     }
     return Promise.reject(error);
@@ -89,7 +90,7 @@ const Api = {
       data,
     }),
   getUserImage: (username: string) =>
-    request({
+    request<string>({
       url: "/userImage",
       method: "get",
       params: {

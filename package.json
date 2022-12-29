@@ -9,7 +9,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --concurrency 3",
     "dev": "lerna run dev --concurrency 3",
-    "deploy": "lerna run deploy --concurrency 3"
+    "prd": "lerna run prd --loglevel 3 --concurrency 3"
   },
   "config": {
     "commitizen": {

@@ -7,6 +7,7 @@ import {
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import Api from "@/Api";
+import { fetchUserInfoThunk } from "./user";
 
 export interface IState {
   scrollToEnd: null | number;
@@ -32,7 +33,7 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
   `fetchRoomInfo`,
   async (id, { dispatch }) => {
     // 清空旧的信息
-    dispatch(initialMessage({ message: [], totalCount: 0 }))
+    dispatch(initialMessage({ message: [], totalCount: 0 }));
     // 加载中
     dispatch(changeLoading(true));
     // 获取当前房间基本信息
@@ -63,10 +64,18 @@ export const loadRoomMoreMessageThunk = createAsyncThunk<void, MESSAGE_REQUEST>(
 // 发送一条新消息
 export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
   `addRoomMessage`,
-  async (data, { dispatch }) => {
+  async (data, {}) => {
     await Api.sendMessage(data);
   }
 );
+
+export const addRoomThunk = createAsyncThunk<
+  void,
+  { member: string[]; name: string }
+>(`register`, async (data, { dispatch }) => {
+  await Api.addRoom(data);
+  dispatch(fetchUserInfoThunk());
+});
 
 export const roomSlice = createSlice({
   name: "message",

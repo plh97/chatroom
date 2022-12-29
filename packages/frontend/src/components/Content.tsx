@@ -7,7 +7,6 @@ import Message from "./Message";
 import { Spinner } from "@chakra-ui/react";
 import { useScroll } from "@/hooks/useScroll";
 import { useWebsocket } from "@/hooks/useWebsocket";
-// import WebSocket from "ws";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -54,7 +53,7 @@ export default function Content() {
 
   return (
     <div style={style.container} ref={scrollEl} className="overflow-auto scrollbar" onScroll={handleScroll}>
-      {!loadingMessage && !hasMessage && <div className='text-center m-4'>---------- No More Message ----------</div>}
+      {!loadingMessage && !hasMessage && <div className='text-center m-4'>---------- END ----------</div>}
       {loadingMessage && <div className='text-center p-2'><Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="md" /></div>}
       {message.map((msg, i) => (
         <div

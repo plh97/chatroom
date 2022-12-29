@@ -12,9 +12,8 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import useRequest from "@/hooks/useRequest";
-import { ACTION_TYPE } from "@/constants";
-import Api from "@/Api";
 import { useAuth } from "@/hooks/useAuth";
+import { registerThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -60,26 +59,17 @@ export default function Login() {
       });
       return;
     }
-    dispatch({ type: ACTION_TYPE.FETCH_START });
-    const userInfo = await Api.register({
-      username,
-      password,
-    });
-    dispatch({ type: ACTION_TYPE.FETCH_SUCCESS });
-    if (!userInfo) return;
-    dispatch({
-      type: ACTION_TYPE.SAVE_USER_INFO,
-      payload: {
-        trigger: Math.random(),
-      },
-    });
+    dispatch(
+      registerThunk({
+        username,
+        password,
+      }) as any
+    );
   }
   const navigate = useNavigate();
   function handleLogin() {
     return navigate("/login");
   }
-  const { run, loading } = useRequest<string>();
-
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setUsername(input);

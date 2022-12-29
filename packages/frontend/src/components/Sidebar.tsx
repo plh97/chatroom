@@ -1,12 +1,11 @@
 import CSS from "csstype";
-import Api from "@/Api";
-import { Button, flexbox } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/store/index";
 import { Link } from "react-router-dom";
-import { ACTION_TYPE } from "../constants";
 import { USER } from "@/interfaces/IUser";
-import { logout, logoutThunk } from "@/store/reducer/user";
+import { logoutThunk } from "@/store/reducer/user";
+import { addRoomThunk } from "@/store/reducer/room";
 
 const style: { [key: string]: CSS.Properties } = {
   sider: {
@@ -21,21 +20,18 @@ const style: { [key: string]: CSS.Properties } = {
   },
 };
 
-export default function Sidebar () {
+export default function Sidebar() {
   const myUserInfo = useSelector<RootState, Partial<USER>>((state) => {
     return state.user.data;
   });
   const dispatch = useDispatch<AppDispatch>();
-  async function handleAddRoom() {
-    await Api.addRoom({
-      name: "roomname",
-      member: [myUserInfo._id],
-    });
-    let data = await Api.getMyUserInfo();
-    dispatch({
-      type: ACTION_TYPE.SAVE_USER_INFO,
-      payload: data,
-    });
+  function handleAddRoom() {
+    dispatch(
+      addRoomThunk({
+        name: "roomname",
+        member: [myUserInfo._id ?? ''],
+      }) as any
+    );
   }
   function handleLogout() {
     dispatch(logoutThunk() as any);
@@ -43,7 +39,7 @@ export default function Sidebar () {
   return (
     <div style={style.sider}>
       <div style={style.control}>
-        <Button colorScheme="grey" variant="outline" onClick={handleAddRoom}>
+        <Button colorScheme="grey" variant="outline" onClick={() => handleAddRoom()}>
           Add Room
         </Button>
       </div>

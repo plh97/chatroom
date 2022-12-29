@@ -42,6 +42,8 @@ export default function Input() {
   return (
     <div style={style.container}>
       <Textarea
+        key={id}
+        autoFocus
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleSubmit}

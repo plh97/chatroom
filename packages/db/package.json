@@ -21,7 +21,7 @@
     "url": "git+https://github.com/plh2/chatroom.git"
   },
   "scripts": {
-    "deploy": "docker-compose up",
+    "prd": "docker-compose up",
     "dev": "docker-compose up"
   },
   "bugs": {

@@ -1,6 +1,6 @@
-import { USER } from "@/interfaces/IUser";
-import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Api from "@/Api";
+import { USER } from "@/interfaces/IUser";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "@/enum/common";
 
 export interface IState {
@@ -43,6 +43,15 @@ export const logoutThunk = createAsyncThunk(
     dispatch(logout());
   }
 );
+
+export const registerThunk = createAsyncThunk<
+  void,
+  { username: string; password: string }
+>(`register`, async (data, { dispatch }) => {
+  const isSuc = await Api.register(data);
+  if (!isSuc) return;
+  dispatch(fetchUserInfoThunk());
+});
 
 export const userSlice = createSlice({
   name: "user",

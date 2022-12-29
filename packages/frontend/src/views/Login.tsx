@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CSS from "csstype";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,9 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import useRequest from "../hooks/useRequest";
-import { ACTION_TYPE } from "../constants";
-import Api from "@/Api";
 import { useAuth } from "@/hooks/useAuth";
 import { loginThunk } from "@/store/reducer/user";
-import { AsyncThunkAction } from "@reduxjs/toolkit";
+import Api from "@/Api";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -46,12 +44,14 @@ const style: { [key: string]: CSS.Properties } = {
 
 export default function Login() {
   useAuth();
-  const [username, setUsername] = useState("1");
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    setUsername('1')
+  }, [])
   const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-  const dispatch =
-    useDispatch();
+  const dispatch = useDispatch();
   const toast = useToast();
   async function handleLogin() {
     if (!username || !password) {
@@ -74,17 +74,10 @@ export default function Login() {
   function handleRegister() {
     return navigate("/register");
   }
-  const { run } = useRequest<string>();
-
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setUsername(input);
-    const userImage = await run<string>({
-      url: "/userImage",
-      method: "get",
-      data: { input },
-    });
-    debugger;
+    const userImage = await Api.getUserImage(input)
     setImageUrl(userImage);
   }
   return (

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc && vite build",
-    "deploy": "yarn build && yarn preview",
+    "build": "vite build",
+    "prd": "yarn build && yarn preview",
     "preview": "vite preview"
   },
   "dependencies": {
