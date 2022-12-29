@@ -1,0 +1,46 @@
+---
+- hosts: ubuntu-test
+  user: root
+  gather_facts: False
+  tasks:
+    - name: Update apt repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: Install nodejs and npm
+      apt:
+        pkg:
+          - nodejs
+          - npm
+    - name: npm install yarn lerna nodemon
+      command: npm install yarn lerna nodemon -g
+    - name: Get running containers
+      docker_host_info:
+        containers: yes
+      register: docker_info
+
+    - name: Stop running containers
+      docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+    - name: Delete content & directory
+      file:
+        state: absent
+        path: /home/ubuntu/chatroom/
+    - name: Clone Github Repository
+      git:
+        repo: https://github.com/plh2/chatroom.git
+        dest: /home/ubuntu/chatroom
+        clone: yes
+        update: yes
+        version: feat-mirc
+    - name: lerna bootstrap
+      community.general.npm:
+        name: bootstrap
+        path: /home/ubuntu/chatroom
+    - name: deploy
+      command:
+        chdir: /home/ubuntu/chatroom
+        cmd: npm run deploy
+        # async: 1000
+        # poll: 0
+...
