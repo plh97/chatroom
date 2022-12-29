@@ -9,13 +9,7 @@ export function useWebsocket(id: string) {
   const connect = () => {
     if (!id) return;
     // connect
-    const manager = new Manager(`ws://${document.domain}:9003`, {
-      withCredentials: true,
-      reconnectionDelayMax: 10000,
-      query: {
-        namespace: id,
-      },
-    });
+    const manager = new Manager(`ws://${document.domain}:9002`);
     socket = manager.socket(`/${id}`);
     socket.on("connect", () => {
       console.log("connected: ", id);

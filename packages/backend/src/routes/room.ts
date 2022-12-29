@@ -4,7 +4,7 @@ import { Types } from "mongoose";
 import { privateKey } from "@/config";
 import RoomModel from "@/model/room";
 import UserModel from "@/model/user";
-import { getWS } from "@/ws";
+// import { getWS } from "@/ws";
 
 export const getRoom = async (ctx: Context) => {
   const _id = (ctx.request.query._id as string) ?? "";
@@ -15,7 +15,7 @@ export const getRoom = async (ctx: Context) => {
   }).populate("message.user");
   const message = data.message;
   const totalCount = data.message.length;
-  getWS(_id);
+  ctx.getWS(_id);
   ctx.body = {
     code: 0,
     data: {
@@ -87,7 +87,7 @@ export const addMessage = async (ctx: Context) => {
   const data = await RoomModel.findOne({ _id: body.roomId }).populate(
     "message.user"
   );
-  const namespace = getWS(body.roomId);
+  const namespace = ctx.getWS(body.roomId);
   const message = data.message[data.message.length - 1];
   namespace.send(message);
   ctx.body = {

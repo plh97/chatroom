@@ -9,8 +9,9 @@ import * as koaBody from "koa-body";
 import "@/mongo";
 import allRouter from "@/routes";
 import { privateKey } from "@/config";
+import socket from "./middleware/ws";
 
-const app = new Koa();
+export const app = new Koa();
 const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
 const whiteList = [
   "/api/login",
@@ -18,6 +19,7 @@ const whiteList = [
   "/api/register",
   "/api/userImage",
   "/api/upload",
+  "/socket.io/",
 ];
 
 app
@@ -31,7 +33,6 @@ app
       // maxAge: 1000 * 60 * 60 * 24 * 7,
     })
   )
-  .use(kosStatic(path.resolve("static")))
   .use(
     kosStatic(path.resolve("public"), {
       gzip: true,
@@ -43,10 +44,10 @@ app
       secret: privateKey,
       getToken: (ctx: Koa.Context) => ctx.cookies.get("token") ?? "",
     }).unless({ path: whiteList })
-  )
-  .use(allRouter.routes())
-  .use(allRouter.allowedMethods());
+  );
 
-app.listen(BACKEND_PROT, () => {
+export const server = app.listen(BACKEND_PROT, () => {
   console.log(`listening at port ${BACKEND_PROT}`);
 });
+
+app.use(socket()).use(allRouter.routes()).use(allRouter.allowedMethods());
