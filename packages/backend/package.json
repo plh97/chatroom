@@ -25,7 +25,7 @@
   },
   "scripts": {
     "dev": "nodemon ./src/index.ts",
-    "prd": "nodemon ./src/index.ts",
+    "build": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "test": "node ./__tests__/backend.test.js"
   },
   "bugs": {
