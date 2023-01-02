@@ -18,10 +18,6 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-          
-      - run:
-          command: systemctl start docker 
-          name: start docker
       - run:
           command: yarn bootstrap
           name: Run bootstrap
