@@ -1,0 +1,43 @@
+@import url('@fontsource/roboto/300.css');
+@import url('@fontsource/roboto/400.css');
+@import url('@fontsource/roboto/500.css');
+@import url('@fontsource/roboto/700.css');
+@import url(./reset.css);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  background-color: #000;
+  color: #fff;
+  width: 100vw;
+  height: 100vh;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: .375rem;
+  height: .375rem;
+  background-color: #000;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background-color: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 100vh;
+  background-color: hsla(0,0%,100%,.0);
+  border-radius: 10px;
+  max-height: 12.5rem;
+  min-height: 5rem;
+}
+
+.scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: hsla(0,0%,100%,.2);
+}

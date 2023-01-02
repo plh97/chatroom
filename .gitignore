@@ -1,9 +1,9 @@
 node_modules/
-# yarn.lock
-package-lock.json
 mongodb/db/
 *.log
 dist
 static
 .DS_Store
 .eslintcache
+packages/db/data/
+terraform

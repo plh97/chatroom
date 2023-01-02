@@ -4,11 +4,22 @@
   "private": true,
   "main": "index.js",
   "repository": "https://github.com/pengliheng/chatroom.git",
-  "author": "pengliheng <pengliheng111@gmail.com>",
+  "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "dev": "lerna run dev --parallel",
+    "build": "lerna run build"
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^6.0.3"
   }
 }

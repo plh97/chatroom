@@ -1,0 +1,30 @@
+{
+  "name": "db",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "plh2 <pengliheng111@mgail.com>",
+  "homepage": "https://github.com/plh2/chatroom#readme",
+  "license": "ISC",
+  "main": "lib/db.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plh2/chatroom.git"
+  },
+  "scripts": {
+    "build": "docker-compose up",
+    "dev": "docker-compose up"
+  },
+  "bugs": {
+    "url": "https://github.com/plh2/chatroom/issues"
+  }
+}
