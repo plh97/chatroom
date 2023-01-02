@@ -1,5 +1,5 @@
 import CSS from "csstype";
-import SidebarComponent from "@/components/Sidebar";
+import SidebarComponent from "@/components/SidebarComponent";
 
 const style: { [key: string]: CSS.Properties } = {
   home: {

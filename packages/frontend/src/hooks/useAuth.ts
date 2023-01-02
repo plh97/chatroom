@@ -1,7 +1,6 @@
-import { STATUS } from "@/enum/common";
 import { fetchUserInfoThunk } from "@/store/reducer/user";
 import { useEffect } from "react";
-import { useNavigate, useMatch, useLocation } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./app";
 /**
  * auth hooks
@@ -10,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "./app";
  * 3. if not yet login, relocated to login screen
  * @export hooks
  */
-export function useAuth() {
+export default function useAuth() {
   const isLogin = useMatch("login");
   const isRegister = useMatch("register");
   const dispatch = useAppDispatch();

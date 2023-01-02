@@ -1,7 +1,6 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import CSS from "csstype";
-import { useNavigate } from "react-router-dom";
 import {
   Stack,
   Input,
@@ -11,10 +10,7 @@ import {
   FormControl,
   Avatar,
 } from "@chakra-ui/react";
-import useRequest from "../hooks/useRequest";
-import { useAuth } from "@/hooks/useAuth";
-import { loginThunk } from "@/store/reducer/user";
-import Api from "@/Api";
+import { registerThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -39,21 +35,17 @@ const style: { [key: string]: CSS.Properties } = {
     left: "31%",
     bottom: "100%",
     textAlign: "center",
+    opacity: 0,
   },
 };
 
-export default function Login() {
+export default function RegisterPage() {
   useAuth();
   const [username, setUsername] = useState("");
-  useEffect(() => {
-    setUsername('1')
-  }, [])
-  const [password, setPassword] = useState("1");
-  const [imageUrl, setImageUrl] = useState("");
-  const navigate = useNavigate();
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const toast = useToast();
-  async function handleLogin() {
+  async function handleRegister() {
     if (!username || !password) {
       toast({
         title: "Warning.",
@@ -65,28 +57,27 @@ export default function Login() {
       return;
     }
     dispatch(
-      loginThunk({
+      registerThunk({
         username,
         password,
       }) as any
     );
   }
-  function handleRegister() {
-    return navigate("/register");
+  const navigate = useNavigate();
+  function handleLogin() {
+    return navigate("/login");
   }
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setUsername(input);
-    const userImage = await Api.getUserImage(input)
-    setImageUrl(userImage);
   }
   return (
     <div style={style.container} data-testid="login">
       <div style={style.Wrapper}>
         <div style={style.AvatarContainer}>
-          <Avatar size="xl" name="?" src={imageUrl} />
+          <Avatar size="xl" name="?" />
         </div>
-        <h1 style={style.Title}>Login</h1>
+        <h1 style={style.Title}>Register</h1>
         <FormControl id="username" isRequired>
           <FormLabel>User Name</FormLabel>
           <Input
@@ -109,14 +100,10 @@ export default function Login() {
         <FormControl id="button">
           <FormLabel></FormLabel>
           <Stack spacing={2} direction="row" align="center">
-            <Button onClick={handleLogin} colorScheme="green">
+            <Button onClick={handleLogin} colorScheme="green" variant="outline">
               Login
             </Button>
-            <Button
-              onClick={handleRegister}
-              colorScheme="green"
-              variant="outline"
-            >
+            <Button onClick={handleRegister} colorScheme="green">
               Register
             </Button>
           </Stack>

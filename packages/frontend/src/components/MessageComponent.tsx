@@ -8,6 +8,7 @@ const style: { [key: string]: CSS.Properties } = {
     marginBottom: "0.5rem",
     display: "flex",
     flexDirection: "row",
+    alignItems: 'flex-start',
   },
   content: {
     margin: "0 10px",
@@ -16,6 +17,7 @@ const style: { [key: string]: CSS.Properties } = {
     borderRadius: "10px",
     background: "#212121",
     boxShadow: "0 0px 5px 2px rgba(0, 21, 20, 0.1)",
+    whiteSpace: "pre-wrap",
   },
 };
 

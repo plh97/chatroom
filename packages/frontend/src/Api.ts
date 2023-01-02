@@ -1,11 +1,11 @@
 import { createStandaloneToast } from "@chakra-ui/react";
-import Axios, { AxiosRequestConfig } from "axios";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
+import { AxiosRequestConfig } from "axios";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({

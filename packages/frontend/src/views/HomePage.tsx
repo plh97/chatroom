@@ -1,8 +1,7 @@
-import CSS from "csstype";
-import Layout from "@/components/Layout";
-import { useAuth } from "@/hooks/useAuth";
+import { Properties } from "csstype";
+import Layout from "@/components/LayoutComponent";
 
-const style: { [key: string]: CSS.Properties } = {
+const style: { [key: string]: Properties } = {
   content: {
     display: "flex",
     flexDirection: "column",

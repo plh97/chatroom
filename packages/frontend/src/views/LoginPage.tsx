@@ -1,6 +1,5 @@
-import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import CSS from "csstype";
+import { Properties } from "csstype";
 import { useNavigate } from "react-router-dom";
 import {
   Stack,
@@ -11,11 +10,11 @@ import {
   FormControl,
   Avatar,
 } from "@chakra-ui/react";
-import useRequest from "@/hooks/useRequest";
-import { useAuth } from "@/hooks/useAuth";
-import { registerThunk } from "@/store/reducer/user";
+import { loginThunk } from "@/store/reducer/user";
+import Api from "@/Api";
+import { ChangeEvent } from "react";
 
-const style: { [key: string]: CSS.Properties } = {
+const style: { [key: string]: Properties } = {
   container: {
     width: "100%",
     textAlign: "center",
@@ -38,17 +37,21 @@ const style: { [key: string]: CSS.Properties } = {
     left: "31%",
     bottom: "100%",
     textAlign: "center",
-    opacity: 0,
   },
 };
 
-export default function Login() {
+export default function LoginPage() {
   useAuth();
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  useEffect(() => {
+    setUsername('1')
+  }, [])
+  const [password, setPassword] = useState("1");
+  const [imageUrl, setImageUrl] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const toast = useToast();
-  async function handleRegister() {
+  async function handleLogin() {
     if (!username || !password) {
       toast({
         title: "Warning.",
@@ -60,27 +63,28 @@ export default function Login() {
       return;
     }
     dispatch(
-      registerThunk({
+      loginThunk({
         username,
         password,
       }) as any
     );
   }
-  const navigate = useNavigate();
-  function handleLogin() {
-    return navigate("/login");
+  function handleRegister() {
+    return navigate("/register");
   }
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setUsername(input);
+    const userImage = await Api.getUserImage(input)
+    setImageUrl(userImage);
   }
   return (
     <div style={style.container} data-testid="login">
       <div style={style.Wrapper}>
         <div style={style.AvatarContainer}>
-          <Avatar size="xl" name="?" />
+          <Avatar size="xl" name="?" src={imageUrl} />
         </div>
-        <h1 style={style.Title}>Register</h1>
+        <h1 style={style.Title}>Login</h1>
         <FormControl id="username" isRequired>
           <FormLabel>User Name</FormLabel>
           <Input
@@ -103,10 +107,14 @@ export default function Login() {
         <FormControl id="button">
           <FormLabel></FormLabel>
           <Stack spacing={2} direction="row" align="center">
-            <Button onClick={handleLogin} colorScheme="green" variant="outline">
+            <Button onClick={handleLogin} colorScheme="green">
               Login
             </Button>
-            <Button onClick={handleRegister} colorScheme="green">
+            <Button
+              onClick={handleRegister}
+              colorScheme="green"
+              variant="outline"
+            >
               Register
             </Button>
           </Stack>

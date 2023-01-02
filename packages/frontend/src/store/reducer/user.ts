@@ -23,7 +23,7 @@ export const fetchUserInfoThunk = createAsyncThunk(
   `getMyUserInfo`,
   async (_, { dispatch }) => {
     const userinfo = await Api.getMyUserInfo();
-    dispatch(saveUserInfo(userinfo));
+    dispatch(setUserInfo(userinfo));
   }
 );
 
@@ -57,7 +57,20 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    saveUserInfo(state, action) {
+    updateUserRoomMessage(state, action) {
+      const room = state.data.room?.find(
+        (room) => room._id === action.payload.roomId
+      );
+      console.log(room);
+      if (room?.message) {
+        room!.message = [action.payload.msg];
+        state.data.room?.sort((a, b) => {
+          if (a === room) return -1;
+          return 0;
+        });
+      }
+    },
+    setUserInfo(state, action) {
       Object.assign(state, {
         auth: true,
         data: {
@@ -75,6 +88,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logout, saveUserInfo } = userSlice.actions;
+export const { logout, setUserInfo, updateUserRoomMessage } = userSlice.actions;
 
 export default userSlice.reducer;

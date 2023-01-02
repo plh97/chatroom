@@ -37,12 +37,11 @@ lerna run dev
 ## TODO
 
 - [x] if not login, redirect to login screen
-- [ ] use terrform to create vultr instance
+- [x] use terrform to create vultr instance
 - [x] use ansible to crate VM
-- [ ] room online people display status
 - [ ] room name able to setup/change
 - [ ] room role: administer, menber, manager, room member
 - [ ] room icon
-- [ ] room style
-- [ ] webRTC - may need learn the course
+- [ ] room online people display status
 - [ ] one account can only login for one user
+- [ ] webRTC - may need learn the course

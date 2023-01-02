@@ -18,8 +18,12 @@
     "jsx": "react-jsx",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": [
+      "react",
+      "@types/react"
+    ]
   },
-  "include": ["src"],
+  "include": ["src", "./auto-imports.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

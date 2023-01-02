@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react";
+import AutoImports from "unplugin-auto-import/vite";
+import { dirResolver, DirResolverHelper } from "vite-auto-import-resolvers";
 // import tailwind from "vite-plugin-tailwind";
 
 export default defineConfig({
@@ -16,5 +18,32 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    DirResolverHelper(),
+    AutoImports({
+      include: [/\.*.$/],
+      imports: [
+        "react",
+        "react-router-dom",
+        {
+          axios: [["default", "Axios"]],
+        },
+      ],
+      resolvers: [
+        dirResolver({
+          target: "src/views",
+        }),
+        dirResolver({
+          target: "src/interfaces",
+        }),
+        dirResolver({
+          target: "src/hooks",
+        }),
+        dirResolver({
+          target: "src/components",
+        }),
+      ],
+    }),
+  ],
 });

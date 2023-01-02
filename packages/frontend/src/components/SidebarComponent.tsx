@@ -2,15 +2,17 @@ import CSS from "csstype";
 import { Button } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/store/index";
-import { Link } from "react-router-dom";
 import { USER } from "@/interfaces/IUser";
 import { logoutThunk } from "@/store/reducer/user";
 import { addRoomThunk } from "@/store/reducer/room";
+import { RoomItem } from "./RoomItemComponent";
 
 const style: { [key: string]: CSS.Properties } = {
   sider: {
     width: "300px",
     backgroundColor: "#212121",
+    display: "flex",
+    flexDirection: 'column',
   },
   control: {
     display: "flex",
@@ -18,12 +20,18 @@ const style: { [key: string]: CSS.Properties } = {
     alignItems: "center",
     justifyContent: "center",
   },
+  roomList: {
+    flex: 1,
+    overflowY: 'auto',
+    padding: "0 0.5rem",
+  }
 };
 
 export default function Sidebar() {
   const myUserInfo = useSelector<RootState, Partial<USER>>((state) => {
     return state.user.data;
   });
+  const { id = "" } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   function handleAddRoom() {
     dispatch(
@@ -43,16 +51,14 @@ export default function Sidebar() {
           Add Room
         </Button>
       </div>
-      <ul>
-        {myUserInfo.room?.map((room) => (
-          <li key={room._id}>
-            <Link to={"/room/" + room._id}>{room.name}</Link>
-          </li>
-        ))}
+      <ul style={style.roomList}>
+        {myUserInfo.room?.map((room) => <RoomItem active={room._id == id} key={room._id} data={room} />)}
       </ul>
-      <Button colorScheme="grey" variant="outline" onClick={handleLogout}>
-        Logout
-      </Button>
+      <div style={style.control}>
+        <Button colorScheme="grey" variant="outline" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
     </div>
   );
 }

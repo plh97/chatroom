@@ -1,12 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
-import HomePage from "./views/Home";
-import LoginPage from "./views/Login";
-import RegisterPage from "./views/Register";
 import theme from "./theme";
-import { store } from "./store/index";
-import RoomPage from "./views/Room";
+import { store } from "./store";
+import RoomPage from "./views/RoomPage";
 
 function App() {
   const router = createBrowserRouter([

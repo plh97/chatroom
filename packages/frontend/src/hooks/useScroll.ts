@@ -1,8 +1,8 @@
 import { IState } from "@/store/reducer/room";
-import { MutableRefObject, RefObject, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 import { useAppSelector } from "./app";
 
-export const useScroll = (scrollEl: RefObject<HTMLDivElement>) => {
+export default function useScroll(scrollEl: RefObject<HTMLDivElement>) {
   const { scrollToTop, scrollToEnd } = useAppSelector<IState>(
     (state) => state.room
   );
@@ -14,6 +14,12 @@ export const useScroll = (scrollEl: RefObject<HTMLDivElement>) => {
   function handleScrollToBottom() {
     scrollEl.current?.scrollTo({ top: 999999999 });
   }
+  function getBottomSpace() {
+    if (scrollEl.current?.scrollTop !== undefined) {
+      return scrollEl.current.scrollHeight - scrollEl.current.scrollTop;
+    }
+    return NaN;
+  }
   useEffect(() => {
     handleScrollToTop();
   }, [scrollToTop]);
@@ -21,7 +27,8 @@ export const useScroll = (scrollEl: RefObject<HTMLDivElement>) => {
     handleScrollToBottom();
   }, [scrollToEnd]);
   return {
+    getBottomSpace,
     handleScrollToTop,
     handleScrollToBottom,
   };
-};
+}

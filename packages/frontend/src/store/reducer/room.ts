@@ -10,16 +10,18 @@ import Api from "@/Api";
 import { fetchUserInfoThunk } from "./user";
 
 export interface IState {
-  scrollToEnd: null | number;
-  scrollToTop: null | number;
+  id: string;
+  scrollToEnd?: number;
+  scrollToTop?: number;
   error: string | null;
   data: MESSAGE_RESPONSE;
   loadingMessage: boolean;
 }
 
 const initialState: IState = {
-  scrollToEnd: null,
-  scrollToTop: null,
+  id: "", // room id
+  scrollToEnd: undefined,
+  scrollToTop: undefined,
   loadingMessage: false,
   error: null,
   data: {
@@ -34,6 +36,8 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
   async (id, { dispatch }) => {
     // 清空旧的信息
     dispatch(initialMessage({ message: [], totalCount: 0 }));
+    // 修改当前面room id
+    dispatch(changeRoomId(id));
     // 加载中
     dispatch(changeLoading(true));
     // 获取当前房间基本信息
@@ -51,13 +55,13 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
   }
 );
 // 加载更多消息
-export const loadRoomMoreMessageThunk = createAsyncThunk<void, MESSAGE_REQUEST>(
+export const loadRoomMoreMessageThunk = createAsyncThunk<MESSAGE[], MESSAGE_REQUEST>(
   `loadRoomMoreMessageThunk`,
   async (data, { dispatch }) => {
     dispatch(changeLoading(true));
     let res = await Api.getRoom(data);
     dispatch(changeLoading(false));
-    dispatch(loadMoreMessage(res.message));
+    return res.message;
   }
 );
 
@@ -93,6 +97,9 @@ export const roomSlice = createSlice({
     loadMoreMessage(state, action: PayloadAction<MESSAGE[]>) {
       state.data.message = [...action.payload, ...state.data.message];
     },
+    changeRoomId(state, action) {
+      state.id = action.payload;
+    },
     addMessage(state, action: PayloadAction<MESSAGE[]>) {
       state.data.message.push(action.payload[0]);
     },
@@ -112,6 +119,7 @@ export const {
   loadMoreMessage,
   initialMessage,
   changeLoading,
+  changeRoomId,
 } = roomSlice.actions;
 
 export default roomSlice.reducer;

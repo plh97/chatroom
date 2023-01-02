@@ -1,11 +1,10 @@
-import CSS from "csstype";
+// import { Properties } from "csstype";
 import { Textarea } from "@chakra-ui/react";
-import { KeyboardEvent, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import { addRoomMessageThunk, scrollToEnd } from "@/store/reducer/room";
+import { KeyboardEvent } from "react";
 
-const style: { [key: string]: CSS.Properties } = {
+const style: { [key: string]: any } = {
   container: {
     flex: "0 0 84px",
     padding: "0 13px 20px",
