@@ -10,12 +10,18 @@ jobs:
       - image: cimg/base:stable
     steps:
       - docker/install-docker
+      - setup_remote_docker:
+          version: 20.10.14
   build_and_test:
     executor: node/default
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
+          
+      - run:
+          command: systemctl start docker 
+          name: start docker
       - run:
           command: yarn bootstrap
           name: Run bootstrap
