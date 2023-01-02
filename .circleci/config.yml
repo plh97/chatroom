@@ -1,0 +1,30 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@x.y
+
+jobs:
+  install-node:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: node --version
+  lerna-install-dependence:
+    steps:
+      - run: yarn bootstrap
+  lerna-run-dev:
+    steps:
+      - run: yarn run bootstrap
+  lerna-run-dev:
+    steps:
+      - run: yarn run dev
+workflows:
+  test_my_app:
+    jobs:
+      - install-node
+      - lerna-install-dependence
+      - lerna-run-dev
