@@ -3,7 +3,6 @@ import path from "path";
 import react from "@vitejs/plugin-react";
 import AutoImports from "unplugin-auto-import/vite";
 import { dirResolver, DirResolverHelper } from "vite-auto-import-resolvers";
-// import tailwind from "vite-plugin-tailwind";
 
 export default defineConfig({
   server: {
