@@ -19,7 +19,7 @@ jobs:
           command: docker-compose -v
           name: test docker compose
       - run:
-          command: cd packages/db && docker-compose up
+          command: pwd
           name: run docker
   build-and-deploy:
     executor: node/default
