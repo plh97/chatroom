@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint src --fix --config .eslintrc.cjs",
     "dev": "vite --host",
-    "build": "vite build && vite preview"
+    "build": "vite build && vite preview --host"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.1",
