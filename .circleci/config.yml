@@ -19,8 +19,8 @@ jobs:
           command: docker-compose -v
           name: test docker compose
       - run:
-          command: yarn bootstrap
-          name: cd packages/db && docker-compose up
+          command: cd packages/db && docker-compose up
+          name: run docker
   build-and-deploy:
     executor: node/default
     steps:
