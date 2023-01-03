@@ -4,13 +4,24 @@ orbs:
   docker: circleci/docker@2.2.0
 
 jobs:
-  example-job:
+  install-docker:
     docker:
       # replace with your preferred image
       - image: cimg/base:stable
     steps:
       - docker/install-docker
-  build_and_test:
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          command: docker -v
+          name: test docker
+      - run:
+          command: docker-compose -v
+          name: test docker compose
+      - run:
+          command: yarn bootstrap
+          name: cd packages/db && docker-compose up
+  build-and-deploy:
     executor: node/default
     steps:
       - checkout
@@ -23,22 +34,8 @@ jobs:
           command: yarn build
           name: Build app
 
-  # deploy: # this can be any name you choose
-  #   executor: heroku/default
-  #   steps:
-  #     - attach_workspace:
-  #         at: ~/project
-  #     - heroku/deploy-via-git:
-  #         force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
-
 workflows:
   test_my_app:
     jobs:
-      - example-job
-      - build_and_test
-      # - deploy:
-      #     requires:
-      #       - build_and_test # only deploy if the build_and_test job has completed
-      #     filters:
-      #       branches:
-      #         only: main # only deploy when on main
+      - install-docker
+      - build-and-deploy
