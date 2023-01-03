@@ -4,26 +4,13 @@ orbs:
   docker: circleci/docker@2.2.0
 
 jobs:
-  install-docker:
+  build-and-deploy:
+    executor: node/default
     docker:
       # replace with your preferred image
       - image: cimg/base:stable
     steps:
       - docker/install-docker
-      - setup_remote_docker:
-          version: 20.10.14
-      - run:
-          command: docker -v
-          name: test docker
-      - run:
-          command: docker-compose -v
-          name: test docker compose
-      - run:
-          command: ls
-          name: run docker
-  build-and-deploy:
-    executor: node/default
-    steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
@@ -37,5 +24,4 @@ jobs:
 workflows:
   test_my_app:
     jobs:
-      - install-docker
       - build-and-deploy
