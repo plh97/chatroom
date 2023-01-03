@@ -32,7 +32,7 @@
         dest: /home/ubuntu/chatroom
         clone: yes
         update: yes
-        version: feat-mirc
+        version: develop
     - name: lerna bootstrap
       community.general.npm:
         name: bootstrap
@@ -40,7 +40,7 @@
     - name: deploy
       command:
         chdir: /home/ubuntu/chatroom
-        cmd: npm run deploy
+        cmd: npm run build
         # async: 1000
         # poll: 0
 ...

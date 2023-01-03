@@ -9,7 +9,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev": "lerna run dev --parallel",
-    "build": "lerna run build"
+    "build": "lerna run build --parallel"
   },
   "config": {
     "commitizen": {
