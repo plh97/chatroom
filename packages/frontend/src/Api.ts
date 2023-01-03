@@ -1,11 +1,10 @@
-import { createStandaloneToast } from "@chakra-ui/react";
+import { AxiosRequestConfig } from "axios";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
-import { AxiosRequestConfig } from "axios";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({
@@ -54,14 +53,19 @@ export async function request<RESPONSE>(
   return res.data;
 }
 
+interface ILoginRequestParamters {
+  username: string;
+  password: string;
+}
+
 const Api = {
-  login: (data: any) =>
+  login: (data: ILoginRequestParamters) =>
     request({
       url: "/login",
       method: "post",
       data,
     }),
-  register: (data: any) =>
+  register: (data: ILoginRequestParamters) =>
     request({
       url: "/register",
       method: "post",
@@ -77,11 +81,10 @@ const Api = {
       url: "/userInfo",
       method: "get",
     }),
-  setMyUserInfo: (data: any) =>
+  setMyUserInfo: () =>
     request({
       url: "/userInfo",
       method: "post",
-      data,
     }),
   upload: (data: File) =>
     request({
@@ -97,19 +100,18 @@ const Api = {
         username,
       },
     }),
-  queryUser: (params: any) =>
+  queryUser: () =>
     request({
       url: "/user",
       method: "get",
-      params,
     }),
-  getRoom: (params: any) =>
+  getRoom: (params: { page: number; pageSize: number; _id: string }) =>
     request<MESSAGE_RESPONSE>({
       url: "/room",
       method: "get",
       params,
     }),
-  addRoom: (data: any) =>
+  addRoom: (data: { name: "roomname"; member: string[] }) =>
     request({
       url: "/room",
       method: "post",
@@ -131,23 +133,20 @@ const Api = {
       method: "post",
       data,
     }),
-  deleteMessage: (params: any) =>
+  deleteMessage: () =>
     request({
       url: "/room/message",
       method: "delete",
-      params,
     }),
-  addFriend: (data: any) =>
+  addFriend: () =>
     request({
       url: "/friend",
       method: "post",
-      data,
     }),
-  deleteFriend: (params: any) =>
+  deleteFriend: () =>
     request({
       url: "/friend",
       method: "delete",
-      params,
     }),
 };
 

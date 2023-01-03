@@ -1,12 +1,14 @@
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import Api from "@/Api";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
   MESSAGE_REQUEST,
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import Api from "@/Api";
+
 import { fetchUserInfoThunk } from "./user";
 
 export interface IState {
@@ -41,7 +43,7 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
     // 加载中
     dispatch(changeLoading(true));
     // 获取当前房间基本信息
-    let res = await Api.getRoom({
+    const res = await Api.getRoom({
       page: 1,
       pageSize: 20,
       _id: id,
@@ -55,20 +57,20 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
   }
 );
 // 加载更多消息
-export const loadRoomMoreMessageThunk = createAsyncThunk<MESSAGE[], MESSAGE_REQUEST>(
-  `loadRoomMoreMessageThunk`,
-  async (data, { dispatch }) => {
-    dispatch(changeLoading(true));
-    let res = await Api.getRoom(data);
-    dispatch(changeLoading(false));
-    return res.message;
-  }
-);
+export const loadRoomMoreMessageThunk = createAsyncThunk<
+  MESSAGE[],
+  MESSAGE_REQUEST
+>(`loadRoomMoreMessageThunk`, async (data, { dispatch }) => {
+  dispatch(changeLoading(true));
+  const res = await Api.getRoom(data);
+  dispatch(changeLoading(false));
+  return res.message;
+});
 
 // 发送一条新消息
 export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
   `addRoomMessage`,
-  async (data, {}) => {
+  async (data) => {
     await Api.sendMessage(data);
   }
 );

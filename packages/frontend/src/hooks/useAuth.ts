@@ -1,6 +1,8 @@
-import { fetchUserInfoThunk } from "@/store/reducer/user";
 import { useEffect } from "react";
 import { useMatch } from "react-router-dom";
+
+import { fetchUserInfoThunk } from "@/store/reducer/user";
+
 import { useAppDispatch, useAppSelector } from "./app";
 /**
  * auth hooks

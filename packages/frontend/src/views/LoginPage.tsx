@@ -1,18 +1,11 @@
-import { useDispatch } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
 import { Properties } from "csstype";
-import { useNavigate } from "react-router-dom";
-import {
-  Stack,
-  Input,
-  Button,
-  useToast,
-  FormLabel,
-  FormControl,
-  Avatar,
-} from "@chakra-ui/react";
-import { loginThunk } from "@/store/reducer/user";
-import Api from "@/Api";
 import { ChangeEvent } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import Api from "@/Api";
+import { loginThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: Properties } = {
   container: {
@@ -40,7 +33,7 @@ const style: { [key: string]: Properties } = {
   },
 };
 
-export default function LoginPage() {
+export function LoginPage() {
   useAuth();
   const [username, setUsername] = useState("");
   useEffect(() => {
@@ -49,7 +42,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<Dispatch<any>>();
   const toast = useToast();
   async function handleLogin() {
     if (!username || !password) {
@@ -66,7 +59,7 @@ export default function LoginPage() {
       loginThunk({
         username,
         password,
-      }) as any
+      })
     );
   }
   function handleRegister() {

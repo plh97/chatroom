@@ -1,5 +1,4 @@
 import CSS from "csstype";
-import SidebarComponent from "@/components/SidebarComponent";
 
 const style: { [key: string]: CSS.Properties } = {
   home: {
@@ -22,7 +21,7 @@ interface LayoutProps {
   children?: React.ReactNode; // 👈️ for demo purposes
 }
 
-export default function Layout(props: LayoutProps) {
+export function LayoutComponent(props: LayoutProps) {
   return (
     <div style={style.home}>
       <SidebarComponent />

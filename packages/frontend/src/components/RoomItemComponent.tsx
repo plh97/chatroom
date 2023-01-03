@@ -1,23 +1,20 @@
-import { ROOM } from "@/interfaces/IRoom";
-import { Avatar } from "@chakra-ui/react";
 import { Properties } from "csstype";
 import { useCallback } from "react";
+
+import { ROOM } from "@/interfaces/IRoom";
 
 interface IProps {
   data: ROOM;
   active: boolean;
 }
 
-const style: { [key: string]: any } = {
+const style: { [key: string]: Properties } = {
   container: {
     padding: "4px 8px",
     display: 'flex',
     flexDirection: "row",
     borderRadius: '10px',
     overflow: 'hidden',
-    ":focus": {
-      background: "red"
-    },
   },
   activeContainer: {
     background: 'rgba(255,255,255,0.1)'
@@ -40,7 +37,7 @@ const style: { [key: string]: any } = {
   },
 }
 
-export function RoomItem(props: IProps) {
+export function RoomItemComponent(props: IProps) {
   const { data } = props
   const text = useCallback(() => {
     try {

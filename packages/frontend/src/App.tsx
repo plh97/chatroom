@@ -1,11 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
-import theme from "./theme";
-import { store } from "./store";
-import RoomPage from "./views/RoomPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-function App() {
+import { store } from "./store";
+import theme from "./theme";
+
+export function App() {
   const router = createBrowserRouter([
     {
       path: "/",
@@ -32,5 +31,3 @@ function App() {
     </Provider>
   );
 }
-
-export default App;

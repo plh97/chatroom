@@ -1,5 +1,7 @@
-import { IState } from "@/store/reducer/room";
 import { RefObject, useEffect } from "react";
+
+import { IState } from "@/store/reducer/room";
+
 import { useAppSelector } from "./app";
 
 export default function useScroll(scrollEl: RefObject<HTMLDivElement>) {

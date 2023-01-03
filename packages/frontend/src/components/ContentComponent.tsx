@@ -1,11 +1,9 @@
 import csstype from "csstype";
 import { useEffect, useRef } from "react";
-import { getRoomInfoThunk, loadRoomMoreMessageThunk, IState, loadMoreMessage } from "@/store/reducer/room";
-import { useAppDispatch, useAppSelector } from "@/hooks/app";
-import Message from "./MessageComponent";
-import { Spinner } from "@chakra-ui/react";
+import { useAppDispatch, useAppSelector } from "@/hooks/app"
 import useScroll from "@/hooks/useScroll";
 import useWebsocket from "@/hooks/useWebsocket";
+import { getRoomInfoThunk, IState, loadMoreMessage, loadRoomMoreMessageThunk } from "@/store/reducer/room";
 
 const style: { [key: string]: csstype.Properties } = {
   container: {
@@ -14,7 +12,7 @@ const style: { [key: string]: csstype.Properties } = {
   },
 };
 
-export default function Content() {
+export function ContentComponent() {
   const messageRef = useRef<HTMLDivElement[]>([]);
   const scrollEl = useRef<HTMLDivElement>(null);
   const { data: { message, totalCount }, loadingMessage } = useAppSelector<IState>((state) => state.room);
@@ -66,13 +64,13 @@ export default function Content() {
   return (
     <div style={style.container} ref={scrollEl} className="overflow-auto scrollbar" onScroll={handleScroll}>
       {!hasMessage && <div className='text-center m-4'>---------- END ----------</div>}
-      {/* {hasMessage && <div className='text-center p-2'><Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="md" /></div>} */}
+      {hasMessage && <div className='text-center p-2'><Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="md" /></div>}
       {message.map((msg, i) => (
         <div
           key={msg._id}
           ref={(ref: HTMLDivElement) => (messageRef.current[i] = ref)}
         >
-          <Message data={msg} />
+          <MessageComponent data={msg} />
         </div>
       ))}
     </div>

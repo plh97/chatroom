@@ -1,15 +1,7 @@
+import CSS from "csstype";
 import { ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
-import CSS from "csstype";
-import {
-  Stack,
-  Input,
-  Button,
-  useToast,
-  FormLabel,
-  FormControl,
-  Avatar,
-} from "@chakra-ui/react";
+
 import { registerThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: CSS.Properties } = {
@@ -39,7 +31,7 @@ const style: { [key: string]: CSS.Properties } = {
   },
 };
 
-export default function RegisterPage() {
+export function RegisterPage() {
   useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

@@ -1,5 +1,4 @@
 import { Properties } from "csstype";
-import Layout from "@/components/LayoutComponent";
 
 const style: { [key: string]: Properties } = {
   content: {
@@ -9,11 +8,11 @@ const style: { [key: string]: Properties } = {
   },
 };
 
-export default function HomePage() {
+export function HomePage() {
   useAuth();
   return (
-    <Layout>
+    <LayoutComponent>
       <div style={style.content}></div>
-    </Layout>
+    </LayoutComponent>
   );
 }

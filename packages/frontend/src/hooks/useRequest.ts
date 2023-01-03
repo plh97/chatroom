@@ -1,9 +1,9 @@
 import { AxiosRequestConfig } from "axios";
-import { request } from "@/Api";
 import { useRef } from "react";
+import { request } from "@/Api";
 
-export default function useRequest<REQ>() {
-  const loading = useRef<Boolean>(false);
+export default function useRequest() {
+  const loading = useRef<boolean>(false);
   async function run<RES>(config: AxiosRequestConfig) {
     loading.current = true;
     try {

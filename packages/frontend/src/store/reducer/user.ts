@@ -1,12 +1,12 @@
-import Api from "@/Api";
-import { USER } from "@/interfaces/IUser";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import Api from "@/Api";
 import { STATUS } from "@/enum/common";
+import { USER } from "@/interfaces/IUser";
 
 export interface IState {
   error: string | null;
   data: Partial<USER>;
-  auth: Boolean | null;
+  auth: boolean | null;
 }
 
 const initialState: IState = {
@@ -29,8 +29,7 @@ export const fetchUserInfoThunk = createAsyncThunk(
 
 export const loginThunk = createAsyncThunk<
   void,
-  { username: string; password: string },
-  any
+  { username: string; password: string }
 >(`login`, async (data, { dispatch }) => {
   const isSuc = await Api.login(data);
   if (!isSuc) return;
@@ -63,8 +62,8 @@ export const userSlice = createSlice({
       );
       console.log(room);
       if (room?.message) {
-        room!.message = [action.payload.msg];
-        state.data.room?.sort((a, b) => {
+        room.message = [action.payload.msg];
+        state.data.room?.sort((a) => {
           if (a === room) return -1;
           return 0;
         });

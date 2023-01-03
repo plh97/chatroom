@@ -1,6 +1,5 @@
 import CSS from "csstype";
 import { MESSAGE } from "@/interfaces/IMessage";
-import { Avatar } from "@chakra-ui/react";
 
 const style: { [key: string]: CSS.Properties } = {
   container: {
@@ -31,7 +30,7 @@ interface IProps {
  * @param {IProps} { data }
  * @return {JSX.Element}
  */
-export default function Message({ data }: IProps): JSX.Element {
+export function MessageComponent({ data }: IProps): JSX.Element {
   return (
     <div style={style.container}>
       <Avatar name={data.user?.username} src={data.user?.image} />
