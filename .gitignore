@@ -7,3 +7,4 @@ static
 .eslintcache
 packages/db/data/
 terraform
+.circleci
