@@ -10,7 +10,7 @@
         pkg:
           - nodejs
           - npm
-    - name: npm install yarn lerna nodemon
+    - name: npm install yarn lerna
       command: npm install yarn lerna nodemon -g
     - name: Get running containers
       docker_host_info:
@@ -26,21 +26,23 @@
       file:
         state: absent
         path: /home/ubuntu/chatroom/
-    - name: Clone Github Repository
+    - name: Clone Repository
       git:
         repo: https://github.com/plh2/chatroom.git
         dest: /home/ubuntu/chatroom
         clone: yes
         update: yes
         version: develop
-    - name: lerna bootstrap
+    - name: bootstrap
       community.general.npm:
         name: bootstrap
         path: /home/ubuntu/chatroom
-    - name: deploy
+    - name: build
       command:
         chdir: /home/ubuntu/chatroom
         cmd: npm run build
-        # async: 1000
-        # poll: 0
+    - name: deploy
+      command:
+        chdir: /home/ubuntu/chatroom
+        cmd: npm run deploy
 ...

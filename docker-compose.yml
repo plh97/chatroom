@@ -1,0 +1,53 @@
+version: "3.7"
+
+services:
+    nginx:
+        image: nginx
+        restart: always
+        build:
+            context: "./nginx"
+        networks:
+            - gate-tier
+        volumes:
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+            - ./nginx:/var/log/nginx/
+            - ./packages/frontend/dist/:/var/www/app/
+        ports:
+            - "9001:8081"
+            - "9002:8080"
+
+    mongodb:
+        image: mongo
+        command: 
+            - '--logpath'
+            - '/var/log/mongodb/mongod.log'
+        build:
+            context: "./db"
+        logging:
+            driver: none
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: ewqewq
+        volumes:
+            - ./db/data:/data/db
+        networks:
+            - gate-tier
+
+    backend:
+        restart: always
+        command: "yarn run deploy"
+        environment: 
+            MONGODB_IP: mongodb
+            PORT: "8080"
+            FRONTEND_PORT: "9001"
+        build:
+            context: "./packages/backend"
+        volumes:
+            - ./packages/backend/:/app/
+            - /app/node_modules/
+            - /app/static/
+        networks:
+            - gate-tier
+networks:
+    gate-tier:
