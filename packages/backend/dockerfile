@@ -1,4 +1,4 @@
 FROM node:16
 COPY . /app
 WORKDIR /app
-RUN npm install --save-dev tsconfig-paths
+# RUN yarn add tsconfig-paths -D
