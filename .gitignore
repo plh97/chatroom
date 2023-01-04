@@ -1,13 +1,10 @@
 node_modules/
-mongodb/db/
+mongodb/data/
 *.log
 dist
 static
 .DS_Store
 .eslintcache
-packages/db/data/
-db/data/
-
 terraform/variable.tf
 terraform/terraform.tfstate.backup
 terraform/.terraform

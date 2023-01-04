@@ -2,7 +2,6 @@ version: "3.7"
 
 services:
     nginx:
-        image: nginx
         restart: always
         build:
             context: "./nginx"
@@ -17,12 +16,11 @@ services:
             - "9002:8080"
 
     mongodb:
-        image: mongo
         command: 
             - '--logpath'
             - '/var/log/mongodb/mongod.log'
         build:
-            context: "./db"
+            context: "./mongodb"
         logging:
             driver: none
         restart: always
@@ -30,7 +28,7 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: ewqewq
         volumes:
-            - ./db/data:/data/db
+            - ./mongodb/data:/data/db
         networks:
             - gate-tier
 
