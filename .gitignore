@@ -5,7 +5,7 @@ dist
 static
 .DS_Store
 .eslintcache
-terraform/variable.tf
+# terraform/variable.tf
 terraform/terraform.tfstate.backup
 terraform/.terraform
 terraform/.terraform.lock.hcl
