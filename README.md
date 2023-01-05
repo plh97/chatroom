@@ -44,7 +44,7 @@ yarn run dev
 - [x] if not login, redirect to login screen
 - [x] use terrform to create vultr instance
 - [x] use ansible to crate VM
-- [ ] terraform get env variable
+- [x] terraform get env variable
 - [ ] add circleci to triger the CDCI
 - [ ] add hostname plh.xyz
 - [ ] add https

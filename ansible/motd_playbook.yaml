@@ -38,9 +38,9 @@
     #   command:
     #     cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
 
-    - name: disable ufw
-      command:
-        cmd: ufw disable
+    # - name: disable ufw
+    #   command:
+    #     cmd: ufw disable
 
     - name: bootstrap
       command:

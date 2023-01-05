@@ -7,11 +7,11 @@ echo 'y' | apt-get update
 snap install docker
 
 # made port can be visited in public network
-apt-get install ufw
-echo 'y' | ufw enable
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw allow 3000:9999/tcp
+# apt-get install ufw
+# echo 'y' | ufw enable
+# ufw allow 80/tcp
+# ufw allow 443/tcp
+# ufw allow 3000:9999/tcp
 
 
 
