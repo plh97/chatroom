@@ -7,30 +7,34 @@
   - package
 
     - frontend
-
-      vite + react + ts + tailwind + redux[dispatch(action/asyncthunk)]
-
+      - vite[unplugin-auto-import/vite]
+      - eslint+prettier
+      - @chakra-ui/react
+      - react
+      - typescript
+      - tailwind
+      - redux[dispatch(action/asyncthunk)]
+      - socket-io/client
     - backend
-
-      nodejs + koajs + cors + koa-router + koa-static
-
-    - db
-
-      docker-compose + mongodb
+      - nodejs
+      - typescript
+      - socket.io
+      - koajs
+      - cors
+      - koa-router
+      - koa-static
 
 - Deploy
   - terraoform create a Vultr EC2 service
-  
   - ansible create vm environment
-  
   - ansible clone project
-  
-  - ansible deploy the project
+  - install dependences
+  - build project
+  - deploy project inside docker
 
 ## dev
 
 ```bash
-cd $ROOT_DIR
 yarn
 yarn run dev
 ```
