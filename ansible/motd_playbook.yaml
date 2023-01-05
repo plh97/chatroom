@@ -38,9 +38,9 @@
         cmd: echo "\ncd /home/ubuntu/chatroom" >> ~/.zshrc
         
     - name: bootstrap
-      community.general.npm:
-        name: bootstrap
-        path: /home/ubuntu/chatroom
+      command:
+        cmd: yarn run bootstrap
+        chdir: /home/ubuntu/chatroom
     - name: build
       command:
         chdir: /home/ubuntu/chatroom

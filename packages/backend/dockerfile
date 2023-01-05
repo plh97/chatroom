@@ -1,3 +1,5 @@
-FROM frapsoft/ts-node
+FROM node:16
 COPY . /app
 WORKDIR /app
+# RUN yarn
+# RUN npm install --save-dev tsconfig-paths

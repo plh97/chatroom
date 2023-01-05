@@ -7,7 +7,7 @@
   "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "db": "docker-compose -f ./db/docker-compose.yml up",
+    "db": "docker-compose -f ./mongodb/docker-compose.yml up -d",
     "bootstrap": "lerna bootstrap",
     "dev": "yarn db && lerna run dev --parallel",
     "build": "lerna run build --parallel",
