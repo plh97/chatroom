@@ -5,8 +5,6 @@ services:
         restart: always
         build:
             context: "./nginx"
-        networks:
-            - gate-tier
         volumes:
             - ./nginx/conf.d/:/etc/nginx/conf.d/
             - ./nginx/log:/var/log/nginx/
@@ -14,6 +12,8 @@ services:
         ports:
             - "9001:8081"
             - "9002:8080"
+        networks:
+            - gate-tier
 
     mongodb:
         command: 
