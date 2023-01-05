@@ -33,6 +33,10 @@
         clone: yes
         update: yes
         version: develop
+    - name: setup default path
+      command:
+        cmd: echo "\ncd /home/ubuntu/chatroom" >> ~/.zshrc
+        
     - name: bootstrap
       community.general.npm:
         name: bootstrap

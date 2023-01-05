@@ -25,7 +25,7 @@
   },
   "scripts": {
     "dev": "npx nodemon ./src/index.ts",
-    "deploy": "npx ts-node ./src/index.ts",
+    "deploy": "ts-node ./src/index.ts",
     "test": "node ./__tests__/backend.test.js"
   },
   "bugs": {
