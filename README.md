@@ -19,19 +19,20 @@
       docker-compose + mongodb
 
 - Deploy
-  - terraoform 开一个 AWS EC2 服务
-  - ansible 部署 VM
-  - K8S 建立 Container
-  - container 里面跑个 nodejs 服务
-
-## deploy
-
-TODO
+  - terraoform create a Vultr EC2 service
+  
+  - ansible create vm environment
+  
+  - ansible clone project
+  
+  - ansible deploy the project
 
 ## dev
 
 ```bash
-lerna run dev
+cd $ROOT_DIR
+yarn
+yarn run dev
 ```
 
 ## TODO
