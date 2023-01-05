@@ -25,28 +25,28 @@
     - name: Delete content & directory
       file:
         state: absent
-        path: /home/ubuntu/chatroom/
+        path: ~/chatroom/
     - name: Clone Repository
       git:
         repo: https://github.com/plh2/chatroom.git
-        dest: /home/ubuntu/chatroom
+        dest: ~/chatroom
         clone: yes
         update: yes
         version: develop
     - name: setup default path
       command:
-        cmd: echo "\ncd /home/ubuntu/chatroom" >> ~/.zshrc
+        cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
         
     - name: bootstrap
       command:
         cmd: yarn run bootstrap
-        chdir: /home/ubuntu/chatroom
+        chdir: ~/chatroom
     - name: build
       command:
-        chdir: /home/ubuntu/chatroom
+        chdir: ~/chatroom
         cmd: npm run build
     - name: deploy
       command:
-        chdir: /home/ubuntu/chatroom
+        chdir: ~/chatroom
         cmd: npm run deploy
 ...

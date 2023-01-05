@@ -11,7 +11,7 @@
     "bootstrap": "lerna bootstrap",
     "dev": "yarn db && lerna run dev --parallel",
     "build": "lerna run build --parallel",
-    "deploy": "docker-compose up"
+    "deploy": "docker-compose up -d"
   },
   "config": {
     "commitizen": {
