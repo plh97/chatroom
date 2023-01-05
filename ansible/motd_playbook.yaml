@@ -37,7 +37,11 @@
     # - name: setup default path
     #   command:
     #     cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
-        
+
+    - name: disable ufw
+      command:
+        cmd: ufw disable
+
     - name: bootstrap
       command:
         cmd: yarn run bootstrap
