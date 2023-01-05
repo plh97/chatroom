@@ -11,7 +11,7 @@ terraform/.terraform
 terraform/.terraform.lock.hcl
 terraform/terraform.tfstate
 
-.circleci
+# .circleci
 *.log
 
 .history
