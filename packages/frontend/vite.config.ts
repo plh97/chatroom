@@ -18,7 +18,6 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    // DirResolverHelper(),
     AutoImports({
       include: [/\.*.$/],
       imports: [

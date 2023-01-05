@@ -7,11 +7,11 @@
   "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "db": "docker-compose -f ./mongodb/docker-compose.yml up -d",
+    "db": "docker compose -f ./mongodb/docker-compose.yml up -d",
     "bootstrap": "lerna bootstrap",
     "dev": "yarn db && lerna run dev --parallel",
     "build": "lerna run build --parallel",
-    "deploy": "docker-compose up -d"
+    "deploy": "docker compose up -d"
   },
   "config": {
     "commitizen": {

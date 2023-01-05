@@ -33,9 +33,10 @@
         clone: yes
         update: yes
         version: develop
-    - name: setup default path
-      command:
-        cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
+    # not work
+    # - name: setup default path
+    #   command:
+    #     cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
         
     - name: bootstrap
       command:
