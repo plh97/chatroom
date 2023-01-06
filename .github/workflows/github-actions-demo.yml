@@ -9,8 +9,7 @@ jobs:
         uses: arillso/action.playbook@master
         with:
           playbook: ansible/playbook.yml
-          inventory: ansible/hosts.yml
-          galaxy_file: ansible/requirements.yml
+          inventory: ansible/hosts
         env:
-          ANSIBLE_HOST_KEY_CHECKING: 'false'
-          ANSIBLE_DEPRECATION_WARNINGS: 'false'
+          ANSIBLE_HOST_KEY_CHECKING: 'true'
+          ANSIBLE_DEPRECATION_WARNINGS: 'true'
