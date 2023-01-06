@@ -16,7 +16,7 @@
       git:
         repo: https://github.com/plh2/chatroom.git
         dest: ~/chatroom
-        update: yes
+        force: true
         version: develop
 
     - name: bootstrap
