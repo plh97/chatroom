@@ -11,7 +11,6 @@ services:
             - ./packages/frontend/dist/:/var/www/app/
         ports:
             - "80:80"
-            - "8080:8080"
         networks:
             - gate-tier
 
