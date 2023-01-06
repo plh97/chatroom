@@ -12,7 +12,7 @@ import { privateKey } from "@/config";
 import socket from "./middleware/ws";
 
 export const app = new Koa();
-const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 9002;
+const BACKEND_PROT = process.env.PORT || process.env.BACKEND_PORT || 8080;
 const whiteList = [
   "/api/login",
   "/api/logout",

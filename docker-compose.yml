@@ -10,8 +10,8 @@ services:
             - ./nginx/log:/var/log/nginx/
             - ./packages/frontend/dist/:/var/www/app/
         ports:
-            - "9001:8081"
-            - "9002:8080"
+            - "80:80"
+            - "8080:8080"
         networks:
             - gate-tier
 
@@ -38,7 +38,7 @@ services:
         environment: 
             MONGODB_IP: mongodb
             PORT: "8080"
-            FRONTEND_PORT: "9001"
+            FRONTEND_PORT: "80"
         build:
             context: "./packages/backend"
         volumes:

@@ -22,6 +22,6 @@ export const Upload = async (ctx: Context) => {
   });
   ctx.body = {
     code: 0,
-    data: `${ctx.request.origin}:9002/${name}`,
+    data: `${ctx.request.origin}:8080/${name}`,
   };
 };

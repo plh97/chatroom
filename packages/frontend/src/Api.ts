@@ -8,7 +8,7 @@ import { USER } from "@/interfaces/IUser";
 
 const { toast } = createStandaloneToast();
 export const axios = Axios.create({
-  baseURL: `//${document.domain}:9002/api`,
+  baseURL: `//api.plhh.xzy/api`,
   timeout: 10000,
   withCredentials: true,
 });
