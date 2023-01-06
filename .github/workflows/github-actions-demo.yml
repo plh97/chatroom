@@ -8,7 +8,7 @@ jobs:
       - name: Play Ansible Playbook
         uses: arillso/action.playbook@master
         with:
-          playbook: ansible/playbook.yaml
+          playbook: ansible/playbook.yml
           inventory: ansible/hosts
         env:
           ANSIBLE_HOST_KEY_CHECKING: 'true'
