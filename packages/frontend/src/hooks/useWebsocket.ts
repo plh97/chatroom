@@ -12,7 +12,7 @@ export default function useWebsocket(id: string) {
   const connect = () => {
     if (!id) return;
     // connect
-    const manager = new Manager(`ws://api.plhh.xzy`);
+    const manager = new Manager(`ws://api.plhh.xyz`);
     socket = manager.socket(`/${id}`);
     socket.on("connect", () => {
       console.log("connected: ", id);
