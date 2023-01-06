@@ -3,40 +3,48 @@
 ## Architecture
 
 - Development(lerna)
-
+  - mongodb - datebase
+  - ansible
+  - terraform
+  - nignx gateway
   - package
-
     - frontend
       - vite[unplugin-auto-import/vite]
       - eslint+prettier
+      - react+hook+ts+redux
       - @chakra-ui/react
-      - react
-      - typescript
       - tailwind
-      - redux[dispatch(action/asyncthunk)]
       - socket-io/client
     - backend
-      - nodejs
-      - typescript
+      - node+ts
       - socket.io
       - koajs
       - cors
       - koa-router
       - koa-static
 
-- Deploy
-  - terraoform create a Vultr EC2 service
-  - ansible create vm environment
-  - ansible clone project
-  - install dependences
-  - build project
-  - deploy project inside docker
-
-## dev
+## Dev
 
 ```bash
 yarn
+yarn run bootstrap
 yarn run dev
+```
+
+## Deploy
+
+- terraoform create a Vultr EC2 service
+- ansible create vm environment
+- ansible clone project
+- install dependences
+- build project
+- deploy project inside docker
+
+## CICD
+
+```bash
+cd ansilbe
+ansible-playbook cicd.yml
 ```
 
 ## TODO
@@ -44,8 +52,8 @@ yarn run dev
 - [x] if not login, redirect to login screen
 - [x] use terrform to create vultr instance
 - [x] use ansible to crate VM
-- [ ] terraform get env variable
-- [ ] add circleci to triger the CDCI
+- [X] terraform get env variable
+- [X] add github action handle CDCI
 - [ ] add hostname plh.xyz
 - [ ] add https
 - [ ] room name able to setup/change
