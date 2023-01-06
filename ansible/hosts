@@ -1,1 +1,1 @@
-ubuntu-test
+ubuntu-test ansible_ssh_host=149.28.148.14

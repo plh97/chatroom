@@ -1,0 +1,34 @@
+---
+- hosts: ubuntu-test
+  user: root
+  gather_facts: False
+  tasks:
+    # - name: Get running containers
+    #   docker_host_info:
+    #     containers: yes
+    #   register: docker_info
+    # - name: Stop running containers
+    #   docker_container:
+    #     name: "{{ item }}"
+    #     state: stopped
+    #   loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+    - name: update Repository in develop branch
+      git:
+        repo: https://github.com/plh2/chatroom.git
+        dest: ~/chatroom
+        force: true
+        version: develop
+
+    - name: bootstrap
+      command:
+        cmd: yarn run bootstrap
+        chdir: ~/chatroom
+    - name: build
+      command:
+        chdir: ~/chatroom
+        cmd: npm run build
+    - name: deploy
+      command:
+        chdir: ~/chatroom
+        cmd: npm run deploy
+...
