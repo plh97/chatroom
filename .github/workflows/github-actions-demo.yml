@@ -5,6 +5,12 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+        run: |
+          cd ${{ github.workspace }}
       - name: Play Ansible Playbook
         uses: arillso/action.playbook@master
         with:
