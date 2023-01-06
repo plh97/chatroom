@@ -101,7 +101,7 @@ export function LoginPage() {
           <FormLabel></FormLabel>
           <Stack spacing={2} direction="row" align="center">
             <Button onClick={handleLogin} colorScheme="green">
-              Loginn
+              Login
             </Button>
             <Button
               onClick={handleRegister}
