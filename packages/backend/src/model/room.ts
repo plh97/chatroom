@@ -1,12 +1,13 @@
 import { Schema, Model, model } from "mongoose";
 import { roomIcon } from "@/config";
 import { IMessage } from "@/model/message";
+import { IUser } from "./user";
 
 export interface IRoom {
   name: string;
   image: string;
   member: string[];
-  manager: string[];
+  manager: IUser;
   createdAt: Date;
   updatedAt: Date;
   message: IMessage[];

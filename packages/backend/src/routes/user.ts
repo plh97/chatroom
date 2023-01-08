@@ -189,28 +189,28 @@ export async function AddFriend(ctx: Context) {
   }
   // add friend
   await UserModel.updateOne(
-    { _id: Types.ObjectId(userIdFromToken) },
-    { $addToSet: { friend: Types.ObjectId(_id) } }
+    { _id: new Types.ObjectId(userIdFromToken) },
+    { $addToSet: { friend: new Types.ObjectId(_id) } }
   );
   await UserModel.updateOne(
-    { _id: Types.ObjectId(_id) },
-    { $addToSet: { friend: Types.ObjectId(userIdFromToken) } }
+    { _id: new Types.ObjectId(_id) },
+    { $addToSet: { friend: new Types.ObjectId(userIdFromToken) } }
   );
   // create room
   const roomResponse = await RoomModel.create({
     image,
     name: username,
     member: [userIdFromToken, _id],
-    manager: Types.ObjectId(userIdFromToken),
+    manager: new Types.ObjectId(userIdFromToken),
   });
   // update myself into a room id
   // update otherpersion into userid
   const data = await UserModel.updateOne(
-    { _id: Types.ObjectId(userIdFromToken) },
+    { _id: new Types.ObjectId(userIdFromToken) },
     { $addToSet: { room: roomResponse } }
   );
   await UserModel.updateOne(
-    { _id: Types.ObjectId(_id) },
+    { _id: new Types.ObjectId(_id) },
     { $addToSet: { room: roomResponse } }
   );
   ctx.body = {

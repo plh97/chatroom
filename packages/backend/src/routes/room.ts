@@ -11,10 +11,10 @@ export const getRoom = async (ctx: Context) => {
   const page = Number(ctx.request.query.page ?? "1");
   const pageSize = Number(ctx.request.query.pageSize ?? "20");
   const data = await RoomModel.findOne({
-    _id: Types.ObjectId(_id),
+    _id: new Types.ObjectId(_id),
   }).populate("message.user");
-  const message = data.message;
-  const totalCount = data.message.length;
+  const message = data?.message ?? [];
+  const totalCount = data?.message.length ?? 0;
   ctx.getWS(_id);
   ctx.body = {
     code: 0,
@@ -34,19 +34,19 @@ export const addRoom = async (ctx: Context) => {
   const userIdFromToken = verify(cookie, privateKey) as string;
   const roomResponse = await RoomModel.create({
     ...body,
-    member: [Types.ObjectId(userIdFromToken), ...body.member],
-    manager: Types.ObjectId(userIdFromToken),
+    member: [new Types.ObjectId(userIdFromToken), ...body.member],
+    manager: new Types.ObjectId(userIdFromToken),
   });
   // update myself into a room id
   await UserModel.updateOne(
-    { _id: Types.ObjectId(userIdFromToken) },
+    { _id: new Types.ObjectId(userIdFromToken) },
     { $addToSet: { room: roomResponse } }
   );
   // update otherpersion into userid
   await Promise.all(
     body.member.map((id) =>
       UserModel.updateOne(
-        { _id: Types.ObjectId(id) },
+        { _id: new Types.ObjectId(id) },
         { $addToSet: { room: roomResponse } }
       )
     )
@@ -59,7 +59,7 @@ export const addRoom = async (ctx: Context) => {
 
 export const modifyRoom = async (ctx: Context) => {
   const body = ctx.request.body;
-  const msg = await RoomModel.create(body);
+  const msg: any = await RoomModel.create(body);
   const data = await RoomModel.findOne(msg).populate("user");
   ctx.body = {
     code: 0,
@@ -87,6 +87,13 @@ export const addMessage = async (ctx: Context) => {
   const data = await RoomModel.findOne({ _id: body.roomId }).populate(
     "message.user"
   );
+  if (!data) {
+    ctx.body = {
+      code: 0,
+      data: null,
+    };
+    return;
+  }
   const namespace = ctx.getWS(body.roomId);
   const message = data.message[data.message.length - 1];
   namespace.send(message);
@@ -103,7 +110,7 @@ export const deleteMessage = async (ctx: Context) => {
   };
   const res = await RoomModel.updateOne(
     { _id: roomId },
-    { $pull: { message: { _id: Types.ObjectId(messageId) } } }
+    { $pull: { message: { _id: new Types.ObjectId(messageId) } } }
   );
   ctx.body = {
     code: 0,

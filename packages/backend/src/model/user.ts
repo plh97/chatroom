@@ -4,7 +4,7 @@ import { IRoom } from "@/model/room";
 
 export interface IUser {
   _id: Types.ObjectId;
-  image: string[];
+  image: string;
   username: string;
   password: string;
   bio: string;
