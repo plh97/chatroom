@@ -2,13 +2,12 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import AutoImports from "unplugin-auto-import/vite";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
-export default defineConfig({
-  server: {
-    port: 9001,
-  },
+const PROT = Number(process.env.PORT ?? 9001);
+const defaultConfig = {
   preview: {
-    port: 9001,
+    port: PROT,
   },
   resolve: {
     alias: {
@@ -17,6 +16,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    VitePWA(),
     react(),
     AutoImports({
       include: [/\.*.$/],
@@ -49,23 +49,27 @@ export default defineConfig({
         "./src/hooks",
         "./src/components",
       ],
-      // resolvers: [
-      //   dirResolver({
-      //     target: "src/views",
-      //   }),
-      //   dirResolver({
-      //     target: "src/interfaces",
-      //   }),
-      //   dirResolver({
-      //     target: "src/hooks",
-      //   }),
-      //   dirResolver({
-      //     target: "src/components",
-      //   }),
-      // ],
       eslintrc: {
-        enabled: true, // <-- this
+        enabled: true,
       },
     }),
   ],
+};
+
+export default defineConfig(({ mode }) => {
+  const isDev = mode === "development";
+  return {
+    ...defaultConfig,
+    server: {
+      proxy: {
+        "/api": {
+          target: isDev ? "http://127.0.0.1:8080" : "http://api.plhh.xyz",
+          changeOrigin: isDev,
+          secure: !isDev,
+          // rewrite: (path) => path.replace(/^\/api/, "/api"),
+        },
+      },
+      port: PROT,
+    },
+  };
 });
