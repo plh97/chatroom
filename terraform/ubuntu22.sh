@@ -6,12 +6,18 @@ echo 'y' | apt-get update
 # install docker
 snap install docker
 
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
+echo 'y' | apt-get install nodejs
+echo 'y' | apt-get install npm
+npm install yarn lerna nodemon -g
+
 # made port can be visited in public network
 apt-get install ufw
 echo 'y' | ufw enable
 ufw allow 80/tcp
 ufw allow 443/tcp
 ufw allow 3000:9999/tcp
+ufw disable
 
 
 

@@ -1,4 +1,4 @@
-variable "vultr_api_key" {
+variable "VULTR_API_KEY" {
   type = string
 }
 

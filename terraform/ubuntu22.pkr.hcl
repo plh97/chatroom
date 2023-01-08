@@ -17,7 +17,7 @@ source "vultr" "ubuntu22" {
   api_key              = "${var.vultr_api_key}"
   os_id                = "1946"
   plan_id              = "vc2-1c-1gb"
-  region_id            = "bom"
+  region_id            = "sgp"
   snapshot_description = "ubuntu 22 ${formatdate("YYYY-MM-DD hh:mm", timestamp())}"
   ssh_username         = "root"
   state_timeout        = "25m"

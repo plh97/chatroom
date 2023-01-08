@@ -1,17 +1,8 @@
 ---
-- hosts: ubuntu-test
+- hosts: vultr
   user: root
   gather_facts: False
   tasks:
-    - name: Update apt repo and cache
-      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-    - name: Install nodejs and npm
-      apt:
-        pkg:
-          - nodejs
-          - npm
-    - name: npm install yarn lerna
-      command: npm install yarn lerna nodemon -g
     - name: Get running containers
       docker_host_info:
         containers: yes
@@ -25,33 +16,25 @@
     - name: Delete content & directory
       file:
         state: absent
-        path: ~/chatroom/
+        path: /root/chatroom/
     - name: Clone Repository
       git:
         repo: https://github.com/plh2/chatroom.git
-        dest: ~/chatroom
+        dest: /root/chatroom
         clone: yes
         update: yes
         version: develop
-    # not work
-    # - name: setup default path
-    #   command:
-    #     cmd: echo "\ncd ~/chatroom" >> ~/.zshrc
-
-    - name: disable ufw
-      command:
-        cmd: ufw disable
 
     - name: bootstrap
       command:
         cmd: yarn run bootstrap
-        chdir: ~/chatroom
+        chdir: /root/chatroom
     - name: build
       command:
-        chdir: ~/chatroom
+        chdir: /root/chatroom
         cmd: npm run build
     - name: deploy
       command:
-        chdir: ~/chatroom
+        chdir: /root/chatroom
         cmd: npm run deploy
 ...

@@ -6,22 +6,22 @@
     - name: pull latest code on develop branch
       git:
         repo: https://github.com/plh2/chatroom.git
-        dest: ~/chatroom
+        dest: /root/chatroom
         force: true
         version: develop
 
     - name: install dependences
       command:
         cmd: yarn run bootstrap
-        chdir: ~/chatroom
+        chdir: /root/chatroom
 
     - name: build
       command:
-        chdir: ~/chatroom
+        chdir: /root/chatroom
         cmd: npm run build
 
     - name: deploy
       command:
-        chdir: ~/chatroom
+        chdir: /root/chatroom
         cmd: npm run deploy
 ...
