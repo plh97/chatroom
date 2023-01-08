@@ -1,5 +1,5 @@
 ---
-- hosts: ubuntu-test
+- hosts: vultr
   user: root
   gather_facts: False
   tasks:
