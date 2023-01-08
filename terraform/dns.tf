@@ -3,14 +3,14 @@ resource "vultr_dns_domain" "my_domain" {
   ip     = vultr_instance.instance.main_ip
 }
 
-resource "vultr_dns_record" "my_record" {
+resource "vultr_dns_record" "chat_record" {
   domain = vultr_dns_domain.my_domain.id
   name   = "chat"
   data   = vultr_instance.instance.main_ip
   type   = "A"
 }
 
-resource "vultr_dns_record" "my_record" {
+resource "vultr_dns_record" "api_record" {
   domain = vultr_dns_domain.my_domain.id
   name   = "api"
   data   = vultr_instance.instance.main_ip
