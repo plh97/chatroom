@@ -1,5 +1,5 @@
 import { Context } from "koa";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import { privateKey } from "@/config";
 import RoomModel from "@/model/room";
 import UserModel, { IUser } from "@/model/user";
