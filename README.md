@@ -54,8 +54,13 @@ ansible-playbook cicd.yml
 - [x] use ansible to crate VM
 - [X] terraform get env variable
 - [X] add github action handle CDCI
-- [ ] add hostname plh.xyz
+- [x] when tf create a new instance, auto add a DNS record bind with the new instance ip address
+- [ ] backend, add eslint + prettier
+- [ ] project add husky + git commit hooks auto triger test and lint
+- [ ] test coverage reach 100%
 - [ ] add https
+- [ ] add http2
+- [ ] add http3
 - [ ] room name able to setup/change
 - [ ] room role: administer, menber, manager, room member
 - [ ] room icon
