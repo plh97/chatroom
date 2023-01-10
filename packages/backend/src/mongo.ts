@@ -1,7 +1,7 @@
 import { connect, set } from "mongoose";
 import { MONGODB_ADDRESS } from "@/config";
 
-set('strictQuery', true);
+set("strictQuery", true);
 
 const db = connect(MONGODB_ADDRESS)
   .then((e) => {

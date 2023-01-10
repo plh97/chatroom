@@ -1,5 +1,5 @@
 import { Context } from "koa";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { privateKey } from "@/config";
 import RoomModel from "@/model/room";
 import UserModel, { IUser } from "@/model/user";
@@ -104,7 +104,7 @@ export async function Login(ctx: Context) {
   const { username, password } = ctx.request.body;
   const userinfo = await UserModel.findOne({ username, password });
   if (userinfo) {
-    var token = jwt.sign(String(userinfo._id), privateKey);
+    const token = jwt.sign(String(userinfo._id), privateKey);
     ctx.cookies.set("token", token, { maxAge: 3600000, httpOnly: true });
     userinfo.password = "";
     ctx.body = {
@@ -139,7 +139,7 @@ export async function Register(ctx: Context) {
       username,
       password,
     });
-    var token = jwt.sign(String(userinfo._id), privateKey);
+    const token = jwt.sign(String(userinfo._id), privateKey);
     ctx.cookies.set("token", token, {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
@@ -178,8 +178,7 @@ export async function AddFriend(ctx: Context) {
   }
   const isFriend = await UserModel.findOne({
     _id: userIdFromToken,
-    // @ts-ignore
-    friend: { $in: { _id: Types.ObjectId(_id) } },
+    friend: { $in: { _id: new Types.ObjectId(_id) } },
   });
   if (isFriend) {
     return (ctx.body = {

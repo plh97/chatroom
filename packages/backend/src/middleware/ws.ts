@@ -1,9 +1,9 @@
 import { Context } from "koa";
-import { Server } from "socket.io";
+import { Namespace, Server } from "socket.io";
 // import { app, server } from "..";
 import { Server as HttpServer } from "http";
 
-const wsPool: Record<string, any> = {};
+const wsPool: Record<string, Namespace> = {};
 
 export default function socket(server: HttpServer) {
   const io = new Server(server, {
@@ -30,7 +30,7 @@ export default function socket(server: HttpServer) {
     return createWS(id);
   }
 
-  return async function socket(ctx: Context, next: Function) {
+  return async function socket(ctx: Context, next: () => Promise<void>) {
     ctx.createWS = createWS;
     ctx.getWS = getWS;
     await next();

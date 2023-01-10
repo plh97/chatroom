@@ -1,4 +1,4 @@
-import * as md5 from "md5";
+import md5 from "md5";
 
 // const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
 
