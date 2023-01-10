@@ -10,9 +10,12 @@
     "db:up": "docker compose -f ./mongodb/docker-compose.yml up -d",
     "db:down": "docker compose -f ./mongodb/docker-compose.yml down",
     "bootstrap": "lerna bootstrap",
-    "dev": "yarn db:up && lerna run dev --parallel",
-    "build": "lerna run build --parallel",
-    "deploy": "docker compose up -d"
+    "dev": "yarn db:up && lerna run dev",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "build": "lerna run build",
+    "deploy": "docker compose up -d",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -23,6 +26,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "husky": "^8.0.3",
     "lerna": "^6.0.3"
   }
 }
