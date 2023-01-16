@@ -5,6 +5,7 @@ import { addMessage, scrollToEnd } from "@/store/reducer/room";
 import { updateUserRoomMessage } from "@/store/reducer/user";
 
 import { useAppDispatch } from "./app";
+import { isDev } from "@/config";
 
 export default function useWebsocket(id: string) {
   const dispatch = useAppDispatch();
@@ -12,7 +13,8 @@ export default function useWebsocket(id: string) {
   const connect = () => {
     if (!id) return;
     // connect
-    const manager = new Manager(`ws://api.plhh.xyz`);
+    const wsURL = isDev ? "" : `ws://api.plhh.xyz`;
+    const manager = new Manager(wsURL);
     socket = manager.socket(`/${id}`);
     socket.on("connect", () => {
       console.log("connected: ", id);

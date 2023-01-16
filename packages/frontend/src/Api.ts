@@ -5,10 +5,12 @@ import {
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
+import { isDev } from "@/config";
 
 const { toast } = createStandaloneToast();
+
 export const axios = Axios.create({
-  baseURL: `//api.plhh.xyz/api`,
+  baseURL: isDev ? "/api" : `//api.plhh.xyz/api`,
   timeout: 10000,
   withCredentials: true,
 });
@@ -111,7 +113,7 @@ const Api = {
       method: "get",
       params,
     }),
-  addRoom: (data: { name: "roomname"; member: string[] }) =>
+  addRoom: (data: { name: string; member: string[] }) =>
     request({
       url: "/room",
       method: "post",

@@ -1,5 +1,5 @@
 name: GitHub Actions CICD
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} deploy chatroom 🚀
 on:
   push:
     branches:

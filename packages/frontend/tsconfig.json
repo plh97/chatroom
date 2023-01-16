@@ -21,6 +21,8 @@
     },
     "types": [
       "react",
+      "node",
+      "vite/client",
       "@types/react"
     ]
   },

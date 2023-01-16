@@ -56,20 +56,22 @@ const defaultConfig = {
   ],
 };
 
-export default defineConfig(({ mode }) => {
-  const isDev = mode === "development";
-  return {
-    ...defaultConfig,
-    server: {
-      proxy: {
-        "/api": {
-          target: isDev ? "http://127.0.0.1:8080" : "http://api.plhh.xyz",
-          changeOrigin: isDev,
-          secure: !isDev,
-          // rewrite: (path) => path.replace(/^\/api/, "/api"),
-        },
+export default defineConfig({
+  ...defaultConfig,
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8080",
+        changeOrigin: true,
+        secure: false,
+        // rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
-      port: PROT,
+      "/socket.io": {
+        target: "ws://127.0.0.1:8080",
+        changeOrigin: true,
+        secure: false,
+      },
     },
-  };
+    port: PROT,
+  },
 });
