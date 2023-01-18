@@ -28,7 +28,7 @@ export function ContentComponent() {
   const hasMessage = totalCount > message.length;
   const dispatch = useAppDispatch();
   const { id = "" } = useParams();
-  const { getBottomSpace } = useScroll(scrollEl);
+  const { getBottomSpace, getTopSpace } = useScroll(scrollEl);
   const { connect, disconnect } = useWebsocket(id);
   useEffect(() => {
     if (!id) return;
@@ -56,19 +56,21 @@ export function ContentComponent() {
           _id: id,
         })
       );
+      // 0. 只有当滚动到顶部的时候才需要特殊处理
       // 1. 记录当前位置
       // 2. 推入新消息到顶部
       // 3. 滚动滚动条道之前记录位置
       const positionToBottom = getBottomSpace() + 47;
+      const positionToTop = getTopSpace();
       dispatch(loadMoreMessage(payload));
-      setTimeout(() => {
-        if (scrollEl.current?.scrollTop !== undefined) {
-          console.log("before: ", scrollEl.current.scrollTop);
-          scrollEl.current.scrollTop =
-            scrollEl.current.scrollHeight - positionToBottom;
-          console.log("after: ", scrollEl.current.scrollTop);
-        }
-      });
+      if (positionToTop === 0) {
+        setTimeout(() => {
+          if (scrollEl.current?.scrollTop !== undefined) {
+            scrollEl.current.scrollTop =
+              scrollEl.current.scrollHeight - positionToBottom;
+          }
+        });
+      }
     }
   };
 

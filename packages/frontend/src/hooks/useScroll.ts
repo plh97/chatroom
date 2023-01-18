@@ -22,6 +22,9 @@ export default function useScroll(scrollEl: RefObject<HTMLDivElement>) {
     }
     return NaN;
   }
+  function getTopSpace() {
+    return scrollEl.current?.scrollTop;
+  }
   useEffect(() => {
     handleScrollToTop();
   }, [scrollToTop]);
@@ -29,6 +32,7 @@ export default function useScroll(scrollEl: RefObject<HTMLDivElement>) {
     handleScrollToBottom();
   }, [scrollToEnd]);
   return {
+    getTopSpace,
     getBottomSpace,
     handleScrollToTop,
     handleScrollToBottom,
