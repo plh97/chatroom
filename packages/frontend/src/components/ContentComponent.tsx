@@ -45,7 +45,7 @@ export function ContentComponent() {
     if (
       message.length > 0 &&
       scrollEl.current?.scrollTop !== undefined &&
-      scrollEl.current?.scrollTop < 50 &&
+      scrollEl.current?.scrollTop < 20 &&
       !loadingMessage &&
       hasMessage
     ) {
@@ -59,7 +59,7 @@ export function ContentComponent() {
       // 1. 记录当前位置
       // 2. 推入新消息到顶部
       // 3. 滚动滚动条道之前记录位置
-      const positionToBottom = getBottomSpace();
+      const positionToBottom = getBottomSpace() + 47;
       dispatch(loadMoreMessage(payload));
       setTimeout(() => {
         if (scrollEl.current?.scrollTop !== undefined) {
@@ -79,10 +79,10 @@ export function ContentComponent() {
       className="overflow-auto scrollbar"
       onScroll={handleScroll}
     >
-      {!hasMessage && (
+      {!hasMessage && !loadingMessage && (
         <div className="text-center m-4">---------- END ----------</div>
       )}
-      {hasMessage && (
+      {loadingMessage && (
         <div className="text-center p-2">
           <Spinner
             thickness="4px"
