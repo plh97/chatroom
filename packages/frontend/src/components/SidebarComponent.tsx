@@ -8,10 +8,10 @@ import { logoutThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: CSS.Properties } = {
   sider: {
-    width: "300px",
     backgroundColor: "#212121",
     display: "flex",
-    flexDirection: 'column',
+    flex: "0 0 300px",
+    flexDirection: "column",
   },
   control: {
     display: "flex",
@@ -21,9 +21,9 @@ const style: { [key: string]: CSS.Properties } = {
   },
   roomList: {
     flex: 1,
-    overflowY: 'auto',
+    overflowY: "auto",
     padding: "0 0.5rem",
-  }
+  },
 };
 
 export function SidebarComponent() {
@@ -36,7 +36,7 @@ export function SidebarComponent() {
     dispatch(
       addRoomThunk({
         name: "roomname",
-        member: [myUserInfo._id ?? ''],
+        member: [myUserInfo._id ?? ""],
       })
     );
   }
@@ -46,12 +46,22 @@ export function SidebarComponent() {
   return (
     <div style={style.sider}>
       <div style={style.control}>
-        <Button colorScheme="grey" variant="outline" onClick={() => handleAddRoom()}>
+        <Button
+          colorScheme="grey"
+          variant="outline"
+          onClick={() => handleAddRoom()}
+        >
           Add Room
         </Button>
       </div>
       <ul style={style.roomList}>
-        {myUserInfo.room?.map((room) => <RoomItemComponent active={room._id == id} key={room._id} data={room} />)}
+        {myUserInfo.room?.map((room) => (
+          <RoomItemComponent
+            active={room._id == id}
+            key={room._id}
+            data={room}
+          />
+        ))}
       </ul>
       <div style={style.control}>
         <Button colorScheme="grey" variant="outline" onClick={handleLogout}>

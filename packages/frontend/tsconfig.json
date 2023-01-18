@@ -19,12 +19,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": [
-      "react",
-      "node",
-      "vite/client",
-      "@types/react"
-    ]
+    "types": ["react", "node", "vite/client", "@types/react"]
   },
   "include": ["src", "./auto-imports.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]

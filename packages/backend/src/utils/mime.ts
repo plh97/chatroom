@@ -26,7 +26,7 @@ export default class Mime {
     this.mimes = MINE;
   }
   getType(type: MINE) {
-    const vals = Object.values(this.mimes)
-    return vals.includes(type)
+    const vals = Object.values(this.mimes);
+    return vals.includes(type);
   }
 }

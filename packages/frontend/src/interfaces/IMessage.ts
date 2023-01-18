@@ -21,9 +21,8 @@ export interface MESSAGE_REQUEST {
 }
 
 export interface ADD_MESSAGE_REQUEST {
-
-  text: string,
-  images: string[],
-  user: string,
-  roomId: string,
+  text: string;
+  images: string[];
+  user: string;
+  roomId: string;
 }

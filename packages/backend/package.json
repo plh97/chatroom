@@ -25,7 +25,8 @@
   },
   "scripts": {
     "dev": "npx nodemon ./src/index.ts",
-    "lint": "eslint src --fix --config .eslintrc.cjs",
+    "lint:eslint": "eslint src --fix --config .eslintrc.cjs",
+    "lint:prettier": "prettier src --write",
     "deploy": "ts-node ./src/index.ts",
     "test": "yarn jest --passWithNoTests"
   },
@@ -71,5 +72,10 @@
     "md5": "^2.3.0",
     "mongoose": "^6.8.3",
     "socket.io": "^4.5.4"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
   }
 }

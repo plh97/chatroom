@@ -37,8 +37,8 @@ export function LoginPage() {
   useAuth();
   const [username, setUsername] = useState("");
   useEffect(() => {
-    setUsername('1')
-  }, [])
+    setUsername("1");
+  }, []);
   const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ export function LoginPage() {
   async function handleInputUsername(e: ChangeEvent<HTMLInputElement>) {
     const input = e.target.value;
     setUsername(input);
-    const userImage = await Api.getUserImage(input)
+    const userImage = await Api.getUserImage(input);
     setImageUrl(userImage);
   }
   return (

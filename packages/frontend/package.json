@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "eslint src --fix --config .eslintrc.cjs",
+    "lint:eslint": "eslint src --fix --config .eslintrc.cjs",
+    "lint:prettier": "prettier src --write",
     "dev": "vite --host --mode development",
     "preview": "vite preview --host",
     "build": "vite build"
@@ -36,6 +37,7 @@
     "@typescript-eslint/parser": "^5.48.0",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
+    "commitizen": "^4.2.6",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",

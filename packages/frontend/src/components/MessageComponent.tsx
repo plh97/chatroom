@@ -7,7 +7,7 @@ const style: { [key: string]: CSS.Properties } = {
     marginBottom: "0.5rem",
     display: "flex",
     flexDirection: "row",
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   content: {
     margin: "0 10px",
