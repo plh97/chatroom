@@ -12,6 +12,7 @@
     "bootstrap": "lerna bootstrap",
     "dev": "yarn db:up && lerna run dev",
     "lint:eslint": "lerna run lint:eslint",
+    "commit": "cz",
     "lint:prettier": "lerna run lint:prettier",
     "test": "lerna run test",
     "build": "lerna run build",
@@ -30,5 +31,10 @@
     "commitizen": "^4.2.6",
     "husky": "^8.0.3",
     "lerna": "^6.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
   }
 }
