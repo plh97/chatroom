@@ -1,4 +1,4 @@
-# [Chatroom](http://chat.plhh.xyz/) &middot; [![Github Action Status](https://github.com/plh2/chatroom/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/plh2/chatroom/actions)
+# [Chatroom](http://chat.plhh.xyz/) &middot; [![Github Action Status](https://github.com/plh2/chatroom/actions/workflows/github-CICD-actions.yml/badge.svg)](https://github.com/plh2/chatroom/actions)
 
 ## Architecture
 
