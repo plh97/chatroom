@@ -45,7 +45,7 @@ export function ContentComponent() {
     if (
       message.length > 0 &&
       scrollEl.current?.scrollTop !== undefined &&
-      scrollEl.current?.scrollTop < 10 &&
+      scrollEl.current?.scrollTop < 50 &&
       !loadingMessage &&
       hasMessage
     ) {
@@ -59,13 +59,16 @@ export function ContentComponent() {
       // 1. 记录当前位置
       // 2. 推入新消息到顶部
       // 3. 滚动滚动条道之前记录位置
-      // const positionToBottom = getBottomSpace();
-      const targetElement = scrollEl.current.children[0];
+      const positionToBottom = getBottomSpace();
       dispatch(loadMoreMessage(payload));
-      (targetElement as HTMLDivElement)?.scrollIntoView();
-      // if (scrollEl.current?.scrollTop !== undefined) {
-      //   scrollEl.current.scrollTop = scrollEl.current.scrollHeight - positionToBottom;
-      // }
+      setTimeout(() => {
+        if (scrollEl.current?.scrollTop !== undefined) {
+          console.log("before: ", scrollEl.current.scrollTop);
+          scrollEl.current.scrollTop =
+            scrollEl.current.scrollHeight - positionToBottom;
+          console.log("after: ", scrollEl.current.scrollTop);
+        }
+      });
     }
   };
 
