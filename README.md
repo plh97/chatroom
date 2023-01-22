@@ -55,10 +55,10 @@ ansible-playbook cicd.yml
 - [X] terraform get env variable
 - [X] add github action handle CDCI
 - [x] when tf create a new instance, auto add a DNS record bind with the new instance ip address
-- [ ] backend, add eslint + prettier
-- [ ] project add husky + git commit hooks auto triger test and lint
+- [x] backend, add eslint + prettier
+- [x] project add husky + git commit hooks auto triger test and lint
 - [ ] test coverage reach 100%
-- [ ] add https
+- [x] add https
 - [ ] add http2
 - [ ] add http3
 - [ ] room name able to setup/change
