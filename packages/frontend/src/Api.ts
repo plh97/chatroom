@@ -5,12 +5,11 @@ import {
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
-import { isDev } from "@/config";
 
 const { toast } = createStandaloneToast();
 
 export const axios = Axios.create({
-  baseURL: isDev ? "/api" : `//api.plhh.xyz/api`,
+  baseURL: "/api",
   timeout: 10000,
   withCredentials: true,
 });

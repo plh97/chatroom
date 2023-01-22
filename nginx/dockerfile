@@ -1,3 +1,1 @@
 FROM nginx
-RUN "cat /etc/letsencrypt/live/chat.plhh.xyz/fullchain.pem > ./nginx/cert/localhost.crt"
-RUN "cat /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem > ./nginx/cert/localhost.key"

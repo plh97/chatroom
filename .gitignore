@@ -15,3 +15,5 @@ terraform.tfstate
 # .circleci
 *.log
 .history
+
+nginx/cert
