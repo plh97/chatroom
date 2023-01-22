@@ -25,9 +25,6 @@ services:
         logging:
             driver: none
         restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: ewqewq
         volumes:
             - ./mongodb/data:/data/db
         networks:

@@ -1,5 +1,1 @@
 FROM nginx
-RUN ["apt", "update", "-y"]
-RUN ["apt", "install", "certbot", "-y"]
-RUN ["apt", "install", "python3-certbot-nginx", "-y"]
-RUN ["certbot", "certonly", "--nginx", "--agree-tos", "-m pengliheng111@gmail.com" , "-d chat.plhh.xyz", "-d api.plhh.xyz"]

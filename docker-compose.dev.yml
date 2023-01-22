@@ -6,15 +6,11 @@ services:
         #     - '--logpath'
         #     - '/var/log/mongodb/mongod.log'
         build:
-            context: "./"
+            context: "./mongodb"
         logging:
             driver: none
-        image: mongo
         ports: 
             - "27017:27017"
         restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: ewqewq
         volumes:
-            - ./data:/data/db
+            - ./mongodb/data:/data/db

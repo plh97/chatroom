@@ -3,8 +3,15 @@
 # update
 echo 'y' | apt-get update
 
-# install docker
 snap install docker
+# apt-get install docker.io docker-compose -y
+
+# certbot
+apt-get install certbot -y
+echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz -d api.plhh.xyz
+# key location
+# /etc/letsencrypt/live/chat.plhh.xyz/fullchain.pem
+#  /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem
 
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
 echo 'y' | apt-get install nodejs

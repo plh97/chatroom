@@ -11,4 +11,4 @@ export const roomIcon =
 
 const MONGODB_IP = process.env.MONGODB_IP ?? "127.0.0.1";
 
-export const MONGODB_ADDRESS = `mongodb://root:ewqewq@${MONGODB_IP}:27017`;
+export const MONGODB_ADDRESS = `mongodb://${MONGODB_IP}:27017`;
