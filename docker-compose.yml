@@ -6,9 +6,8 @@ services:
         build:
             context: "./nginx"
         volumes:
-            - /etc/letsencrypt/live/chat1.plhh.xyz/
             - ./nginx/conf.d/:/etc/nginx/conf.d/
-            - ./nginx/cert/:/etc/nginx/cert/
+            - /etc/letsencrypt:/cert
             - ./nginx/log:/var/log/nginx/
             - ./packages/frontend/dist/:/var/www/app/
         ports:
