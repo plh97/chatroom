@@ -50,6 +50,7 @@
     "unplugin-auto-import": "^0.12.1",
     "vite": "^4.0.2",
     "vite-auto-import-resolvers": "^3.0.3",
+    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-pwa": "^0.14.1"
   }
 }
