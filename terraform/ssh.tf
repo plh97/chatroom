@@ -17,24 +17,4 @@ resource "local_file" "pem_file" {
   file_permission      = "600"
   directory_permission = "700"
   sensitive_content    = tls_private_key.example.private_key_pem
-  # provisioner "local-exec" {
-  #   command = "echo Host vultr\nHostName 149.28.148.14\nUser root\nIdentityFile ~/.ssh/qwe.pem >> ../ansible/hosts"
-  # }
 }
-
-# resource "ssh_resource" "init" {
-#   agent       = true
-#   when        = "create"
-#   host        = vultr_instance.instance.main_ip
-#   user        = "root"
-#   timeout     = "15m"
-#   retry_delay = "5s"
-
-#   file {
-#     # content = "cat ~/.ssh/${var.key_name}.pem"
-#     # destination = "~/.ssh/config"
-#     content     = "echo Hello world"
-#     destination = "/tmp/hello.sh"
-#     permissions = "0700"
-#   }
-# }
