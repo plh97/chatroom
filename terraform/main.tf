@@ -5,5 +5,5 @@ resource "vultr_instance" "instance" {
   firewall_group_id = "dd776525-5e19-42e1-b55a-ad6da1cf6a4b"
   hostname          = "vultr.guest"
   label             = "chat room instance"
-  ssh_key_ids       = [var.ssh_key_id]
+  ssh_key_ids       = [var.ssh_key_id, vultr_ssh_key.my_ssh_key.id]
 }

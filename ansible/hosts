@@ -1,1 +1,5 @@
 vultr
+# Host vultr
+#   HostName 45.77.172.10
+#   User root
+#   IdentityFile ~/.ssh/qwe.pem

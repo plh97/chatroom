@@ -8,7 +8,7 @@ snap install docker
 
 # certbot
 apt-get install certbot -y
-echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz
+echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat1.plhh.xyz
 
 
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\

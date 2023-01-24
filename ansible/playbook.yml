@@ -24,7 +24,14 @@
         clone: yes
         update: yes
         version: develop
-
+    - name: copy cert key file
+      command:
+        chdir: /root/chatroom
+        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem > /root/cert/localhost.key
+    - name: copy cert key file
+      command:
+        chdir: /root/chatroom
+        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem > /root/cert/localhost.crt
     - name: bootstrap
       command:
         cmd: yarn run bootstrap
