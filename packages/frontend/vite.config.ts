@@ -26,13 +26,15 @@ const defaultConfig = {
       manifest: {
         name: "Chat room",
         short_name: "Chat",
-        description: "Chat web application. Send receive message from your friends immediately.",
+        description:
+          "Chat web application. Send receive message from your friends immediately.",
         theme_color: "#000",
         icons: [
           {
             src: "icon.svg",
             sizes: "192x192",
             type: "image/svg",
+            purpose: "maskable any",
           },
           {
             src: "icon.svg",
