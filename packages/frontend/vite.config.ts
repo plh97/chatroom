@@ -7,6 +7,9 @@ import viteCompression from "vite-plugin-compression";
 
 const PROT = Number(process.env.PORT ?? 9001);
 const defaultConfig = {
+  build: {
+    sourcemap: true,
+  },
   preview: {
     port: PROT,
   },
