@@ -22,6 +22,25 @@ const defaultConfig = {
   plugins: [
     viteCompression(),
     VitePWA({
+      includeAssets: ["icon.svg"],
+      manifest: {
+        name: "Chat room",
+        short_name: "Chat",
+        description: "Chat web application. Send receive message from your friends immediately.",
+        theme_color: "#000",
+        icons: [
+          {
+            src: "icon.svg",
+            sizes: "192x192",
+            type: "image/svg",
+          },
+          {
+            src: "icon.svg",
+            sizes: "512x512",
+            type: "image/svg",
+          },
+        ],
+      },
       // icons: [
       //   {
       //     src: "pwa-192x192.png",
