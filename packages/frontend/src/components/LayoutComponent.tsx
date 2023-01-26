@@ -10,11 +10,6 @@ const style: { [key: string]: CSS.Properties } = {
     flexDirection: "column",
     flex: 1,
   },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-  },
 };
 
 interface LayoutProps {

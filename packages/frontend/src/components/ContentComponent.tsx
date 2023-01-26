@@ -5,16 +5,24 @@ import useScroll from "@/hooks/useScroll";
 import useWebsocket from "@/hooks/useWebsocket";
 import {
   getRoomInfoThunk,
+  initialMessage,
   IState,
   loadMoreMessage,
   loadRoomMoreMessageThunk,
 } from "@/store/reducer/room";
+import { debounce } from "@/utils";
 
 const style: { [key: string]: csstype.Properties } = {
   container: {
     flex: 1,
     padding: "0 0.8125rem",
     width: "calc(100vw - 300px)",
+    position: "relative",
+  },
+  loadmore: {
+    position: "absolute",
+    top: 0,
+    width: "100%",
   },
 };
 
@@ -33,6 +41,8 @@ export function ContentComponent() {
   const [positionToBottom, setPositionToBottom] = useState<number | null>(null);
   useEffect(() => {
     if (!id) return;
+    // 清空旧的信息
+    dispatch(initialMessage({ message: [], totalCount: 0 }));
     dispatch(getRoomInfoThunk(id) as any).then(() => {
       connect();
     });
@@ -44,8 +54,7 @@ export function ContentComponent() {
     // 如果滚动到了顶部
     if (
       message.length > 0 &&
-      scrollEl.current?.scrollTop !== undefined &&
-      scrollEl.current?.scrollTop < 20 &&
+      scrollEl.current?.scrollTop === 0 &&
       !loadingMessage &&
       hasMessage
     ) {
@@ -58,8 +67,8 @@ export function ContentComponent() {
       );
       const positionToTop = getTopSpace();
       dispatch(loadMoreMessage(payload));
-      if (positionToTop === 0) {
-        setPositionToBottom(getBottomSpace() + 47);
+      if (Number(positionToTop) === 0) {
+        setPositionToBottom(getBottomSpace());
       }
     }
   };
@@ -80,13 +89,13 @@ export function ContentComponent() {
       style={style.container}
       ref={scrollEl}
       className="overflow-auto scrollbar"
-      onScroll={handleScroll}
+      onScroll={debounce(handleScroll)}
     >
       {!hasMessage && !loadingMessage && (
         <div className="text-center m-4">---------- END ----------</div>
       )}
       {loadingMessage && (
-        <div className="text-center p-2">
+        <div className="text-center p-2" style={style.loadmore}>
           <Spinner
             thickness="4px"
             speed="0.65s"
