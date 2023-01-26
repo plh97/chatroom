@@ -30,6 +30,7 @@ export function ContentComponent() {
   const { id = "" } = useParams();
   const { getBottomSpace, getTopSpace } = useScroll(scrollEl);
   const { connect, disconnect } = useWebsocket(id);
+  const [positionToBottom, setPositionToBottom] = useState<number | null>(null);
   useEffect(() => {
     if (!id) return;
     dispatch(getRoomInfoThunk(id) as any).then(() => {
@@ -56,23 +57,24 @@ export function ContentComponent() {
           _id: id,
         })
       );
-      // 0. 只有当滚动到顶部的时候才需要特殊处理
-      // 1. 记录当前位置
-      // 2. 推入新消息到顶部
-      // 3. 滚动滚动条道之前记录位置
-      const positionToBottom = getBottomSpace() + 47;
       const positionToTop = getTopSpace();
       dispatch(loadMoreMessage(payload));
       if (positionToTop === 0) {
-        setTimeout(() => {
-          if (scrollEl.current?.scrollTop !== undefined) {
-            scrollEl.current.scrollTop =
-              scrollEl.current.scrollHeight - positionToBottom;
-          }
-        });
+        setPositionToBottom(getBottomSpace() + 47);
       }
     }
   };
+
+  useLayoutEffect(() => {
+    if (
+      scrollEl.current?.scrollTop !== undefined &&
+      positionToBottom !== null
+    ) {
+      scrollEl.current.scrollTop =
+        scrollEl.current.scrollHeight - positionToBottom;
+      setPositionToBottom(null);
+    }
+  }, [positionToBottom]);
 
   return (
     <div

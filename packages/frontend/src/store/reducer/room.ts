@@ -36,8 +36,6 @@ const initialState: IState = {
 export const getRoomInfoThunk = createAsyncThunk<void, string>(
   `fetchRoomInfo`,
   async (id, { dispatch }) => {
-    // 清空旧的信息
-    dispatch(initialMessage({ message: [], totalCount: 0 }));
     // 修改当前面room id
     dispatch(changeRoomId(id));
     // 加载中
