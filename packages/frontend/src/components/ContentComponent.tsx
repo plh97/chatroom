@@ -42,7 +42,6 @@ export function ContentComponent() {
   }, [id]);
   const handleScroll = async () => {
     // 如果滚动到了顶部
-    console.log(scrollEl.current?.scrollTop);
     if (
       message.length > 0 &&
       scrollEl.current?.scrollTop !== undefined &&
