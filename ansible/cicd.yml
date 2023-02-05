@@ -20,8 +20,12 @@
         chdir: /root/chatroom
         cmd: npm run build
 
+    - name: rm container
+      command:
+        chdir: /root/chatroom
+        cmd: npm run down
+
     - name: deploy
       command:
         chdir: /root/chatroom
         cmd: npm run deploy
-...

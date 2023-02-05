@@ -16,6 +16,7 @@
     "lint:prettier": "lerna run lint:prettier",
     "test": "lerna run test",
     "build": "lerna run build",
+    "down": "docker compose down",
     "deploy": "docker compose up -d",
     "prepare": "husky install"
   },
