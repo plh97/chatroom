@@ -64,7 +64,7 @@ export function RegisterPage() {
     setUsername(input);
   }
   return (
-    <div style={style.container} data-testid="login">
+    <div style={style.container} data-testid="register">
       <div style={style.Wrapper}>
         <div style={style.AvatarContainer}>
           <Avatar size="xl" name="?" />

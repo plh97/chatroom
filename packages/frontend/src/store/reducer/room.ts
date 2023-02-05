@@ -10,6 +10,7 @@ import {
 } from "@/interfaces/IMessage";
 
 import { fetchUserInfoThunk } from "./user";
+import { ROOM } from "@/interfaces/IRoom";
 
 export interface IState {
   id: string;
@@ -74,11 +75,13 @@ export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
 );
 
 export const addRoomThunk = createAsyncThunk<
-  void,
+  ROOM,
   { member: string[]; name: string }
 >(`register`, async (data, { dispatch }) => {
-  await Api.addRoom(data);
+  const res = await Api.addRoom(data);
   dispatch(fetchUserInfoThunk());
+  console.log(res);
+  return res;
 });
 
 export const roomSlice = createSlice({

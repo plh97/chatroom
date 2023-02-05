@@ -4,7 +4,6 @@ import { Types } from "mongoose";
 import { privateKey } from "@/config";
 import RoomModel from "@/model/room";
 import UserModel from "@/model/user";
-// import { getWS } from "@/ws";
 
 export const getRoom = async (ctx: Context) => {
   const _id = (ctx.request.query._id as string) ?? "";
@@ -54,6 +53,7 @@ export const addRoom = async (ctx: Context) => {
   ctx.body = {
     code: 0,
     message: "Create room success",
+    data: roomResponse,
   };
 };
 

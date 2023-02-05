@@ -5,6 +5,7 @@ import {
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
+import { ROOM } from "./interfaces/IRoom";
 
 const { toast } = createStandaloneToast();
 
@@ -113,7 +114,7 @@ const Api = {
       params,
     }),
   addRoom: (data: { name: string; member: string[] }) =>
-    request({
+    request<ROOM>({
       url: "/room",
       method: "post",
       data,

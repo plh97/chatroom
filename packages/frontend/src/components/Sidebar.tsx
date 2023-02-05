@@ -5,6 +5,7 @@ import { USER } from "@/interfaces/IUser";
 import { RootState } from "@/store/index";
 import { addRoomThunk } from "@/store/reducer/room";
 import { logoutThunk } from "@/store/reducer/user";
+import { ROOM } from "@/interfaces/IRoom";
 
 const style: { [key: string]: CSS.Properties } = {
   sider: {
@@ -31,14 +32,35 @@ export function SidebarComponent() {
     return state.user.data;
   });
   const { id = "" } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [roomName, setRoomName] = useState("");
   const dispatch = useDispatch<Dispatch<any>>();
-  function handleAddRoom() {
-    dispatch(
+  const navigation = useNavigate();
+  const toast = useToast();
+  async function handleAddRoom() {
+    if (!myUserInfo._id) {
+      return;
+    }
+    if (!roomName) {
+      toast({
+        title: "Warning.",
+        description: "Please input room name",
+        status: "error",
+        position: "top",
+        duration: 1000,
+      });
+      return;
+    }
+    const { payload } = await dispatch<any>(
       addRoomThunk({
-        name: "roomname",
+        name: roomName,
         member: [myUserInfo._id ?? ""],
       })
     );
+    console.log(payload);
+    onClose();
+    setRoomName("");
+    navigation(`/room/${payload._id}`);
   }
   function handleLogout() {
     dispatch(logoutThunk());
@@ -46,11 +68,7 @@ export function SidebarComponent() {
   return (
     <div style={style.sider}>
       <div style={style.control}>
-        <Button
-          colorScheme="grey"
-          variant="outline"
-          onClick={() => handleAddRoom()}
-        >
+        <Button colorScheme="grey" variant="outline" onClick={onOpen}>
           Add Room
         </Button>
       </div>
@@ -68,6 +86,31 @@ export function SidebarComponent() {
           Logout
         </Button>
       </div>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl id="roomname">
+              <FormLabel>Room Name</FormLabel>
+              <Input
+                type="text"
+                autoComplete="true"
+                autoFocus
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleAddRoom}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
