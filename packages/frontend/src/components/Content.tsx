@@ -1,5 +1,5 @@
 import csstype from "csstype";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import useScroll from "@/hooks/useScroll";
 import useWebsocket from "@/hooks/useWebsocket";
@@ -11,9 +11,12 @@ import {
   loadRoomMoreMessageThunk,
 } from "@/store/reducer/room";
 import { debounce } from "@/utils";
+import { addMessage, scrollToEnd } from "@/store/reducer/room";
+import { updateUserRoomMessage } from "@/store/reducer/user";
 
 const style: { [key: string]: csstype.Properties } = {
   container: {
+    overflow: "overlay",
     flex: 1,
     padding: "0 0.8125rem",
     width: "calc(100vw - 300px)",
@@ -37,37 +40,43 @@ export function ContentComponent() {
   const dispatch = useAppDispatch();
   const { id = "" } = useParams();
   const { getBottomSpace, getTopSpace } = useScroll(scrollEl);
-  const { connect, disconnect } = useWebsocket(id);
+  const { subscribe } = useWebsocket();
   const [positionToBottom, setPositionToBottom] = useState<number | null>(null);
   useEffect(() => {
     if (!id) return;
     // 清空旧的信息
     dispatch(initialMessage({ message: [], totalCount: 0 }));
     dispatch(getRoomInfoThunk(id) as any).then(() => {
-      connect();
+      subscribe(
+        {
+          id,
+        },
+        (msg) => {
+          dispatch(addMessage([msg]));
+          dispatch(updateUserRoomMessage({ roomId: id, msg }));
+          dispatch(scrollToEnd());
+        }
+      );
     });
-    return () => {
-      disconnect();
-    };
   }, [id]);
   const handleScroll = async () => {
     // 如果滚动到了顶部
     if (
       message.length > 0 &&
-      scrollEl.current?.scrollTop === 0 &&
+      Number(scrollEl.current?.scrollTop) < 300 &&
       !loadingMessage &&
       hasMessage
     ) {
       const { payload } = await dispatch<any>(
         loadRoomMoreMessageThunk({
-          page: Math.floor(message.length / 20) + 1,
+          start: message?.length ?? 0,
           pageSize: 20,
           _id: id,
         })
       );
       const positionToTop = getTopSpace();
       dispatch(loadMoreMessage(payload));
-      if (Number(positionToTop) === 0) {
+      if (Number(positionToTop) < 300) {
         setPositionToBottom(getBottomSpace());
       }
     }
@@ -88,14 +97,13 @@ export function ContentComponent() {
     <div
       style={style.container}
       ref={scrollEl}
-      className="overflow-auto scrollbar"
       onScroll={debounce(handleScroll)}
     >
       {!hasMessage && !loadingMessage && (
         <div className="text-center m-4">---------- END ----------</div>
       )}
       {loadingMessage && (
-        <div className="text-center p-2" style={style.loadmore}>
+        <div className="text-center mt-2 mb-2 right-0" style={style.loadmore}>
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -105,13 +113,10 @@ export function ContentComponent() {
           />
         </div>
       )}
-      {message.map((msg, i) => (
-        <div
-          key={msg._id}
-          ref={(ref: HTMLDivElement) => (messageRef.current[i] = ref)}
-        >
+      {message.map((msg) => (
+        <Fragment key={msg._id}>
           <MessageComponent data={msg} />
-        </div>
+        </Fragment>
       ))}
     </div>
   );

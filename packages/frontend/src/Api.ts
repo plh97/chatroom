@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import {
   ADD_MESSAGE_REQUEST,
   MESSAGE,
+  MESSAGE_REQUEST,
   MESSAGE_RESPONSE,
 } from "@/interfaces/IMessage";
 import { USER } from "@/interfaces/IUser";
@@ -107,7 +108,7 @@ const Api = {
       url: "/user",
       method: "get",
     }),
-  getRoom: (params: { page: number; pageSize: number; _id: string }) =>
+  getRoom: (params: MESSAGE_REQUEST) =>
     request<MESSAGE_RESPONSE>({
       url: "/room",
       method: "get",

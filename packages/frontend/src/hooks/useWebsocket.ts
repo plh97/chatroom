@@ -1,35 +1,31 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { Manager, Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
+import { MESSAGE } from "@/interfaces/IMessage";
 
-import { addMessage, scrollToEnd } from "@/store/reducer/room";
-import { updateUserRoomMessage } from "@/store/reducer/user";
-import { useAppDispatch } from "./app";
+let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 
-export default function useWebsocket(id: string) {
-  const dispatch = useAppDispatch();
-  let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
-  const connect = () => {
+export default function useWebsocket() {
+  // connect
+  const connect = ({ id }: { id: string }, cb: (msg: MESSAGE) => void) => {
     if (!id) return;
-    // connect
-    const manager = new Manager("");
-    socket = manager.socket(`/${id}`);
-    socket.on("connect", () => {
-      console.log("connected: ", id);
-    });
-    socket.on("message", (msg) => {
-      dispatch(addMessage([msg]));
-      dispatch(updateUserRoomMessage({ roomId: id, msg }));
-      dispatch(scrollToEnd());
-    });
-    socket.on("error", (error) => {
-      console.log("error: ", error);
-    });
-    socket.on("disconnect", (error) => {
-      console.log("disconnect: ", error);
-    });
+    if (!socket) {
+      socket = io();
+      socket.on("connect", () => {
+        console.log("connected: ", id);
+      });
+      socket.on("message", (msg) => {
+        cb(msg);
+      });
+      socket.on("error", (error) => {
+        console.log("error: ", error);
+      });
+      socket.on("disconnect", (error) => {
+        console.log("disconnect: ", error);
+      });
+    }
   };
   return {
-    connect,
+    subscribe: connect,
     disconnect: () => {
       socket?.close();
     },

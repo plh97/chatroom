@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger";
+// import logger from "redux-logger";
 import thunk from "redux-thunk";
 
 import roomReducer from "@/store/reducer/room";
@@ -10,7 +10,7 @@ export const store = configureStore({
     user: userReducer,
     room: roomReducer,
   },
-  middleware: [logger, thunk],
+  middleware: [thunk],
 });
 
 export type RootState = ReturnType<typeof store.getState>;
