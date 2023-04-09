@@ -30,7 +30,6 @@ const style: { [key: string]: csstype.Properties } = {
 };
 
 export function ContentComponent() {
-  const messageRef = useRef<HTMLDivElement[]>([]);
   const scrollEl = useRef<HTMLDivElement>(null);
   const {
     data: { message, totalCount },
@@ -114,9 +113,7 @@ export function ContentComponent() {
         </div>
       )}
       {message.map((msg) => (
-        <Fragment key={msg._id}>
-          <MessageComponent data={msg} />
-        </Fragment>
+        <MessageComponent key={msg._id} data={msg} />
       ))}
     </div>
   );
