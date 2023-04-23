@@ -24,7 +24,7 @@ export function ContentComponent() {
   const { id = "" } = useParams();
   const { getBottomSpace, getTopSpace } = useScroll(scrollEl);
   const { subscribe } = useWebsocket();
-  const [positionToBottom, setPositionToBottom] = useState<number | null>(null);
+  const [distanceToBottom, setDistanceToBottom] = useState<number | null>(null);
   useEffect(() => {
     if (!id) return;
     // 清空旧的信息
@@ -57,10 +57,10 @@ export function ContentComponent() {
           _id: id,
         })
       );
-      const positionToTop = getTopSpace();
+      const distanceToTop = getTopSpace();
       dispatch(loadMoreMessage(payload));
-      if (Number(positionToTop) < 300) {
-        setPositionToBottom(getBottomSpace());
+      if (Number(distanceToTop) === 0) {
+        setDistanceToBottom(getBottomSpace());
       }
     }
   };
@@ -68,13 +68,13 @@ export function ContentComponent() {
   useLayoutEffect(() => {
     if (
       scrollEl.current?.scrollTop !== undefined &&
-      positionToBottom !== null
+      distanceToBottom !== null
     ) {
       scrollEl.current.scrollTop =
-        scrollEl.current.scrollHeight - positionToBottom;
-      setPositionToBottom(null);
+        scrollEl.current.scrollHeight - distanceToBottom;
+      setDistanceToBottom(null);
     }
-  }, [positionToBottom]);
+  }, [distanceToBottom]);
 
   const TipComponent = () => {
     return (
