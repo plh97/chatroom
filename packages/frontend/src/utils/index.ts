@@ -4,7 +4,7 @@ export const debounce = (
   cb: (event: UIEvent<HTMLDivElement>, ...args: unknown[]) => void,
   ms = 200
 ) => {
-  let t: number = 0;
+  let t = 0;
   return (
     event: UIEvent<HTMLDivElement, globalThis.UIEvent>,
     ...args: any[]
@@ -29,7 +29,7 @@ export const throttle = (
     event: UIEvent<HTMLDivElement, globalThis.UIEvent>,
     ...args: any[]
   ) => {
-    if(t) return;
+    if (t) return;
     t = window.setTimeout(() => {
       cb.apply(this, [event, ...args]);
       t = 0;
