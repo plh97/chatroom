@@ -9,35 +9,8 @@ interface IProps {
 }
 
 const style: { [key: string]: Properties } = {
-  container: {
-    padding: "4px 8px",
-    display: "flex",
-    flexDirection: "row",
-    borderRadius: "10px",
-    overflow: "hidden",
-  },
-  activeContainer: {
-    background: "rgba(255,255,255,0.1)",
-  },
-  content: {
-    marginLeft: "8px",
-    display: "inline-flex",
-    flexDirection: "column",
-    lineHeight: "1em",
-  },
-  name: {
-    fontWeight: "bold",
-    fontSize: "16px",
-  },
   text: {
-    fontWeight: "400",
-    fontSize: "12px",
     color: "#999",
-    marginTop: "8px",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-    wordBreak: "break-all",
-    overflow: "hidden",
     width: "210px",
   },
 };
@@ -51,17 +24,17 @@ export function RoomItemComponent(props: IProps) {
       return "-";
     }
   }, [props.data]);
-  const containerStyle = props.active ? style.activeContainer : {};
+  const containerStyle = props.active ? ' bg-white/10' : '';
   return (
     <li key={data._id}>
       <Link
         to={"/room/" + data._id}
-        style={{ ...style.container, ...containerStyle }}
+        className={"flex flex-row overflow-hidden rounded-lg px-2 py-1" + containerStyle}
       >
         <Avatar name={data.name} src={data.image} />
-        <span style={style.content}>
-          <span style={style.name}>{data.name}</span>
-          <span style={style.text}>{text()}</span>
+        <span className="ml-2 inline-flex flex-col leading-4">
+          <span className="font-bold text-base leading-4">{data.name}</span>
+          <span style={style.text} className="whitespace-nowrap break-all overflow-hidden	mt-2 text-xs font-normal text-ellipsis">{text()}</span>
         </span>
       </Link>
     </li>

@@ -1,5 +1,5 @@
 import csstype from "csstype";
-import { Fragment, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import useScroll from "@/hooks/useScroll";
 import useWebsocket from "@/hooks/useWebsocket";
@@ -10,22 +10,13 @@ import {
   loadMoreMessage,
   loadRoomMoreMessageThunk,
 } from "@/store/reducer/room";
-import { debounce } from "@/utils";
+import { throttle } from "@/utils";
 import { addMessage, scrollToEnd } from "@/store/reducer/room";
 import { updateUserRoomMessage } from "@/store/reducer/user";
 
 const style: { [key: string]: csstype.Properties } = {
   container: {
-    overflow: "overlay",
-    flex: 1,
-    padding: "0 0.8125rem",
-    width: "calc(100vw - 300px)",
-    position: "relative",
-  },
-  loadmore: {
-    position: "absolute",
-    top: 0,
-    width: "100%",
+    // width: "calc(100vw - 300px)",
   },
 };
 
@@ -92,17 +83,13 @@ export function ContentComponent() {
     }
   }, [positionToBottom]);
 
-  return (
-    <div
-      style={style.container}
-      ref={scrollEl}
-      onScroll={debounce(handleScroll)}
-    >
+  const TipComponent = () => {
+    return <>
       {!hasMessage && !loadingMessage && (
         <div className="text-center m-4">---------- END ----------</div>
       )}
       {loadingMessage && (
-        <div className="text-center mt-2 mb-2 right-0" style={style.loadmore}>
+        <div className="text-center mt-2 mb-2 right-0 top-0 absolute w-full">
           <Spinner
             thickness="4px"
             speed="0.65s"
@@ -112,6 +99,17 @@ export function ContentComponent() {
           />
         </div>
       )}
+    </>
+  }
+
+  return (
+    <div
+      className="overflow-y-auto flex-1 relative px-3.5 py-0"
+      style={style.container}
+      ref={scrollEl}
+      onScroll={throttle(handleScroll)}
+    >
+      <TipComponent />
       {message.map((msg) => (
         <MessageComponent key={msg._id} data={msg} />
       ))}
