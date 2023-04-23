@@ -1,4 +1,3 @@
-import csstype from "csstype";
 import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/hooks/app";
 import useScroll from "@/hooks/useScroll";
@@ -13,12 +12,6 @@ import {
 import { throttle } from "@/utils";
 import { addMessage, scrollToEnd } from "@/store/reducer/room";
 import { updateUserRoomMessage } from "@/store/reducer/user";
-
-const style: { [key: string]: csstype.Properties } = {
-  container: {
-    // width: "calc(100vw - 300px)",
-  },
-};
 
 export function ContentComponent() {
   const scrollEl = useRef<HTMLDivElement>(null);
@@ -107,7 +100,6 @@ export function ContentComponent() {
   return (
     <div
       className="overflow-y-auto flex-1 relative px-3.5 py-0"
-      style={style.container}
       ref={scrollEl}
       onScroll={throttle(handleScroll)}
     >
