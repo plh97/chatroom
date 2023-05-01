@@ -43,7 +43,6 @@ export function SidebarComponent() {
         member: [myUserInfo._id ?? ""],
       })
     );
-    console.log(payload);
     onClose();
     setRoomName("");
     navigation(`/room/${payload._id}`);

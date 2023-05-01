@@ -13,3 +13,7 @@ export enum ACTION_TYPE {
   INITIAL_MESSAGE = "INITIAL_MESSAGE",
   SET_LAYOUT = "SET_LAYOUT",
 }
+
+export const EMPTY_FN = () => {
+  return;
+}

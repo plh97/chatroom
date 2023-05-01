@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import { Server as HttpServer } from "http";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-let io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
+let io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 
 export default function socket(server: HttpServer) {
   function getWS() {
@@ -14,9 +14,8 @@ export default function socket(server: HttpServer) {
         },
       });
       io.on("connection", (socket) => {
-        console.log(`connect room!`);
         socket.on("disconnect", () => {
-          console.log(`disconnect room!`);
+          console.log(`disconnect websocket!`);
         });
       });
     }

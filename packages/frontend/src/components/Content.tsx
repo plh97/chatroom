@@ -12,6 +12,7 @@ import {
 import { throttle } from "@/utils";
 import { addMessage, scrollToEnd } from "@/store/reducer/room";
 import { updateUserRoomMessage } from "@/store/reducer/user";
+import { EMPTY_FN } from "@/constants";
 
 export function ContentComponent() {
   const scrollEl = useRef<HTMLDivElement>(null);
@@ -27,20 +28,25 @@ export function ContentComponent() {
   const [distanceToBottom, setDistanceToBottom] = useState<number | null>(null);
   useEffect(() => {
     if (!id) return;
+    let unsubFN = EMPTY_FN;
     // 清空旧的信息
     dispatch(initialMessage({ message: [], totalCount: 0 }));
     dispatch(getRoomInfoThunk(id) as any).then(() => {
-      subscribe(
+      unsubFN = subscribe(
         {
-          id,
+          channel: `room:${id}`,
         },
         (msg) => {
           dispatch(addMessage([msg]));
+          console.log(id);
           dispatch(updateUserRoomMessage({ roomId: id, msg }));
           dispatch(scrollToEnd());
         }
       );
     });
+    return () => {
+      unsubFN();
+    };
   }, [id]);
   const handleScroll = async () => {
     // 如果滚动到了顶部

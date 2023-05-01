@@ -101,9 +101,9 @@ export const addMessage = async (ctx: Context) => {
     };
     return;
   }
-  const namespace = ctx.getWS(body.roomId);
   const message = data.message[data.message.length - 1];
-  namespace.send(message);
+  const socket = ctx.getWS();
+  socket.emit(`room:${body.roomId}`, message);
   ctx.body = {
     code: 0,
     data: message,
