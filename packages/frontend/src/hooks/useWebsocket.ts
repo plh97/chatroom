@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { MESSAGE } from "@/interfaces/IMessage";
 import { EMPTY_FN } from "@/constants";
 
-export type CHANNEL_TYPE = `room:${string}` | `userinfo:${string}`
+export type CHANNEL_TYPE = `room:${string}` | `userinfo:${string}`;
 
 const socket: Socket<DefaultEventsMap, DefaultEventsMap> = io();
 socket.on("connect", () => {

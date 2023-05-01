@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint:prettier
-yarn lint:eslint
-npm run test
+yarn lint:prettier && yarn lint:eslint && npm run test

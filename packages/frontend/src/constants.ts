@@ -16,4 +16,4 @@ export enum ACTION_TYPE {
 
 export const EMPTY_FN = () => {
   return;
-}
+};

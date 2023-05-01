@@ -38,7 +38,7 @@ export function RoomItemComponent(props: IProps) {
           <span className="font-bold text-base leading-4">{data.name}</span>
           <span
             style={style.text}
-            className="whitespace-nowrap break-all overflow-hidden	mt-2 text-xs font-normal text-ellipsis"
+            className="whitespace-nowrap break-all overflow-hidden mt-2 text-xs font-normal text-ellipsis"
           >
             {text()}
           </span>

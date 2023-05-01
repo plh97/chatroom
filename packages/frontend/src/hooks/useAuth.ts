@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useMatch } from "react-router-dom";
 
-import { fetchUserInfoThunk, updateUserRoomMessage } from "@/store/reducer/user";
+import {
+  fetchUserInfoThunk,
+  updateUserRoomMessage,
+} from "@/store/reducer/user";
 
 import { useAppDispatch, useAppSelector } from "./app";
 /**
@@ -21,7 +24,7 @@ export default function useAuth() {
   useEffect(() => {
     if (userinfo?.data?._id) {
       console.log(userinfo?.data);
-      userinfo?.data?.room?.forEach(room => {
+      userinfo?.data?.room?.forEach((room) => {
         subscribe(
           {
             channel: `room:${room._id}`,
@@ -30,7 +33,7 @@ export default function useAuth() {
             dispatch(updateUserRoomMessage({ roomId: room._id, msg }));
           }
         );
-      })
+      });
     } else {
       dispatch(fetchUserInfoThunk() as any);
     }
