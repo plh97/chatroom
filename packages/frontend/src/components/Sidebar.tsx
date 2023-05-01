@@ -5,25 +5,11 @@ import { USER } from "@/interfaces/IUser";
 import { RootState } from "@/store/index";
 import { addRoomThunk } from "@/store/reducer/room";
 import { logoutThunk } from "@/store/reducer/user";
-import { ROOM } from "@/interfaces/IRoom";
 
 const style: { [key: string]: CSS.Properties } = {
   sider: {
     backgroundColor: "#212121",
-    display: "flex",
-    flex: "0 0 300px",
-    flexDirection: "column",
-  },
-  control: {
-    display: "flex",
-    height: "50px",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  roomList: {
-    flex: 1,
-    overflowY: "auto",
-    padding: "0 0.5rem",
+    flexBasis: "300px",
   },
 };
 
@@ -57,7 +43,6 @@ export function SidebarComponent() {
         member: [myUserInfo._id ?? ""],
       })
     );
-    console.log(payload);
     onClose();
     setRoomName("");
     navigation(`/room/${payload._id}`);
@@ -66,13 +51,13 @@ export function SidebarComponent() {
     dispatch(logoutThunk());
   }
   return (
-    <div style={style.sider}>
-      <div style={style.control}>
+    <div style={style.sider} className="flex flex-col basis-72 flex-0">
+      <div className="flex items-center justify-center h-14">
         <Button colorScheme="grey" variant="outline" onClick={onOpen}>
           Add Room
         </Button>
       </div>
-      <ul style={style.roomList}>
+      <ul className="flex-1 overflow-y-auto px-2">
         {myUserInfo.room?.map((room) => (
           <RoomItemComponent
             active={room._id == id}
@@ -81,7 +66,7 @@ export function SidebarComponent() {
           />
         ))}
       </ul>
-      <div style={style.control}>
+      <div className="flex items-center justify-center h-14">
         <Button colorScheme="grey" variant="outline" onClick={handleLogout}>
           Logout
         </Button>

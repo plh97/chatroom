@@ -15,9 +15,9 @@ export interface MESSAGE_RESPONSE {
 }
 
 export interface MESSAGE_REQUEST {
-  page: number;
-  pageSize: number;
+  pageSize?: number;
   _id: string;
+  start?: number;
 }
 
 export interface ADD_MESSAGE_REQUEST {

@@ -60,7 +60,6 @@ export const userSlice = createSlice({
       const room = state.data.room?.find(
         (room) => room._id === action.payload.roomId
       );
-      console.log(room);
       if (room?.message) {
         room.message = [action.payload.msg];
         state.data.room?.sort((a) => {

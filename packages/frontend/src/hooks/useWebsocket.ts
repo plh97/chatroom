@@ -1,35 +1,39 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
-import { Manager, Socket } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
+import { MESSAGE } from "@/interfaces/IMessage";
+import { EMPTY_FN } from "@/constants";
 
-import { addMessage, scrollToEnd } from "@/store/reducer/room";
-import { updateUserRoomMessage } from "@/store/reducer/user";
-import { useAppDispatch } from "./app";
+export type CHANNEL_TYPE = `room:${string}` | `userinfo:${string}`;
 
-export default function useWebsocket(id: string) {
-  const dispatch = useAppDispatch();
-  let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
-  const connect = () => {
-    if (!id) return;
-    // connect
-    const manager = new Manager("");
-    socket = manager.socket(`/${id}`);
-    socket.on("connect", () => {
-      console.log("connected: ", id);
-    });
-    socket.on("message", (msg) => {
-      dispatch(addMessage([msg]));
-      dispatch(updateUserRoomMessage({ roomId: id, msg }));
-      dispatch(scrollToEnd());
-    });
-    socket.on("error", (error) => {
-      console.log("error: ", error);
-    });
-    socket.on("disconnect", (error) => {
-      console.log("disconnect: ", error);
-    });
+const socket: Socket<DefaultEventsMap, DefaultEventsMap> = io();
+socket.on("connect", () => {
+  console.log("connected: WS");
+});
+socket.on("error", (error) => {
+  console.log("error: ", error);
+});
+socket.on("disconnect", (error) => {
+  console.log("disconnect: ", error);
+});
+
+export default function useWebsocket() {
+  const subscribe = (
+    { channel }: { channel: CHANNEL_TYPE },
+    cb: (msg: MESSAGE) => void
+  ) => {
+    if (!channel) return EMPTY_FN;
+    console.log("do subscribe of: ", channel);
+    socket.on(channel, cb);
+    const unsbuscribe = () => {
+      console.log("do un-subscribe channel:", channel);
+      socket.off(channel, cb);
+    };
+    return () => {
+      unsbuscribe();
+    };
   };
   return {
-    connect,
+    subscribe,
     disconnect: () => {
       socket?.close();
     },

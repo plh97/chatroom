@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useMatch } from "react-router-dom";
 
-import { fetchUserInfoThunk } from "@/store/reducer/user";
+import {
+  fetchUserInfoThunk,
+  updateUserRoomMessage,
+} from "@/store/reducer/user";
 
 import { useAppDispatch, useAppSelector } from "./app";
 /**
@@ -17,11 +20,24 @@ export default function useAuth() {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
   const userinfo = useAppSelector((state) => state.user);
+  const { subscribe } = useWebsocket();
   useEffect(() => {
-    if (!userinfo?.data?._id) {
+    if (userinfo?.data?._id) {
+      console.log(userinfo?.data);
+      userinfo?.data?.room?.forEach((room) => {
+        subscribe(
+          {
+            channel: `room:${room._id}`,
+          },
+          (msg) => {
+            dispatch(updateUserRoomMessage({ roomId: room._id, msg }));
+          }
+        );
+      });
+    } else {
       dispatch(fetchUserInfoThunk() as any);
     }
-  }, []);
+  }, [userinfo?.data?._id]);
   useEffect(() => {
     if (isLogin || isRegister) {
       if (userinfo.auth === true) {

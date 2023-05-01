@@ -7,22 +7,29 @@ import UserModel from "@/model/user";
 
 export const getRoom = async (ctx: Context) => {
   const _id = (ctx.request.query._id as string) ?? "";
-  const page = Number(ctx.request.query.page ?? "1");
-  const pageSize = Number(ctx.request.query.pageSize ?? "20");
+  const page = +(ctx.request.query.page ?? "1");
+  const start = +(ctx.request.query.start ?? "0");
+  const pageSize = +(ctx.request.query.pageSize ?? "20");
   const data = await RoomModel.findOne({
     _id: new Types.ObjectId(_id),
   }).populate("message.user");
-  const message = data?.message ?? [];
+  let message = data?.message ?? [];
   const totalCount = data?.message.length ?? 0;
-  ctx.getWS(_id);
+  if (start) {
+    const begin = totalCount - +start - pageSize;
+    const end = totalCount - +start;
+    message = message.slice(Math.max(begin, 0), end);
+  } else {
+    message = message.slice(
+      totalCount < page * pageSize ? 0 : totalCount - page * pageSize,
+      totalCount - (page - 1) * pageSize
+    );
+  }
   ctx.body = {
     code: 0,
     data: {
       totalCount,
-      message: message.slice(
-        totalCount < page * pageSize ? 0 : totalCount - page * pageSize,
-        totalCount - (page - 1) * pageSize
-      ),
+      message,
     },
   };
 };
@@ -94,9 +101,9 @@ export const addMessage = async (ctx: Context) => {
     };
     return;
   }
-  const namespace = ctx.getWS(body.roomId);
   const message = data.message[data.message.length - 1];
-  namespace.send(message);
+  const socket = ctx.getWS();
+  socket.emit(`room:${body.roomId}`, message);
   ctx.body = {
     code: 0,
     data: message,

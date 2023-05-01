@@ -43,7 +43,6 @@ export const getRoomInfoThunk = createAsyncThunk<void, string>(
     dispatch(changeLoading(true));
     // 获取当前房间基本信息
     const res = await Api.getRoom({
-      page: 1,
       pageSize: 20,
       _id: id,
     });

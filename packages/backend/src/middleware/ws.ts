@@ -1,37 +1,28 @@
 import { Context } from "koa";
-import { Namespace, Server } from "socket.io";
-// import { app, server } from "..";
+import { Server } from "socket.io";
 import { Server as HttpServer } from "http";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
-const wsPool: Record<string, Namespace> = {};
+let io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>;
 
 export default function socket(server: HttpServer) {
-  const io = new Server(server, {
-    cors: {
-      // origin: `http://localhost:5173`,
-      credentials: true,
-    },
-  });
-  function createWS(id: string) {
-    const namespace = io.of(`/${id}`).on("connect", (socket) => {
-      console.log(`connect room: ${id}!`);
-      socket.on("disconnect", () => {
-        console.log(`disconnect room: ${id}!`);
+  function getWS() {
+    if (!io) {
+      io = new Server(server, {
+        cors: {
+          credentials: true,
+        },
       });
-    });
-    wsPool[id] = namespace;
-    return namespace;
-  }
-
-  function getWS(id: string) {
-    if (wsPool[id]) {
-      return wsPool[id];
+      io.on("connection", (socket) => {
+        socket.on("disconnect", () => {
+          console.log(`disconnect websocket!`);
+        });
+      });
     }
-    return createWS(id);
+    return io;
   }
-
+  getWS();
   return async function socket(ctx: Context, next: () => Promise<void>) {
-    ctx.createWS = createWS;
     ctx.getWS = getWS;
     await next();
   };
