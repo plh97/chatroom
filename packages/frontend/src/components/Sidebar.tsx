@@ -48,9 +48,7 @@ export function SidebarComponent() {
     navigation(`/room/${payload._id}`);
   }
   async function handleJoinDefaultRoom() {
-    const { payload } = await dispatch<any>(
-      joinRoomThunk({})
-    );
+    const { payload } = await dispatch<any>(joinRoomThunk({}));
     if (payload._id) {
       navigation(`/room/${payload._id}`);
     }
@@ -76,7 +74,12 @@ export function SidebarComponent() {
         {myUserInfo.room?.length === 0 && (
           <p>
             you haven&apos;t joined any room now! Do you want to join a&nbsp;
-            <strong className="text-blue-600	text-sm	cursor-pointer" onClick={handleJoinDefaultRoom}>Hall Room</strong>
+            <strong
+              className="text-blue-600	text-sm	cursor-pointer"
+              onClick={handleJoinDefaultRoom}
+            >
+              Hall Room
+            </strong>
             ?
           </p>
         )}

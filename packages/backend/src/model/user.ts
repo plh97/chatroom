@@ -14,7 +14,7 @@ export interface IUser {
 }
 
 const schema = new Schema<IUser>({
-  image: { type: String, default: '' },
+  image: { type: String, default: "" },
   username: String,
   password: { type: String, required: true, select: false },
   bio: String,
