@@ -92,11 +92,12 @@ export const joinRoom = async (ctx: Context) => {
 };
 
 export const deleteRoom = async (ctx: Context) => {
-  const { _id } = ctx.request.query;
-  const res = await RoomModel.deleteOne({ _id });
+  // const { _id } = ctx.request.query;
+  // const res = await RoomModel.deleteOne({ _id });
   ctx.body = {
     code: 0,
-    data: res,
+    // data: res,
+    message: "done",
   };
 };
 
@@ -128,17 +129,18 @@ export const addMessage = async (ctx: Context) => {
 };
 
 export const deleteMessage = async (ctx: Context) => {
-  const { roomId, messageId } = ctx.request.query as {
-    roomId: string;
-    messageId: string;
-  };
-  const res = await RoomModel.updateOne(
-    { _id: roomId },
-    { $pull: { message: { _id: new Types.ObjectId(messageId) } } }
-  );
+  // const { roomId, messageId } = ctx.request.query as {
+  //   roomId: string;
+  //   messageId: string;
+  // };
+  // const res = await RoomModel.updateOne(
+  //   { _id: roomId },
+  //   { $pull: { message: { _id: new Types.ObjectId(messageId) } } }
+  // );
   ctx.body = {
     code: 0,
-    data: res,
+    message: "done",
+    // data: res,
   };
 };
 

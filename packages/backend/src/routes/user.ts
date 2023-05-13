@@ -79,7 +79,7 @@ export async function GetUserImage(ctx: Context) {
 export async function QueryUser(ctx: Context) {
   const username = (ctx.request.query.username as string) ?? "";
   if (username) {
-    const users = await UserModel.find({ username }).populate("room");
+    const users = await UserModel.findOne({ username }).populate("room");
     ctx.body = {
       code: users ? 0 : 1,
       data: users ? users : [],
