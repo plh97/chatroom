@@ -12,20 +12,20 @@ import { Types } from "mongoose";
 export async function GetUserInfo(ctx: Context) {
   const cookie = ctx.cookies.get("token") ?? "";
   const _id = jwt.verify(cookie, privateKey) as string;
-  const userinfo = await UserModel.findOne({ _id })
-    .populate("friend")
-    .populate("room")
-    .populate({ path: "room", options: { sort: { updatedAt: -1 } } });
+  const userinfo = await UserModel.findOne({ _id }).populate("friend");
   if (userinfo) {
     ctx.body = {
       code: 0,
-      data: userinfo,
+      data: {
+        ...(userinfo?.toJSON() ?? {}),
+        room: await RoomModel.find({ member: { $in: _id } }),
+      },
     };
-  } else {
-    ctx.body = {
-      code: 0,
-    };
+    return;
   }
+  ctx.body = {
+    code: 0,
+  };
 }
 /**
  * 只能设置自己的信息

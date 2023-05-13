@@ -77,6 +77,7 @@ const defaultConfig = {
         },
         {
           axios: [["default", "Axios"]],
+          classnames: [["default", "classnames"]],
         },
       ],
       dirs: [

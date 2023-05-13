@@ -76,10 +76,27 @@ export const addRoomMessageThunk = createAsyncThunk<void, ADD_MESSAGE_REQUEST>(
 export const addRoomThunk = createAsyncThunk<
   ROOM,
   { member: string[]; name: string }
->(`register`, async (data, { dispatch }) => {
+>(`addRoom`, async (data, { dispatch }) => {
   const res = await Api.addRoom(data);
   dispatch(fetchUserInfoThunk());
-  console.log(res);
+  return res;
+});
+
+export const modifyRoomThunk = createAsyncThunk<
+  ROOM,
+  { member?: string[]; name?: string }
+>(`modifyRoom`, async (data, { dispatch }) => {
+  const res = await Api.editRoom(data);
+  dispatch(fetchUserInfoThunk());
+  return res;
+});
+
+export const joinRoomThunk = createAsyncThunk<
+  ROOM,
+  { member?: string[]; name?: string }
+>("joinRoom", async (data, { dispatch }) => {
+  const res = await Api.joinRoom(data);
+  dispatch(fetchUserInfoThunk());
   return res;
 });
 

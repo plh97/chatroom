@@ -125,11 +125,19 @@ const Api = {
       url: "/room/" + id,
       method: "delete",
     }),
-  editRoom: () =>
-    request({
+  editRoom: (data: { name?: string; member?: string[] }) =>
+    request<ROOM>({
       url: "/room",
       method: "patch",
+      data,
     }),
+  joinRoom: (data: { name?: string; member?: string[] }) =>
+    request<ROOM>({
+      url: "/joinRoom",
+      method: "post",
+      data,
+    }),
+
   sendMessage: (data: ADD_MESSAGE_REQUEST) =>
     request<MESSAGE>({
       url: "/room/message",

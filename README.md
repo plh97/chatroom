@@ -49,16 +49,7 @@ ansible-playbook cicd.yml
 
 ## TODO
 
-- [x] if not login, redirect to login screen
-- [x] use terrform to create vultr instance
-- [x] use ansible to crate VM
-- [X] terraform get env variable
-- [X] add github action handle CDCI
-- [x] when tf create a new instance, auto add a DNS record bind with the new instance ip address
-- [x] backend, add eslint + prettier
-- [x] project add husky + git commit hooks auto triger test and lint
 - [ ] test coverage reach 100%
-- [x] add https
 - [ ] add http2
 - [ ] add http3
 - [ ] room name able to setup/change
@@ -67,3 +58,5 @@ ansible-playbook cicd.yml
 - [ ] room online people display status
 - [ ] one account can only login for one user
 - [ ] webRTC - may need learn the course
+- [ ] add a vitural scroll container
+- [ ] add a button for user can join default room

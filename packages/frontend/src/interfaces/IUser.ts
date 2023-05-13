@@ -10,6 +10,6 @@ export interface USER {
   wechat: string;
   github: string;
   permission: string;
-  room: ROOM[];
+  room?: ROOM[];
   friend: USER[];
 }

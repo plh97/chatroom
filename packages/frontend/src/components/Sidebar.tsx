@@ -3,7 +3,7 @@ import CSS from "csstype";
 import { useDispatch, useSelector } from "react-redux";
 import { USER } from "@/interfaces/IUser";
 import { RootState } from "@/store/index";
-import { addRoomThunk } from "@/store/reducer/room";
+import { addRoomThunk, joinRoomThunk } from "@/store/reducer/room";
 import { logoutThunk } from "@/store/reducer/user";
 
 const style: { [key: string]: CSS.Properties } = {
@@ -47,6 +47,14 @@ export function SidebarComponent() {
     setRoomName("");
     navigation(`/room/${payload._id}`);
   }
+  async function handleJoinDefaultRoom() {
+    const { payload } = await dispatch<any>(
+      joinRoomThunk({})
+    );
+    if (payload._id) {
+      navigation(`/room/${payload._id}`);
+    }
+  }
   function handleLogout() {
     dispatch(logoutThunk());
   }
@@ -65,6 +73,13 @@ export function SidebarComponent() {
             data={room}
           />
         ))}
+        {myUserInfo.room?.length === 0 && (
+          <p>
+            you haven&apos;t joined any room now! Do you want to join a&nbsp;
+            <strong className="text-blue-600	text-sm	cursor-pointer" onClick={handleJoinDefaultRoom}>Hall Room</strong>
+            ?
+          </p>
+        )}
       </ul>
       <div className="flex items-center justify-center h-14">
         <Button colorScheme="grey" variant="outline" onClick={handleLogout}>

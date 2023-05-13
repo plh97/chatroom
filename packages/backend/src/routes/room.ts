@@ -43,20 +43,6 @@ export const addRoom = async (ctx: Context) => {
     member: [new Types.ObjectId(userIdFromToken), ...body.member],
     manager: new Types.ObjectId(userIdFromToken),
   });
-  // update myself into a room id
-  await UserModel.updateOne(
-    { _id: new Types.ObjectId(userIdFromToken) },
-    { $addToSet: { room: roomResponse } }
-  );
-  // update otherpersion into userid
-  await Promise.all(
-    body.member.map((id) =>
-      UserModel.updateOne(
-        { _id: new Types.ObjectId(id) },
-        { $addToSet: { room: roomResponse } }
-      )
-    )
-  );
   ctx.body = {
     code: 0,
     message: "Create room success",
@@ -72,6 +58,37 @@ export const modifyRoom = async (ctx: Context) => {
     code: 0,
     data,
   };
+};
+
+export const joinRoom = async (ctx: Context) => {
+  const { _id } = ctx.request.body;
+  const cookie = ctx.cookies.get("token") ?? "";
+  const userIdFromToken = verify(cookie, privateKey) as string;
+  const room = await RoomModel.findOne(
+    _id && { _id },
+    {},
+    { sort: { createdAt: 1 } }
+  );
+  if (!room?._id) {
+    return (ctx.body = {
+      code: 1,
+      message: "haven't found a default room",
+    });
+  }
+  if (room?.member?.includes(userIdFromToken)) {
+    return (ctx.body = {
+      code: 1,
+      message: "you already joined this room!",
+    });
+  }
+  await RoomModel.updateOne(
+    { _id: room._id },
+    { $addToSet: { member: new Types.ObjectId(userIdFromToken) } }
+  );
+  return (ctx.body = {
+    code: 0,
+    data: room,
+  });
 };
 
 export const deleteRoom = async (ctx: Context) => {

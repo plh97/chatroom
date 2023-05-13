@@ -20,6 +20,7 @@ import {
   modifyRoom,
   addMessage,
   deleteMessage,
+  joinRoom,
 } from "./room";
 
 const router = new Router({ prefix: "/api" });
@@ -42,5 +43,6 @@ export default router
   .get("/room", getRoom)
   .patch("/room", modifyRoom)
   .delete("/room", deleteRoom)
+  .post("/joinRoom", joinRoom)
   .post("/room/message", addMessage)
   .delete("/room/message", deleteMessage);

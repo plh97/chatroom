@@ -14,7 +14,7 @@ const initialState: IState = {
   auth: null,
   data: {
     _id: "",
-    room: [],
+    room: undefined,
     friend: [],
   },
 };

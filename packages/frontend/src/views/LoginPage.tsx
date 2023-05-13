@@ -37,7 +37,7 @@ export function LoginPage() {
   useAuth();
   const [username, setUsername] = useState("");
   useEffect(() => {
-    setUsername("1");
+    setUsername("7");
   }, []);
   const [password, setPassword] = useState("1");
   const [imageUrl, setImageUrl] = useState("");
