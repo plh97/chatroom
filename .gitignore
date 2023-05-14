@@ -16,5 +16,4 @@ terraform.tfstate
 *.log
 .history
 
-# nginx/cert
 *.pem

@@ -27,11 +27,11 @@
     - name: copy cert key file
       command:
         chdir: /root/chatroom
-        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem > ./nginx/cert/privkey.pem
+        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem > nginx/cert/privkey.pem
     - name: copy cert key file
       command:
         chdir: /root/chatroom
-        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem > ./nginx/cert/fullchain.pem
+        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem > nginx/cert/fullchain.pem
     - name: bootstrap
       command:
         cmd: yarn run bootstrap
