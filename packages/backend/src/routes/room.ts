@@ -3,7 +3,6 @@ import { verify } from "jsonwebtoken";
 import { Types } from "mongoose";
 import { privateKey } from "@/config";
 import RoomModel from "@/model/room";
-import UserModel from "@/model/user";
 
 export const getRoom = async (ctx: Context) => {
   const _id = (ctx.request.query._id as string) ?? "";
@@ -52,8 +51,10 @@ export const addRoom = async (ctx: Context) => {
 
 export const modifyRoom = async (ctx: Context) => {
   const body = ctx.request.body;
-  const msg: any = await RoomModel.create(body);
-  const data = await RoomModel.findOne(msg).populate("user");
+  const msg = await RoomModel.create(body);
+  const data = await RoomModel.findOne({
+    _id: { $eq: msg._id },
+  }).populate("user");
   ctx.body = {
     code: 0,
     data,

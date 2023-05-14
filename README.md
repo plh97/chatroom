@@ -59,4 +59,5 @@ ansible-playbook cicd.yml
 - [ ] one account can only login for one user
 - [ ] webRTC - may need learn the course
 - [ ] add a vitural scroll container
-- [ ] add a button for user can join default room
+- [x] add a button for user can join default room
+- [ ] BUG: when join default room, chatroom do 2 times ws push, need to be fixed!

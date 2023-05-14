@@ -39,7 +39,7 @@ export function LoginPage() {
   useEffect(() => {
     setUsername("");
   }, []);
-  const [password, setPassword] = useState("1");
+  const [password, setPassword] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch<Dispatch<any>>();
