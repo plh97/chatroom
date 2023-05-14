@@ -51,7 +51,7 @@ ansible-playbook cicd.yml
 
 - [ ] test coverage reach 100%
 - [x] add http2
-- [ ] add http3
+- [x] add http3
 - [ ] room name able to setup/change
 - [ ] room role: administer, menber, manager, room member
 - [ ] room icon
