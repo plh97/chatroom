@@ -1,1 +1,1 @@
-FROM nginx
+FROM macbre/nginx-http3:latest
