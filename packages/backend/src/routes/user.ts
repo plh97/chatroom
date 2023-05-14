@@ -53,9 +53,11 @@ export async function SetUserInfo(ctx: Context) {
 }
 
 export async function GetUserImage(ctx: Context) {
-  const username = (ctx.request.query.username as string) ?? "";
+  const { username = "" } = ctx.request.query;
   if (username) {
-    const userinfo: IUser | null = await UserModel.findOne({ username });
+    const userinfo: IUser | null = await UserModel.findOne({
+      username: { $eq: username },
+    });
     if (userinfo) {
       userinfo.password = "";
       ctx.body = {
@@ -77,9 +79,11 @@ export async function GetUserImage(ctx: Context) {
 }
 
 export async function QueryUser(ctx: Context) {
-  const username = (ctx.request.query.username as string) ?? "";
+  const { username = "" } = ctx.request.query;
   if (username) {
-    const users = await UserModel.findOne({ username }).populate("room");
+    const users = await UserModel.findOne({
+      username: { $eq: username },
+    }).populate("room");
     ctx.body = {
       code: users ? 0 : 1,
       data: users ? users : [],
@@ -233,8 +237,6 @@ export async function DeleteFriend(ctx: Context) {
       message: "cannot delete yourself as friend",
     };
   }
-  // await UserModel.updateOne({ _id: Types.ObjectId(userIdFromToken) }, { $addToSet: { friend: Types.ObjectId(_id) } });
-  // await UserModel.updateOne({ _id: Types.ObjectId(_id) }, { $addToSet: { friend: Types.ObjectId(userIdFromToken) } });
   ctx.body = {
     code: 0,
     message: "Delete friend success",
