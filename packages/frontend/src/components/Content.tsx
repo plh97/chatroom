@@ -105,7 +105,7 @@ export function ContentComponent() {
 
   return (
     <div
-      className="overflow-y-auto flex-1 relative px-3.5 py-0"
+      className="overflow-y-auto flex-1 relative px-3.5 py-0 overscroll-none"
       ref={scrollEl}
       onScroll={throttle(handleScroll)}
     >
