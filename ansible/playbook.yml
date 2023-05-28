@@ -25,13 +25,15 @@
         update: yes
         version: develop
     - name: copy cert key file
-      command:
-        chdir: /root/chatroom
-        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem > nginx/cert/privkey.pem
+      copy:
+        src: /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem
+        dest: /root/chatroom/nginx/cert/privkey.pem
+        remote_src: yes
     - name: copy cert key file
-      command:
-        chdir: /root/chatroom
-        cmd: cat /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem > nginx/cert/fullchain.pem
+      copy:
+        src: /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem
+        dest: /root/chatroom/nginx/cert/fullchain.pem
+        remote_src: yes
     - name: bootstrap
       command:
         cmd: yarn run bootstrap

@@ -7,6 +7,10 @@ terraform {
     ssh = {
       source = "loafoe/ssh"
     }
+    acme = {
+      source  = "vancluever/acme"
+      version = "~> 2.5.3"
+    }
   }
 }
 
