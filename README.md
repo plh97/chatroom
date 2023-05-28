@@ -3,7 +3,8 @@
 ## Architecture
 
 - Development(lerna)
-  - mongodb - datebase
+  - datebase
+    - mongodb
   - ansible
   - terraform
   - nignx gateway
