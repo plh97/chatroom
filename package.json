@@ -17,7 +17,7 @@
     "test": "lerna run test",
     "build": "lerna run build",
     "down": "docker compose down",
-    "deploy": "docker compose up --build",
+    "deploy": "docker compose up --build -d",
     "prepare": "husky install"
   },
   "config": {

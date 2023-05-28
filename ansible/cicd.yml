@@ -10,16 +10,16 @@
         force: true
         version: develop
 
-    # - name: copy cert key file
-    #   copy:
-    #     src: /etc/letsencrypt/live/chat1.plhh.xyz/privkey.pem
-    #     dest: /root/chatroom/nginx/cert/privkey.pem
-    #     remote_src: yes
-    # - name: copy cert key file
-    #   copy:
-    #     src: /etc/letsencrypt/live/chat1.plhh.xyz/fullchain.pem
-    #     dest: /root/chatroom/nginx/cert/fullchain.pem
-    #     remote_src: yes
+    - name: copy cert key file
+      copy:
+        src: /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem
+        dest: /root/chatroom/nginx/cert/privkey.pem
+        remote_src: yes
+    - name: copy cert key file
+      copy:
+        src: /etc/letsencrypt/live/chat.plhh.xyz/fullchain.pem
+        dest: /root/chatroom/nginx/cert/fullchain.pem
+        remote_src: yes
 
     - name: install dependences
       command:

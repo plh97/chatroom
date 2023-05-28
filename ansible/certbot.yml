@@ -13,4 +13,4 @@
     - name: copy cert key file
       command:
         chdir: /root
-        cmd: echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat1.plhh.xyz
+        cmd: echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz
