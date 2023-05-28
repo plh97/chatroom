@@ -2,7 +2,7 @@ import { Properties } from "csstype";
 import { useCallback } from "react";
 
 import { ROOM } from "@/interfaces/IRoom";
-import { AvatarComponnet } from './Avatar'
+import { AvatarComponnet } from "./Avatar";
 
 interface IProps {
   data: ROOM;

@@ -1,0 +1,14 @@
+{
+  "**/*.{json,md,html}": [
+    "prettier --write"
+  ],
+  "**/*.{js,ts,tsx}": [
+    "prettier --write",
+    "eslint"
+  ],
+  "**/*.css": "stylelint",
+  "**/*.scss": [
+    "prettier --write",
+    "stylelint --customSyntax=post-scss"
+  ]
+}
