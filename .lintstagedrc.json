@@ -1,14 +1,14 @@
 {
   "**/*.{json,md,html}": [
-    "prettier --write"
+    "npm run lint:prettier"
   ],
   "**/*.{js,ts,tsx}": [
-    "prettier --write",
-    "eslint"
+    "npm run lint:prettier",
+    "npm run lint:eslint"
   ],
   "**/*.css": "stylelint",
   "**/*.scss": [
-    "prettier --write",
+    "npm run lint:prettier",
     "stylelint --customSyntax=post-scss"
   ]
 }
