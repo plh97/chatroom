@@ -2,6 +2,7 @@ import { Properties } from "csstype";
 import { useCallback } from "react";
 
 import { ROOM } from "@/interfaces/IRoom";
+import { AvatarComponnet } from './Avatar'
 
 interface IProps {
   data: ROOM;
@@ -33,7 +34,7 @@ export function RoomItemComponent(props: IProps) {
           "flex flex-row overflow-hidden rounded-lg px-2 py-1" + containerStyle
         }
       >
-        <Avatar name={data.name} src={data.image} />
+        <AvatarComponnet name={data.name} src={data.image} />
         <span className="ml-2 inline-flex flex-col leading-4">
           <span className="font-bold text-base leading-4">{data.name}</span>
           <span

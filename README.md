@@ -50,8 +50,6 @@ ansible-playbook cicd.yml
 ## TODO
 
 - [ ] test coverage reach 100%
-- [x] add http2
-- [x] add http3
 - [ ] room name able to setup/change
 - [ ] room role: administer, menber, manager, room member
 - [ ] room icon
@@ -59,5 +57,4 @@ ansible-playbook cicd.yml
 - [ ] one account can only login for one user
 - [ ] webRTC - may need learn the course
 - [ ] add a vitural scroll container
-- [x] add a button for user can join default room
 - [ ] BUG: when join default room, chatroom do 2 times ws push, need to be fixed!
