@@ -24,6 +24,17 @@
         clone: yes
         update: yes
         version: develop
+
+    - name: install certbot
+      apt:
+        pkg:
+          - certbot
+        state: latest
+        update_cache: true
+    - name: create cert key
+      command:
+        cmd: certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz -n
+
     - name: copy cert key file
       copy:
         src: /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem
