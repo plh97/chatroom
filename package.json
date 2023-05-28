@@ -7,7 +7,7 @@
   "author": "plh2 <pengliheng111@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "db:up": "docker compose -f ./docker-compose.dev.yml up --build -d",
+    "db:up": "docker compose -f ./docker-compose.dev.yml up -d",
     "db:down": "docker compose -f ./docker-compose.dev.yml down",
     "bootstrap": "lerna bootstrap",
     "dev": "yarn db:up && lerna run dev",
@@ -17,7 +17,7 @@
     "test": "lerna run test",
     "build": "lerna run build",
     "down": "docker compose down",
-    "deploy": "docker compose up -d",
+    "deploy": "docker compose up --build",
     "prepare": "husky install"
   },
   "config": {

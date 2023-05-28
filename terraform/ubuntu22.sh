@@ -21,6 +21,7 @@ apt-get install ufw
 echo 'y' | ufw enable
 ufw allow 80/tcp
 ufw allow 443/tcp
+ufw allow 443/udp
 ufw allow 3000:9999/tcp
 ufw disable
 
