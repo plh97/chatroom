@@ -78,7 +78,7 @@ export function SidebarComponent() {
               className="text-blue-600	text-sm	cursor-pointer"
               onClick={handleJoinDefaultRoom}
             >
-              Hall Room
+              LOBBY Room
             </strong>
             ?
           </p>
@@ -107,10 +107,10 @@ export function SidebarComponent() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
+            <Button onClick={onClose}>Cancel</Button>
             <Button colorScheme="blue" mr={3} onClick={handleAddRoom}>
               Save
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
