@@ -107,8 +107,10 @@ export function SidebarComponent() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button colorScheme="blue" mr={3} onClick={handleAddRoom}>
+            <Button mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme="blue" onClick={handleAddRoom}>
               Save
             </Button>
           </ModalFooter>
