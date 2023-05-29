@@ -92,7 +92,7 @@ export function SidebarComponent() {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create</ModalHeader>
+          <ModalHeader>Create Room</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl id="roomname">
