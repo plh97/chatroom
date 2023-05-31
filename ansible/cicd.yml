@@ -3,6 +3,15 @@
   user: root
   gather_facts: False
   tasks:
+    - name: Stop running containers
+      docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+    - name: Delete content & directory
+      file:
+        state: absent
+        path: /root/chatroom/
     - name: pull latest code on develop branch
       git:
         repo: https://github.com/plh2/chatroom.git
@@ -30,11 +39,6 @@
       command:
         chdir: /root/chatroom
         cmd: npm run build
-
-    - name: rm container
-      command:
-        chdir: /root/chatroom
-        cmd: npm run down
 
     - name: deploy
       command:
