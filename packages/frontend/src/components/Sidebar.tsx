@@ -96,7 +96,7 @@ export function SidebarComponent() {
           <ModalCloseButton />
           <ModalBody>
             <FormControl id="roomname">
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Name: </FormLabel>
               <Input
                 type="text"
                 autoComplete="true"
