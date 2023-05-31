@@ -3,6 +3,10 @@
   user: root
   gather_facts: False
   tasks:
+    - name: Get running containers
+      docker_host_info:
+        containers: yes
+      register: docker_info
     - name: Stop running containers
       docker_container:
         name: "{{ item }}"
