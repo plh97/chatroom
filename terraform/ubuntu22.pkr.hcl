@@ -8,7 +8,7 @@ packer {
   required_plugins {
     vultr = {
       version = ">=v2.3.2"
-      source = "github.com/vultr/vultr"
+      source  = "github.com/vultr/vultr"
     }
   }
 }
@@ -20,7 +20,7 @@ source "vultr" "ubuntu22" {
   region_id            = "sgp"
   snapshot_description = "ubuntu 22 ${formatdate("YYYY-MM-DD hh:mm", timestamp())}"
   ssh_username         = "root"
-  state_timeout        = "25m"
+  state_timeout        = "10m"
 }
 
 build {

@@ -1,5 +1,5 @@
 ---
-- hosts: vultr
+- hosts: aws
   user: root
   gather_facts: False
   tasks:
@@ -15,36 +15,36 @@
     - name: Delete content & directory
       file:
         state: absent
-        path: /root/chatroom/
+        path: ~/chatroom/
     - name: pull latest code on develop branch
       git:
         repo: https://github.com/plh2/chatroom.git
-        dest: /root/chatroom
+        dest: ~/chatroom
         force: true
         version: develop
 
     - name: copy cert key file
       copy:
         src: /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem
-        dest: /root/chatroom/nginx/cert/privkey.pem
+        dest: ~/chatroom/nginx/cert/privkey.pem
         remote_src: yes
     - name: copy cert key file
       copy:
         src: /etc/letsencrypt/live/chat.plhh.xyz/fullchain.pem
-        dest: /root/chatroom/nginx/cert/fullchain.pem
+        dest: ~/chatroom/nginx/cert/fullchain.pem
         remote_src: yes
 
     - name: install dependences
       command:
         cmd: yarn run bootstrap
-        chdir: /root/chatroom
+        chdir: ~/chatroom
 
     - name: build
       command:
-        chdir: /root/chatroom
+        chdir: ~/chatroom
         cmd: npm run build
 
     - name: deploy
       command:
-        chdir: /root/chatroom
+        chdir: ~/chatroom
         cmd: npm run deploy

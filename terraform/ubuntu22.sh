@@ -1,24 +1,24 @@
 #!/bin/bash
 
 # update
-echo 'y' | apt-get update
+sudo apt-get update && sudo apt-get -y upgrade
 
-snap install docker
-# apt-get install docker.io docker-compose -y
+sh -c "$(curl -fsSL https://get.docker.com)"
+dockerd
 
 # certbot
-apt-get install certbot -y
-echo 'y' | certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz
+apt-get install -y certbot
+certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz --non-interactive
 
 
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
-echo 'y' | apt-get install nodejs
-echo 'y' | apt-get install npm
+apt-get install -y nodejs
+apt-get install -y npm
 npm install yarn lerna nodemon -g
 
 # made port can be visited in public network
 apt-get install ufw
-echo 'y' | ufw enable
+ufw --force enable
 ufw allow 80/tcp
 ufw allow 443/tcp
 ufw allow 443/udp
@@ -28,9 +28,9 @@ ufw disable
 
 
 # install zsh
-echo 'y' | apt-get install zsh
+apt-get install -y zsh
 rm -rf /root/.oh-my-zsh
-echo 'y' | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 chsh -s $(which zsh)
 
 # add 2 zsh plugin
