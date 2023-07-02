@@ -8,13 +8,13 @@ dockerd
 
 # certbot
 apt-get install -y certbot
-certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz --non-interactive
+certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d plhh.link --non-interactive
 
 
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
 apt-get install -y nodejs
 apt-get install -y npm
-npm install yarn lerna nodemon -g
+npm install yarn nodemon -g
 
 # made port can be visited in public network
 apt-get install ufw

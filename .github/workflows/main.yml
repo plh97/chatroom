@@ -9,8 +9,8 @@ jobs:
         uses: treosh/lighthouse-ci-action@v9
         with:
           urls: |
-            https://chat.plhh.xyz/
-            https://chat.plhh.xyz/login
+            https://plhh.link/
+            https://plhh.link/login
           budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary

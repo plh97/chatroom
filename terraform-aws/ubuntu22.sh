@@ -8,7 +8,7 @@ dockerd
 
 # certbot
 # sudo apt-get install -y certbot
-# sudo certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d chat.plhh.xyz --non-interactive
+# sudo certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d plhh.link --non-interactive
 
 
 sudo apt-get install -y gcc g++ make
@@ -16,7 +16,7 @@ sudo apt-get install -y gcc g++ make
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 sudo apt-get install -y npm
-sudo npm install yarn lerna nodemon -g
+sudo npm install yarn nodemon -g
 
 # made port can be visited in public network
 # sudo apt-get install ufw

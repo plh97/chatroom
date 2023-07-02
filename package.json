@@ -9,6 +9,7 @@
   "scripts": {
     "db:up": "docker compose -f ./docker-compose.dev.yml up -d",
     "db:down": "docker compose -f ./docker-compose.dev.yml down",
+    "bootstrap": "npm install --force",
     "dev": "yarn db:up && lerna run dev",
     "lint:eslint": "lerna run lint:eslint",
     "commit": "cz",
