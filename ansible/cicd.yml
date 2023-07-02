@@ -25,18 +25,18 @@
 
     - name: copy cert key file
       copy:
-        src: /etc/letsencrypt/live/chat.plhh.xyz/privkey.pem
+        src: /etc/letsencrypt/live/plhh.link/privkey.pem
         dest: ~/chatroom/nginx/cert/privkey.pem
         remote_src: yes
     - name: copy cert key file
       copy:
-        src: /etc/letsencrypt/live/chat.plhh.xyz/fullchain.pem
+        src: /etc/letsencrypt/live/plhh.link/fullchain.pem
         dest: ~/chatroom/nginx/cert/fullchain.pem
         remote_src: yes
 
     - name: install dependences
       command:
-        cmd: yarn run bootstrap
+        cmd: npm install
         chdir: ~/chatroom
 
     - name: build

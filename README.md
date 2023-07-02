@@ -28,7 +28,7 @@
 
 ```bash
 yarn
-yarn run bootstrap
+npm install
 yarn run dev
 ```
 

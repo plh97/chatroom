@@ -9,7 +9,6 @@
   "scripts": {
     "db:up": "docker compose -f ./docker-compose.dev.yml up -d",
     "db:down": "docker compose -f ./docker-compose.dev.yml down",
-    "bootstrap": "lerna bootstrap",
     "dev": "yarn db:up && lerna run dev",
     "lint:eslint": "lerna run lint:eslint",
     "commit": "cz",
@@ -31,7 +30,7 @@
   "devDependencies": {
     "commitizen": "^4.2.6",
     "husky": "^8.0.3",
-    "lerna": "^6.0.3",
+    "lerna": "^7.1.1",
     "lint-staged": "^13.2.2",
     "stylelint": "^15.6.2",
     "stylelint-config-standard": "^33.0.0",
