@@ -15,7 +15,7 @@
     "commit": "cz",
     "lint:prettier": "lerna run lint:prettier",
     "test": "lerna run test",
-    "build": "lerna run build",
+    "build": "cd packages/frontend && yarn run build && cd ../../",
     "down": "docker compose down",
     "deploy": "docker compose up --build -d",
     "prepare": "husky install"
@@ -31,7 +31,7 @@
   "devDependencies": {
     "commitizen": "^4.2.6",
     "husky": "^8.0.3",
-    "lerna": "^6",
+    "lerna": "^7.1.1",
     "lint-staged": "^13.2.2",
     "stylelint": "^15.6.2",
     "stylelint-config-standard": "^33.0.0",
