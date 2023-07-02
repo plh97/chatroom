@@ -7,4 +7,7 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = "Chat Room"
   }
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} >> private_ips.txt"
+  }
 }
