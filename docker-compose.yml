@@ -7,11 +7,8 @@ services:
             context: "./nginx"
         volumes:
             - ./nginx/conf.d/:/etc/nginx/conf.d/
-            - ./nginx/cert/:/etc/nginx/cert/
             - ./nginx/log:/var/log/nginx/
-            - ./packages/frontend/dist/:/var/www/app/
         ports:
-            - "80:80"
             - "443:443"
             - "443:443/udp"
             - "8443:8443"

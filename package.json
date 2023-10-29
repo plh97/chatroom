@@ -15,7 +15,6 @@
     "commit": "cz",
     "lint:prettier": "lerna run lint:prettier",
     "test": "lerna run test",
-    "build": "cd packages/frontend && yarn run build && cd ../../",
     "down": "docker compose down",
     "deploy": "docker compose up --build -d",
     "prepare": "husky install"
