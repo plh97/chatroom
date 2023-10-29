@@ -8,6 +8,6 @@ resource "aws_instance" "app_server" {
     Name = "Chat Room"
   }
   provisioner "local-exec" {
-    command = "echo ${self.private_ip} >> private_ips.txt"
+    command = "echo ${self.public_ip} >> public_ip.txt"
   }
 }
