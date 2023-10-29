@@ -18,13 +18,15 @@
       - @chakra-ui/react
       - tailwind
       - socket-io/client
+      - Netlify
     - backend
       - node+ts
       - socket.io
-      - koajs
+      - Koa
       - cors
       - koa-router
       - koa-static
+      - AWS
 
 ## Dev
 
