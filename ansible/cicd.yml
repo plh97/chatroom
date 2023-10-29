@@ -15,10 +15,10 @@
         name: "{{ item }}"
         state: stopped
       loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
-    - name: Delete content & directory
-      file:
-        state: absent
-        path: ~/chatroom/
+    # - name: Delete content & directory
+    #   file:
+    #     state: absent
+    #     path: ~/chatroom/
     - name: pull latest code on develop branch
       git:
         repo: https://github.com/plh2/chatroom.git
@@ -37,10 +37,10 @@
     #     dest: ~/chatroom/nginx/cert/fullchain.pem
     #     remote_src: yes
 
-    # - name: install dependences
-    #   command:
-    #     cmd: yarn run bootstrap
-    #     chdir: ~/chatroom
+    - name: install dependences
+      command:
+        cmd: yarn run bootstrap
+        chdir: ~/chatroom
 
     # - name: build
     #   command:
