@@ -19,7 +19,6 @@ jobs:
           config: |
             Host aws
               HostName ${{ secrets.SSH_HOST }}
-              CheckHostIP no
               User ubuntu
               Port 22
 
