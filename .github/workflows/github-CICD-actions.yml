@@ -19,7 +19,7 @@ jobs:
           config: |
             Host aws
               HostName ${{ secrets.SSH_HOST }}
-              User root
+              User ubuntu
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
