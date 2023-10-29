@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api"
-  to = "http://54.251.81.167/api"
+  to = "http://18.142.53.148/api"
   status = 200
   force = true # COMMENT: ensure that we always redirect
   headers = {X-From = "Netlify"}
