@@ -17,7 +17,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: "just-a-placeholder-so-we-dont-get-errors"
           config: |
-            Host vultr
+            Host aws
               HostName ${{ secrets.SSH_HOST }}
               User root
 
