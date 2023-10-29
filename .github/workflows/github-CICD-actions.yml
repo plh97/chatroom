@@ -20,7 +20,6 @@ jobs:
             Host aws
               HostName ${{ secrets.SSH_HOST }}
               User ubuntu
-              Port 22
 
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
