@@ -5,6 +5,13 @@
   force = true # COMMENT: ensure that we always redirect
 
 [[redirects]]
+  from = "/socket.io/*"
+  to = "http://18.142.53.148:8080/socket.io/:splat"
+  status = 200
+  force = true # COMMENT: ensure that we always redirect
+
+
+[[redirects]]
   from = "/*"
   to = "index.html"
   status = 200
