@@ -1,7 +1,10 @@
 ---
 - hosts: aws
-  user: root
-  gather_facts: False
+  # user: ubuntu
+  # gather_facts: False
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
   tasks:
     - name: Get running containers
       docker_host_info:
