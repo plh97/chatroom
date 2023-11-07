@@ -28,4 +28,4 @@ jobs:
 
       - name: run ansible
         run: |
-          cd ansible && ansible-playbook cicd.yml
+          cd ansible && ansible-playbook init.yml
