@@ -28,26 +28,6 @@
         update: yes
         version: feat/terraform-aws
 
-    # - name: install certbot
-    #   apt:
-    #     pkg:
-    #       - certbot
-    #     state: latest
-    #     update_cache: true
-    # - name: create cert key
-    #   command:
-    #     cmd: certbot certonly --standalone --agree-tos --redirect -m pengliheng111@gmail.com -d plhh.xyz -n
-
-    # - name: copy cert key file
-    #   copy:
-    #     src: /etc/letsencrypt/live/plhh.xyz/privkey.pem
-    #     dest: ~/chatroom/nginx/cert/privkey.pem
-    #     remote_src: yes
-    # - name: copy cert key file
-    #   copy:
-    #     src: /etc/letsencrypt/live/plhh.xyz/fullchain.pem
-    #     dest: ~/chatroom/nginx/cert/fullchain.pem
-    #     remote_src: yes
     - name: install dependences
       command:
         cmd: yarn run bootstrap
