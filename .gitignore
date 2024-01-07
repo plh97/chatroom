@@ -17,3 +17,5 @@ terraform.tfstate
 .history
 
 *.pem
+
+ssh_config
