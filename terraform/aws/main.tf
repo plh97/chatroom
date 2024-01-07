@@ -8,6 +8,9 @@ resource "aws_instance" "app_server" {
     Name = "Chat Room"
   }
   provisioner "local-exec" {
-    command = "echo ${self.public_ip} >> public_ip.txt"
+    command = "sh modify_ip.sh ${self.public_ip} && ssh-keyscan -H ${self.public_ip} >> ~/.ssh/known_hosts"
+  }
+  metadata_options {
+      http_tokens = "required"
   }
 }

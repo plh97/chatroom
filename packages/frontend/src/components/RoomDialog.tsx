@@ -5,8 +5,6 @@ import { RootState } from "@/store/index";
 import { Form } from "react-router-dom";
 import { addRoomThunk } from "@/store/reducer/room";
 
-type Props = Record<string, string>;
-
 interface IProps {
   onClose: () => void;
   isOpen: boolean;
