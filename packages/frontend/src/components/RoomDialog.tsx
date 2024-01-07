@@ -66,7 +66,7 @@ export const RoomDialog = ({ isOpen, onClose }: IProps) => {
           <Button mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button type="button" colorScheme="blue">
+          <Button type="button" colorScheme="blue" onClick={handleAddRoom}>
             Save
           </Button>
         </ModalFooter>
